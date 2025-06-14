@@ -1,4 +1,6 @@
 
+using backend.Services;
+
 namespace backend
 {
     public class Program
@@ -24,6 +26,7 @@ namespace backend
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddHttpClient<TmdbService>();
 
             var app = builder.Build();
 

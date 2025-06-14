@@ -1,39 +1,74 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using backend.Services;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MoviesController : Controller
+    public class MoviesController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private HttpClient _httpClient;
+        private readonly TmdbService _tmdbService;
 
-        // Constructor to inject IConfiguration and initialize HttpClient  
-        public MoviesController(IConfiguration configuration)
+        public MoviesController(TmdbService tmdbService)
         {
-            _configuration = configuration;
-            _httpClient = new HttpClient();
+            _tmdbService = tmdbService;
         }
 
         [HttpGet("popular")]
         public async Task<IActionResult> GetPopularMovies()
         {
-            var apiKey = _configuration["TMDB:ApiKey"];
-            var tmdbUrl = $"https://api.themoviedb.org/3/movie/popular?api_key={apiKey}";
-
-            var response = await _httpClient.GetAsync(tmdbUrl);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                return StatusCode((int)response.StatusCode, "Error fetching data from TMDB");
+                var data = await _tmdbService.GetPopularMoviesAsync();
+                return Content(data, "application/json");
             }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
 
-            var content = await response.Content.ReadAsStringAsync();
-            return Content(content, "application/json");
+        [HttpGet("upcoming")]
+        public async Task<IActionResult> GetUpcomingMovies()
+        {
+            try
+            {
+                var data = await _tmdbService.GetUpcomingMoviesAsync();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("top_rated")]
+        public async Task<IActionResult> GetTopRatedMovies()
+        {
+            try
+            {
+                var data = await _tmdbService.GetTopRatedMoviesAsync();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("trending/all/week")]
+        public async Task<IActionResult> GetTrendingAllWeekly()
+        {
+            try
+            {
+                var data = await _tmdbService.GetTrendingAllWeekly();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
         }
     }
 }
