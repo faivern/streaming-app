@@ -1,9 +1,9 @@
 import MovieList from './components/MovieList';
-import TrendingCarousel from './components/TrendingCarousel';
+import Carousel from './components/TrendingCarousel';
 function App() {
   return (
     <div>
-      <TrendingCarousel />
+      <Carousel />
       <MovieList />
     </div>
   );
