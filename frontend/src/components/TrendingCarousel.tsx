@@ -16,7 +16,7 @@ export function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<number | null>(null);
-  const intervalTime = 10000;
+  const intervalTime = 13000;
   const baseImageUrl = "https://image.tmdb.org/t/p/w1280";
   useEffect(() => {
     axios
@@ -73,7 +73,7 @@ export function Carousel() {
               {/* Gradient fade from bottom */}
               <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#0F172A] via-[#0F172Acc] to-transparent z-10 pointer-events-none" />
 
-              <div className="flex flex-wrap gap-2 absolute bottom-12 left-12 z-20">
+              <div className="flex flex-wrap gap-2 absolute bottom-12 left-12 z-20 max-w-xl">
                 <h2 className=" text-white text-3xl font-bold">
                   {movie.title || movie.name}
                 </h2>
@@ -82,9 +82,9 @@ export function Carousel() {
                     ? `⭐ ${movie.vote_average.toFixed(1)} / 10`
                     : "No rating"}
                 </p>
-                <p className="text-gray-300 text-lg mt-2 w-full">
+                <p className="text-gray-300 text-lg mt-2 ">
                   {movie.overview
-                    ? movie.overview.slice(0, 150) + "..."
+                    ? movie.overview
                     : "No overview available."}
                 </p>
               </div>

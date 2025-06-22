@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\services\\tmdbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:services\\tmdbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -46,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 180,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -58,7 +58,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "TmdbService.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Services\\TmdbService.cs",
               "RelativeDocumentMoniker": "Services\\TmdbService.cs",
@@ -82,7 +82,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MoviesController.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Controllers\\MoviesController.cs",
               "RelativeDocumentMoniker": "Controllers\\MoviesController.cs",
@@ -90,8 +90,7 @@
               "RelativeToolTip": "Controllers\\MoviesController.cs",
               "ViewState": "AgIAAB0AAAAAAAAAAADwvywAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T21:27:30.794Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-10T21:27:30.794Z"
             },
             {
               "$type": "Document",
@@ -131,15 +130,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAwAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Program.cs*",
+              "RelativeToolTip": "Program.cs*",
+              "ViewState": "AgIAABYAAAAAAAAAAAAgwDAAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T22:51:47.188Z"
+              "WhenOpened": "2025-06-09T22:51:47.188Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
