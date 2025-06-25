@@ -15,12 +15,26 @@ namespace backend.Controllers
             _tmdbService = tmdbService;
         }
 
-        [HttpGet("popular")]
+        [HttpGet("popularMovie")]
         public async Task<IActionResult> GetPopularMovies()
         {
             try
             {
                 var data = await _tmdbService.GetPopularMoviesAsync();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("popularShow")]
+        public async Task<IActionResult> GetPopularShows()
+        {
+            try
+            {
+                var data = await _tmdbService.GetPopularShowsAsync();
                 return Content(data, "application/json");
             }
             catch (HttpRequestException ex)
@@ -63,6 +77,34 @@ namespace backend.Controllers
             try
             {
                 var data = await _tmdbService.GetTrendingAllWeekly();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("movie/{movie_id}")]
+        public async Task<IActionResult> GetMovieDetails(int movie_id)
+        {
+            try
+            {
+                var data = await _tmdbService.GetMovieDetailsAsync(movie_id);
+                    return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("tv/{series_id}")]
+        public async Task<IActionResult> GetShowDetails(int series_id)
+        {
+            try
+            {
+                var data = await _tmdbService.GetShowDetailsAsync(series_id);
                 return Content(data, "application/json");
             }
             catch (HttpRequestException ex)

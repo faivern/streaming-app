@@ -1,0 +1,1 @@
+// a component to swtich between media types movie or tv

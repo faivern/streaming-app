@@ -21,6 +21,12 @@ namespace backend.Services
             return await FetchFromTmdbAsync(url);
         }
 
+        public async Task<string> GetPopularShowsAsync()
+        {
+            var url = $"https://api.themoviedb.org/3/tv/popular?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
+
         public async Task<string> GetUpcomingMoviesAsync()
         {
             var url = $"https://api.themoviedb.org/3/movie/upcoming?api_key={_apiKey}";
@@ -36,6 +42,18 @@ namespace backend.Services
         public async Task<string> GetTrendingAllWeekly()
         {
             var url = $"https://api.themoviedb.org/3/trending/all/week?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
+
+        public async Task<string> GetMovieDetailsAsync(int movieId)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
+
+        public async Task<string> GetShowDetailsAsync(int series_id)
+        {
+            var url = $"https://api.themoviedb.org/3/tv/{series_id}?api_key={_apiKey}";
             return await FetchFromTmdbAsync(url);
         }
 

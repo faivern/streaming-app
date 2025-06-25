@@ -39,6 +39,8 @@ useEffect(() => {
             <h2 className="font-semibold">{movie.title}</h2>
           </li>
         ))}
+      <div style={{ height: '2000px' }}></div>
+
       </ul>
     </div>
     );
