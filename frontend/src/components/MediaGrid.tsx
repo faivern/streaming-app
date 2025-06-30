@@ -11,6 +11,7 @@ type MediaItem = {
   poster_path: string;
   release_date?: string;
   first_air_date?: string;
+  vote_average?: number;
 };
 
 type MediaGridProps = {
@@ -23,7 +24,7 @@ export default function MediaGrid({ type }: MediaGridProps) {
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/popular?type=${type}`
+        `${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/popularMovie`
       )
       .then((res) => setItems(res.data.results))
       .catch((err) => console.error("Error fetching popular media:", err));
@@ -39,6 +40,7 @@ export default function MediaGrid({ type }: MediaGridProps) {
           posterPath={item.poster_path}
           overview={item.overview}
           releaseDate={item.release_date || item.first_air_date || "N/A"}
+          vote_average={item.vote_average}
         />
       ))}
     </div>
