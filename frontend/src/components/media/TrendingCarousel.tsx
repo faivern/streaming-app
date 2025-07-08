@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import genreMap from "../utils/genreMap";
+import genreMap from "../../utils/genreMap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { dateFormat } from '../../utils/dateFormat';
 
 type Movie = {
   id: number;
@@ -25,7 +26,7 @@ export default function Carousel() {
     {}
   );
   const intervalRef = useRef<number | null>(null);
-  const intervalTime = 13000;
+  const intervalTime = 8000;
   const baseImageUrl = "https://image.tmdb.org/t/p/w1280";
 
   useEffect(() => {
@@ -101,7 +102,7 @@ export default function Carousel() {
   return (
     <div className="w-full">
       <div
-        className="relative w-full overflow-hidden -mt-20"
+        className="relative w-full overflow-hidden -mt-40"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
@@ -131,7 +132,7 @@ export default function Carousel() {
 </button>
 
 
-        <div className="relative w-full h-screen mb-5">
+        <div className="relative w-full h-[60vh] md:h-[65vh] lg:h-[66vh] xl:h-[68vh] mb-6 transition-all duration-300 ease-in-out shadow-lg overflow-hidden">
           {filtered.map((movie, index) => (
             <div
               key={movie.id}
@@ -144,7 +145,7 @@ export default function Carousel() {
                 className="w-full h-full object-cover object-top transition-opacity duration-1000 ease-in-out"
                 alt={movie.title || movie.name || "Movie backdrop"}
               />
-              <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-[#0F172A] via-[#0F172Acc] to-transparent z-0 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/80 via-black/40 to-transparent z-0 pointer-events-none" />
               <div className="flex flex-col gap-4 absolute bottom-12 left-12 z-10 max-w-xl bg-gray-700/5 p-6 rounded-xl backdrop-blur-sm shadow-lg">
                 {/* Row 1: Title */}
                 <div className="flex items-center justify-between flex-wrap gap-2">
@@ -155,33 +156,26 @@ export default function Carousel() {
 
                 {/* Row 2: Metadata */}
                 <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm">
-                  <p className="text-md font-medium bg-gray-800/55 text-gray-300 px-3 py-1 rounded-full">
+                  <p className="text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm 
+                  hover:shadow-md hover:border-blue-400 transition">
                     <FontAwesomeIcon icon={faStar} className="mr-1 text-amber-400" />
                     {movie.vote_average
                       ? ` ${movie.vote_average.toFixed(1)} / 10`
                       : "No rating"}
                   </p>
-                  <p className="text-md font-medium bg-gray-800/55 text-gray-300 px-3 py-1 rounded-full">
-                    {movie.release_date || "No date"}
+                  <p className="text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:shadow-md hover:border-blue-400 transition">
+                    {dateFormat(movie.release_date) || "No date"}
                   </p>
                   {Array.isArray(movie.genre_ids) &&
                     movie.genre_ids.map((id) => (
                       <span
                         key={id}
-                        className="text-md font-medium bg-gray-800/55 text-gray-300 px-3 py-1 rounded-full"
+                        className="text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:shadow-md hover:border-blue-400 transition"
                       >
                         {genreMap[id] || "Unknown"}
                       </span>
                     ))}
-                  {detailsCache[movie.id] !== undefined && (
-                    <p className="text-md font-medium bg-gray-800/55 text-gray-300 px-3 py-1 rounded-full">
-                      {movie.media_type === "tv"
-                        ? `~${detailsCache[movie.id]} min/ep`
-                        : `${Math.floor(detailsCache[movie.id] / 60)}h ${
-                            detailsCache[movie.id] % 60
-                          }m`}
-                    </p>
-                  )}
+
                 </div>
 
                 {/* Row 3: Overview */}
@@ -209,6 +203,7 @@ export default function Carousel() {
             />
           ))}
         </div>
+        {/* Soft bottom gradient fade-out */}
       </div>
     </div>
   );

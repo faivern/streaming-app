@@ -2,6 +2,7 @@
 using backend.Services;
 using System.Net.Http;
 
+
 namespace backend.Controllers
 {
     [ApiController]
@@ -84,6 +85,35 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        [HttpGet("trending/movie/week")]
+        public async Task<IActionResult> GetTrendingMoviesWeekly()
+        {
+            try
+            {
+                var data = await _tmdbService.GetTrendingMoviesWeekly();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("trending/tv/week")]
+        public async Task<IActionResult> GetTrendingTvWeekly()
+        {
+            try
+            {
+                var data = await _tmdbService.GetTrendingTvWeekly();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+
 
         [HttpGet("movie/{movie_id}")]
         public async Task<IActionResult> GetMovieDetails(int movie_id)
@@ -112,5 +142,26 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+     
+        [HttpGet("movie/{movieId}/videos")]
+        public async Task<IActionResult> GetMovieTrailer(int movieId)
+        {
+            var (name, url) = await _tmdbService.GetMovieTrailerAsync(movieId);
+
+            if (url == null)
+                return Ok(new { name = (string?)null, url = (string?)null });
+
+            return Ok(new { name, url });
+        }
+        
+        [HttpGet("movie/{movieId}/videos/raw")]
+        public async Task<IActionResult> GetMovieVideosRaw(int movieId)
+        {
+            var rawJson = await _tmdbService.GetMovieVideosAsync(movieId);
+            return Content(rawJson, "application/json");
+        }
+
+
     }
 }
