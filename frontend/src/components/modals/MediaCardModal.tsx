@@ -3,6 +3,7 @@ import genreMap from '../../utils/genreMap';
 import { useVideo } from '../../hooks/useVideo';
 import languageMap from '../../utils/languageMap';
 import { dateFormat } from '../../utils/dateFormat';
+import { Link } from "react-router-dom";
 
 type MediaCardModalProps = {
   title: string;
@@ -15,6 +16,9 @@ type MediaCardModalProps = {
   original_language?: string; // Default to English if not provided
   vote_count?: number; // Optional prop to display vote count
   runtime?: number; // Optional prop for movie length
+  number_of_seasons?: number; // Optional prop for season number
+  media_type?: string; // Optional prop to specify media type
+  number_of_episodes?: number; // Optional prop for episode count
 };
 
 const MediaCardModal = ({
@@ -28,11 +32,16 @@ const MediaCardModal = ({
   original_language = "en", // Default to English if not provided
   vote_count,
   runtime, // Optional prop for movie length
+  number_of_seasons, // Optional prop for season number
+  media_type,
+  number_of_episodes, // Optional prop for episode count
 }: MediaCardModalProps) => {
   const { videoUrl, loading } = useVideo('movie', id);
 console.log("genre_ids:", genre_ids);
 console.log("runtime:", runtime);
   return (
+    
+    <Link to={`/media/${media_type}/${id}`}>
     <div className="backdrop-blur-md bg-gray-900/80 min-w-96 p-4 shadow-lg rounded-lg border border-gray-600/30 text-white">
       <h2 className="text-xl font-bold mb-2 text-gray-100">{title}</h2>
 
@@ -47,20 +56,20 @@ console.log("runtime:", runtime);
             allow="autoplay; encrypted-media"
             allowFullScreen
             loading='lazy'
-          />
+            />
         </div>
             ) : backdrop ? (
-        <div className="aspect-video w-full rounded-lg overflow-hidden mb-3">
+              <div className="aspect-video w-full rounded-lg overflow-hidden mb-3">
           <img
             src={`https://image.tmdb.org/t/p/w500${backdrop}`}
             alt={title}
             className="w-full h-48 object-cover object-center rounded mb-2"
-          />
+            />
         </div>
             ) : (
-        <p className="text-gray-400 mb-2">No trailer available at id: {id}</p>
-      )}
-      <p className="text-sm text-gray-200 mb-2 line-clamp-4">{overview || "No description"}</p>
+              <p className="text-gray-400 mb-2">No trailer available at id: {id}</p>
+            )}
+      <p className="text-sm text-gray-200 mb-2 line-clamp-4 ">{overview || "No description"}</p>
 
       <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm text-gray-300">
 
@@ -69,8 +78,9 @@ console.log("runtime:", runtime);
           <div>{dateFormat(releaseDate) || "No date"}</div>
         </div>
 
+{/* TODO: add link to IMDb reviews*/}
         <div>
-          <strong>IMDB</strong>
+          <strong>IMDb</strong>
           <div>{vote_average?.toFixed(1) || "No rating"} / 10 by {vote_count} reviews</div>
         </div>
 
@@ -92,16 +102,35 @@ console.log("runtime:", runtime);
           </div>
         </div>
 
-        <div>
-          <strong>Length</strong>
-          <div>
+<div>
+  {media_type === "movie" && (
+    <div>
+      <strong>Viewing Info</strong>
+      <div>
         {typeof runtime === "number"
           ? `${Math.floor(runtime / 60)}h ${runtime % 60}min`
           : "Unknown"}
-          </div>
-        </div>
       </div>
     </div>
+  )}
+
+{media_type === "tv" && (
+  <div className="col-span-2">
+    <strong>Viewing Info</strong>
+    <div className="mt-1 text-white">
+      {number_of_seasons ?? "?"} Season{number_of_seasons === 1 ? "" : "s"}
+      {" • "}
+      {number_of_episodes ?? "?"} Episode{number_of_episodes === 1 ? "" : "s"}
+    </div>
+  </div>
+)}
+
+</div>
+
+
+      </div>
+    </div>
+</Link>
   )
 }
 

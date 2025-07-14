@@ -18,6 +18,8 @@ type MediaCardProps ={
   original_language?: string; // Default to English if not provided
   runtime?: number; // Optional prop for movie length
   media_type?: string; // Optional prop to specify media type
+  number_of_seasons?: number; // Optional prop for season number
+  number_of_episodes?: number; // Optional prop for episode count
 }
 
 export default function MediaCard({
@@ -31,7 +33,9 @@ export default function MediaCard({
   vote_count, // Optional prop to display vote count
   original_language, // Default to English if not provided
   runtime, // Optional prop for movie length
-  media_type, 
+  media_type,
+  number_of_seasons, // Optional prop for season number
+  number_of_episodes, // Optional prop for episode count
 }: MediaCardProps) {
   const [hovered, setHovered] = useState(false);
   const [showLeft, setShowLeft] = useState(false);
@@ -49,7 +53,7 @@ export default function MediaCard({
   return (
     
     <div
-    className="relative"
+    className="relative w-full max-w-[360px] mx-auto"
     onMouseEnter={() => setHovered(true)}
     onMouseLeave={() => setHovered(false)}
     ref={cardRef}
@@ -93,7 +97,7 @@ export default function MediaCard({
             loading="lazy"
             src={`https://image.tmdb.org/t/p/w500${posterPath}`}
             alt={title}
-            className="w-full h-128 object-cover "
+            className="w-full aspect-[2/3] object-cover"
             />
 
           {/* Content */}
@@ -121,6 +125,9 @@ export default function MediaCard({
               vote_count={vote_count} // Pass vote_count from props
               original_language={original_language} // Pass original_language from props
               runtime={runtime} // Pass runtime from props
+              number_of_seasons={number_of_seasons} // Pass season_number from props
+              media_type={media_type} // Pass media_type from props
+              number_of_episodes={number_of_episodes} // Pass number_of_episodes from props
               />
             </div>
         )}

@@ -15,51 +15,68 @@ export type MediaItem = {
   original_language?: string;
   vote_count?: number;
   runtime?: number;
-  media_type?: string; // Optional prop to specify media type
+  media_type?: string;
+  number_of_seasons?: number;
+  number_of_episodes?: number;
 };
 
+type DetailsCache = {
+  [id: number]: {
+    runtime?: number;
+    number_of_seasons?: number;
+    number_of_episodes?: number;
+  };
+};
 
 export default function MediaGrid({ media_type }: { media_type: string }) {
   const [items, setItems] = useState<MediaItem[]>([]);
-  const [detailsCache, setDetailsCache] = useState<{ [id: number]: number }>({});
+  const [detailsCache, setDetailsCache] = useState<DetailsCache>({});
 
   useEffect(() => {
     const fetchPopularAndDetails = async () => {
       try {
-          const endpoint =
-            media_type === "movie"
-              ? "/api/Movies/trending/movie/week" // trending or popular ? 
-              : "/api/Movies/trending/tv/week";
+        const endpoint =
+          media_type === "movie"
+            ? "/api/Movies/trending/movie/day"
+            : "/api/Movies/trending/tv/day";
 
-          const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_URL}${endpoint}`);
+        const res = await axios.get(
+          `${import.meta.env.VITE_BACKEND_API_URL}${endpoint}`
+        );
 
         const mediaList: MediaItem[] = res.data.results;
         setItems(mediaList);
 
-        // Fetch runtime/episode duration per item
         await Promise.all(
           mediaList.map(async (item) => {
-            if (!item.id || detailsCache[item.id] !== undefined) return;
+            if (!item.id || detailsCache[item.id]) return;
 
-            const endpoint =
+            const detailEndpoint =
               media_type === "movie"
                 ? `/api/Movies/movie/${item.id}`
                 : `/api/Movies/tv/${item.id}`;
 
             try {
               const detailRes = await axios.get(
-                `${import.meta.env.VITE_BACKEND_API_URL}${endpoint}`
+                `${import.meta.env.VITE_BACKEND_API_URL}${detailEndpoint}`
               );
 
-              const runtime =
-                media_type === "movie"
-                  ? detailRes.data.runtime
-                  : detailRes.data.episode_run_time?.[0] ?? 0;
-
-              setDetailsCache((prev) => ({
-                ...prev,
-                [item.id]: runtime,
-              }));
+              if (media_type === "movie") {
+                setDetailsCache((prev) => ({
+                  ...prev,
+                  [item.id]: {
+                    runtime: detailRes.data.runtime ?? 0,
+                  },
+                }));
+              } else {
+                setDetailsCache((prev) => ({
+                  ...prev,
+                  [item.id]: {
+                    number_of_seasons: detailRes.data.number_of_seasons ?? 0,
+                    number_of_episodes: detailRes.data.number_of_episodes ?? 0,
+                  },
+                }));
+              }
             } catch (err) {
               console.error(`Details fetch failed for id ${item.id}`, err);
             }
@@ -71,31 +88,47 @@ export default function MediaGrid({ media_type }: { media_type: string }) {
     };
 
     fetchPopularAndDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [media_type]);
 
-  return (
-    <div className="md:mx-8 px-8">
-      <h2 className="inline-block text-2xl font-bold mb-4 text-gray-100 hover:text-blue-300 transition-colors duration-300 cursor-pointer">
-        Trending {media_type === "movie" ? "Movies" : "TV Shows"}
-      </h2>
-      <div className="flex flex-wrap justify-center gap-4">
-        {items.map((item) => (
-          <MediaCard
-            key={item.id}
-            id={item.id}
-            title={item.title || item.name || "No title"}
-            posterPath={item.poster_path}
-            overview={item.overview}
-            releaseDate={item.release_date || item.first_air_date || "N/A"}
-            vote_average={item.vote_average}
-            genre_ids={item.genre_ids || []}
-            vote_count={item.vote_count}
-            original_language={item.original_language || "en"}
-            runtime={detailsCache[item.id] || 0}
-            media_type={media_type} // Pass media_type prop
-          />
-        ))}
-      </div>
+return (
+  <div className="md:mx-8 px-4 sm:px-6 lg:px-8">
+    <h2 className="inline-block text-2xl font-bold mb-4 text-gray-100 hover:text-blue-300 transition-colors duration-300 cursor-pointer">
+      Trending {media_type === "movie" ? "Movies" : "TV Shows"}
+    </h2>
+
+    <div
+      className="
+        grid
+        gap-6
+        grid-cols-2
+        sm:grid-cols-3
+        md:grid-cols-4
+        xl:grid-cols-5
+        2xl:grid-cols-6
+        justify-items-center
+      "
+    >
+      {items.map((item) => (
+        <MediaCard
+          key={item.id}
+          id={item.id}
+          title={item.title || item.name || "No title"}
+          posterPath={item.poster_path}
+          overview={item.overview}
+          releaseDate={item.release_date || item.first_air_date || "N/A"}
+          vote_average={item.vote_average}
+          genre_ids={item.genre_ids || []}
+          vote_count={item.vote_count}
+          original_language={item.original_language || "en"}
+          runtime={detailsCache[item.id]?.runtime ?? 0}
+          media_type={media_type}
+          number_of_seasons={detailsCache[item.id]?.number_of_seasons}
+          number_of_episodes={detailsCache[item.id]?.number_of_episodes}
+        />
+      ))}
     </div>
-  );
+  </div>
+);
+
 }

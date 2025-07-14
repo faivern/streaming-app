@@ -65,19 +65,19 @@ namespace backend.Services
         //ALL
         public async Task<string> GetTrendingAllWeekly()
         {
-            var url = $"https://api.themoviedb.org/3/trending/all/week?api_key={_apiKey}";
+            var url = $"https://api.themoviedb.org/3/trending/all/day?api_key={_apiKey}";
             return await FetchFromTmdbAsync(url);
         }
         //MOVIES
         public async Task<string> GetTrendingMoviesWeekly()
         {
-            var url = $"https://api.themoviedb.org/3/trending/movie/week?api_key={_apiKey}";
+            var url = $"https://api.themoviedb.org/3/trending/movie/day?api_key={_apiKey}";
             return await FetchFromTmdbAsync(url);
         }
         //TV
         public async Task<string> GetTrendingTvWeekly()
         {
-            var url = $"https://api.themoviedb.org/3/trending/tv/week?api_key={_apiKey}";
+            var url = $"https://api.themoviedb.org/3/trending/tv/day?api_key={_apiKey}";
             return await FetchFromTmdbAsync(url);
         }
 

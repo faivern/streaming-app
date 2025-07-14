@@ -25,8 +25,10 @@ export default function Header() {
       }`}
     >
       <nav className="mx-auto max-w-screen-xl flex items-center justify-between">
+          <Link to="/">
         {/* Left: Logo */}
         <div className="flex gap-4">
+          
           <img src={logo} alt="logo" className="h-8 w-8 hover:rotate-210 transition duration-450" />
 
             <h1 className="text-2xl font-bold">
@@ -34,6 +36,7 @@ export default function Header() {
             <span className="text-blue-300">Bucket</span>
             </h1>
         </div>
+          </Link>
 
       <div className="gap-8 hidden sm:flex items-center">
           <label className="flex items-center gap-2">

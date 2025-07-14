@@ -72,7 +72,7 @@ namespace backend.Controllers
             }
         }
 
-        [HttpGet("trending/all/week")]
+        [HttpGet("trending/all/day")]
         public async Task<IActionResult> GetTrendingAllWeekly()
         {
             try
@@ -85,7 +85,7 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-        [HttpGet("trending/movie/week")]
+        [HttpGet("trending/movie/day")]
         public async Task<IActionResult> GetTrendingMoviesWeekly()
         {
             try
@@ -99,7 +99,7 @@ namespace backend.Controllers
             }
         }
 
-        [HttpGet("trending/tv/week")]
+        [HttpGet("trending/tv/day")]
         public async Task<IActionResult> GetTrendingTvWeekly()
         {
             try
