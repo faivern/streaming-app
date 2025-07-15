@@ -3,12 +3,16 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import MediaDetailHeader from '../../components/media/MediaDetailHeader';
 import MediaDetailVideo from '../../components/media/MediaDetailVideo';
+import useToWatch from '../../hooks/useToWatch';
 
 const MediaDetailPage = () => {
   const { media_type, id } = useParams<{ media_type: string; id: string }>();
   const [mediaDetails, setMediaDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  
+  // Use the hook at the page level
+  const { isPlaying, handleWatchNow } = useToWatch();
 
   useEffect(() => {
     const fetchMediaDetails = async () => {
@@ -40,8 +44,10 @@ const MediaDetailPage = () => {
   return (
     <main className="min-h-screen">
       <MediaDetailVideo 
-      backdrop_path={mediaDetails?.backdrop_path} 
+        backdrop_path={mediaDetails?.backdrop_path}
+        isPlaying={isPlaying}
       />
+
       <MediaDetailHeader
         title={mediaDetails?.title || mediaDetails?.name}
         overview={mediaDetails?.overview}
@@ -53,12 +59,17 @@ const MediaDetailPage = () => {
         genre_ids={mediaDetails?.genre_ids || mediaDetails?.genres?.map((g: any) => g.id) || []}
         country={mediaDetails?.production_countries?.[0]?.name || mediaDetails?.origin_country?.[0] || ''}
         original_language={mediaDetails?.original_language || ''}
-        production_companies={mediaDetails?.production_companies?.map((c: any) => c.name).join(', ') || ''}
+        production_companies={mediaDetails?.production_companies || []}
         tagline={mediaDetails?.tagline || ''}
         vote_count={mediaDetails?.vote_count || 0}
+        onWatchNow={handleWatchNow}
+        number_of_episodes={mediaDetails?.number_of_episodes}
+        media_type={media_type}
+        number_of_seasons={mediaDetails?.number_of_seasons}
+
       />
     </main>
-  )
-}
+  );
+};
 
-export default MediaDetailPage
+export default MediaDetailPage;

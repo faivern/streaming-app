@@ -3,9 +3,11 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import HomePage from "./pages/HomePage";
 import MediaDetailPage from "./pages/media/MediaDetailPage";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
+    
     <div className="min-h-screen flex flex-col bg-gradient-to-r from-gray-900 to-blue-950 text-white">
       <Header />
       <main className="flex-grow">
@@ -19,7 +21,12 @@ function App() {
         </Routes>
       </main>
       <Footer />
+          <>
+      <Toaster position="bottom-center" />
+      {/* your routes/components */}
+    </>
     </div>
+    
   );
 }
 
