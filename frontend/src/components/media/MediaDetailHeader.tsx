@@ -28,6 +28,7 @@ type Props = {
   number_of_episodes?: number; // Optional prop for episode count
   media_type?: string; // Optional prop to specify media type
   number_of_seasons?: number; // Optional prop for season number
+  keywords?: string[]; // Optional prop for keywords
 };
 
 export default function MediaDetailHeader({
@@ -48,6 +49,7 @@ export default function MediaDetailHeader({
   number_of_episodes,
   media_type,
   number_of_seasons,
+  keywords = [],
 }: Props) {
   return (
     <main className="relative z-10 flex flex-col md:flex-row gap-8 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto border-t-1 border-gray-500/80">
@@ -108,6 +110,7 @@ export default function MediaDetailHeader({
           country={country}
           language={original_language}
           production_companies={production_companies}
+          keywords={keywords}
         />
       </div>
     </main>

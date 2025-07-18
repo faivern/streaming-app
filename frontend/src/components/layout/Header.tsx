@@ -48,7 +48,7 @@ export default function Header() {
             className="bg-white/10 text-white placeholder-gray-400 rounded-full px-4 py-2 w-40 focus:w-64 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-sky-500"
             />
           </label>
-            </div>
+      </div>
 
         {/* Right: Search + Auth */}
         <div className="flex items-center gap-4 text-white">

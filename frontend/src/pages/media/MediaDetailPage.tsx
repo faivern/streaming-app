@@ -4,10 +4,13 @@ import axios from "axios";
 import MediaDetailHeader from '../../components/media/MediaDetailHeader';
 import MediaDetailVideo from '../../components/media/MediaDetailVideo';
 import useToWatch from '../../hooks/useToWatch';
+import MediaCastCarousel from '../../components/media/MediaCastCarousel';
 
 const MediaDetailPage = () => {
   const { media_type, id } = useParams<{ media_type: string; id: string }>();
   const [mediaDetails, setMediaDetails] = useState<any>(null);
+  const [mediaKeywords, setMediaKeywords] = useState<string[]>([]);
+  const [mediaCredits, setMediaCredits] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   
@@ -15,27 +18,46 @@ const MediaDetailPage = () => {
   const { isPlaying, handleWatchNow } = useToWatch();
 
   useEffect(() => {
-    const fetchMediaDetails = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        const endpoint =
+
+        const detailsEndpoint =
           media_type === "movie"
             ? `/api/Movies/movie/${id}`
             : `/api/Movies/tv/${id}`;
 
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_API_URL}${endpoint}`
-        );
-        setMediaDetails(res.data);
+        const keywordsEndoint =
+          media_type === "movie"
+            ? `/api/Movies/movie/${id}/keywords`
+            : `/api/Movies/tv/${id}/keywords`;
+
+        const creditsEndpoint =
+          media_type === "movie"
+            ? `/api/Movies/movie/${id}/credits`
+            : `/api/Movies/tv/${id}/aggregate_credits`;
+
+        const [detailRes, keywordsRes, creditRes] = await Promise.all([
+          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}${detailsEndpoint}`),
+          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}${keywordsEndoint}`),
+          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}${creditsEndpoint}`),
+        ]);
+        
+        setMediaDetails(detailRes.data);
+        
+        const keywordsData = keywordsRes.data?.results || keywordsRes.data?.keywords || [];
+        setMediaKeywords(keywordsData.map((kw: any) => kw.name));
+
+        setMediaCredits(creditRes.data?.cast || []);
       } catch (err) {
-        console.error("Failed to fetch media details:", err);
+        console.error("Failed to fetch data:", err);
         setError(true);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMediaDetails();
+    fetchData();
   }, [media_type, id]);
   
   if (loading) return <div>Loading...</div>;
@@ -66,8 +88,12 @@ const MediaDetailPage = () => {
         number_of_episodes={mediaDetails?.number_of_episodes}
         media_type={media_type}
         number_of_seasons={mediaDetails?.number_of_seasons}
-
+        keywords={mediaKeywords}
       />
+      <MediaCastCarousel
+        cast={mediaCredits}
+      />
+
     </main>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { dateFormat } from "../../utils/dateFormat";
 import languageMap from "../../utils/languageMap";
+import { keywordsFormat } from "../../utils/keywordsFormat";
 
 type ProductionCompany = {
   id: number;
@@ -12,6 +13,7 @@ type Props = {
   country?: string;
   language?: string;
   production_companies?: ProductionCompany[];
+  keywords?: string[];
 };
 
 export default function MediaDetails({
@@ -19,6 +21,8 @@ export default function MediaDetails({
   country,
   language,
   production_companies,
+  keywords= [],
+
 }: Props) {
   return (
     <div className="bg-slate-800/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30">
@@ -41,6 +45,12 @@ export default function MediaDetails({
             <span className="text-slate-400 text-sm font-medium block">Country</span>
             <span className="text-white font-medium">{country || "N/A"}</span>
           </div>
+
+          <div>
+            <span className="text-slate-400 text-sm font-medium block">Keywords</span>
+            <span className="text-white font-medium">{keywordsFormat(keywords)}</span>
+          </div>
+
         </div>
 
         <div className="space-y-4">
@@ -60,6 +70,7 @@ export default function MediaDetails({
             <span className="text-slate-400 text-sm font-medium block">Cast</span>
             <span className="text-white font-medium">Coming Soon</span>
           </div>
+
         </div>
       </div>
     </div>

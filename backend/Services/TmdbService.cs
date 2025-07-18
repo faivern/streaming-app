@@ -134,14 +134,57 @@ namespace backend.Services
                 $"https://www.youtube.com/embed/{firstYoutubeVideo.key}"
             );
         }
-
-
-
-
-
-
         //----------------------------------------------------------------------------
 
+
+
+
+        //--------------------------------KEYWORDS------------------------------------
+        // Get keywords for a movie by its ID
+        public async Task<string> GetMovieKeywordsAsync(int movieId)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}/keywords?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
+
+        // Get keywords for a TV show by its ID
+        public async Task<string> GetShowKeywordsAsync(int seriesId)
+        {
+            var url = $"https://api.themoviedb.org/3/tv/{seriesId}/keywords?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
+        //----------------------------------------------------------------------------
+
+
+        //--------------------------------CREDITS---------------------------------------
+        // Get credits for a series by its ID
+        public async Task<string> GetShowCreditsAsync(int seriesId)
+        {
+            var url = $"https://api.themoviedb.org/3/tv/{seriesId}/aggregate_credits?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
+        // Get credits for a movie by its ID
+        public async Task<string> GetMovieCreditsAsync(int movieId)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}/credits?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
+        //----------------------------------------------------------------------------
+
+
+        //--------------------------------SIMILAR---------------------------------------
+        // Get similar movies for a movie by its ID
+        public async Task<string> GetSimilarMoviesAsync(int movieId)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}/similar?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
+        // Get similar shows for a show by its ID
+        public async Task<string> GetSimilarShowsAsync(int seriesId)
+        {
+            var url = $"https://api.themoviedb.org/3/tv/{seriesId}/similar?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
 
 
         private async Task<string> FetchFromTmdbAsync(string url)
