@@ -29,6 +29,7 @@ type Props = {
   media_type?: string; // Optional prop to specify media type
   number_of_seasons?: number; // Optional prop for season number
   keywords?: string[]; // Optional prop for keywords
+  budget?: number; // Optional prop for budget
 };
 
 export default function MediaDetailHeader({
@@ -50,17 +51,10 @@ export default function MediaDetailHeader({
   media_type,
   number_of_seasons,
   keywords = [],
+  budget,
 }: Props) {
   return (
-    <main className="relative z-10 flex flex-col md:flex-row gap-8 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto border-t-1 border-gray-500/80">
-      {/* Blurred backdrop background */}
-      <div className="absolute inset-0 -z-10">
-        <img
-          src={`https://image.tmdb.org/t/p/original${backdrop_path}`}
-          alt=""
-          className="w-full h-full object-cover opacity-10 blur-xl scale-105"
-        />
-      </div>
+    <main className="relative z-10 flex flex-col md:flex-row gap-8 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto">
 
       {/* Poster and Actions */}
       <div className="flex-shrink-0 w-full md:w-1/3 max-w-[360px] mx-auto">
@@ -111,6 +105,7 @@ export default function MediaDetailHeader({
           language={original_language}
           production_companies={production_companies}
           keywords={keywords}
+          budget={budget}
         />
       </div>
     </main>

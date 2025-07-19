@@ -14,6 +14,7 @@ type Props = {
   language?: string;
   production_companies?: ProductionCompany[];
   keywords?: string[];
+  budget?: number;
 };
 
 export default function MediaDetails({
@@ -22,6 +23,7 @@ export default function MediaDetails({
   language,
   production_companies,
   keywords= [],
+  budget,
 
 }: Props) {
   return (
@@ -63,12 +65,23 @@ export default function MediaDetails({
 
           <div>
             <span className="text-slate-400 text-sm font-medium block">Director</span>
-            <span className="text-white font-medium">Coming Soon</span>
+            <span className="text-white font-medium">
+              COMING SOON
+            </span>
+          </div>
+
+                    <div>
+            <span className="text-slate-400 text-sm font-medium block">Cast</span>
+            <span className="text-white font-medium">
+              COMING SOON
+            </span>
           </div>
 
           <div>
-            <span className="text-slate-400 text-sm font-medium block">Cast</span>
-            <span className="text-white font-medium">Coming Soon</span>
+            <span className="text-slate-400 text-sm font-medium block">Budget</span>
+            <span className="text-white font-medium">
+              {budget ? `$${budget.toLocaleString()}` : "N/A"}
+            </span>
           </div>
 
         </div>

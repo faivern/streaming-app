@@ -93,8 +93,12 @@ export default function MediaGrid({ media_type }: { media_type: string }) {
 
 return (
   <div className="md:mx-8 px-4 sm:px-6 lg:px-8">
-    <h2 className="inline-block text-2xl font-bold mb-4 text-gray-100 hover:text-blue-300 transition-colors duration-300 cursor-pointer">
+
+    <h2 className="inline-block mb-4 text-gray-100">
+      <span className="underline-hover">
       Trending {media_type === "movie" ? "Movies" : "TV Shows"}
+      <span className="underline-bar"></span>
+      </span>
     </h2>
 
     <div

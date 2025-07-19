@@ -1,0 +1,26 @@
+.underline-hover {
+  position: relative;
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 600; /* font-semibold */
+  margin-bottom: 1rem; /* mb-4 */
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.underline-hover:hover {
+  color: #38bdf8; /* sky-300 */
+}
+
+.underline-bar {
+  position: absolute;
+  left: 0;
+  bottom: -0.25rem; /* -bottom-1 */
+  width: 0;
+  height: 0.125rem; /* h-0.5 */
+  background-color: #38bdf8; /* bg-sky-300 */
+  transition: all 0.3s;
+}
+
+.underline-hover:hover .underline-bar {
+  width: 100%;
+}

@@ -59,11 +59,7 @@ export default function MediaCard({
     ref={cardRef}
     >
       <div className="group relative z-10 hover:z-30 transition-transform duration-300 cursor-pointer">
-        <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
-            rounded-xl border border-gray-700/30 overflow-hidden shadow-md
-            hover:shadow-xl hover:scale-105 hover:border-blue-500/30 transition-all duration-300 relative group">
-          {/* Poster + Content... (same as before) */}
-        </div>
+
       </div>
 
       <div className="group relative z-10 hover:z-30 transition-transform duration-300 cursor-pointer">
@@ -83,7 +79,6 @@ export default function MediaCard({
 
 
 
-          {/* Release date tag */}
           <div className="absolute top-2 right-2 text-sm px-2 py-1 bg-gray-800/55 text-gray-300 rounded-full
           hover:scale-105 transition-all ease-in-out
           ">

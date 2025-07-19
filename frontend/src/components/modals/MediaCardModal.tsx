@@ -105,7 +105,7 @@ console.log("runtime:", runtime);
 <div>
   {media_type === "movie" && (
     <div>
-      <strong>Viewing Info</strong>
+      <strong>Run Time</strong>
       <div>
         {typeof runtime === "number"
           ? `${Math.floor(runtime / 60)}h ${runtime % 60}min`
