@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { dateFormatYear } from "../../utils/dateFormatYear";
+import { dateFormatYear } from "../../../utils/dateFormatYear";
 
 type Props = {
   vote_average: number;

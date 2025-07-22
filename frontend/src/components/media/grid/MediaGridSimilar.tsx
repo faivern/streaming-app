@@ -1,4 +1,4 @@
-import MediaSimilarCard from './MediaSimilarCard';
+import MediaSimilarCard from '../cards/MediaSimilarCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay } from '@fortawesome/free-solid-svg-icons';
 type SimilarMediaItem = {

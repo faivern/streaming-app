@@ -1,4 +1,4 @@
-import "../../style/MediaCard.css";
+import "../../../style/MediaCard.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faBookmark } from "@fortawesome/free-solid-svg-icons";
 

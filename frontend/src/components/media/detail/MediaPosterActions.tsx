@@ -1,8 +1,8 @@
 import { use, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faBookmark, faShare } from "@fortawesome/free-solid-svg-icons";
-import useShare from "../../hooks/useShare";
-import useAddWatchList from "../../hooks/useAddWatchList";
+import useShare from "../../../hooks/useShare";
+import useAddWatchList from "../../../hooks/useAddWatchList";
 
 type Props = {
   onWatchNow: () => void;

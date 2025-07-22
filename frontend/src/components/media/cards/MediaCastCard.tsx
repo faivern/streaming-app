@@ -1,5 +1,5 @@
 import React from 'react'
-import avatarPlaceholder from "../../images/no-avatar-placeholder.png";
+import avatarPlaceholder from "../../../images/no-avatar-placeholder.png";
 
 type Props = {
     name: string;

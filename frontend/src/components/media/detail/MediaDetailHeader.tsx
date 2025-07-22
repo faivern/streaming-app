@@ -1,8 +1,8 @@
 import React from "react";
-import { dateFormat } from "../../utils/dateFormat";
-import genreMap from "../../utils/genreMap";
+import { dateFormat } from "../../../utils/dateFormat";
+import genreMap from "../../../utils/genreMap";
 import MediaPosterActions from "./MediaPosterActions";
-import MediaMetaChips from "./MediaMetaChips";
+import MediaMetaChips from "../cards/MediaMetaChips";
 import MediaDetails from "./MediaDetails";
 
 type ProductionCompany = {
@@ -10,7 +10,23 @@ type ProductionCompany = {
   name: string;
 };
 
+type CastMember = {
+  id: number;
+  name: string;
+  character?: string;
+  profile_path?: string;
+  order?: number;
+};
+
+type CrewMember = {
+  id: number;
+  name: string;
+  job: string;
+};
+
 type Props = {
+  cast: CastMember[];
+  crew: CrewMember[];
   title: string;
   overview: string;
   poster_path: string;
@@ -24,15 +40,17 @@ type Props = {
   original_language?: string;
   production_companies?: ProductionCompany[];
   tagline?: string;
-  onWatchNow: () => void; // Add this prop
-  number_of_episodes?: number; // Optional prop for episode count
-  media_type?: string; // Optional prop to specify media type
-  number_of_seasons?: number; // Optional prop for season number
-  keywords?: string[]; // Optional prop for keywords
-  budget?: number; // Optional prop for budget
+  onWatchNow: () => void;
+  number_of_episodes?: number;
+  media_type?: string;
+  number_of_seasons?: number;
+  keywords?: string[];
+  budget?: number;
 };
 
 export default function MediaDetailHeader({
+  cast,
+  crew,
   title,
   overview,
   poster_path,
@@ -46,7 +64,7 @@ export default function MediaDetailHeader({
   original_language,
   production_companies,
   tagline,
-  onWatchNow, // Add this prop
+  onWatchNow,
   number_of_episodes,
   media_type,
   number_of_seasons,
@@ -55,7 +73,6 @@ export default function MediaDetailHeader({
 }: Props) {
   return (
     <main className="relative flex flex-col md:flex-row gap-8 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto">
-
       {/* Poster and Actions */}
       <div className="flex-shrink-0 w-full md:w-1/3 max-w-[360px] mx-auto">
         <img
@@ -100,6 +117,8 @@ export default function MediaDetailHeader({
         {overview && <p className="text-gray-300">{overview}</p>}
 
         <MediaDetails
+          cast={cast}
+          crew={crew}
           release_date={release_date}
           country={country}
           language={original_language}

@@ -1,7 +1,22 @@
 import React from "react";
-import { dateFormat } from "../../utils/dateFormat";
-import languageMap from "../../utils/languageMap";
-import { keywordsFormat } from "../../utils/keywordsFormat";
+import { dateFormat } from "../../../utils/dateFormat";
+import languageMap from "../../../utils/languageMap";
+import { keywordsFormat } from "../../../utils/keywordsFormat";
+import { getDirector, getMainCast } from "../../../utils/creditsUtils";
+
+type CastMember = {
+  id: number;
+  name: string;
+  character?: string;
+  profile_path?: string;
+  order?: number;
+};
+
+type CrewMember = {
+  id: number;
+  name: string;
+  job: string;
+};
 
 type ProductionCompany = {
   id: number;
@@ -9,6 +24,8 @@ type ProductionCompany = {
 };
 
 type Props = {
+  cast: CastMember[];
+  crew: CrewMember[];
   release_date: string;
   country?: string;
   language?: string;
@@ -18,14 +35,18 @@ type Props = {
 };
 
 export default function MediaDetails({
+  cast,
+  crew,
   release_date,
   country,
   language,
   production_companies,
-  keywords= [],
+  keywords = [],
   budget,
-
 }: Props) {
+  const director = getDirector(crew);
+  const mainCast = getMainCast(cast);
+
   return (
     <div className="bg-slate-800/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30">
       <h3 className="text-xl font-semibold text-white mb-4">Details</h3>
@@ -52,7 +73,6 @@ export default function MediaDetails({
             <span className="text-slate-400 text-sm font-medium block">Keywords</span>
             <span className="text-white font-medium">{keywordsFormat(keywords)}</span>
           </div>
-
         </div>
 
         <div className="space-y-4">
@@ -66,14 +86,14 @@ export default function MediaDetails({
           <div>
             <span className="text-slate-400 text-sm font-medium block">Director</span>
             <span className="text-white font-medium">
-              COMING SOON
+              {director ? director.name : "N/A"}
             </span>
           </div>
 
-                    <div>
-            <span className="text-slate-400 text-sm font-medium block">Cast</span>
+          <div>
+            <span className="text-slate-400 text-sm font-medium block">Main Cast</span>
             <span className="text-white font-medium">
-              COMING SOON
+              {mainCast.length > 0 ? mainCast.map((actor) => actor.name).join(", ") : "N/A"}
             </span>
           </div>
 
@@ -83,7 +103,6 @@ export default function MediaDetails({
               {budget ? `$${budget.toLocaleString()}` : "N/A"}
             </span>
           </div>
-
         </div>
       </div>
     </div>

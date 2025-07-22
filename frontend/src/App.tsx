@@ -1,13 +1,13 @@
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
-import HomePage from "./pages/HomePage";
-import MediaDetailPage from "./pages/media/MediaDetailPage";
+import HomePage from "./pages/home/HomePage";
+import MediaDetailPage from "./pages/detailPage/MediaDetailPage";
+import CreditsPage from "./pages/creditsPage/creditsPage";
 import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
-    
     <div className="min-h-screen flex flex-col bg-gradient-to-r from-gray-900 to-blue-950 text-white">
       <Header />
       <main className="flex-grow">
@@ -18,17 +18,16 @@ function App() {
             element={<div className="text-white text-center py-10 text-xl">Shows Page Coming Soon</div>}
           />
           <Route path="/media/:media_type/:id" element={<MediaDetailPage />} />
+          <Route path="/media/:media_type/:id/credits" element={<CreditsPage />} />
         </Routes>
       </main>
       <Footer />
-          <>
-      <Toaster position="bottom-center" />
-      {/* your routes/components */}
-    </>
+      <>
+        <Toaster position="bottom-center" />
+        {/* your routes/components */}
+      </>
     </div>
-    
   );
 }
-
 
 export default App;

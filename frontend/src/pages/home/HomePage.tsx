@@ -1,8 +1,8 @@
 import { useState } from "react";
-import MediaTypeToggle from "../components/media/MediaTypeToggle";
-import MediaGrid from "../components/media/MediaGrid";
-import Carousel from "../components/media/TrendingCarousel";
-import Footer from "../components/layout/Footer";
+import MediaTypeToggle from "../../components/media/grid/MediaTypeToggle";
+import MediaGrid from "../../components/media/grid/MediaGrid";
+import Carousel from "../../components/media/carousel/TrendingCarousel";
+import Footer from "../../components/layout/Footer";
 
 export default function HomePage() {
   const [mediaType, setMediaType] = useState<"movie" | "tv">("movie");

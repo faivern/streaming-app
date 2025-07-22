@@ -1,4 +1,4 @@
-import { dateFormatYear } from "../../utils/dateFormatYear";
+import { dateFormatYear } from "../../../utils/dateFormatYear";
 import { Link } from "react-router-dom";
 import { useState, useRef } from "react";
 import MediaCardModal from "../modals/MediaCardModal";

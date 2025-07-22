@@ -1,8 +1,8 @@
 import React from 'react'
-import genreMap from '../../utils/genreMap';
-import { useVideo } from '../../hooks/useVideo';
-import languageMap from '../../utils/languageMap';
-import { dateFormat } from '../../utils/dateFormat';
+import genreMap from '../../../utils/genreMap';
+import { useVideo } from '../../../hooks/useVideo';
+import languageMap from '../../../utils/languageMap';
+import { dateFormat } from '../../../utils/dateFormat';
 import { Link } from "react-router-dom";
 
 type MediaCardModalProps = {
@@ -81,7 +81,7 @@ console.log("runtime:", runtime);
 {/* TODO: add link to IMDb reviews*/}
         <div>
           <strong>IMDb</strong>
-          <div>{vote_average?.toFixed(1) || "No rating"} / 10 by {vote_count} reviews</div>
+          <div>{vote_average?.toFixed(1) || "No rating"}/10 by {vote_count?.toLocaleString()} reviews</div>
         </div>
 
         <div>

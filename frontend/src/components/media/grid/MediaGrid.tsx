@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import MediaCard from "./MediaCard";
+import MediaCard from "../cards/MediaCard";
 
 export type MediaItem = {
   id: number;

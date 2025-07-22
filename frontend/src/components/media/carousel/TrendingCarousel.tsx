@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import genreMap from "../../utils/genreMap";
+import genreMap from "../../../utils/genreMap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import { dateFormat } from '../../utils/dateFormat';
+import { dateFormat } from '../../../utils/dateFormat';
 import { Link } from "react-router-dom";
 
 type Movie = {
