@@ -105,7 +105,7 @@ console.log("runtime:", runtime);
 <div>
   {media_type === "movie" && (
     <div>
-      <strong>Run Time</strong>
+      <strong>Runtime</strong>
       <div>
         {typeof runtime === "number"
           ? `${Math.floor(runtime / 60)}h ${runtime % 60}min`
@@ -116,7 +116,7 @@ console.log("runtime:", runtime);
 
 {media_type === "tv" && (
   <div className="col-span-2">
-    <strong>Viewing Info</strong>
+    <strong>Runtime</strong>
     <div className="mt-1 text-white">
       {number_of_seasons ?? "?"} Season{number_of_seasons === 1 ? "" : "s"}
       {" • "}

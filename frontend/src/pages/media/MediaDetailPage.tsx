@@ -70,8 +70,17 @@ const enrichedSimilar = await Promise.all(
       return {
         ...item,
         media_type,
+        // Add all the data needed for the modal
         runtime: detail.runtime || detail.episode_run_time?.[0] || 0,
         number_of_seasons: detail.number_of_seasons || 0,
+        number_of_episodes: detail.number_of_episodes || 0,
+        overview: detail.overview || '',
+        vote_average: detail.vote_average || 0,
+        vote_count: detail.vote_count || 0,
+        genre_ids: detail.genre_ids || detail.genres?.map((g: any) => g.id) || [],
+        original_language: detail.original_language || '',
+        tagline: detail.tagline || '',
+        backdrop_path: detail.backdrop_path || item.backdrop_path || '',
       };
     } catch (err) {
       console.error(`Failed to fetch detail for ${item.id}`, err);
@@ -135,7 +144,8 @@ setMediaSimilar(enrichedSimilar);
       </div>
 
       <div className="">
-        <MediaGridSimilar similarMedia={mediaSimilar} />
+        <MediaGridSimilar similarMedia={mediaSimilar} 
+        />
       </div>
     </div>
 

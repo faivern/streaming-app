@@ -27,7 +27,7 @@ export default function Carousel() {
     {}
   );
   const intervalRef = useRef<number | null>(null);
-  const intervalTime = 8000;
+  const intervalTime = 6000;
   const baseImageUrl = "https://image.tmdb.org/t/p/w1280";
 
   useEffect(() => {

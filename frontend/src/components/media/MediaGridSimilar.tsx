@@ -1,5 +1,6 @@
 import MediaSimilarCard from './MediaSimilarCard';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 type SimilarMediaItem = {
   id: number;
   poster_path: string;
@@ -10,6 +11,13 @@ type SimilarMediaItem = {
   media_type?: string;
   runtime?: number;
   number_of_seasons?: number;
+  number_of_episodes?: number;
+  overview?: string;
+  vote_average?: number;
+  vote_count?: number;
+  genre_ids?: number[];
+  original_language?: string;
+  backdrop_path?: string;
 };
 
 type Props = {
@@ -19,12 +27,15 @@ type Props = {
 const MediaGridSimilar = ({ similarMedia }: Props) => {
   return (
     <aside className="w-full mt-8">
-      <div className="bg-slate-800/40 backdrop-blur-sm rounded-xl p-4 border border-slate-600/30">
-        <h2 className="text-lg font-semibold text-white mb-4">You May Also Like</h2>
+      {/* Remove backdrop-blur-sm from container to prevent interference */}
+      <div className="bg-slate-800/40 rounded-xl p-4 border border-slate-600/30 overflow-visible">
+        <h2 className="text-lg font-semibold text-white mb-4">
+          <FontAwesomeIcon icon={faPlay} className="text-md pr-2" />
+          You May Also Like</h2>
         <div className="space-y-2">
           {similarMedia.slice(0, 8).map((media, index) => (
             <MediaSimilarCard
-              key={media.id || `similar-${index}`}
+              key={`${media.id}-${media.media_type}`}
               id={media.id}
               poster_path={media.poster_path}
               title={media.title || media.name || 'Unknown Title'}
@@ -32,6 +43,14 @@ const MediaGridSimilar = ({ similarMedia }: Props) => {
               media_type={media.media_type}
               runtime={media.runtime}
               number_of_seasons={media.number_of_seasons}
+              number_of_episodes={media.number_of_episodes}
+              overview={media.overview}
+              vote_average={media.vote_average}
+              vote_count={media.vote_count}
+              genre_ids={media.genre_ids}
+              original_language={media.original_language}
+              backdrop_path={media.backdrop_path}
+              index={index}
             />
           ))}
           

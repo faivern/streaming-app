@@ -54,7 +54,7 @@ export default function MediaDetailHeader({
   budget,
 }: Props) {
   return (
-    <main className="relative z-10 flex flex-col md:flex-row gap-8 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto">
+    <main className="relative flex flex-col md:flex-row gap-8 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto">
 
       {/* Poster and Actions */}
       <div className="flex-shrink-0 w-full md:w-1/3 max-w-[360px] mx-auto">
