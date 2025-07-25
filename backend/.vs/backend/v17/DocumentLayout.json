@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\services\\tmdbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:services\\tmdbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:controllers\\moviescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\models\\tmdbvideomodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -42,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 180,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -82,28 +82,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MoviesController.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Controllers\\MoviesController.cs",
               "RelativeDocumentMoniker": "Controllers\\MoviesController.cs",
               "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Controllers\\MoviesController.cs",
               "RelativeToolTip": "Controllers\\MoviesController.cs",
-              "ViewState": "AgIAALwAAAAAAAAAAAAAAOwAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAOgAAAAAAAAAAAAowP0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-10T21:27:30.794Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "TmdbService.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Services\\TmdbService.cs",
               "RelativeDocumentMoniker": "Services\\TmdbService.cs",
               "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Services\\TmdbService.cs",
               "RelativeToolTip": "Services\\TmdbService.cs",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAQwLYAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAKsAAAAAAAAAAAAwwL0AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-11T23:51:21.527Z"
+              "WhenOpened": "2025-06-11T23:51:21.527Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

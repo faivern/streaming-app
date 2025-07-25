@@ -25,8 +25,8 @@ export default function MediaMetaChips({
   return (
     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
       {/* Rating */}
-      <p className="font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm flex items-center gap-1 hover:border-blue-400 transition">
-        <FontAwesomeIcon icon={faStar} className="text-amber-400" />
+      <p className="font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm flex items-center hover:border-blue-400 transition">
+        <FontAwesomeIcon icon={faStar} className="text-amber-400 mr-1" />
         {vote_average ? (
           <>
             <span className="font-bold">{vote_average.toFixed(1)}</span>

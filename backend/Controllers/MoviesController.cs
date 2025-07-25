@@ -121,7 +121,7 @@ namespace backend.Controllers
             try
             {
                 var data = await _tmdbService.GetMovieDetailsAsync(movie_id);
-                    return Content(data, "application/json");
+                return Content(data, "application/json");
             }
             catch (HttpRequestException ex)
             {
@@ -143,7 +143,7 @@ namespace backend.Controllers
             }
         }
 
-     
+
         [HttpGet("movie/{movieId}/videos")]
         public async Task<IActionResult> GetMovieTrailer(int movieId)
         {
@@ -154,7 +154,7 @@ namespace backend.Controllers
 
             return Ok(new { name, url });
         }
-        
+
         [HttpGet("movie/{movieId}/videos/raw")]
         public async Task<IActionResult> GetMovieVideosRaw(int movieId)
         {
@@ -248,6 +248,21 @@ namespace backend.Controllers
             }
         }
 
+        //Person details
+        [HttpGet("person/{person_id}")]
+        public async Task<IActionResult> GetPersonDetails(int person_id)
+        {
+            try
+            {
+                var data = await _tmdbService.GetPersonDetails(person_id);
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
 
+
+        }
     }
 }

@@ -29,7 +29,13 @@ const MediaCastCarousel = ({ cast }: Props) => {
 
       <div className="flex gap-6 overflow-x-auto px-2 py-2">
         {cast.slice(0, 12).map((person) => (
-          <MediaCastCard key={person.id} name={person.name} profile_path={person.profile_path} character={person.character} />
+          <MediaCastCard 
+            key={person.id} 
+            name={person.name} 
+            profile_path={person.profile_path} 
+            character={person.character}
+            id={person.id}
+          />
         ))}
       </div>
     </section>

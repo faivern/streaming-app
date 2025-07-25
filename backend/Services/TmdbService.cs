@@ -185,6 +185,15 @@ namespace backend.Services
             var url = $"https://api.themoviedb.org/3/tv/{seriesId}/similar?api_key={_apiKey}";
             return await FetchFromTmdbAsync(url);
         }
+        //----------------------------------------------------------------------------
+
+        s
+        //-------------------------------PERSON------------------------------------------
+        public async Task<string> GetPersonDetails(int person_id)
+        {
+            var url = $"https://api.themoviedb.org/3/person/{person_id}?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
 
 
         private async Task<string> FetchFromTmdbAsync(string url)

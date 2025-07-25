@@ -5,7 +5,7 @@ import HomePage from "./pages/home/HomePage";
 import MediaDetailPage from "./pages/detailPage/MediaDetailPage";
 import CreditsPage from "./pages/creditsPage/creditsPage";
 import { Toaster } from "react-hot-toast";
-
+import CreditsDetailPage from "./pages/creditsPage/creditsDetailPage";
 function App() {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-r from-gray-900 to-blue-950 text-white">
@@ -19,6 +19,7 @@ function App() {
           />
           <Route path="/media/:media_type/:id" element={<MediaDetailPage />} />
           <Route path="/media/:media_type/:id/credits" element={<CreditsPage />} />
+          <Route path="/person/:id/:name" element={<CreditsDetailPage />} />
         </Routes>
       </main>
       <Footer />

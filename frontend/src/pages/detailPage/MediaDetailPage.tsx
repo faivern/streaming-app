@@ -22,6 +22,10 @@ const MediaDetailPage = () => {
   // Use the hook at the page level
   const { isPlaying, handleWatchNow } = useToWatch();
 
+  const logoPath =
+  mediaDetails?.production_companies?.find((pc: any) => pc.logo_path)?.logo_path || '';
+
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -144,6 +148,7 @@ const MediaDetailPage = () => {
               number_of_seasons={mediaDetails?.number_of_seasons}
               keywords={mediaKeywords}
               budget={mediaDetails?.budget}
+              logo_path={logoPath}
             />
             
             {/* Full width below */}

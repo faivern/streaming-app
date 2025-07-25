@@ -46,6 +46,7 @@ type Props = {
   number_of_seasons?: number;
   keywords?: string[];
   budget?: number;
+  logo_path?: string;
 };
 
 export default function MediaDetailHeader({
@@ -70,24 +71,37 @@ export default function MediaDetailHeader({
   number_of_seasons,
   keywords = [],
   budget,
+  logo_path,
 }: Props) {
   return (
     <main className="relative flex flex-col md:flex-row gap-8 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto">
       {/* Poster and Actions */}
       <div className="flex-shrink-0 w-full md:w-1/3 max-w-[360px] mx-auto">
+        
         <img
           loading="lazy"
           src={`https://image.tmdb.org/t/p/w500${poster_path}`}
           alt={title}
           className="w-full aspect-[2/3] object-cover rounded-3xl shadow-lg"
-        />
+          />
         <MediaPosterActions onWatchNow={onWatchNow} />
       </div>
 
       {/* Details */}
       <div className="mx-4 flex flex-col gap-6">
         <div>
+          <div className="flex flex-row items-center gap-32">
+
           <h1 className="text-4xl font-bold text-white">{title}</h1>
+          {logo_path && (
+            <img
+            loading="lazy"
+            src={`https://image.tmdb.org/t/p/w92${logo_path}`}
+            alt={`${title} logo`}
+            className=""
+            />
+          )}
+          </div>
           {tagline && <p className="text-gray-400 italic mt-2 truncate">{tagline}</p>}
         </div>
 

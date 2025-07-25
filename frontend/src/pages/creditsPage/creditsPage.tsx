@@ -136,6 +136,7 @@ const CreditsPage = () => {
                   name={person.name}
                   profile_path={person.profile_path}
                   character={person.character}
+                  id={person.id}
                 />
               ))
             }
@@ -158,6 +159,7 @@ const CreditsPage = () => {
                         name={person.name}
                         profile_path={person.profile_path}
                         character={person.job}
+                        id={person.id}
                       />
                     ))}
                   </div>
