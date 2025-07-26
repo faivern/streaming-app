@@ -91,6 +91,7 @@ const MediaDetailPage = () => {
                 original_language: detail.original_language || '',
                 tagline: detail.tagline || '',
                 backdrop_path: detail.backdrop_path || item.backdrop_path || '',
+                
               };
             } catch (err) {
               console.error(`Failed to fetch detail for ${item.id}`, err);
@@ -148,6 +149,7 @@ const MediaDetailPage = () => {
               number_of_seasons={mediaDetails?.number_of_seasons}
               keywords={mediaKeywords}
               budget={mediaDetails?.budget}
+              revenue={mediaDetails?.revenue}
               logo_path={logoPath}
             />
             

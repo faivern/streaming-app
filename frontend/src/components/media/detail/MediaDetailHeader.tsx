@@ -47,6 +47,7 @@ type Props = {
   keywords?: string[];
   budget?: number;
   logo_path?: string;
+  revenue?: number;
 };
 
 export default function MediaDetailHeader({
@@ -72,6 +73,7 @@ export default function MediaDetailHeader({
   keywords = [],
   budget,
   logo_path,
+  revenue,
 }: Props) {
   return (
     <main className="relative flex flex-col md:flex-row gap-8 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto">
@@ -139,6 +141,7 @@ export default function MediaDetailHeader({
           production_companies={production_companies}
           keywords={keywords}
           budget={budget}
+          revenue={revenue}
         />
       </div>
     </main>

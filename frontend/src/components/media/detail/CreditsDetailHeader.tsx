@@ -1,5 +1,7 @@
 import React from 'react'
 import { dateFormatLong } from '../../../utils/dateFormatLong';
+import { calcAge } from '../../../utils/calcAge';
+import { knownForDepartment } from '../../../utils/knownForDepartment';
 import avatarPlaceholder from "../../../images/no-avatar-placeholder.png";
 type Props = {
     id: number;
@@ -15,13 +17,19 @@ type Props = {
 
 const CreditsDetailHeader = ({ id, name, biography, known_for_department, place_of_birth, profile_path, birthday, gender, deathday }: Props) => {
   const birthInfo = birthday ? dateFormatLong(birthday) : "Unknown";
-  const placeInfo = place_of_birth ? ` ● ${place_of_birth}` : "";
+  const age = calcAge(birthday);
+  const placeInfo = place_of_birth ? ` ${place_of_birth}` : "";
+  const knownFor = knownForDepartment(known_for_department, gender);
+  
   return (
 <div className="container mx-auto p-6 text-white">
   <div className="flex flex-col md:flex-row gap-6">
     {/* LEFT COLUMN - IMAGE + BASIC INFO */}
     <div className="w-full md:w-1/3 flex flex-col items-center border border-yellow-500 p-4 rounded">
-      <h2 className="text-2xl font-bold mb-4">{name || `Person #${id}`}</h2>
+    <div className="flex flex-row mb-4 items-center gap-4">
+      <h2 className="text-2xl font-bold">{name || `Person #${id}`}</h2>
+      <p className="text-gray-300">{knownFor}</p>
+    </div>
       <img
         src={
           profile_path
@@ -33,7 +41,10 @@ const CreditsDetailHeader = ({ id, name, biography, known_for_department, place_
       />
       <div className="mt-4 text-sm text-gray-400 space-y-1">
         <p>
-          <span className="font-semibold text-white">Born:</span> {birthInfo}
+          <span className="font-semibold text-white">Born:</span> {birthInfo} ({age} years old)
+        </p>
+                <p>
+          <span className="font-semibold text-white">Birth place:</span>
           {placeInfo}
         </p>
         {deathday && (
@@ -42,10 +53,7 @@ const CreditsDetailHeader = ({ id, name, biography, known_for_department, place_
             {dateFormatLong(deathday)}
           </p>
         )}
-        <p>
-          <span className="font-semibold text-white">Known for:</span>{" "}
-          {known_for_department || "N/A"}
-        </p>
+  
       </div>
     </div>
 

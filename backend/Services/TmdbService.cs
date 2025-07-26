@@ -187,7 +187,7 @@ namespace backend.Services
         }
         //----------------------------------------------------------------------------
 
-        s
+        
         //-------------------------------PERSON------------------------------------------
         public async Task<string> GetPersonDetails(int person_id)
         {

@@ -14,13 +14,18 @@ export default function MediaPosterActions({ onWatchNow }: Props) {
 
   return (
     <div className="mt-6 space-y-3">
-      <button 
-        onClick={onWatchNow}
-        className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white py-4 px-6 rounded-xl font-semibold shadow-lg transform transition-all duration-200 hover:scale-105 flex items-center justify-center gap-3 hover:cursor-pointer">
-        
-        <FontAwesomeIcon icon={faPlay} className="text-lg" />
-        <span>Watch Now</span>
-      </button>
+<button
+  onClick={onWatchNow}
+  className="w-full bg-gradient-to-r from-blue-600 to-blue-800 
+             hover:from-sky-500 hover:via-blue-500 hover:to-blue-700 
+             text-white py-4 px-6 rounded-xl font-semibold shadow-lg 
+             transform transition-transform duration-200 hover:scale-105 
+             flex items-center justify-center gap-3 cursor-pointer"
+>
+  <FontAwesomeIcon icon={faPlay} className="text-white text-lg" />
+  <span className="tracking-wide">Watch Now</span>
+</button>
+
       <div className="grid grid-cols-2 gap-3">
         <button
             onClick={handleAddWatchList} 

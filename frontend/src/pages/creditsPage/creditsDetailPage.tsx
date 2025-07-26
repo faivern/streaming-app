@@ -51,6 +51,8 @@ const CreditsDetailPage = () => {
               place_of_birth={person.place_of_birth}
               profile_path={person.profile_path}
               birthday={person.birthday}
+              gender={person.gender}
+              deathday={person.deathday}
            />
            <CreditsDetailGrid
            

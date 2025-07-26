@@ -3,6 +3,7 @@ import { dateFormat } from "../../../utils/dateFormat";
 import languageMap from "../../../utils/languageMap";
 import { keywordsFormat } from "../../../utils/keywordsFormat";
 import { getDirector, getMainCast } from "../../../utils/creditsUtils";
+import { moneyFormat } from "../../../utils/moneyFormat";
 
 type CastMember = {
   id: number;
@@ -32,6 +33,7 @@ type Props = {
   production_companies?: ProductionCompany[];
   keywords?: string[];
   budget?: number;
+  revenue?: number;
 };
 
 export default function MediaDetails({
@@ -43,12 +45,13 @@ export default function MediaDetails({
   production_companies,
   keywords = [],
   budget,
+  revenue,
 }: Props) {
   const director = getDirector(crew);
   const mainCast = getMainCast(cast);
 
   return (
-    <div className="bg-slate-800/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30">
+    <div className="bg-slate-800/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30 ">
       <h3 className="text-xl font-semibold text-white mb-4">Details</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
         <div className="space-y-4">
@@ -71,7 +74,7 @@ export default function MediaDetails({
 
           <div>
             <span className="text-slate-400 text-sm font-medium block">Keywords</span>
-            <span className="text-white font-medium">{keywordsFormat(keywords)}</span>
+            <span className="text-white font-medium line-clamp-2 hover:line-clamp-none transition-all duration-300">{keywordsFormat(keywords)}</span>
           </div>
         </div>
 
@@ -100,7 +103,14 @@ export default function MediaDetails({
           <div>
             <span className="text-slate-400 text-sm font-medium block">Budget</span>
             <span className="text-white font-medium">
-              {budget ? `$${budget.toLocaleString()}` : "N/A"}
+              {budget ? moneyFormat(budget) : "N/A"}
+            </span>
+          </div>
+
+                    <div>
+            <span className="text-slate-400 text-sm font-medium block">Revenue</span>
+            <span className="text-white font-medium">
+              {revenue ? moneyFormat(revenue) : "N/A"}
             </span>
           </div>
         </div>
