@@ -56,8 +56,9 @@ const Footer = () => {
     </div>
     <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
     <div className="sm:flex sm:items-center sm:justify-between">
-      <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="https://flowbite.com/" className="hover:underline">MovieBucket™</a>. All Rights Reserved.
+      <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="https://flowbite.com/" className="hover:underline">MovieBucket™</a> - Powered by <a href="https://developer.themoviedb.org/" target="_blank" className="hover:underline">TMDB</a>.
       </span>
+      
       <div className="flex mt-4 sm:justify-center sm:mt-0">
         <a href="#" className="text-gray-500 hover:text-gray-900 dark:hover:text-white">
           <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">

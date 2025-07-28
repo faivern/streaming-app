@@ -79,13 +79,24 @@ export default function MediaDetailHeader({
     <main className="relative flex flex-col md:flex-row gap-8 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto">
       {/* Poster and Actions */}
       <div className="flex-shrink-0 w-full md:w-1/3 max-w-[360px] mx-auto">
-        
+        <div className="relative">
         <img
           loading="lazy"
           src={`https://image.tmdb.org/t/p/w500${poster_path}`}
           alt={title}
-          className="w-full aspect-[2/3] object-cover rounded-3xl shadow-lg"
+          className="w-full aspect-[2/3] object-cover rounded-3xl shadow-lg border border-slate-600/30"
           />
+          {logo_path && (
+            <div className="absolute top-2 left-2 bg-white/80 px-2 py-1 rounded">
+            <img
+            loading="lazy"
+            src={`https://image.tmdb.org/t/p/w92${logo_path}`}
+            alt={`${title} logo`}
+            className="object-contain h-5"
+            />
+            </div>
+          )}
+          </div>
         <MediaPosterActions onWatchNow={onWatchNow} />
       </div>
 
@@ -95,16 +106,8 @@ export default function MediaDetailHeader({
           <div className="flex flex-row items-center gap-32">
 
           <h1 className="text-4xl font-bold text-white">{title}</h1>
-          {logo_path && (
-            <img
-            loading="lazy"
-            src={`https://image.tmdb.org/t/p/w92${logo_path}`}
-            alt={`${title} logo`}
-            className=""
-            />
-          )}
           </div>
-          {tagline && <p className="text-gray-400 italic mt-2 truncate">{tagline}</p>}
+          {tagline && <p className="text-gray-400 italic mt-2">{tagline}</p>}
         </div>
 
         <MediaMetaChips

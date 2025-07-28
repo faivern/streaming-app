@@ -40,7 +40,7 @@ const MediaSimilarCard = ({
 }: MediaSimilarCardProps) => {
   const [hovered, setHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-
+  
   return (
     <div
       className="relative w-full"
@@ -48,13 +48,13 @@ const MediaSimilarCard = ({
       onMouseLeave={() => setHovered(false)}
       ref={cardRef}
     >
-      {/* Main card content */}
-      <div className={`group relative transition-transform duration-300 cursor-pointer ${
+      {/* Main card content - Fixed height container */}
+      <div className={`group relative transition-transform duration-300 cursor-pointer h-20 ${
         hovered ? 'z-[9999]' : 'z-10 hover:z-30'
       }`}>
         <Link to={`/media/${media_type || 'movie'}/${id}`}>
-          <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-sky-500/20 transition-all duration-200 cursor-pointer group bg-transparent">
-            {/* Poster */}
+          <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-sky-500/20 transition-all duration-200 cursor-pointer group bg-transparent h-full">
+            {/* Poster - Fixed size */}
             <div className="flex-shrink-0">
               <img 
                 src={poster_path ? `https://image.tmdb.org/t/p/w92${poster_path}` : '/placeholder-poster.png'}
@@ -64,12 +64,12 @@ const MediaSimilarCard = ({
               />
             </div>
 
-            {/* Content */}
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-medium text-white group-hover:text-blue-300 transition-colors line-clamp-2">
+            {/* Content - Fixed width and height */}
+            <div className="flex-1 min-w-0 h-full flex flex-col justify-center">
+              <h3 className="text-sm font-medium text-white group-hover:text-blue-300 transition-colors truncate leading-tight">
                 {title}
               </h3>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-gray-400 mt-1 truncate">
                 {dateFormatYear(releaseDate) || 'Unknown'}
                 {media_type === 'tv' && number_of_seasons ? ` • ${number_of_seasons} Season${number_of_seasons > 1 ? 's' : ''}` : ''}
                 {media_type === 'movie' && runtime ? ` • ${Math.floor(runtime / 60)}h ${runtime % 60}min` : ''}

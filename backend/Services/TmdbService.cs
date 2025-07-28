@@ -195,6 +195,27 @@ namespace backend.Services
             return await FetchFromTmdbAsync(url);
         }
 
+        //------------------------------DISCOVER--------------------------------------------
+        //Movie
+        public async Task<string> GetDiscoverMovie()
+        {
+            var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
+        //Show
+        public async Task<string> GetDiscoverTv()
+        {
+            var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
+        //-----------------------------------------------------------------------------------
+
+        //------------------------------COMBINED CREDITS - PERSON--------------------------------------------
+        public async Task<string> GetCombinedCredits(int person_id)
+        {
+            var url = $"https://api.themoviedb.org/3/person/{person_id}/combined_credits?api_key={_apiKey}";
+            return await FetchFromTmdbAsync(url);
+        }
 
         private async Task<string> FetchFromTmdbAsync(string url)
         {

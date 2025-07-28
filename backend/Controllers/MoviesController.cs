@@ -264,5 +264,52 @@ namespace backend.Controllers
 
 
         }
+
+
+        //discover movies
+        [HttpGet("discover/movie")]
+        public async Task<IActionResult> GetDiscoverMovie()
+        {
+            try
+            {
+                var data = await _tmdbService.GetDiscoverMovie();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        //discover shows
+        [HttpGet("discover/tv")]
+        public async Task<IActionResult> GetDiscoverTv()
+        {
+            try
+            {
+                var data = await _tmdbService.GetDiscoverTv();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("person/{person_id}/combined_credits")]
+        public async Task<IActionResult> GetCombinedCredits(int person_id)
+        {
+            try
+            {
+                var data = await _tmdbService.GetCombinedCredits(person_id);
+                return Content(data, "application/json");
+
+            }catch(HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+
     }
 }

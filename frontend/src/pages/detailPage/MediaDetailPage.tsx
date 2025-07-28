@@ -6,6 +6,7 @@ import MediaDetailVideo from '../../components/media/detail/MediaDetailVideo';
 import useToWatch from '../../hooks/useToWatch';
 import MediaCastCarousel from '../../components/media/carousel/MediaCastCarousel';
 import MediaGridSimilar from '../../components/media/grid/MediaGridSimilar';
+import BackLink from '../../components/media/breadcrumbs/BackLink';
 
 const MediaDetailPage = () => {
   const { media_type, id } = useParams<{ media_type: string; id: string }>();
@@ -117,11 +118,17 @@ const MediaDetailPage = () => {
   if (error) return <div>Error loading media details.</div>;
 
   return (
-    <main className="min-h-screen">
+    <main className="">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+
+      <BackLink />
+      
+      {/* Video Section */}
       <MediaDetailVideo 
         backdrop_path={mediaDetails?.backdrop_path}
         isPlaying={isPlaying}
-      />
+        />
+          </div>
       
       <div className="px-4 mt-8 border-t border-gray-500/80">
         <div className="flex flex-col md:flex-row gap-8">
@@ -151,7 +158,7 @@ const MediaDetailPage = () => {
               budget={mediaDetails?.budget}
               revenue={mediaDetails?.revenue}
               logo_path={logoPath}
-            />
+              />
             
             {/* Full width below */}
             <div className="mt-8">
@@ -160,7 +167,7 @@ const MediaDetailPage = () => {
           </div>
 
           {/* Right: 1/4 width */}
-          <div className="md:w-1/4">
+          <div>
             <MediaGridSimilar similarMedia={mediaSimilar} />
           </div>
         </div>
