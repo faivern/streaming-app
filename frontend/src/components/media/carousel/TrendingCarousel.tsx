@@ -196,14 +196,16 @@ export default function Carousel() {
           ))}
         </div>
 
+        {/* Add seamless transition overlay at bottom of carousel */}
+
         {/* Dots/Indicators */}
         <div className="absolute bottom-8 left-1/2 z-20 flex gap-2 -translate-x-1/2">
           {filtered.map((_, idx) => (
             <button
             key={idx}
-            className={`w-8 h-2 rounded-full transition-all ${
+            className={`w-8 h-1 rounded-full transition-all ${
               idx === currentIndex
-              ? "bg-blue-500 scale-125 shadow hover: cursor-pointer"
+              ? "bg-sky-500 scale-125 shadow hover:cursor-pointer"
               : "bg-gray-400/60 hover:bg-blue-300/80 cursor-pointer"
             }`}
             onClick={() => setCurrentIndex(idx)}

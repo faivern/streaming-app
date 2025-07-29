@@ -64,11 +64,13 @@ export default function HomePage() {
   return (
     <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32">
       <Carousel />
-      <HeroSection 
-        total_results={totalMedia}
-      />
-      <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
-      <MediaGrid media_type={mediaType} />
+      
+      {/* Content with matching background and slight overlap */}
+        <HeroSection 
+          total_results={totalMedia}
+        />
+        <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
+        <MediaGrid media_type={mediaType} />
     </main>
   );
 }

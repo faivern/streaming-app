@@ -3,6 +3,7 @@ import logo from "../../assets/react.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState, useEffect } from "react";
+import SearchBar from "../layout/SearchBar";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -12,12 +13,12 @@ export default function Header() {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header className={`sticky top-0 z-50 w-full p-4 backdrop-blur-lg transition-colors duration-400 ease-linear
+    <header className={`sticky top-0 z-50 w-full p-4 backdrop-blur-lg transition-colors duration-700 ease-in-out
       ${isScrolled 
         // gradient background color
         ? "bg-gradient-to-r from-blue-950 via-blue-900 to-blue-900 shadow-md shadow-blue-900/50" 
@@ -38,16 +39,7 @@ export default function Header() {
         </div>
           </Link>
 
-      <div className="gap-8 hidden sm:flex items-center ">
-          <label className="flex items-center gap-2">
-            <FontAwesomeIcon icon={faSearch} size="lg" className="text-gray-400 hover:text-sky-300 cursor-pointer transition duration-150 focus:outline-none focus:ring-2 focus:ring-sky-500" />
-          <input
-            type="text"
-            placeholder="Titles, people, genres..."
-            className="bg-white/10 text-white placeholder-gray-400 rounded-full px-4 py-2 w-sm focus:outline-none focus:ring-2 focus:ring-sky-500"
-            />
-          </label>
-      </div>
+      <SearchBar />
 
         {/* Right: Search + Auth */}
         <div className="flex items-center gap-4 text-white">

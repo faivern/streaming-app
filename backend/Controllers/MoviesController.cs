@@ -310,6 +310,22 @@ namespace backend.Controllers
             }
         }
 
+        //search multi https://api.themoviedb.org/3/search/multi
+        [HttpGet("search/multi")]
+        public async Task<IActionResult> SearchMulti(string query)
+        {
+            try
+            {
+                var data = await _tmdbService.SearchMultiAsync(query);
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+
 
     }
 }
