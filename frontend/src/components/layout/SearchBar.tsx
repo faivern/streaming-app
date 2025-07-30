@@ -81,7 +81,7 @@ export default function SearchBar() {
             placeholder="Titles, people, genres..."
             value={query}
             onChange={handleInputChange}
-            className="w-full md:w-80 lg:w-96 bg-gray-900/40 border border-gray-600 rounded-full px-4 py-2 pl-10 pr-10 text-white placeholder-gray-400 focus:outline-none focus:border-sky-500"
+            className="w-80 md:w-96 lg:w-[32rem] bg-gray-900/40 border border-gray-600 rounded-full px-4 py-2 pl-10 pr-10 text-white placeholder-gray-400 focus:outline-none focus:border-sky-500"
           />
           
           <FontAwesomeIcon 
@@ -132,7 +132,7 @@ export default function SearchBar() {
                       <Link
                         to={getResultLink(result)}
                         onClick={handleResultClick}
-                        className="flex items-center gap-3 px-4 py-2 hover:bg-sky-500/20 transition-colors group"
+                        className="flex items-center gap-3 px-4 py-2 hover:bg-sky-500/20 transition-colors group duration-200"
                       >
                         <img
                           src={getResultImage(result)}
@@ -140,10 +140,10 @@ export default function SearchBar() {
                           className="w-8 h-12 object-cover rounded"
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-white truncate group-hover:text-sky-300 transition-colors">
+                          <p className="font-medium text-white truncate group-hover:text-sky-300 transition-colors duration-200">
                             {result.title || result.name}
                           </p>
-                          <p className="text-xs text-gray-400 capitalizetransition-colors">
+                          <p className="text-xs text-gray-400 capitalize transition-colors">
                             {result.media_type === 'tv' ? 'TV Show' : result.media_type}
                             {result.release_date && ` • ${new Date(result.release_date).getFullYear()}`}
                             {result.first_air_date && ` • ${new Date(result.first_air_date).getFullYear()}`}

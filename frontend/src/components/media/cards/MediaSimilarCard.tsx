@@ -59,7 +59,7 @@ const MediaSimilarCard = ({
               <img 
                 src={poster_path ? `https://image.tmdb.org/t/p/w92${poster_path}` : '/placeholder-poster.png'}
                 alt={`Poster for ${title}`}
-                className="w-12 h-16 rounded object-cover shadow-md group-hover:scale-105 transition-transform duration-200"
+                className="w-12 h-16 rounded object-cover shadow-md"
                 loading="lazy"
               />
             </div>
