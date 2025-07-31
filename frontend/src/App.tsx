@@ -21,9 +21,18 @@ function App() {
           <Route path="/media/:media_type/:id" element={<MediaDetailPage />} />
           <Route path="/media/:media_type/:id/credits" element={<CreditsPage />} />
           <Route path="/person/:id/:name" element={<CreditsDetailPage />} />
+
           <Route
             path="/my-list"
             element={<div className="text-white text-center py-10 text-xl">My List Page Coming Soon</div>}
+          />
+          <Route
+            path="/movies"
+            element={<div className="text-white text-center py-10 text-xl">Movies Page Coming Soon</div>}
+          />
+          <Route
+            path="/discover"
+            element={<div className="text-white text-center py-10 text-xl">Discover Page - Genre ID: {new URLSearchParams(window.location.search).get('genre')}</div>}
           />
         </Routes>
       </main>

@@ -255,7 +255,21 @@ namespace backend.Services
             var url = $"https://api.themoviedb.org/3/person/{person_id}/combined_credits?api_key={_apiKey}";
             return await FetchWithCacheAsync($"combined_credits_{person_id}", url, TimeSpan.FromHours(6));
         }
+        //-----------------------------------------------------------------------------------
 
+        //------------------------------GENRES--------------------------------------------
+        //MOVIE
+        public async Task<string> GetMovieGenre()
+        {
+            var url = $"https://api.themoviedb.org/3/genre/movie/list?api_key={_apiKey}";
+            return await FetchWithCacheAsync("movie_genre", url, TimeSpan.FromHours(6));
+        }
+        //TV
+        public async Task<string> GetTvGenre()
+        {
+            var url = $"https://api.themoviedb.org/3/genre/tv/list?api_key={_apiKey}";
+            return await FetchWithCacheAsync("tv_genre", url, TimeSpan.FromHours(6));
+        }
 
     }
 }

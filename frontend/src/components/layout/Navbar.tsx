@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/react.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -6,9 +6,18 @@ import { FaRegUser } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import SearchBar from "../layout/SearchBar";
 import "../../style/TitleHover.css";
+import GenreList from "../filters/GenreList";
+import axios from "axios";
+
+type Genre = {
+  id: number;
+  name: string;
+};
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [genres, setGenres] = useState<Genre[]>([]);
+  const [showGenres, setShowGenres] = useState(false); // Add this state
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,6 +27,42 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    const fetchGenres = async () => {
+      try {
+        console.log("Fetching genres..."); // Debug log
+        const [movieGenreRes, tvGenreRes] = await Promise.all([
+          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/movie/list`),
+          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/tv/list`)
+        ]);
+        
+        console.log("Movie genres:", movieGenreRes.data); // Debug log
+        console.log("TV genres:", tvGenreRes.data); // Debug log
+        
+        // Combine and deduplicate genres
+        const allGenres = [...movieGenreRes.data.genres, ...tvGenreRes.data.genres];
+        const uniqueGenres = allGenres.filter((genre, index, self) => 
+          index === self.findIndex(g => g.id === genre.id)
+        );
+        
+        console.log("Combined genres:", uniqueGenres); // Debug log
+        setGenres(uniqueGenres);
+
+      } catch (error) {
+        console.error("Failed to fetch genres:", error);
+      }
+    };
+
+    fetchGenres();
+  }, []);
+
+  const navigate = useNavigate();
+  const handleSelectGenre = (genre: Genre) => {
+    console.log("Genre selected:", genre); // Debug log
+    navigate(`/discover?genre=${genre.id}`);
+    setShowGenres(false); // Close dropdown after selection
+  };
 
   return (
     <header
@@ -65,12 +110,30 @@ export default function Header() {
                 <span className="underline-bar"></span>
               </span>
             </Link>
-            <Link to="/genres">
-              <span className="underline-hover !text-base !font-semibold !mb-0">
-                Genres
-                <span className="underline-bar"></span>
-              </span>
-            </Link>
+
+            {/* Genres with hover dropdown - Fix the mouse leave issue */}
+<div 
+  className="relative"
+  onMouseEnter={() => setShowGenres(true)}
+  onMouseLeave={() => setShowGenres(false)}
+>
+  <div className="underline-hover !text-base !font-semibold !mb-0 cursor-pointer">
+    Genres
+    <span className="underline-bar"></span>
+  </div>
+
+  {/* Remove the gap and add hover area */}
+  <div 
+    className={`absolute left-0 top-full pt-2 transition-opacity duration-200 ${
+      showGenres ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+    }`}
+  >
+    <div className="w-64 bg-blue-950/95 backdrop-blur-sm border border-blue-700 rounded-lg p-4 shadow-xl">
+      <GenreList genres={genres} onGenreSelect={handleSelectGenre} />
+    </div>
+  </div>
+</div>
+
           </div>
         </div>
 

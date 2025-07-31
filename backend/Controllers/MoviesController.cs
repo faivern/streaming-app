@@ -324,8 +324,32 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
-
-
+        //fetch genres
+        [HttpGet("genre/movie/list")]
+        public async Task<IActionResult> GetMovieGenre()
+        {
+            try
+            {
+                var data = await _tmdbService.GetMovieGenre();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+        [HttpGet("genre/tv/list")]
+        public async Task<IActionResult> GetTvGenre()
+        {
+            try
+            {
+                var data = await _tmdbService.GetTvGenre();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }
