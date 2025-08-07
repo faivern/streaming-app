@@ -25,7 +25,7 @@ export default function MediaMetaChips({
   return (
     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
       {/* Rating */}
-      <p className="font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm flex items-center hover:border-blue-400 transition">
+      <p className="font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm flex items-center">
         <FontAwesomeIcon icon={faStar} className="text-amber-400 mr-1" />
         {vote_average ? (
           <>
@@ -39,14 +39,14 @@ export default function MediaMetaChips({
     </p>
     {/* Runtime for Movies */}
     {media_type === "movie" && (
-      <p className="bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:border-blue-400 transition">
+      <p className="bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
         {runtime ? `${Math.floor(runtime / 60)}h ${runtime % 60}min` : "No runtime"}
       </p>
     )}
 
     {/* TV Show Info */}
     {media_type === "tv" && (
-      <p className="bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:border-blue-400 transition">
+      <p className="bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
         {number_of_seasons ?? "?"} Season{number_of_seasons === 1 ? "" : "s"}
         {" • "}
         {number_of_episodes ?? "?"} Episode{number_of_episodes === 1 ? "" : "s"}
@@ -54,7 +54,7 @@ export default function MediaMetaChips({
     )}
 
     {/* Release date */}
-    <p className="bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:border-blue-400 transition">
+    <p className="bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
       {dateFormatYear(release_date) || "No date"}
     </p>
     </div>

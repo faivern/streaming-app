@@ -271,5 +271,15 @@ namespace backend.Services
             return await FetchWithCacheAsync("tv_genre", url, TimeSpan.FromHours(6));
         }
 
+        public async Task<string> DiscoverByGenreAsync(string mediaType, int genreId, int page)
+        {
+            var cacheKey = $"discover_{mediaType}_genre_{genreId}_page_{page}";
+            var url = $"https://api.themoviedb.org/3/discover/{mediaType}?api_key={_apiKey}&with_genres={genreId}&sort_by=popularity.desc&page={page}";
+            return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
+        }
+
+
+
+
     }
 }

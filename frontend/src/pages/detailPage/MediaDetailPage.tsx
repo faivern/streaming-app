@@ -129,8 +129,8 @@ const MediaDetailPage = () => {
         isPlaying={isPlaying}
         />
           </div>
-      
-      <div className="px-4 mt-8 border-t border-gray-500/80">
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-500/80 to-transparent"></div>
+      <div className="">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Left: 3/4 width */}
           <div className="md:w-3/4 w-full">

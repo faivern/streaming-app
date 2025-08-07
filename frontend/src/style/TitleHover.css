@@ -1,26 +1,34 @@
 .underline-hover {
   position: relative;
-  font-size: 1.25rem; /* text-xl */
-  font-weight: 600; /* font-semibold */
-  margin-bottom: 1rem; /* mb-4 */
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
   cursor: pointer;
   transition: color 0.3s;
 }
 
-.underline-hover:hover {
-  color: #38bdf8; /* sky-300 */
+/* Only apply hover if not active */
+.underline-hover:hover:not(.active) {
+  color: #38bdf8;
 }
 
 .underline-bar {
   position: absolute;
   left: 0;
-  bottom: -0.25rem; /* -bottom-1 */
+  bottom: -0.25rem;
   width: 0;
-  height: 0.125rem; /* h-0.5 */
-  background-color: #38bdf8; /* bg-sky-300 */
+  height: 0.125rem;
+  background-color: #38bdf8;
   transition: all 0.3s;
 }
 
-.underline-hover:hover .underline-bar {
+/* Only expand bar if not active */
+.underline-hover:hover:not(.active) .underline-bar {
   width: 100%;
+}
+
+/* Always show underline when active */
+.underline-hover.active .underline-bar {
+  width: 100%;
+  background-color: white;
 }

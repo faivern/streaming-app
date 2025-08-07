@@ -69,7 +69,7 @@ export default function Header() {
       className={`sticky top-0 z-50 w-full p-4 backdrop-blur-lg transition-colors duration-700 ease-in-out
       ${
         isScrolled
-          ? "bg-gradient-to-r from-blue-950 via-blue-900 to-blue-900 shadow-md shadow-blue-900/50"
+          ? "bg-gradient-to-b from-blue-950 via-blue-900 to-blue-900 shadow-md shadow-blue-900/50"
           : "bg-gradient-to-b from-blue-950/90 via-blue-900/60 to-transparent"
       }`}
     >
@@ -128,7 +128,7 @@ export default function Header() {
       showGenres ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
     }`}
   >
-    <div className="w-64 bg-blue-950/95 backdrop-blur-sm border border-blue-700 rounded-lg p-4 shadow-xl">
+    <div className="w-md backdrop-blur-lg border border-sky-300 rounded-lg p-6 shadow-xl">
       <GenreList genres={genres} onGenreSelect={handleSelectGenre} />
     </div>
   </div>

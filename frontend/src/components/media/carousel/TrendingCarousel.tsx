@@ -22,13 +22,12 @@ type Movie = {
 export default function Carousel() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const [detailsCache, setDetailsCache] = useState<{ [id: number]: number }>(
     {}
   );
   const intervalRef = useRef<number | null>(null);
   const intervalTime = 6000;
-  const baseImageUrl = "https://image.tmdb.org/t/p/w1280";
+  const baseImageUrl = "https://image.tmdb.org/t/p/w1920";
 
   useEffect(() => {
     axios
@@ -48,7 +47,7 @@ export default function Carousel() {
   useEffect(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
 
-    if (!isHovered && filtered.length > 0) {
+    if (filtered.length > 0) {
       intervalRef.current = setInterval(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % filtered.length);
       }, intervalTime);
@@ -57,7 +56,7 @@ export default function Carousel() {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [filtered.length, isHovered]);
+  }, [filtered.length]);
 
   const fetchRuntime = async (mediaType: string, id: number) => {
     if (detailsCache[id] !== undefined) return;
@@ -89,8 +88,6 @@ export default function Carousel() {
     }
   }, [currentIndex, filtered]);
 
-  const handleMouseEnter = () => setIsHovered(true);
-  const handleMouseLeave = () => setIsHovered(false);
 
   // Manual navigation handlers
   const goToPrev = () => {
@@ -104,8 +101,6 @@ export default function Carousel() {
     <div className="w-full">
       <div
         className="relative w-full overflow-hidden -mt-40"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
       >
 {/* Navigation Arrows */}
 <button
@@ -134,15 +129,19 @@ export default function Carousel() {
 
         <div className="relative w-full h-[60vh] md:h-[65vh] lg:h-[66vh] xl:h-[68vh] mb-6 transition-all duration-300 ease-in-out shadow-lg overflow-hidden">
           {filtered.map((movie, index) => (
-          <div
+            <div
             key={movie.id}
             className={`absolute inset-0 transition-opacity duration-800 ${
               index === currentIndex
-                ? "opacity-100 z-10 pointer-events-auto"
-                : "opacity-0 z-0 pointer-events-none"
+              ? "opacity-100 z-10 pointer-events-auto"
+              : "opacity-0 z-0 pointer-events-none"
             }`}
-          >
+            >
               <Link to={`/media/${movie.media_type}/${movie.id}`}>
+
+              {/* Gradient overlay for better text visibility */}
+              <div className="absolute bottom-0 left-0 w-full h-15 bg-gradient-to-b from-transparent to-gray-900 z-10"></div>
+
               <img
                 src={`${baseImageUrl}${movie.backdrop_path}`}
                 className="w-full h-full object-cover object-top transition-opacity duration-1000 ease-in-out"
@@ -150,7 +149,7 @@ export default function Carousel() {
                 />
               <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/80 via-black/40 to-transparent z-0 pointer-events-none" />
                   </Link>
-              <div className="flex flex-col gap-4 absolute bottom-12 left-12 z-10 max-w-xl bg-gray-700/5 p-6 rounded-xl backdrop-blur-sm shadow-lg">
+              <div className="flex flex-col gap-4 absolute bottom-12 left-12 z-20 max-w-xl bg-gray-700/5 p-6 rounded-xl backdrop-blur-sm shadow-lg">
                 {/* Row 1: Title */}
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <h2 className="text-white text-3xl font-bold">
@@ -161,7 +160,7 @@ export default function Carousel() {
                 {/* Row 2: Metadata */}
                 <div className="flex flex-wrap items-center gap-4 text-gray-400 text-sm">
                   <p className="text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm 
-                  hover:shadow-md hover:border-blue-400 transition flex items-center">
+                  hover:shadow-md flex items-center">
                     <FontAwesomeIcon icon={faStar} className="mr-1 text-amber-400" />
                     {movie.vote_average ? (
                       <>
@@ -172,14 +171,14 @@ export default function Carousel() {
                       "No rating"
                     )}
                   </p>
-                  <p className="text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:shadow-md hover:border-blue-400 transition">
+                  <p className="text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:shadow-md">
                     {dateFormat(movie.release_date) || "No date"}
                   </p>
                   {Array.isArray(movie.genre_ids) &&
                     movie.genre_ids.map((id) => (
                       <span
                       key={id}
-                      className="text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:shadow-md hover:border-blue-400 transition"
+                      className="text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:shadow-md"
                       >
                         {genreMap[id] || "Unknown"}
                       </span>
@@ -196,14 +195,14 @@ export default function Carousel() {
           ))}
         </div>
 
-        {/* Add seamless transition overlay at bottom of carousel */}
 
+        
         {/* Dots/Indicators */}
         <div className="absolute bottom-8 left-1/2 z-20 flex gap-2 -translate-x-1/2">
           {filtered.map((_, idx) => (
             <button
             key={idx}
-            className={`w-8 h-1 rounded-full transition-all ${
+            className={`w-8 h-1.5 rounded-full transition-all ${
               idx === currentIndex
               ? "bg-sky-500 scale-125 shadow hover:cursor-pointer"
               : "bg-gray-400/60 hover:bg-blue-300/80 cursor-pointer"

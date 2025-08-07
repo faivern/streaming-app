@@ -351,5 +351,25 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet("discover/by-genre")]
+        public async Task<IActionResult> DiscoverByGenre([FromQuery] string mediaType, [FromQuery] int genreId, [FromQuery] int page = 1)
+        {
+            try
+            {
+                if (mediaType != "movie" && mediaType != "tv")
+                    return BadRequest("Invalid mediaType. Use 'movie' or 'tv'.");
+
+                var data = await _tmdbService.DiscoverByGenreAsync(mediaType, genreId, page);
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+
+
     }
 }

@@ -17,6 +17,7 @@ export default function SearchBar() {
     if (query.trim()) {
       search(query);
       setIsOpen(true);
+     // setQuery("");
     }
   };
 

@@ -6,10 +6,11 @@ import MediaDetailPage from "./pages/detailPage/MediaDetailPage";
 import CreditsPage from "./pages/creditsPage/creditsPage";
 import { Toaster } from "react-hot-toast";
 import CreditsDetailPage from "./pages/creditsPage/creditsDetailPage";
+import GenreDetailPage from "./pages/genreDetailPage/GenreDetailPage";
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-r from-gray-900 to-blue-950 text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-blue-950 text-white">
       <Header />
       <main className="flex-grow">
         <Routes>
@@ -30,16 +31,16 @@ function App() {
             path="/movies"
             element={<div className="text-white text-center py-10 text-xl">Movies Page Coming Soon</div>}
           />
-          <Route
-            path="/discover"
-            element={<div className="text-white text-center py-10 text-xl">Discover Page - Genre ID: {new URLSearchParams(window.location.search).get('genre')}</div>}
+          <Route 
+            path="/genre/:genreId" 
+            element={<GenreDetailPage />} 
           />
+          
         </Routes>
       </main>
       <Footer />
       <>
         <Toaster position="bottom-center" />
-        {/* your routes/components */}
       </>
     </div>
   );
