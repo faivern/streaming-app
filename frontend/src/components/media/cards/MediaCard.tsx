@@ -6,7 +6,7 @@ import MediaCardModal from "../modals/MediaCardModal";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-type MediaCardProps ={
+type MediaCardProps = {
   id: number;
   title: string;
   posterPath: string;
@@ -20,7 +20,7 @@ type MediaCardProps ={
   media_type?: string; // Optional prop to specify media type
   number_of_seasons?: number; // Optional prop for season number
   number_of_episodes?: number; // Optional prop for episode count
-}
+};
 
 export default function MediaCard({
   id,
@@ -51,63 +51,62 @@ export default function MediaCard({
   }, [hovered]);
 
   return (
-    
     <div
-    className="relative w-full max-w-[360px] mx-auto"
-    onMouseEnter={() => setHovered(true)}
-    onMouseLeave={() => setHovered(false)}
-    ref={cardRef}
+      className="relative w-full max-w-[360px] mx-auto"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      ref={cardRef}
     >
-      <div className="group relative z-10 hover:z-30 transition-transform duration-300 cursor-pointer">
-
-      </div>
+      <div className="group relative z-10 hover:z-30 transition-transform duration-300 cursor-pointer"></div>
 
       <div className="group relative z-10 hover:z-30 transition-transform duration-300 cursor-pointer">
-        <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
+        <div
+          className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
   rounded-xl border border-gray-700/30 overflow-hidden shadow-md
-  hover:shadow-xl hover:scale-105 hover:border-blue-500/30 transition-all duration-300 relative group">
-    <Link to={`/media/${media_type}/${id}`}>
-          
-          {/* Shine layer */}
-          <div className="shine-overlay" />
+  hover:shadow-xl hover:scale-105 hover:border-blue-500/30 transition-all duration-300 relative group"
+        >
+          <Link to={`/media/${media_type}/${id}`}>
+            {/* Shine layer */}
+            <div className="shine-overlay" />
 
-          {/* Bookmark button
+            {/* Bookmark button
           <div className="absolute top-2 left-2">
           <FontAwesomeIcon icon={faBookmark} />
           </div>
           */}
 
-
-
-          <div className="absolute top-2 right-2 text-sm px-2 py-1 bg-gray-800/55 text-gray-300 rounded-full
+            <div
+              className="absolute top-2 right-2 text-sm px-2 py-1 bg-gray-800/55 text-gray-300 rounded-full
           hover:scale-105 transition-all ease-in-out
-          ">
-                          <FontAwesomeIcon icon={faStar} className="mr-1 text-amber-400" />
+          "
+            >
+              <FontAwesomeIcon icon={faStar} className="mr-1 text-amber-400" />
               {vote_average !== undefined
                 ? ` ${vote_average.toFixed(1)}`
                 : "No rating"}
-          </div>
-          {/* Poster */}
-          <img
-            loading="lazy"
-            src={`https://image.tmdb.org/t/p/w500${posterPath}`}
-            alt={title}
-            className="w-full aspect-[2/3] object-cover"
+            </div>
+            {/* Poster */}
+            <img
+              loading="lazy"
+              src={`https://image.tmdb.org/t/p/w500${posterPath}`}
+              alt={title}
+              className="w-full aspect-[2/3] object-cover"
             />
 
-          {/* Content */}
-          <div className="p-4 flex flex-wrap gap-4 items-center justify-between">
-            <h3 className="text-md font-semibold text-white truncate">
-              {title.length > 35 ? `${title.slice(0, 35)}...` : title}
-            </h3>
-
-          </div>
-            </Link>
+            {/* Content */}
+            <div className="p-4 flex flex-wrap gap-4 items-center justify-between">
+              <h3 className="text-md font-semibold text-white truncate">
+                {title.length > 35 ? `${title.slice(0, 35)}...` : title}
+              </h3>
+            </div>
+          </Link>
         </div>
         {/* 🟡 Simple test modal */}
         {hovered && (
           <div
-          className={`absolute top-0 z-50 ${showLeft ? "right-full" : "left-full"}`}
+            className={`absolute top-0 z-50 ${
+              showLeft ? "right-full" : "left-full"
+            }`}
           >
             <MediaCardModal
               id={id}
@@ -123,8 +122,8 @@ export default function MediaCard({
               number_of_seasons={number_of_seasons} // Pass season_number from props
               media_type={media_type} // Pass media_type from props
               number_of_episodes={number_of_episodes} // Pass number_of_episodes from props
-              />
-            </div>
+            />
+          </div>
         )}
       </div>
     </div>

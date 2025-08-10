@@ -5,6 +5,7 @@ import Carousel from "../../components/media/carousel/TrendingCarousel";
 import HeroSection from "../../components/media/hero/HeroSection";
 import { sumDiscoverMedia } from "../../utils/sumDiscoverMedia";
 import axios from "axios";
+import GenreCardList from "../../components/media/carousel/GenreCardList";
 
 export default function HomePage() {
   const [mediaType, setMediaType] = useState<"movie" | "tv">("movie");
@@ -12,6 +13,7 @@ export default function HomePage() {
   const [error, setError] = useState(false);
   const [movieData, setMovieData] = useState<any>({});
   const [tvData, setTvData] = useState<any>({});
+  const [genres, setGenres] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchTotalData = async () => {
@@ -19,13 +21,16 @@ export default function HomePage() {
         setLoading(true);
         
         // Fetch both movie and TV data for the total count
-        const [movieRes, tvRes] = await Promise.all([
+        const [movieRes, tvRes, genreRes] = await Promise.all([
           axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/discover/movie`),
-          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/discover/tv`)
+          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/discover/tv`),
+          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/movie/list`),
+          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/tv/list`)
         ]);
 
         setMovieData(movieRes.data || {});
         setTvData(tvRes.data || {});
+        setGenres(genreRes.data.genres || {})
 
       } catch (err) {
         console.error("Failed to fetch data:", err);
@@ -71,6 +76,7 @@ export default function HomePage() {
         />
         <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
         <MediaGrid media_type={mediaType} />
+        <GenreCardList genres={genres} />
     </main>
   );
 }

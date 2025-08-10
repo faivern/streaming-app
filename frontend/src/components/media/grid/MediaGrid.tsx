@@ -91,18 +91,17 @@ export default function MediaGrid({ media_type }: { media_type: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [media_type]);
 
-return (
-  <div className="md:mx-8 px-4 sm:px-6 lg:px-8">
+  return (
+    <div className="md:mx-8 px-4 sm:px-6 lg:px-8">
+      <h2 className="inline-block mb-4 text-gray-100">
+        <span className="underline-hover">
+          Trending {media_type === "movie" ? "Movies" : "TV Shows"}
+          <span className="underline-bar"></span>
+        </span>
+      </h2>
 
-    <h2 className="inline-block mb-4 text-gray-100">
-      <span className="underline-hover">
-      Trending {media_type === "movie" ? "Movies" : "TV Shows"}
-      <span className="underline-bar"></span>
-      </span>
-    </h2>
-
-    <div
-      className="
+      <div
+        className="
         grid
         gap-6
         grid-cols-2
@@ -112,27 +111,26 @@ return (
         2xl:grid-cols-6
         justify-items-center
       "
-    >
-      {items.map((item) => (
-        <MediaCard
-          key={item.id}
-          id={item.id}
-          title={item.title || item.name || "No title"}
-          posterPath={item.poster_path}
-          overview={item.overview}
-          releaseDate={item.release_date || item.first_air_date || "N/A"}
-          vote_average={item.vote_average}
-          genre_ids={item.genre_ids || []}
-          vote_count={item.vote_count}
-          original_language={item.original_language || "en"}
-          runtime={detailsCache[item.id]?.runtime ?? 0}
-          media_type={media_type}
-          number_of_seasons={detailsCache[item.id]?.number_of_seasons}
-          number_of_episodes={detailsCache[item.id]?.number_of_episodes}
-        />
-      ))}
+      >
+        {items.map((item) => (
+          <MediaCard
+            key={item.id}
+            id={item.id}
+            title={item.title || item.name || "No title"}
+            posterPath={item.poster_path}
+            overview={item.overview}
+            releaseDate={item.release_date || item.first_air_date || "N/A"}
+            vote_average={item.vote_average}
+            genre_ids={item.genre_ids || []}
+            vote_count={item.vote_count}
+            original_language={item.original_language || "en"}
+            runtime={detailsCache[item.id]?.runtime ?? 0}
+            media_type={media_type}
+            number_of_seasons={detailsCache[item.id]?.number_of_seasons}
+            number_of_episodes={detailsCache[item.id]?.number_of_episodes}
+          />
+        ))}
+      </div>
     </div>
-  </div>
-);
-
+  );
 }

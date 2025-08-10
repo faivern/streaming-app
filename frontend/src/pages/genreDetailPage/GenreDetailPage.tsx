@@ -55,7 +55,7 @@ const [mediaType, setMediaType] = useState<"movie" | "tv">(initialType);
                 
     const res = await axios.get(`${import.meta.env.VITE_BACKEND_API_URL}${endpoint}`, { params });
 
-    // ✅ Inject media_type into each item
+    // Inject media_type into each item
     const withType = (res.data.results || res.data).map((item: detailMediaGenre) => ({
       ...item,
       media_type: mediaType,
