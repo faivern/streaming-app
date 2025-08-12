@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import MediaCard from "../cards/MediaCard";
+import MediaCardSkeleton from "../skeleton/MediaCardSkeleton";
 
 export type MediaItem = {
   id: number;
@@ -31,10 +32,12 @@ type DetailsCache = {
 export default function MediaGrid({ media_type }: { media_type: string }) {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [detailsCache, setDetailsCache] = useState<DetailsCache>({});
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     const fetchPopularAndDetails = async () => {
       try {
+        setLoading(true); // Set loading true at start
         const endpoint =
           media_type === "movie"
             ? "/api/Movies/trending/movie/day"
@@ -84,6 +87,8 @@ export default function MediaGrid({ media_type }: { media_type: string }) {
         );
       } catch (err) {
         console.error("Failed to fetch popular media:", err);
+      } finally {
+        setLoading(false); // Set loading false at end
       }
     };
 
@@ -112,24 +117,28 @@ export default function MediaGrid({ media_type }: { media_type: string }) {
         justify-items-center
       "
       >
-        {items.map((item) => (
-          <MediaCard
-            key={item.id}
-            id={item.id}
-            title={item.title || item.name || "No title"}
-            posterPath={item.poster_path}
-            overview={item.overview}
-            releaseDate={item.release_date || item.first_air_date || "N/A"}
-            vote_average={item.vote_average}
-            genre_ids={item.genre_ids || []}
-            vote_count={item.vote_count}
-            original_language={item.original_language || "en"}
-            runtime={detailsCache[item.id]?.runtime ?? 0}
-            media_type={media_type}
-            number_of_seasons={detailsCache[item.id]?.number_of_seasons}
-            number_of_episodes={detailsCache[item.id]?.number_of_episodes}
-          />
-        ))}
+        {loading
+          ? Array.from({ length: 10 }).map((_, i) => (
+              <MediaCardSkeleton key={i} />
+            ))
+          : items.map((item) => (
+              <MediaCard
+                key={item.id}
+                id={item.id}
+                title={item.title || item.name || "No title"}
+                posterPath={item.poster_path}
+                overview={item.overview}
+                releaseDate={item.release_date || item.first_air_date || "N/A"}
+                vote_average={item.vote_average}
+                genre_ids={item.genre_ids || []}
+                vote_count={item.vote_count}
+                original_language={item.original_language || "en"}
+                runtime={detailsCache[item.id]?.runtime ?? 0}
+                media_type={media_type}
+                number_of_seasons={detailsCache[item.id]?.number_of_seasons}
+                number_of_episodes={detailsCache[item.id]?.number_of_episodes}
+              />
+            ))}
       </div>
     </div>
   );

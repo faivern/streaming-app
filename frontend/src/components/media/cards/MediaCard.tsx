@@ -5,6 +5,7 @@ import { faStar, faBookmark } from "@fortawesome/free-solid-svg-icons";
 import MediaCardModal from "../modals/MediaCardModal";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Poster from "../../media/shared/Poster";
 
 type MediaCardProps = {
   id: number;
@@ -86,12 +87,7 @@ export default function MediaCard({
                 : "No rating"}
             </div>
             {/* Poster */}
-            <img
-              loading="lazy"
-              src={`https://image.tmdb.org/t/p/w500${posterPath}`}
-              alt={title}
-              className="w-full aspect-[2/3] object-cover"
-            />
+            <Poster path={posterPath} alt={title} className="w-full" />
 
             {/* Content */}
             <div className="p-4 flex flex-wrap gap-4 items-center justify-between">

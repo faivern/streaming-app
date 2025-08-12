@@ -2,6 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { dateFormatYear } from "../../../utils/dateFormatYear";
+import { Clock, Calendar  } from "lucide-react";
 
 type Props = {
   vote_average: number;
@@ -24,6 +25,7 @@ export default function MediaMetaChips({
 }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+
       {/* Rating */}
       <p className="font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm flex items-center">
         <FontAwesomeIcon icon={faStar} className="text-amber-400 mr-1" />
@@ -37,16 +39,21 @@ export default function MediaMetaChips({
         "No rating"
       )}
     </p>
+
     {/* Runtime for Movies */}
     {media_type === "movie" && (
-      <p className="bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
-        {runtime ? `${Math.floor(runtime / 60)}h ${runtime % 60}min` : "No runtime"}
+      <p className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
+        <Clock className="h-4 w-4" aria-hidden="true" />
+        {runtime
+         ? `${Math.floor(runtime / 60)}h ${runtime % 60}min` 
+         : "No runtime"}
       </p>
     )}
 
     {/* TV Show Info */}
     {media_type === "tv" && (
-      <p className="bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
+      <p className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
+        <Clock className="h-4 w-4" aria-hidden="true" />
         {number_of_seasons ?? "?"} Season{number_of_seasons === 1 ? "" : "s"}
         {" • "}
         {number_of_episodes ?? "?"} Episode{number_of_episodes === 1 ? "" : "s"}
@@ -54,7 +61,8 @@ export default function MediaMetaChips({
     )}
 
     {/* Release date */}
-    <p className="bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
+    <p className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
+      <Calendar className="h-4 w-4"/>
       {dateFormatYear(release_date) || "No date"}
     </p>
     </div>

@@ -81,9 +81,10 @@ const CreditsDetailHeader = ({
         {/* RIGHT COLUMN - BIOGRAPHY */}
         <div className="w-full md:w-2/3 p-4 flex items-center">
           <div>
-            <h3 className="text-xl font-semibold mb-2 border-b border-gray-600/80 pb-2">
+            <h3 className="text-xl font-semibold mb-2">
               Biography
             </h3>
+            <div className="h-px w-full bg-gradient-to-r from-gray-500/80 to-transparent"></div>
             <p className="text-gray-300 whitespace-pre-line">
               {biography || "No biography available."}
             </p>

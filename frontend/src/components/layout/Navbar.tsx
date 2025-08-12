@@ -128,7 +128,7 @@ export default function Header() {
       showGenres ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
     }`}
   >
-    <div className="w-md backdrop-blur-lg border border-sky-300 rounded-lg p-6 shadow-xl">
+    <div className="w-md bg-gray-800 border border-sky-300 rounded-lg p-6 shadow-xl mt-1">
       <GenreList genres={genres} onGenreSelect={handleSelectGenre} />
     </div>
   </div>

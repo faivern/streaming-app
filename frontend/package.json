@@ -21,6 +21,7 @@
     "axios": "^1.9.0",
     "embla-carousel-react": "^8.6.0",
     "flyonui": "^2.2.0",
+    "lucide-react": "^0.539.0",
     "react": "^19.1.0",
     "react-countup": "^6.5.3",
     "react-dom": "^19.1.0",

@@ -368,7 +368,23 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+        // search/collection?q=star wars&page=1
+        [HttpGet("search/collection")]
+        public async Task<IActionResult> SearchCollections([FromQuery] string q, [FromQuery] int page = 1,
+            [FromQuery] string language = "en-US", [FromQuery] bool includeAdult = false)
+        {
+            if (string.IsNullOrWhiteSpace(q)) return BadRequest("query (q) is required");
+            var data = await _tmdbService.SearchCollectionsAsync(q, page, language, includeAdult);
+            return Content(data, "application/json");
+        }
 
+        // collection/10
+        [HttpGet("collection/{id:int}")]
+        public async Task<IActionResult> GetCollectionById(int id, [FromQuery] string language = "en-US")
+        {
+            var data = await _tmdbService.GetCollectionByIdAsync(id, language);
+            return Content(data, "application/json");
+        }
 
 
     }

@@ -278,7 +278,25 @@ namespace backend.Services
             return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
         }
 
+        //------------------------------COLLECTION--------------------------------------------
 
+        // SEARCH collections (by name like "Star Wars")
+        public Task<string> SearchCollectionsAsync(string query, int page = 1, string lang = "en-US", bool includeAdult = false)
+        {
+            var q = Uri.EscapeDataString(query ?? string.Empty);
+            var url =
+                $"https://api.themoviedb.org/3/search/collection?api_key={_apiKey}&query={q}&page={page}&include_adult={includeAdult.ToString().ToLower()}&language={lang}";
+            var cacheKey = $"search_collection::{lang}::{includeAdult}::p{page}::{query?.ToLowerInvariant()}";
+            return FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(12));
+        }
+
+        // GET a single collection (all movies in franchise)
+        public Task<string> GetCollectionByIdAsync(int collectionId, string lang = "en-US")
+        {
+            var url = $"https://api.themoviedb.org/3/collection/{collectionId}?api_key={_apiKey}&language={lang}";
+            var cacheKey = $"collection_by_id::{lang}::{collectionId}";
+            return FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(24));
+        }
 
 
     }
