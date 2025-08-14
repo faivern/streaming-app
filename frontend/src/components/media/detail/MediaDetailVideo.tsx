@@ -29,7 +29,7 @@ export default function MediaDetailVideo({
   };
 
   return (
-    <div className="relative m-4 overflow-hidden rounded-lg shadow-2xl group max-w-6xl mx-auto border border-slate-600/30 shadow-sky-500/30">
+    <div className="relative m-4 overflow-hidden rounded-lg shadow-2xl group max-w-6xl mx-auto border border-slate-600/30 shadow-sky-700/40">
       {/* Placeholder Backdrop */}
       {!isPlaying ? (
         <Backdrop

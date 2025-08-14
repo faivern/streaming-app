@@ -13,12 +13,7 @@ const GenreCardList = ({ genres }: Props) => {
 
   return (
     <section className="md:mx-8 px-4 sm:px-6 lg:px-8">
-      <h2 className="inline-block my-4 text-gray-100">
-        <span className="underline-hover">
-          Suggested genres
-          <span className="underline-bar"></span>
-        </span>
-      </h2>
+      <h2 className="mb-3 text-xl font-semibold mt-4">Suggested genres</h2>
       <div className="grid grid-cols-5 gap-4">
         {genres
           .sort(() => Math.random() - 0.5)

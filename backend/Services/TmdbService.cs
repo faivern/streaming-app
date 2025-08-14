@@ -104,10 +104,10 @@ namespace backend.Services
             return await FetchWithCacheAsync("trending_all", url, TimeSpan.FromHours(6));
         }
         //MOVIES
-        public async Task<string> GetTrendingMoviesWeekly()
+        public async Task<string> GetTrendingMoviesWeekly(int page = 1)
         {
-            var url = $"https://api.themoviedb.org/3/trending/movie/day?api_key={_apiKey}";
-            return await FetchWithCacheAsync("trending_movies", url, TimeSpan.FromHours(6));
+            var url = $"https://api.themoviedb.org/3/trending/movie/day?api_key={_apiKey}&page={page}";
+            return await FetchWithCacheAsync($"trending_movies_page_{page}", url, TimeSpan.FromHours(6));
         }
         //TV
         public async Task<string> GetTrendingTvWeekly()

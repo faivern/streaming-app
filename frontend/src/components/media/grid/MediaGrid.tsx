@@ -43,11 +43,24 @@ export default function MediaGrid({ media_type }: { media_type: string }) {
             ? "/api/Movies/trending/movie/day"
             : "/api/Movies/trending/tv/day";
 
-        const res = await axios.get(
-          `${import.meta.env.VITE_BACKEND_API_URL}${endpoint}`
-        );
+        const responses = await Promise.all([
+          axios.get(
+            `${import.meta.env.VITE_BACKEND_API_URL.replace(
+              /\/$/,
+              ""
+            )}${endpoint}`,
+            { params: { page: 1 } }
+          ),
+          axios.get(
+            `${import.meta.env.VITE_BACKEND_API_URL.replace(
+              /\/$/,
+              ""
+            )}${endpoint}`,
+            { params: { page: 2 } }
+          )
+        ]);
 
-        const mediaList: MediaItem[] = res.data.results;
+        const mediaList: MediaItem[] = responses.flatMap(r => r.data.results);
         setItems(mediaList);
 
         await Promise.all(
@@ -91,7 +104,8 @@ export default function MediaGrid({ media_type }: { media_type: string }) {
         setLoading(false); // Set loading false at end
       }
     };
-
+    setItems([]); // Clear items before fetching
+    setDetailsCache({}); // Clear details cache before fetching
     fetchPopularAndDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [media_type]);
@@ -113,7 +127,7 @@ export default function MediaGrid({ media_type }: { media_type: string }) {
         sm:grid-cols-3
         md:grid-cols-4
         xl:grid-cols-5
-        2xl:grid-cols-6
+        2xl:grid-cols-8
         justify-items-center
       "
       >

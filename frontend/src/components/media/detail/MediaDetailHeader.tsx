@@ -125,7 +125,7 @@ export default function MediaDetailHeader({
             {genre_ids.map((id) => (
               <span
                 key={id}
-                className="px-2 py-1 text-sm rounded-full bg-blue-800/70 text-white border border-blue-600/30"
+                className="px-2 py-1 text-sm rounded-full bg-blue-800/50 text-white border border-blue-600/30"
               >
                 {genreMap[id] || "Unknown"}
               </span>

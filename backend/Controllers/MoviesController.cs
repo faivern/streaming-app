@@ -86,11 +86,11 @@ namespace backend.Controllers
             }
         }
         [HttpGet("trending/movie/day")]
-        public async Task<IActionResult> GetTrendingMoviesWeekly()
+        public async Task<IActionResult> GetTrendingMoviesWeekly([FromQuery] int page = 1)
         {
             try
             {
-                var data = await _tmdbService.GetTrendingMoviesWeekly();
+                var data = await _tmdbService.GetTrendingMoviesWeekly(page);
                 return Content(data, "application/json");
             }
             catch (HttpRequestException ex)

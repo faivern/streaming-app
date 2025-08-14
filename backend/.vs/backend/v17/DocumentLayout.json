@@ -11,12 +11,12 @@
       "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:services\\tmdbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\models\\tmdbvideomodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:models\\tmdbvideomodels.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -60,7 +60,7 @@
               "RelativeDocumentMoniker": "Controllers\\MoviesController.cs",
               "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Controllers\\MoviesController.cs",
               "RelativeToolTip": "Controllers\\MoviesController.cs",
-              "ViewState": "AgIAAGwBAAAAAAAAAAAkwIYBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAAAGQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-10T21:27:30.794Z",
               "EditorCaption": ""
@@ -73,7 +73,7 @@
               "RelativeDocumentMoniker": "Services\\TmdbService.cs",
               "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Services\\TmdbService.cs",
               "RelativeToolTip": "Services\\TmdbService.cs",
-              "ViewState": "AgIAAA4BAAAAAAAAAAAYwCMBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAF4AAAAAAAAAAAAQwG0AAABlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-11T23:51:21.527Z",
               "EditorCaption": ""
@@ -104,7 +104,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "TmdbVideoModels.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Models\\TmdbVideoModels.cs",
               "RelativeDocumentMoniker": "Models\\TmdbVideoModels.cs",
@@ -117,7 +117,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -125,8 +125,7 @@
               "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAABQAAAAAAAAAAAAuwDUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T22:51:47.188Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-06-09T22:51:47.188Z"
             },
             {
               "$type": "Document",

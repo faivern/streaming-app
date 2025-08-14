@@ -7,6 +7,7 @@ import CreditsPage from "./pages/creditsPage/creditsPage";
 import { Toaster } from "react-hot-toast";
 import CreditsDetailPage from "./pages/creditsPage/creditsDetailPage";
 import GenreDetailPage from "./pages/genreDetailPage/GenreDetailPage";
+import CollectionPage from "./pages/collectionPage/collectionPage";
 
 function App() {
   return (
@@ -34,6 +35,10 @@ function App() {
           <Route 
             path="/genre/:genreId" 
             element={<GenreDetailPage />} 
+          />
+          <Route 
+            path="/collections/:collectionId" 
+            element={<CollectionPage />}
           />
           
         </Routes>

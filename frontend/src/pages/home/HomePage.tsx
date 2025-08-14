@@ -6,7 +6,7 @@ import HeroSection from "../../components/media/hero/HeroSection";
 import { sumDiscoverMedia } from "../../utils/sumDiscoverMedia";
 import axios from "axios";
 import GenreCardList from "../../components/media/carousel/GenreCardList";
-
+import CollectionCarousel from "../../components/media/carousel/CollectionCarousel";
 export default function HomePage() {
   const [mediaType, setMediaType] = useState<"movie" | "tv">("movie");
   const [loading, setLoading] = useState(true);
@@ -26,6 +26,7 @@ export default function HomePage() {
           axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/discover/tv`),
           axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/movie/list`),
           axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/tv/list`)
+
         ]);
 
         setMovieData(movieRes.data || {});
@@ -77,6 +78,7 @@ export default function HomePage() {
         <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
         <MediaGrid media_type={mediaType} />
         <GenreCardList genres={genres} />
+        <CollectionCarousel />
     </main>
   );
 }

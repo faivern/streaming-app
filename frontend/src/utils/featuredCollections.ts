@@ -1,0 +1,18 @@
+export const featuredCollections = [
+  "Star Wars",
+  "Harry Potter",
+  "Jurassic Park",
+  "Transformers",
+  "Pirates of the Caribbean",
+  "The Godfather",
+  "Indiana Jones",
+  "Fast & Furious",
+  "Mission: Impossible",
+  "The Matrix",
+  "James Bond",
+  "The Hunger Games",
+  "Shrek",
+  "Taken",
+  "The Terminator",
+  "The Hobbit",
+];

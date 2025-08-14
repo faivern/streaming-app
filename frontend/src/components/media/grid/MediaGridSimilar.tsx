@@ -27,7 +27,7 @@ type Props = {
 
 const MediaGridSimilar = ({ similarMedia }: Props) => {
   return (
-    <aside className="w-full mt-8">
+    <aside className="mt-8 shadow-lg w-md:max-w-6xl">
       <div className="bg-slate-800/40 rounded-xl p-4 border border-slate-600/30 overflow-visible">
         <h2 className="text-lg font-semibold text-white mb-4">
           <FontAwesomeIcon icon={faPlay} className="text-md pr-2" />

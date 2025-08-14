@@ -1,14 +1,18 @@
-export function calcAge(birthday?: string): string {
+export function calcAge(birthday?: string, deathday?: string): string {
   if (!birthday) return "N/A";
 
   const birthDate = new Date(birthday);
-  const today = new Date();
-  let age = today.getFullYear() - birthDate.getFullYear();
+  if (isNaN(birthDate.getTime())) return "N/A";
 
- const hasHadBirthdayThisYear =
-  today.getMonth() > birthDate.getMonth() ||
-  (today.getMonth() === birthDate.getMonth() && 
-    today.getDate() >= birthDate.getDate());
+  const referenceDate = deathday ? new Date(deathday) : new Date();
+  if (isNaN(referenceDate.getTime())) return "N/A";
+
+  let age = referenceDate.getFullYear() - birthDate.getFullYear();
+
+  const hasHadBirthdayThisYear =
+    referenceDate.getMonth() > birthDate.getMonth() ||
+    (referenceDate.getMonth() === birthDate.getMonth() &&
+      referenceDate.getDate() >= birthDate.getDate());
 
   if (!hasHadBirthdayThisYear) {
     age--;

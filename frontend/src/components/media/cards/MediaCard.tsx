@@ -63,7 +63,7 @@ export default function MediaCard({
       <div className="group relative z-10 hover:z-30 transition-transform duration-300 cursor-pointer">
         <div
           className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
-  rounded-xl border border-gray-700/30 overflow-hidden shadow-md
+  rounded-xl border border-gray-400/30 overflow-hidden shadow-lg
   hover:shadow-xl hover:scale-105 hover:border-blue-500/30 transition-all duration-300 relative group"
         >
           <Link to={`/media/${media_type}/${id}`}>

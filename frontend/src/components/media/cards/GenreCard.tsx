@@ -11,7 +11,7 @@ const GenreCard = ({ id, name }: Genre) => {
   return (
     <div
       className={`group relative h-48 rounded-lg overflow-hidden 
-                 ${getGenreColor(id)} border border-gray-900 
+                 ${getGenreColor(id)} border border-gray-400/70 shadow-lg 
                  transition-transform duration-300 hover:scale-105`}
     >
       <Link

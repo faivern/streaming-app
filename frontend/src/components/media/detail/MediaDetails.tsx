@@ -51,7 +51,7 @@ export default function MediaDetails({
   const mainCast = getMainCast(cast);
 
   return (
-    <div className="bg-slate-800/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30">
+    <div className="bg-slate-800/40 backdrop-blur-sm rounded-2xl p-6 border border-slate-600/30 shadow-lg">
       <h3 className="text-xl font-semibold text-white mb-4">Details</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
         <div className="space-y-4">

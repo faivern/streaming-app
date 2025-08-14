@@ -42,7 +42,7 @@ console.log("runtime:", runtime);
   return (
     
     <Link to={`/media/${media_type}/${id}`}>
-    <div className="backdrop-blur-md bg-gray-900/80 min-w-96 p-4 shadow-lg rounded-lg border border-gray-600/30 text-white">
+    <div className="backdrop-blur-md bg-gray-900/80 min-w-96 p-4 shadow-2xl rounded-lg border-1 border-gray-600/70 text-white">
       <h2 className="text-xl font-bold mb-2 text-gray-100">{title}</h2>
 
       {loading ? (
@@ -69,8 +69,9 @@ console.log("runtime:", runtime);
             ) : (
               <p className="text-gray-400 mb-2">No trailer available at id: {id}</p>
             )}
-      <p className="text-sm text-gray-200 mb-2 line-clamp-4 ">{overview || "No description"}</p>
+      <p className="text-sm text-gray-200 mb-2 line-clamp-4">{overview || "No description"}</p>
 
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-700/70 to-transparent mb-2"></div>
       <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm text-gray-300">
 
         <div>
