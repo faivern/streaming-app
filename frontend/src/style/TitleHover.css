@@ -1,6 +1,6 @@
 .underline-hover {
   position: relative;
-  font-size: 1.25rem;
+  /* font-size: 1.25rem; */
   font-weight: 600;
   margin-bottom: 1rem;
   cursor: pointer;

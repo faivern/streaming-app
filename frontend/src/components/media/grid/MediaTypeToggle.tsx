@@ -1,5 +1,3 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTv, faFilm } from "@fortawesome/free-solid-svg-icons";
 import "../../../style/TitleHover.css";
 
 type MediaType = "movie" | "tv";
@@ -14,7 +12,7 @@ export default function MediaTypeToggle({
   onToggle,
 }: MediaTypeToggleProps) {
   return (
-<div className="flex justify-center space-x-8 text-lg font-semibold mb-6">
+<div className="flex justify-center space-x-8 !text-2xl font-semibold mb-6">
   <button
     onClick={() => onToggle("movie")}
     className={`pb-1 transition-colors duration-300 ${

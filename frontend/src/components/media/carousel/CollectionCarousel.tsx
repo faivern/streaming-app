@@ -54,10 +54,10 @@ export default function CollectionCarousel() {
 
   return (
     <section className="md:mx-8 px-4 sm:px-6 lg:px-8 mt-8">
-      <h2 className="mb-3 text-xl font-semibold">Collections</h2>
+      <h2 className="mb-4 text-2xl font-semibold border-l-4 border-sky-500 pl-2">Collections</h2>
 
       {loading ? (
-        <div className="flex gap-4 overflow-x-auto">
+        <div className="flex gap-6 overflow-x-auto">
           {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}
@@ -66,11 +66,11 @@ export default function CollectionCarousel() {
           ))}
         </div>
       ) : items.length ? (
-        <div className="flex gap-6 overflow-x-auto">
+        <div className="flex gap-6 overflow-x-scroll scrollbar-hide">
           {items
           .sort(()=> Math.random() - 0.5) // Randomize order
           .map((c) => (
-            <div key={c.id} className="">
+            <div key={c.id} className="z-20">
               <CollectionCard
                 id={c.id}
                 title={c.name}

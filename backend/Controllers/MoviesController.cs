@@ -100,11 +100,11 @@ namespace backend.Controllers
         }
 
         [HttpGet("trending/tv/day")]
-        public async Task<IActionResult> GetTrendingTvWeekly()
+        public async Task<IActionResult> GetTrendingTvWeekly([FromQuery] int page = 1)
         {
             try
             {
-                var data = await _tmdbService.GetTrendingTvWeekly();
+                var data = await _tmdbService.GetTrendingTvWeekly(page);
                 return Content(data, "application/json");
             }
             catch (HttpRequestException ex)

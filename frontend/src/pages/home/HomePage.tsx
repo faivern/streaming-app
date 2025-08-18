@@ -19,20 +19,28 @@ export default function HomePage() {
     const fetchTotalData = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch both movie and TV data for the total count
         const [movieRes, tvRes, genreRes] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/discover/movie`),
-          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/discover/tv`),
-          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/movie/list`),
-          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/tv/list`)
-
+          axios.get(
+            `${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/discover/movie`
+          ),
+          axios.get(
+            `${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/discover/tv`
+          ),
+          axios.get(
+            `${
+              import.meta.env.VITE_BACKEND_API_URL
+            }/api/Movies/genre/movie/list`
+          ),
+          axios.get(
+            `${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/tv/list`
+          ),
         ]);
 
         setMovieData(movieRes.data || {});
         setTvData(tvRes.data || {});
-        setGenres(genreRes.data.genres || {})
-
+        setGenres(genreRes.data.genres || {});
       } catch (err) {
         console.error("Failed to fetch data:", err);
         setError(true);
@@ -70,15 +78,13 @@ export default function HomePage() {
   return (
     <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32">
       <Carousel />
-      
+
       {/* Content with matching background and slight overlap */}
-        <HeroSection 
-          total_results={totalMedia}
-        />
-        <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
-        <MediaGrid media_type={mediaType} />
-        <GenreCardList genres={genres} />
-        <CollectionCarousel />
+      <HeroSection total_results={totalMedia} />
+      <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
+      <MediaGrid key={mediaType} media_type={mediaType} />
+      <GenreCardList genres={genres} />
+      <CollectionCarousel />
     </main>
   );
 }

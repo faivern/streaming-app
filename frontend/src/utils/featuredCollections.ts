@@ -15,4 +15,5 @@ export const featuredCollections = [
   "Taken",
   "The Terminator",
   "The Hobbit",
+  "The Dark Knight",
 ];
