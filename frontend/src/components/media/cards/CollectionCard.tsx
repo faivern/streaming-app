@@ -17,9 +17,8 @@ export default function CollectionCard({
   return (
     <Link
       to={`/collections/${id}`} // route will come in Step 2
-      className="w-lg group block rounded-2xl overflow-hidden shadow-lg duration-300 border border-gray-400/30 bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950 
-       hover:bg-white/10 transition 
-         hover:scale-105 hover:z-20"
+      className="w-lg group block rounded-2xl shadow-lg duration-300 border border-gray-400/30 bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950 
+         hover:scale-103"
       aria-label={title}
     >
       <span className="shine-overlay" />

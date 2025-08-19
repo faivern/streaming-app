@@ -21,6 +21,7 @@ type Movie = {
   overview?: string;
   release_date?: string;
   genre_ids?: number[];
+  first_air_date?: string;
 };
 
 export default function Carousel() {
@@ -183,7 +184,9 @@ export default function Carousel() {
                     )}
                   </p>
                   <p className="text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:shadow-md">
-                    {dateFormat(movie.release_date) || "No date"}
+                    {
+                      dateFormat(movie.first_air_date || movie.release_date) ||
+                      "No date"}
                   </p>
                   {Array.isArray(movie.genre_ids) &&
                     movie.genre_ids.map((id) => (
@@ -197,7 +200,7 @@ export default function Carousel() {
                 </div>
 
                 {/* Row 3: Overview */}
-                <p className="text-gray-300 text-base leading-relaxed">
+                <p className="text-gray-300 text-base leading-relaxed line-clamp-4">
                   {movie.overview || "No overview available."}
                 </p>
               </div>
