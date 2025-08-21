@@ -387,5 +387,21 @@ namespace backend.Controllers
         }
 
 
+        // collection details
+        [HttpGet("collection/{collectionId}")]
+        public async Task<IActionResult> GetCollectionDetails(int collectionId)
+        {
+            try
+            {
+                var data = await _tmdbService.GetCollectionDetailsAsync(collectionId);
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+
     }
 }

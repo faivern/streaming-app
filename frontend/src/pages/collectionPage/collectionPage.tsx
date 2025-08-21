@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import BackLink from "../../components/media/breadcrumbs/BackLink";
-import CollectionGrid from "../../components/media/grid/CollectionGrid";
 import MediaDetailVideoSkeleton from "../../components/media/skeleton/MediaDetailVideoSkeleton";
-import Backdrop from "../../components/media/shared/Backdrop";
+import HeroCollection from "../../components/media/hero/HeroCollection";
+import CollectionPartsSection from "../../components/media/grid/CollectionPartsSection";
 import { getCollectionById } from "../../api/collections";
 
 type Collection = {
@@ -12,17 +12,8 @@ type Collection = {
   overview?: string;
   backdrop_path?: string;
   poster_path?: string;
-  parts: Array<{
-    id: number;
-    title?: string;
-    poster_path?: string;
-    overview?: string;
-    release_date?: string;
-    vote_average?: number;
-    vote_count?: number;
-    genre_ids?: number[];
-    original_language?: string;
-  }>;
+  parts: Array<any>;
+  vote_average?: number;
 };
 
 const CollectionPage = () => {
@@ -86,35 +77,8 @@ const CollectionPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 mt-20">
       <BackLink />
-      {/* Hero */}
-      <section className="relative overflow-hidden rounded-xl border border-slate-600/30 shadow-md mb-6">
-        <Backdrop
-          path={collection.backdrop_path || collection.poster_path || ""}
-          alt={collection.name}
-          className="w-full h-64 md:h-80 lg:h-96 object-cover"
-          sizes="100vw"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-        <div className="absolute bottom-4 left-4 right-4">
-          <h1 className="text-3xl md:text-4xl font-bold">{collection.name}</h1>
-          {collection.overview && (
-            <p className="mt-2 text-gray-300 max-w-3xl">
-              {collection.overview}
-            </p>
-          )}
-        </div>
-      </section>
-
-      {/* Parts */}
-      <h2 className="inline-block mb-4 text-gray-100">
-        <span className="underline-hover">
-          Movies in this collection
-          <span className="underline-bar"></span>
-        </span>
-      </h2>
-
-      <CollectionGrid parts={collection.parts || []} />
+      <HeroCollection collection={collection} />
+      <CollectionPartsSection parts={collection.parts} />
     </div>
   );
 };

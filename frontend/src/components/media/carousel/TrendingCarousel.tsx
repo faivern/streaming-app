@@ -10,6 +10,7 @@ import {
 import { dateFormat } from "../../../utils/dateFormat";
 import { Link } from "react-router-dom";
 import Backdrop from "../../media/shared/Backdrop";
+import { Calendar } from "lucide-react";
 
 type Movie = {
   id: number;
@@ -183,7 +184,8 @@ export default function Carousel() {
                       "No rating"
                     )}
                   </p>
-                  <p className="text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:shadow-md">
+                  <p className="flex gap-1 items-center text-sm font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm hover:shadow-md">
+                    <Calendar className="h-4 w-4"/>
                     {
                       dateFormat(movie.first_air_date || movie.release_date) ||
                       "No date"}

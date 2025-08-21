@@ -113,7 +113,7 @@ namespace backend.Services
         public async Task<string> GetTrendingTvWeekly(int page = 1)
         {
             var url = $"https://api.themoviedb.org/3/trending/tv/day?api_key={_apiKey}&page={page}";
-            return await FetchWithCacheAsync("trending_tv_page_{page}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"trending_tv_page_{page}", url, TimeSpan.FromHours(6));
         }
 
         //----------------------------------------------------------------------------
@@ -296,6 +296,13 @@ namespace backend.Services
             var url = $"https://api.themoviedb.org/3/collection/{collectionId}?api_key={_apiKey}&language={lang}";
             var cacheKey = $"collection_by_id::{lang}::{collectionId}";
             return FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(24));
+        }
+
+        // COLLECTION DETAILS
+        public async Task<string> GetCollectionDetailsAsync(int collectionId)
+        {
+            var url = $"https://api.themoviedb.org/3/collection/{collectionId}?api_key={_apiKey}";
+            return await FetchWithCacheAsync($"collection_details_{collectionId}", url, TimeSpan.FromHours(6));
         }
 
 

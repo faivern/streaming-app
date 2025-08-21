@@ -60,7 +60,7 @@
               "RelativeDocumentMoniker": "Controllers\\MoviesController.cs",
               "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Controllers\\MoviesController.cs",
               "RelativeToolTip": "Controllers\\MoviesController.cs",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAgwG4AAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAHMBAAAAAAAAAAAAAI8BAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-10T21:27:30.794Z",
               "EditorCaption": ""
@@ -73,9 +73,10 @@
               "RelativeDocumentMoniker": "Services\\TmdbService.cs",
               "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Services\\TmdbService.cs",
               "RelativeToolTip": "Services\\TmdbService.cs",
-              "ViewState": "AgIAAFYAAAAAAAAAAAAAAHMAAABEAAAAAAAAAA==",
+              "ViewState": "AgIAAA8BAAAAAAAAAAAAADEBAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-11T23:51:21.527Z"
+              "WhenOpened": "2025-06-11T23:51:21.527Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -111,7 +112,8 @@
               "RelativeToolTip": "Models\\TmdbVideoModels.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-30T22:42:27.812Z"
+              "WhenOpened": "2025-06-30T22:42:27.812Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

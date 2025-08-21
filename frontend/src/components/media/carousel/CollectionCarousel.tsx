@@ -160,7 +160,7 @@ export default function CollectionCarousel() {
         </button>
 
         {/* Dots by page */}
-        <div className="absolute inset-x-0 bottom-0 pb-1">
+        <div className="absolute inset-x-0 bottom-0">
           <div className="flex items-center justify-center gap-2">
             {Array.from({ length: pageCount }).map((_, i) => (
               <button
