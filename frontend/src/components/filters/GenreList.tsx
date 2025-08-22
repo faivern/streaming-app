@@ -1,5 +1,6 @@
 {/*Re-usable popover wrapper for the navbar.*/}
 import { useNavigate } from 'react-router-dom';
+import { Combobox, Transition } from "@headlessui/react";
 
 type Genre = {
     id: number;

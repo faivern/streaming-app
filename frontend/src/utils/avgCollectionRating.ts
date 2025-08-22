@@ -1,14 +1,20 @@
-export function avgCollectionRating(parts: Array<{ vote_average: number }>) {
+export function avgCollectionRating(
+  parts?: Array<{ vote_average?: number }>
+): string | null {
+  if (!parts?.length) return null;
+
   let sum = 0;
   let count = 0;
 
   for (const { vote_average } of parts) {
-    if (vote_average) {
+    if (typeof vote_average === "number") {
       sum += vote_average;
       count++;
     }
   }
 
-  let collectionAvg = sum / count;
-  return collectionAvg.toFixed(1);
+  if (count === 0) return null;
+
+  const collectionAvg = sum / count;
+  return collectionAvg.toFixed(1); // string, e.g. "7.5"
 }

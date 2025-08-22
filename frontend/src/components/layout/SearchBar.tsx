@@ -5,6 +5,7 @@ import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Combobox, Transition } from "@headlessui/react";
+import Poster from "../media/shared/Poster";
 
 export default function SearchBar() {
   const [query, setQuery] = useState("");
@@ -63,11 +64,6 @@ export default function SearchBar() {
     setOpen(false);
     inputRef.current?.focus();
   };
-
-  const getPoster = (r: any) =>
-    r.poster_path || r.profile_path
-      ? `https://image.tmdb.org/t/p/w92${r.poster_path || r.profile_path}`
-      : "/placeholder-poster.png";
 
   return (
     <Combobox value={selected} onChange={handleChange} nullable>
@@ -142,10 +138,11 @@ export default function SearchBar() {
                     >
                       {({ active }) => (
                         <>
-                          <img
-                            src={getPoster(r)}
+                          <Poster
+                            path={r.poster_path || r.profile_path}
                             alt={r.title || r.name}
-                            className="w-8 h-12 object-cover rounded"
+                            useCustomSize
+                            className="w-8 h-12 rounded"
                           />
                           <div className="flex-1 min-w-0">
                             <p
