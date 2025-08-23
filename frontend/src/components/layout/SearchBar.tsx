@@ -102,7 +102,7 @@ export default function SearchBar() {
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 -translate-y-1"
         >
-          <Combobox.Options className="absolute top-full left-0 right-0 mt-1 bg-gray-800/80 backdrop-blur-md border border-gray-600 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto focus:outline-none text-sm">
+          <Combobox.Options className="absolute top-full left-0 right-0 mt-1 bg-gray-900 backdrop-blur-lg border border-gray-600 rounded-lg shadow-xl z-50 max-h-96 overflow-y-auto focus:outline-none text-sm">
             {loading && (
               <div className="p-4 text-center text-gray-400">
                 <FontAwesomeIcon

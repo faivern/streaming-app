@@ -1,6 +1,6 @@
 import GenreCard from "../cards/GenreCard.tsx";
 import "../../../style/TitleHover.css";
-
+import TitleMid from "../title/titleMid.tsx";
 type Props = {
   genres: {
     id: number;
@@ -13,7 +13,7 @@ const GenreCardList = ({ genres }: Props) => {
 
   return (
     <section className="md:mx-8 px-4 sm:px-6 lg:px-8">
-      <h2 className="mb-4 text-2xl font-semibold border-l-4 border-sky-500 pl-2 mt-8">Featured Genres</h2>
+      <TitleMid className="mt-4">Featured Genres</TitleMid>
       <div className="grid grid-cols-5 gap-4">
         {genres
           .sort(() => Math.random() - 0.5)

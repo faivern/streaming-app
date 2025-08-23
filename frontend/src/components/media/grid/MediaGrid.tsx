@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import MediaCard from "../cards/MediaCard";
 import MediaCardSkeleton from "../skeleton/MediaCardSkeleton";
-
+import TitleMid from "../title/titleMid";
 export type MediaItem = {
   id: number;
   title?: string;
@@ -112,9 +112,9 @@ export default function MediaGrid({ media_type }: { media_type: string }) {
 
   return (
     <div className="md:mx-8 px-4 sm:px-6 lg:px-8">
-      <h2 className="mb-4 text-2xl font-semibold border-l-4 border-sky-500 pl-2">
-          Trending {media_type === "movie" ? "Movies" : "TV Shows"}
-      </h2>
+      <TitleMid>
+        Trending {media_type === "movie" ? "Movies" : "TV Shows"}
+      </TitleMid>
 
       <div
         className="

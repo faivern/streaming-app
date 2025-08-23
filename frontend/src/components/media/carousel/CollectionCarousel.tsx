@@ -4,7 +4,7 @@ import { searchCollections } from "../../../api/collections";
 import CollectionCard from "../cards/CollectionCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-
+import TitleMid from "../title/titleMid";
 type Found = {
   id: number;
   name: string;
@@ -104,9 +104,9 @@ export default function CollectionCarousel() {
 
   return (
     <section className="md:mx-8 px-4 sm:px-6 lg:px-8 mt-8">
-      <h2 className="mb-4 text-2xl font-semibold border-l-4 border-sky-500 pl-2">
+      <TitleMid>
         Collections
-      </h2>
+      </TitleMid>
 
       <div className="relative -my-3">
         {/* Viewport: py prevents hover-scale clipping; -my-3 cancels added spacing */}
