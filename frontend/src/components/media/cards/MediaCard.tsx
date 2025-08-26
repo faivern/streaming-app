@@ -6,6 +6,7 @@ import MediaCardModal from "../modals/MediaCardModal";
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Poster from "../../media/shared/Poster";
+import RatingPill from "../../ui/RatingPill";
 
 type MediaCardProps = {
   id: number;
@@ -76,16 +77,15 @@ export default function MediaCard({
           </div>
           */}
 
-            <div
-              className="absolute top-2 right-2 text-sm px-2 py-1 bg-gray-800/55 text-gray-300 rounded-full
-          hover:scale-105 transition-all ease-in-out
-          "
-            >
-              <FontAwesomeIcon icon={faStar} className="mr-1 text-amber-400" />
-              {vote_average !== undefined
-                ? ` ${vote_average.toFixed(1)}`
-                : "No rating"}
-            </div>
+          
+              <RatingPill
+                rating={vote_average}
+                className="absolute top-2 right-2"
+                showOutOfTen={false}
+              />
+
+
+            
             {/* Poster */}
             <Poster path={posterPath} alt={title} className="w-full" />
 
