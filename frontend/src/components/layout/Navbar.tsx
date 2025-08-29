@@ -17,7 +17,8 @@ type Genre = {
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [showGenres, setShowGenres] = useState(false); // Add this state
+  const [showGenres, setShowGenres] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,24 +32,27 @@ export default function Header() {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        console.log("Fetching genres..."); // Debug log
         const [movieGenreRes, tvGenreRes] = await Promise.all([
-          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/movie/list`),
-          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/tv/list`)
+          axios.get(
+            `${
+              import.meta.env.VITE_BACKEND_API_URL
+            }/api/Movies/genre/movie/list`
+          ),
+          axios.get(
+            `${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/tv/list`
+          ),
         ]);
-        
-        console.log("Movie genres:", movieGenreRes.data); // Debug log
-        console.log("TV genres:", tvGenreRes.data); // Debug log
-        
-        // Combine and deduplicate genres
-        const allGenres = [...movieGenreRes.data.genres, ...tvGenreRes.data.genres];
-        const uniqueGenres = allGenres.filter((genre, index, self) => 
-          index === self.findIndex(g => g.id === genre.id)
-        );
-        
-        console.log("Combined genres:", uniqueGenres); // Debug log
-        setGenres(uniqueGenres);
 
+        const allGenres = [
+          ...movieGenreRes.data.genres,
+          ...tvGenreRes.data.genres,
+        ];
+        const uniqueGenres = allGenres.filter(
+          (genre, index, self) =>
+            index === self.findIndex((g) => g.id === genre.id)
+        );
+
+        setGenres(uniqueGenres);
       } catch (error) {
         console.error("Failed to fetch genres:", error);
       }
@@ -59,97 +63,123 @@ export default function Header() {
 
   const navigate = useNavigate();
   const handleSelectGenre = (genre: Genre) => {
-    console.log("Genre selected:", genre); // Debug log
     navigate(`/discover?genre=${genre.id}`);
-    setShowGenres(false); // Close dropdown after selection
+    setShowGenres(false);
   };
 
   return (
-    <header
-      className={`sticky top-0 z-50 w-full p-4 backdrop-blur-lg transition-colors duration-700 ease-in-out
-      ${
-        isScrolled
-          ? "bg-gradient-to-b from-blue-950 via-blue-900 to-blue-900 shadow-md shadow-blue-900/50"
-          : "bg-gradient-to-b from-blue-950/90 via-blue-900/60 to-transparent"
-      }`}
-    >
-      <nav className="flex items-center justify-between w-full mx-auto">
-        
-        {/* LEFT SIDE: Logo + Nav Links */}
-        <div className="flex items-center gap-2">
-          {/* Logo and Title */}
-          <Link to="/" className="flex items-center gap-2">
-            <img
-              src={logo}
-              alt="logo"
-              className="h-8 w-8 hover:rotate-210 transition duration-450"
-            />
-            <h1 className="text-2xl font-bold whitespace-nowrap">
-              <span className="text-white">Movie</span>
-              <span className="text-blue-300">Bucket</span>
-            </h1>
-          </Link>
+    <>
+      <header
+        className={`sticky top-0 z-50 w-full backdrop-blur-lg transition-colors duration-700 ease-in-out
+        ${
+          isScrolled
+            ? "bg-gradient-to-b from-blue-950 via-blue-900 to-blue-900 shadow-md shadow-blue-900/50"
+            : "bg-gradient-to-b from-blue-950/90 via-blue-900/60 to-transparent"
+        }`}
+      >
+        {/* Full-width container - no max-width constraint */}
+        <div className="w-full px-4 lg:px-8 xl:px-12">
+          {/* Three-column grid layout spanning full width */}
+          <nav className="grid grid-cols-[auto_1fr_auto] items-center py-4 gap-8 xl:gap-12">
+            {/* LEFT: Logo + Nav Links */}
+            <div className="flex items-center gap-6">
+              <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+                <img
+                  src={logo}
+                  alt="logo"
+                  className="h-8 w-8 hover:rotate-210 transition duration-450"
+                />
+                <h1 className="text-xl lg:text-2xl font-bold whitespace-nowrap">
+                  <span className="text-white">Movie</span>
+                  <span className="text-blue-300">Bucket</span>
+                </h1>
+              </Link>
 
-          {/* Nav Links - Very close to logo */}
-          <div className="hidden lg:flex items-center ml-6 gap-6">
-            <Link to="/my-list">
-              <span className="underline-hover !text-base !font-semibold !mb-0">
-                My list
-                <span className="underline-bar"></span>
-              </span>
-            </Link>
-            <Link to="/movies">
-              <span className="underline-hover !text-base !font-semibold !mb-0">
-                Movies
-                <span className="underline-bar"></span>
-              </span>
-            </Link>
-            <Link to="/shows">
-              <span className="underline-hover !text-base !font-semibold !mb-0">
-                Shows
-                <span className="underline-bar"></span>
-              </span>
-            </Link>
+              {/* Desktop Nav Links */}
+              <div className="hidden xl:flex items-center gap-6">
+                <Link to="/my-list">
+                  <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap">
+                    My List
+                    <span className="underline-bar"></span>
+                  </span>
+                </Link>
 
-            {/* Genres with hover dropdown - Fix the mouse leave issue */}
-<div 
-  className="relative"
-  onMouseEnter={() => setShowGenres(true)}
-  onMouseLeave={() => setShowGenres(false)}
->
-  <div className="underline-hover !text-base !font-semibold !mb-0 cursor-pointer">
-    Genres
-    <span className="underline-bar"></span>
-  </div>
+                <div
+                  className="relative"
+                  onMouseEnter={() => setShowGenres(true)}
+                  onMouseLeave={() => setShowGenres(false)}
+                >
+                  <div className="underline-hover !text-base !font-semibold !mb-0 cursor-pointer">
+                    Genres
+                    <span className="underline-bar"></span>
+                  </div>
 
-  {/* Remove the gap and add hover area */}
-  <div 
-    className={`absolute left-0 top-full pt-2 transition-opacity duration-200 ${
-      showGenres ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-    }`}
-  >
-    <div className="w-md bg-gray-800 border border-sky-300 rounded-lg p-6 shadow-xl mt-1">
-      <GenreList genres={genres} onGenreSelect={handleSelectGenre} />
-    </div>
-  </div>
-</div>
+                  {showGenres && (
+                    <div className="absolute left-0 top-full pt-2 z-[100]">
+                      <div className="w-96 bg-gray-900/95 backdrop-blur-lg border border-gray-700 rounded-xl p-6 shadow-2xl">
+                        <GenreList
+                          genres={genres}
+                          onGenreSelect={handleSelectGenre}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
 
-          </div>
+            {/* CENTER: Search Bar - Takes remaining space, perfectly centered */}
+              <div className="w-xl md:w-md absolute left-1/2 transform -translate-x-1/2">
+                <SearchBar />
+              </div>
+
+            {/* RIGHT: User Actions */}
+            <div className="flex items-center justify-end gap-4">
+              {/* Mobile search icon */}
+              <div className="md:hidden">
+                <SearchBar
+                  isMobile={true}
+                  isExpanded={isMobileSearchOpen}
+                  onToggle={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+                />
+              </div>
+
+              {/* Mobile menu button for nav links */}
+              <div className="xl:hidden">
+                <button className="p-2 text-white hover:text-blue-300 transition">
+                  <svg
+                    className="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <button className="flex items-center bg-blue-500/80 hover:bg-sky-400 text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
+                <FaRegUser className="mr-1 lg:mr-2" />
+                <span className="hidden sm:inline">Login</span>
+              </button>
+            </div>
+          </nav>
         </div>
+      </header>
 
-        {/* CENTER: Search Bar */}
-        <div className="absolute left-1/2 transform -translate-x-1/2">
-          <SearchBar />
-        </div>
-
-        {/* RIGHT SIDE: Login Button */}
-          <button className="flex items-center bg-blue-500/80 hover:bg-sky-400 text-white font-semibold px-6 py-2 rounded-full transition cursor-pointer">
-          {/*person silouette icon */}
-          <FaRegUser className="mr-1" />
-            Login
-          </button>
-
-      </nav>
-    </header>
+      {/* Mobile search overlay */}
+      {isMobileSearchOpen && (
+        <SearchBar
+          isMobile={true}
+          isExpanded={true}
+          onToggle={() => setIsMobileSearchOpen(false)}
+        />
+      )}
+    </>
   );
 }

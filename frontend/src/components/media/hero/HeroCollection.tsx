@@ -48,7 +48,7 @@ const HeroCollection = ({ collection }: Props) => {
       <h1 className="text-3xl md:text-4xl font-bold">{collection.name}</h1>
 
       <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mt-3">
-        <p className="font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm flex items-center">
+        <p className="font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm flex items-center " title="Average Rating">
           <FontAwesomeIcon icon={faStar} className="text-amber-400 mr-1" />
           {avgRating ? (
             <>
@@ -60,14 +60,14 @@ const HeroCollection = ({ collection }: Props) => {
           )}
         </p>
 
-        <p className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
+        <p title="Release Dates" className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
           <Calendar className="h-4 w-4" />
           {firstRelease}
           {" - "}
           {lastRelease}
         </p>
 
-        <p className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
+        <p title="Total Movies" className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
           <Clapperboard className="h-4 w-4" />
           Total: {movieCount}
         </p>

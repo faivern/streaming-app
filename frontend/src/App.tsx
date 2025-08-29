@@ -12,7 +12,7 @@ import ScrollToTop from "./components/layout/ScrollToTop";
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-blue-950 text-white">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-blue-950 text-white scrollbar">
       <Header />
       <main className="flex-grow">
         <ScrollToTop />
@@ -25,12 +25,12 @@ function App() {
                 Shows Page Coming Soon
               </div>
             }
-            />
+          />
           <Route path="/media/:media_type/:id" element={<MediaDetailPage />} />
           <Route
             path="/media/:media_type/:id/credits"
             element={<CreditsPage />}
-            />
+          />
           <Route path="/person/:id/:name" element={<CreditsDetailPage />} />
 
           <Route
@@ -40,7 +40,7 @@ function App() {
                 My List Page Coming Soon
               </div>
             }
-            />
+          />
           <Route
             path="/movies"
             element={
@@ -48,12 +48,12 @@ function App() {
                 Movies Page Coming Soon
               </div>
             }
-            />
+          />
           <Route path="/genre/:genreId" element={<GenreDetailPage />} />
           <Route
             path="/collections/:collectionId"
             element={<CollectionPage />}
-            />
+          />
         </Routes>
       </main>
       <Footer />

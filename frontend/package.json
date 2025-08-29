@@ -21,7 +21,7 @@
     "axios": "^1.9.0",
     "embla-carousel-react": "^8.6.0",
     "flyonui": "^2.2.0",
-    "lucide-react": "^0.539.0",
+    "lucide-react": "^0.542.0",
     "react": "^19.1.0",
     "react-countup": "^6.5.3",
     "react-dom": "^19.1.0",
@@ -41,6 +41,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "postcss": "^8.5.4",
+    "tailwind-scrollbar": "^4.0.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.30.1",
     "vite": "^6.3.5"

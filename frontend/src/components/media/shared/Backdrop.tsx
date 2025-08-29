@@ -13,7 +13,7 @@ export default function Backdrop({
   sizes = "100vw",
   priority = false,
 }: BackdropProps) {
-  if (!path) {
+  if (!path) { 
     return (
       <div
         className={`aspect-video rounded-lg bg-white/5 ${className}`}

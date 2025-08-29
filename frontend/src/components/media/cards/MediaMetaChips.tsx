@@ -31,7 +31,7 @@ export default function MediaMetaChips({
       {media_type === "tv" && (
         <TvInfoPill seasons={number_of_seasons} episodes={number_of_episodes} />
       )}
-      <DatePill date={release_date} />
+      <DatePill date={release_date} longDate={false} />
       <div className="basis-full flex flex-wrap gap-2 mt-1">
         {genre_ids.map((id) => (
           <GenrePill key={id} id={id} className="" />

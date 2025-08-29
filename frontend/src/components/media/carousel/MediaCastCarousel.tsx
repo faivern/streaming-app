@@ -27,7 +27,7 @@ const MediaCastCarousel = ({ cast }: Props) => {
         </Link>
     </div>
 
-      <div className="flex gap-6 overflow-x-auto px-2 py-2">
+      <div className="flex gap-6 overflow-x-auto px-2 py-2 scrollbar">
         {cast.slice(0, 12).map((person) => (
           <MediaCastCard 
             key={person.id} 

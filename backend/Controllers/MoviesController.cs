@@ -401,7 +401,32 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
-
-
+        // https://api.themoviedb.org/3/movie/{movie_id}/images
+        [HttpGet("movie/{movie_id}/images")]
+        public async Task<IActionResult> GetMovieImages(int movie_id)
+        {
+            try
+            {
+                var data = await _tmdbService.GetMovieImagesAsync(movie_id);
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+            [HttpGet("tv/{series_id}/images")]
+            public async Task<IActionResult> GetSeriesImages(int series_id)
+            {
+                try
+                {
+                    var data = await _tmdbService.GetSeriesImagesAsync(series_id);
+                    return Content(data, "application/json");
+                }
+                catch (HttpRequestException ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                }
+            }
     }
 }

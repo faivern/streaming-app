@@ -2,14 +2,16 @@
 import Pill from "./Pill";
 import { Calendar } from "lucide-react";
 import { dateFormatYear } from "../../utils/dateFormatYear";
+import { dateFormatLong } from "../../utils/dateFormatLong";
 
 export default function DatePill({
   date,
   className = "",
-}: { date?: string; className?: string }) {
+  longDate = true,
+}: { date?: string; className?: string; longDate?: boolean }) {
   return (
     <Pill className={className} icon={<Calendar className="h-4 w-4" />} title="Release year">
-      {date ? dateFormatYear(date) : "No date"}
+      {date ? (longDate ? dateFormatLong(date) : dateFormatYear(date)) : "No date"}
     </Pill>
   );
 }

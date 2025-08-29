@@ -305,6 +305,20 @@ namespace backend.Services
             return await FetchWithCacheAsync($"collection_details_{collectionId}", url, TimeSpan.FromHours(6));
         }
 
+        //------------------------------IMAGES--------------------------------------------
+        public async Task<string> GetMovieImagesAsync(int movie_id)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/{movie_id}/images?api_key={_apiKey}";
+            var cacheKey = $"movie_images_{movie_id}";
+            return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
+        }
+
+        public async Task<string> GetSeriesImagesAsync(int series_id)
+        {
+            var url = $"https://api.themoviedb.org/3/tv/{series_id}/images?api_key={_apiKey}";
+            var cacheKey = $"movie_images_{series_id}";
+            return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
+        }
 
     }
 }
