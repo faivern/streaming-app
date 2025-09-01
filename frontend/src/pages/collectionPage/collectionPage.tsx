@@ -4,7 +4,7 @@ import BackLink from "../../components/media/breadcrumbs/BackLink";
 import MediaDetailVideoSkeleton from "../../components/media/skeleton/MediaDetailVideoSkeleton";
 import HeroCollection from "../../components/media/hero/HeroCollection";
 import CollectionPartsSection from "../../components/media/grid/CollectionPartsSection";
-import { getCollectionById } from "../../api/collections";
+import { getCollectionById } from "../../api/collections.api";
 
 type Collection = {
   id: number;

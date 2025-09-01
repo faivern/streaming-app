@@ -4,9 +4,12 @@ import MediaGrid from "../../components/media/grid/MediaGrid";
 import Carousel from "../../components/media/carousel/TrendingCarousel";
 import HeroSection from "../../components/media/hero/HeroSection";
 import { sumDiscoverMedia } from "../../utils/sumDiscoverMedia";
-import axios from "axios";
 import GenreCardList from "../../components/media/carousel/GenreCardList";
 import CollectionCarousel from "../../components/media/carousel/CollectionCarousel";
+
+import { getDiscoverMovies, getDiscoverTv } from "../../api/discover.api";
+import { getMovieGenres, getTvGenres } from "../../api/genres.api";
+
 export default function HomePage() {
   const [mediaType, setMediaType] = useState<"movie" | "tv">("movie");
   const [loading, setLoading] = useState(true);
@@ -16,43 +19,30 @@ export default function HomePage() {
   const [genres, setGenres] = useState<any[]>([]);
 
   useEffect(() => {
-    const fetchTotalData = async () => {
+    (async () => {
       try {
         setLoading(true);
 
-        // Fetch both movie and TV data for the total count
-        const [movieRes, tvRes, genreRes] = await Promise.all([
-          axios.get(
-            `${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/discover/movie`
-          ),
-          axios.get(
-            `${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/discover/tv`
-          ),
-          axios.get(
-            `${
-              import.meta.env.VITE_BACKEND_API_URL
-            }/api/Movies/genre/movie/list`
-          ),
-          axios.get(
-            `${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/tv/list`
-          ),
+        const [movieRes, tvRes, movieGenres, tvGenres] = await Promise.all([
+          getDiscoverMovies(),
+          getDiscoverTv(),
+          getMovieGenres(),
+          getTvGenres(),
         ]);
 
-        setMovieData(movieRes.data || {});
-        setTvData(tvRes.data || {});
-        setGenres(genreRes.data.genres || {});
+        setMovieData(movieRes ?? {});
+        setTvData(tvRes ?? {});
+        setGenres([...movieGenres ?? [], ...tvGenres ?? []]);
       } catch (err) {
         console.error("Failed to fetch data:", err);
         setError(true);
       } finally {
         setLoading(false);
       }
-    };
+    })();
+    // empty deps: fetch once on mount
+  }, []);
 
-    fetchTotalData();
-  }, []); // Remove mediaType dependency since we want to fetch both always
-
-  // Calculate total using your utility function
   const totalMedia = sumDiscoverMedia(movieData, tvData);
 
   if (loading) {
@@ -78,8 +68,6 @@ export default function HomePage() {
   return (
     <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32">
       <Carousel />
-
-      {/* Content with matching background and slight overlap */}
       <HeroSection total_results={totalMedia} />
       <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
       <MediaGrid key={mediaType} media_type={mediaType} />

@@ -4,8 +4,8 @@ import "../../../style/MediaCard.css";
 type Props = {
   id: number;
   title: string;
-  backdrop_path?: string;
-  poster_path?: string;
+  backdrop_path?: string | null;
+  poster_path?: string | null;
 };
 
 export default function CollectionCard({

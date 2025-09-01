@@ -1,10 +1,14 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { featuredCollections } from "../../../utils/featuredCollections";
-import { searchCollections } from "../../../api/collections";
+import { searchCollections } from "../../../api/collections.api";
 import CollectionCard from "../cards/CollectionCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 import TitleMid from "../title/titleMid";
+
 type Found = {
   id: number;
   name: string;
@@ -32,14 +36,17 @@ export default function CollectionCarousel() {
     const second = track.children[1] as HTMLElement | undefined;
 
     const w1 = first.getBoundingClientRect().width;
-    const step = second ? (second.offsetLeft - first.offsetLeft) : w1; // width + gap
+    const step = second ? second.offsetLeft - first.offsetLeft : w1; // width + gap
     const vw = viewport.clientWidth;
 
     const ps = Math.max(1, Math.floor((vw + 1) / step)); // how many full slides fit
     setPageSize(ps);
   }, []);
 
-  const pageCount = Math.max(1, Math.ceil(items.length / Math.max(1, pageSize)));
+  const pageCount = Math.max(
+    1,
+    Math.ceil(items.length / Math.max(1, pageSize))
+  );
 
   const clampPage = useCallback(
     (p: number) => Math.min(Math.max(0, p), Math.max(0, pageCount - 1)),
@@ -104,9 +111,7 @@ export default function CollectionCarousel() {
 
   return (
     <section className="md:mx-8 px-4 sm:px-6 lg:px-8 mt-8">
-      <TitleMid>
-        Collections
-      </TitleMid>
+      <TitleMid>Collections</TitleMid>
 
       <div className="relative -my-3">
         {/* Viewport: py prevents hover-scale clipping; -my-3 cancels added spacing */}
@@ -116,7 +121,10 @@ export default function CollectionCarousel() {
             className="flex gap-6 transition-transform duration-300 will-change-transform"
             style={{ transform: "translateX(0)" }}
           >
-            {(loading ? Array.from({ length: 8 }).map((_, i) => ({ id: i, name: "…" })) : items).map((c: any) => (
+            {(loading
+              ? Array.from({ length: 8 }).map((_, i) => ({ id: i, name: "…" }))
+              : items
+            ).map((c: any) => (
               <div key={c.id} className="shrink-0">
                 {loading ? (
                   <div className="h-40 w-lg rounded-2xl bg-white/10 animate-pulse" />
@@ -167,7 +175,9 @@ export default function CollectionCarousel() {
                 key={i}
                 onClick={() => setPage(i)}
                 aria-label={`Go to page ${i + 1}`}
-                className={`h-2 rounded-full transition-all ${i === page ? "bg-sky-500 w-6" : "bg-gray-500/50 w-2"}`}
+                className={`h-2 rounded-full transition-all ${
+                  i === page ? "bg-sky-500 w-6" : "bg-gray-500/50 w-2"
+                }`}
               />
             ))}
           </div>
