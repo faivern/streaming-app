@@ -98,7 +98,7 @@ namespace backend.Services
         //---------------------------------TRENDING----------------------------------------
 
         //ALL
-        public async Task<string> GetTrendingAllWeekly()
+        public async Task<string> GetTrendingAllDaily()
         {
             var url = $"https://api.themoviedb.org/3/trending/all/day?api_key={_apiKey}";
             return await FetchWithCacheAsync("trending_all", url, TimeSpan.FromHours(6));
@@ -115,7 +115,14 @@ namespace backend.Services
             var url = $"https://api.themoviedb.org/3/trending/tv/day?api_key={_apiKey}&page={page}";
             return await FetchWithCacheAsync($"trending_tv_page_{page}", url, TimeSpan.FromHours(6));
         }
+        /*
+         *maybe later - generic method for trending - how would it work with swagger? can i send parameters?
+        public async Task<string> GetTrendingMedia(int page = 1, string mediatype, string timewindow)
+        {
+            var url = $"https://api.themoviedb.org/3/trending/{mediatype}/{timewindow}?api_key={_apiKey}&page={page}";
 
+        }
+        */
         //----------------------------------------------------------------------------
 
 

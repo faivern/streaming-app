@@ -69,7 +69,7 @@ const HeroCollection = ({ collection }: Props) => {
 
         <p title="Total Movies" className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
           <Clapperboard className="h-4 w-4" />
-          Total: {movieCount}
+          Movies: {movieCount}
         </p>
       </div>
       <p className="mt-2 text-gray-300 max-w-3xl">{collectionOverview}</p>

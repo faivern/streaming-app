@@ -247,7 +247,7 @@ export default function SearchBar({
           <Combobox.Input
             ref={inputRef}
             className="w-full bg-gray-900/40 border border-gray-600 rounded-full px-4 py-2.5 pl-10 pr-10 text-white placeholder-gray-400 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all duration-200 text-sm md:text-base"
-            placeholder="Search titles, people..."
+            placeholder="Search Movies, TV Shows, People..."
             displayValue={() => query}
             onChange={(e) => handleInput(e.target.value)}
             onFocus={() => query && setOpen(true)}

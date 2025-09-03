@@ -73,11 +73,11 @@ namespace backend.Controllers
         }
 
         [HttpGet("trending/all/day")]
-        public async Task<IActionResult> GetTrendingAllWeekly()
+        public async Task<IActionResult> GetTrendingAllDaily()
         {
             try
             {
-                var data = await _tmdbService.GetTrendingAllWeekly();
+                var data = await _tmdbService.GetTrendingAllDaily();
                 return Content(data, "application/json");
             }
             catch (HttpRequestException ex)
@@ -85,6 +85,7 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
         [HttpGet("trending/movie/day")]
         public async Task<IActionResult> GetTrendingMoviesWeekly([FromQuery] int page = 1)
         {

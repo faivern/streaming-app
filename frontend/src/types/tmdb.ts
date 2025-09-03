@@ -48,3 +48,24 @@ export type Collection = {
     backdrop_path: string | null;
     parts: DetailMedia[];
 }
+
+export type TrendingMedia = {
+    id: number;
+    title?: string;
+    name?: string;
+    backdrop_path?: string | null;
+    media_type?: "movie" | "tv" | "person";
+    vote_average?: number;
+    overview?: string;
+    release_date?: string;
+    first_air_date?: string;
+    genre_ids?: number[];
+}
+
+export type LogoImage = {
+    file_path: string;
+    iso_639_1?: string | null;
+}
+export type LogoImagesResponse = {
+    logos: LogoImage[];
+}

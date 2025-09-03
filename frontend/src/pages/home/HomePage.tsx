@@ -10,6 +10,13 @@ import CollectionCarousel from "../../components/media/carousel/CollectionCarous
 import { getDiscoverMovies, getDiscoverTv } from "../../api/discover.api";
 import { getMovieGenres, getTvGenres } from "../../api/genres.api";
 
+import { useFeaturedCollections } from "../../hooks/collections/useCollections";
+import { featuredCollections } from "../../utils/featuredCollections";
+
+import TrendingCarousel from "../../components/media/carousel/TrendingCarousel";
+import { useTrendingMedia } from "../../hooks/trending/useTrendingMedia";
+
+
 export default function HomePage() {
   const [mediaType, setMediaType] = useState<"movie" | "tv">("movie");
   const [loading, setLoading] = useState(true);
@@ -17,19 +24,22 @@ export default function HomePage() {
   const [movieData, setMovieData] = useState<any>({});
   const [tvData, setTvData] = useState<any>({});
   const [genres, setGenres] = useState<any[]>([]);
+  
+  const { data: featured = [], isLoading } = useFeaturedCollections(featuredCollections);
+  const { data: trending = [], isLoading: trendingLoading } = useTrendingMedia("all", "day");
 
   useEffect(() => {
     (async () => {
       try {
         setLoading(true);
-
+        
         const [movieRes, tvRes, movieGenres, tvGenres] = await Promise.all([
           getDiscoverMovies(),
           getDiscoverTv(),
           getMovieGenres(),
           getTvGenres(),
         ]);
-
+        
         setMovieData(movieRes ?? {});
         setTvData(tvRes ?? {});
         setGenres([...movieGenres ?? [], ...tvGenres ?? []]);
@@ -42,9 +52,9 @@ export default function HomePage() {
     })();
     // empty deps: fetch once on mount
   }, []);
-
+  
   const totalMedia = sumDiscoverMedia(movieData, tvData);
-
+  
   if (loading) {
     return (
       <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32">
@@ -54,7 +64,7 @@ export default function HomePage() {
       </main>
     );
   }
-
+  
   if (error) {
     return (
       <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32">
@@ -64,15 +74,15 @@ export default function HomePage() {
       </main>
     );
   }
-
+  
   return (
     <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32">
-      <Carousel />
+      <TrendingCarousel items={trending} loading={trendingLoading} />
       <HeroSection total_results={totalMedia} />
       <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
       <MediaGrid key={mediaType} media_type={mediaType} />
       <GenreCardList genres={genres} />
-      <CollectionCarousel />
+      <CollectionCarousel items={featured} loading={isLoading} />
     </main>
   );
 }
