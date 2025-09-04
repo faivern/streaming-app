@@ -69,3 +69,7 @@ export type LogoImage = {
 export type LogoImagesResponse = {
     logos: LogoImage[];
 }
+
+export type DiscoverMedia = {
+    total_results: number;
+}
