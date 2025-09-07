@@ -1,8 +1,6 @@
-import React from 'react'
 
 const Footer = () => {
   return (
-
 
 <footer className="bg-white dark:bg-gray-900 mt-16">
   <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">

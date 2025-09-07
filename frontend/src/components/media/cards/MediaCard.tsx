@@ -1,6 +1,4 @@
 import "../../../style/MediaCard.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faBookmark } from "@fortawesome/free-solid-svg-icons";
 
 import MediaCardModal from "../modals/MediaCardModal";
 import { useState, useRef, useEffect } from "react";
@@ -77,15 +75,12 @@ export default function MediaCard({
           </div>
           */}
 
-          
-              <RatingPill
-                rating={vote_average}
-                className="absolute top-2 right-2"
-                showOutOfTen={false}
-              />
+            <RatingPill
+              rating={vote_average}
+              className="absolute top-2 right-2"
+              showOutOfTen={false}
+            />
 
-
-            
             {/* Poster */}
             <Poster path={posterPath} alt={title} className="w-full" />
 

@@ -1,6 +1,5 @@
 // components/SearchBar.tsx
 import { useState, useRef, useEffect, Fragment } from "react";
-import { Link } from "react-router-dom";
 import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";

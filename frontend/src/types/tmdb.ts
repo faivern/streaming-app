@@ -38,7 +38,9 @@ export type DetailMedia = {
     media_type?: "movie" | "tv";
     number_of_seasons?: number;
     number_of_episodes?: number;
+    name?: string;
 };
+
 
 export type Collection = {
     id: number;

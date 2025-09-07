@@ -1,133 +1,44 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import MediaCard from "../cards/MediaCard";
 import MediaCardSkeleton from "../skeleton/MediaCardSkeleton";
-import TitleMid from "../title/titleMid";
-export type MediaItem = {
-  id: number;
+import TitleMid from "../title/TitleMid";
+import type { MediaGridItem, MediaType } from "../../../api/media.api";
+
+interface MediaGridProps {
+  media_type: MediaType;
+  items: MediaGridItem[];
+  loading?: boolean;
+  error?: string | null;
   title?: string;
-  name?: string;
-  overview: string;
-  poster_path: string;
-  release_date?: string;
-  first_air_date?: string;
-  vote_average?: number;
-  genre_ids?: number[];
-  original_language?: string;
-  vote_count?: number;
-  runtime?: number;
-  media_type?: string;
-  number_of_seasons?: number;
-  number_of_episodes?: number;
-};
+}
 
-type DetailsCache = {
-  [id: number]: {
-    runtime?: number;
-    number_of_seasons?: number;
-    number_of_episodes?: number;
-  };
-};
+export default function MediaGrid({
+  media_type,
+  items,
+  loading = false,
+  error = null,
+  title,
+}: MediaGridProps) {
+  const displayTitle =
+    title || `Trending ${media_type === "movie" ? "Movies" : "TV Shows"}`;
 
-export default function MediaGrid({ media_type }: { media_type: string }) {
-  const [items, setItems] = useState<MediaItem[]>([]);
-  const [detailsCache, setDetailsCache] = useState<DetailsCache>({});
-  const [loading, setLoading] = useState(true); // Add loading state
-
-  useEffect(() => {
-    const fetchPopularAndDetails = async () => {
-      try {
-        setLoading(true); // Set loading true at start
-        const endpoint =
-          media_type === "movie"
-            ? "/api/Movies/trending/movie/day"
-            : "/api/Movies/trending/tv/day";
-
-        const responses = await Promise.all([
-          axios.get(
-            `${import.meta.env.VITE_BACKEND_API_URL.replace(
-              /\/$/,
-              ""
-            )}${endpoint}`,
-            { params: { page: 1 } }
-          ),
-          axios.get(
-            `${import.meta.env.VITE_BACKEND_API_URL.replace(
-              /\/$/,
-              ""
-            )}${endpoint}`,
-            { params: { page: 2 } }
-          )
-        ]);
-
-        const mediaList: MediaItem[] = responses.flatMap(r => r.data.results);
-        setItems(mediaList);
-
-        await Promise.all(
-          mediaList.map(async (item) => {
-            if (!item.id || detailsCache[item.id]) return;
-
-            const detailEndpoint =
-              media_type === "movie"
-                ? `/api/Movies/movie/${item.id}`
-                : `/api/Movies/tv/${item.id}`;
-
-            try {
-              const detailRes = await axios.get(
-                `${import.meta.env.VITE_BACKEND_API_URL}${detailEndpoint}`
-              );
-
-              if (media_type === "movie") {
-                setDetailsCache((prev) => ({
-                  ...prev,
-                  [item.id]: {
-                    runtime: detailRes.data.runtime ?? 0,
-                  },
-                }));
-              } else {
-                setDetailsCache((prev) => ({
-                  ...prev,
-                  [item.id]: {
-                    number_of_seasons: detailRes.data.number_of_seasons ?? 0,
-                    number_of_episodes: detailRes.data.number_of_episodes ?? 0,
-                  },
-                }));
-              }
-            } catch (err) {
-              console.error(`Details fetch failed for id ${item.id}`, err);
-            }
-          })
-        );
-      } catch (err) {
-        console.error("Failed to fetch popular media:", err);
-      } finally {
-        setLoading(false); // Set loading false at end
-      }
-    };
-    setItems([]); // Clear items before fetching
-    setDetailsCache({}); // Clear details cache before fetching
-    fetchPopularAndDetails();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [media_type]);
+  // Error state
+  if (error) {
+    return (
+      <div className="md:mx-8 px-4 sm:px-6 lg:px-8">
+        <TitleMid>{displayTitle}</TitleMid>
+        <div className="text-red-400 text-center py-8 bg-red-500/10 rounded-lg border border-red-500/20">
+          <p className="text-lg font-medium">Failed to load media</p>
+          <p className="text-sm mt-1 opacity-75">{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="md:mx-8 px-4 sm:px-6 lg:px-8">
-      <TitleMid>
-        Trending {media_type === "movie" ? "Movies" : "TV Shows"}
-      </TitleMid>
+      <TitleMid>{displayTitle}</TitleMid>
 
-      <div
-        className="
-        grid
-        gap-6
-        grid-cols-2
-        sm:grid-cols-3
-        md:grid-cols-4
-        xl:grid-cols-5
-        2xl:grid-cols-8
-        justify-items-center
-      "
-      >
+      <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 justify-items-center">
         {loading
           ? Array.from({ length: 10 }).map((_, i) => (
               <MediaCardSkeleton key={i} />
@@ -137,17 +48,17 @@ export default function MediaGrid({ media_type }: { media_type: string }) {
                 key={item.id}
                 id={item.id}
                 title={item.title || item.name || "No title"}
-                posterPath={item.poster_path}
+                posterPath={item.poster_path || ""}
                 overview={item.overview}
                 releaseDate={item.release_date || item.first_air_date || "N/A"}
                 vote_average={item.vote_average}
                 genre_ids={item.genre_ids || []}
                 vote_count={item.vote_count}
                 original_language={item.original_language || "en"}
-                runtime={detailsCache[item.id]?.runtime ?? 0}
+                runtime={item.runtime ?? 0}
                 media_type={media_type}
-                number_of_seasons={detailsCache[item.id]?.number_of_seasons}
-                number_of_episodes={detailsCache[item.id]?.number_of_episodes}
+                number_of_seasons={item.number_of_seasons}
+                number_of_episodes={item.number_of_episodes}
               />
             ))}
       </div>

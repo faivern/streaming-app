@@ -1,7 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/react.svg";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FaRegUser } from "react-icons/fa";
 import { useState, useEffect } from "react";
 import SearchBar from "../layout/SearchBar";
