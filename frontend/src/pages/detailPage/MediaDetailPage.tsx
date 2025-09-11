@@ -1,223 +1,104 @@
-import { useEffect, useState } from "react";
+// src/pages/media/MediaDetailPage.tsx
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import MediaDetailHeader from "../../components/media/detail/MediaDetailHeader";
-import MediaDetailVideo from "../../components/media/detail/MediaDetailVideo";
-import useToWatch from "../../hooks/useToWatch";
-import MediaCastCarousel from "../../components/media/carousel/MediaCastCarousel";
-import MediaGridSimilar from "../../components/media/grid/MediaGridSimilar";
+import { useMediaDetail } from "../../hooks/media/useMediaDetail";
+import type { MediaType } from "../../types/tmdb";
+import { useMediaCredits } from "../../hooks/people/useMediaCredits";
+
 import BackLink from "../../components/media/breadcrumbs/BackLink";
 import MediaDetailVideoSkeleton from "../../components/media/skeleton/MediaDetailVideoSkeleton";
+import MediaDetailVideo from "../../components/media/detail/MediaDetailVideo";
+import MediaDetailHeader from "../../components/media/detail/MediaDetailHeader";
+import MediaCastCarousel from "../../components/media/carousel/MediaCastCarousel";
+import MediaGridSimilar from "../../components/media/grid/MediaGridSimilar";
+import useToWatch from "../../hooks/useToWatch";
+import { useSimilarMedia } from "../../hooks/media/useSimilarMedia";
+import { useMediaKeywords } from "../../hooks/media/useMediaKeywords";
 
-const MediaDetailPage = () => {
-  const { media_type, id } = useParams<{ media_type: string; id: string }>();
-  const [mediaDetails, setMediaDetails] = useState<any>(null);
-  const [mediaKeywords, setMediaKeywords] = useState<string[]>([]);
-  const [mediaCredits, setMediaCredits] = useState<{
-    cast: any[];
-    crew: any[];
-  }>({
-    cast: [],
-    crew: [],
-  });
-  const [mediaSimilar, setMediaSimilar] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  // Use the hook at the page level
+export default function MediaDetailPage() {
+  const { media_type, id } = useParams<{ media_type: MediaType; id: string }>();
+  const numericId = Number(id); // important: route param -> number
   const { isPlaying, handleWatchNow } = useToWatch();
 
-  const logoPath =
-    mediaDetails?.production_companies?.find((pc: any) => pc.logo_path)
-      ?.logo_path || "";
+  const {
+    data: details,
+    isLoading,
+    isError,
+  } = useMediaDetail(media_type, numericId);
+  const { data: credits } = useMediaCredits(media_type, numericId);
+  const { data: similarMedia = [] } = useSimilarMedia(media_type, numericId);
+  const { data: keywords = [] } = useMediaKeywords(media_type, numericId);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-
-        const detailsEndpoint =
-          media_type === "movie"
-            ? `/api/Movies/movie/${id}`
-            : `/api/Movies/tv/${id}`;
-
-        const keywordsEndoint =
-          media_type === "movie"
-            ? `/api/Movies/movie/${id}/keywords`
-            : `/api/Movies/tv/${id}/keywords`;
-
-        const creditsEndpoint =
-          media_type === "movie"
-            ? `/api/Movies/movie/${id}/credits`
-            : `/api/Movies/tv/${id}/aggregate_credits`;
-
-        const similarEndpoint =
-          media_type === "movie"
-            ? `/api/Movies/movie/${id}/similar`
-            : `/api/Movies/tv/${id}/similar`;
-
-        const [detailRes, keywordsRes, creditRes, similarRes] =
-          await Promise.all([
-            axios.get(
-              `${import.meta.env.VITE_BACKEND_API_URL}${detailsEndpoint}`
-            ),
-            axios.get(
-              `${import.meta.env.VITE_BACKEND_API_URL}${keywordsEndoint}`
-            ),
-            axios.get(
-              `${import.meta.env.VITE_BACKEND_API_URL}${creditsEndpoint}`
-            ),
-            axios.get(
-              `${import.meta.env.VITE_BACKEND_API_URL}${similarEndpoint}`
-            ),
-          ]);
-
-        setMediaDetails(detailRes.data);
-
-        const keywordsData =
-          keywordsRes.data?.results || keywordsRes.data?.keywords || [];
-        setMediaKeywords(keywordsData.map((kw: any) => kw.name));
-
-        setMediaCredits({
-          cast: creditRes.data?.cast || [],
-          crew: creditRes.data?.crew || [],
-        });
-
-        const similarResults = similarRes.data?.results?.slice(0, 8) || [];
-
-        const enrichedSimilar = await Promise.all(
-          similarResults.map(async (item: any) => {
-            const detailEndpoint = `/api/Movies/${media_type}/${item.id}`;
-
-            try {
-              const detailRes = await axios.get(
-                `${import.meta.env.VITE_BACKEND_API_URL}${detailEndpoint}`
-              );
-              const detail = detailRes.data;
-
-              return {
-                ...item,
-                media_type,
-                runtime: detail.runtime || detail.episode_run_time?.[0] || 0,
-                number_of_seasons: detail.number_of_seasons || 0,
-                number_of_episodes: detail.number_of_episodes || 0,
-                overview: detail.overview || "",
-                vote_average: detail.vote_average || 0,
-                vote_count: detail.vote_count || 0,
-                genre_ids:
-                  detail.genre_ids ||
-                  detail.genres?.map((g: any) => g.id) ||
-                  [],
-                original_language: detail.original_language || "",
-                tagline: detail.tagline || "",
-                backdrop_path: detail.backdrop_path || item.backdrop_path || "",
-              };
-            } catch (err) {
-              console.error(`Failed to fetch detail for ${item.id}`, err);
-              return { ...item, media_type };
-            }
-          })
-        );
-
-        setMediaSimilar(enrichedSimilar);
-      } catch (err) {
-        console.error("Failed to fetch data:", err);
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [media_type, id]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <main>
         <div className="max-w-7xl mx-auto px-4 py-8">
           <BackLink />
-          {/* Show skeleton instead of video while loading */}
           <MediaDetailVideoSkeleton />
         </div>
       </main>
     );
   }
-  if (error) return <div>Error loading media details.</div>;
+
+  if (isError || !details) return <div>Error loading media details.</div>;
+
+  const logoPath =
+    details.production_companies?.find((pc) => pc.logo_path)?.logo_path ?? "";
 
   return (
-    <main className="">
+    <main>
       <div className="max-w-7xl mx-auto px-4 py-8">
         <BackLink />
-
-        {/* Video Section */}
         <MediaDetailVideo
-          backdrop_path={mediaDetails?.backdrop_path}
+          backdrop_path={details.backdrop_path ?? ""}
           isPlaying={isPlaying}
         />
       </div>
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-500/80 to-transparent"></div>
-      <div className="">
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Left: 3/4 width */}
-          <div className="md:w-3/4 w-full">
-            <MediaDetailHeader
-              cast={mediaCredits.cast || []}
-              crew={mediaCredits.crew || []}
-              title={mediaDetails?.title || mediaDetails?.name}
-              overview={mediaDetails?.overview}
-              poster_path={
-                mediaDetails?.posterPath || mediaDetails?.poster_path || ""
-              }
-              backdrop_path={
-                mediaDetails?.backdropPath || mediaDetails?.backdrop_path || ""
-              }
-              release_date={
-                mediaDetails?.release_date || mediaDetails?.first_air_date || ""
-              }
-              runtime={
-                mediaDetails?.runtime ||
-                mediaDetails?.episode_run_time?.[0] ||
-                0
-              }
-              vote_average={mediaDetails?.vote_average || 0}
-              genre_ids={
-                mediaDetails?.genre_ids ||
-                mediaDetails?.genres?.map((g: any) => g.id) ||
-                []
-              }
-              country={
-                mediaDetails?.production_countries?.[0]?.name ||
-                mediaDetails?.origin_country?.[0] ||
-                ""
-              }
-              original_language={mediaDetails?.original_language || ""}
-              production_companies={mediaDetails?.production_companies || []}
-              tagline={mediaDetails?.tagline || ""}
-              vote_count={mediaDetails?.vote_count || 0}
-              onWatchNow={handleWatchNow}
-              number_of_episodes={mediaDetails?.number_of_episodes}
-              media_type={media_type}
-              number_of_seasons={mediaDetails?.number_of_seasons}
-              keywords={mediaKeywords}
-              budget={mediaDetails?.budget}
-              revenue={mediaDetails?.revenue}
-              logo_path={logoPath}
-            />
 
-            {/* Full width below */}
-            <div className="mt-8">
-              <MediaCastCarousel cast={mediaCredits.cast || []} />
-            </div>
-          </div>
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-500/80 to-transparent" />
 
-          {/* Right: 1/4 width */}
-          <div>
-            <MediaGridSimilar similarMedia={mediaSimilar} />
+      <div className="flex flex-col md:flex-row gap-8">
+        <div className="md:w-3/4 w-full">
+          <MediaDetailHeader
+            cast={credits.cast ?? []} // wire these later via their own hooks
+            crew={credits.crew ?? []} // (credits/keywords/similar come after this step)
+            title={details.title ?? details.name}
+            overview={details.overview}
+            poster_path={details.poster_path ?? ""}
+            backdrop_path={details.backdrop_path ?? ""}
+            release_date={details.release_date ?? details.first_air_date ?? ""}
+            runtime={details.runtime ?? details.episode_run_time?.[0] ?? 0}
+            vote_average={details.vote_average ?? 0}
+            genre_ids={
+              details.genre_ids ?? details.genres?.map((g) => g.id) ?? []
+            }
+            country={
+              details.production_countries?.[0]?.name ??
+              details.origin_country?.[0] ??
+              ""
+            }
+            original_language={details.original_language ?? ""}
+            production_companies={details.production_companies ?? []}
+            tagline={details.tagline ?? ""}
+            vote_count={details.vote_count ?? 0}
+            onWatchNow={handleWatchNow}
+            number_of_episodes={details.number_of_episodes}
+            media_type={media_type}
+            number_of_seasons={details.number_of_seasons}
+            keywords={keywords?.map((k) => k.name)} // later
+            budget={details.budget}
+            revenue={details.revenue}
+            logo_path={logoPath}
+          />
+
+          <div className="mt-8">
+            <MediaCastCarousel cast={credits?.cast ?? []} /> {/* later */}
           </div>
+        </div>
+
+        <div className="md:w-1/4 w-full">
+          <MediaGridSimilar similarMedia={similarMedia} /> {/* later */}
         </div>
       </div>
     </main>
   );
-};
-
-export default MediaDetailPage;
+}

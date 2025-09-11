@@ -1,7 +1,8 @@
 // TODO axios instance with baseURL, timeout
 import axios from "axios";
+const PORT = "5000";
 
-const baseURL = import.meta.env.VITE_BACKEND_API_URL ?? "http://localhost:5000/api";
+const baseURL = import.meta.env.VITE_BACKEND_API_URL ?? "http://localhost:" + PORT;
 
     if (!baseURL) {
         throw new Error("No base URL defined");

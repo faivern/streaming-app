@@ -16,7 +16,7 @@ const GenreCardList = ({ genres }: Props) => {
       <TitleMid className="mt-4">Featured Genres</TitleMid>
       <div className="grid grid-cols-5 gap-4">
         {genres
-          .sort(() => Math.random() - 0.5)
+          .sort(() => Math.random() - 0.4)
           .slice(0, 5)
           .map((genre) => (
             <GenreCard key={genre.id} id={genre.id} name={genre.name} />

@@ -1,10 +1,10 @@
 import { api } from "./http/axios";
 import type { Paged } from "../types/common";
 import type { DetailMediaGenre } from "../types/tmdb";
+import type { MediaType, DetailMedia } from "../types/tmdb";
 
 export type MediaGridItem = DetailMediaGenre;
 
-export type MediaType = "movie" | "tv";
 
 export type MediaDetailsResponse = {
   id: number;
@@ -40,10 +40,10 @@ export async function getTrendingMediaGrid(
 export async function getMediaDetails(
   mediaType: MediaType,
   mediaId: number
-): Promise<MediaDetailsResponse> {
-  const endpoint = `api/Movies/${mediaType}/${mediaId}`;
+): Promise<DetailMedia> {
 
-  const { data } = await api.get<MediaDetailsResponse>(endpoint);
+  const endpoint = `api/Movies/${mediaType}/${mediaId}`;
+  const { data } = await api.get<DetailMedia>(endpoint);
   return data;
 }
 

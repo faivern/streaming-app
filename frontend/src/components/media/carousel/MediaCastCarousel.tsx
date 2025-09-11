@@ -1,4 +1,3 @@
-import React from 'react'
 import MediaCastCard from '../cards/MediaCastCard.tsx';
 import { Link, useParams } from 'react-router-dom';
 import "../../../style/TitleHover.css";
@@ -8,7 +7,7 @@ type Props = {
         id: number;
         name: string;
         character?: string;
-        profile_path?: string;
+        profile_path?: string | null;
     }[]
 }
 
@@ -32,7 +31,7 @@ const MediaCastCarousel = ({ cast }: Props) => {
           <MediaCastCard 
             key={person.id} 
             name={person.name} 
-            profile_path={person.profile_path} 
+            profile_path={person.profile_path || ""} 
             character={person.character}
             id={person.id}
           />

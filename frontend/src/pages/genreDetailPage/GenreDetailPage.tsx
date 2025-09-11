@@ -4,7 +4,6 @@ import axios from "axios";
 import GenreDetailGrid from "../../components/media/grid/GenreDetailGrid";
 import MediaTypeToggle from "../../components/media/grid/MediaTypeToggle";
 import BackLink from "../../components/media/breadcrumbs/BackLink";
-import type { DetailMediaGenre } from "../../types/tmdb";
 
 type detailMediaGenre = {
     id: number;

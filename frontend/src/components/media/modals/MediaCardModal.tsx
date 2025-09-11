@@ -4,6 +4,8 @@ import languageMap from "../../../utils/languageMap";
 import { dateFormat } from "../../../utils/dateFormat";
 import { Link } from "react-router-dom";
 
+import {useFloating} from '@floating-ui/react';
+
 type MediaCardModalProps = {
   title: string;
   backdrop?: string;
@@ -36,11 +38,11 @@ const MediaCardModal = ({
   number_of_episodes, // Optional prop for episode count
 }: MediaCardModalProps) => {
   const { videoUrl, loading } = useVideo("movie", id);
-  console.log("genre_ids:", genre_ids);
-  console.log("runtime:", runtime);
+  const { refs, floatingStyles } = useFloating();
   return (
+    <>
     <Link to={`/media/${media_type}/${id}`}>
-      <div className="backdrop-blur-md bg-gray-900/80 min-w-96 p-4 shadow-2xl rounded-lg border-1 border-gray-600/70 text-white">
+      <div ref={refs.setFloating} className="backdrop-blur-md bg-gray-900/80 min-w-96 p-4 shadow-2xl rounded-lg border-1 border-gray-600/70 text-white">
         <h2 className="text-xl font-bold mb-2 text-gray-100">{title}</h2>
 
         {loading ? (
@@ -54,7 +56,7 @@ const MediaCardModal = ({
               allow="autoplay; encrypted-media"
               allowFullScreen
               loading="lazy"
-            />
+              />
           </div>
         ) : backdrop ? (
           <div className="aspect-video w-full rounded-lg overflow-hidden mb-3">
@@ -62,7 +64,7 @@ const MediaCardModal = ({
               src={`https://image.tmdb.org/t/p/w500${backdrop}`}
               alt={title}
               className="w-full h-48 object-cover object-center rounded mb-2"
-            />
+              />
           </div>
         ) : (
           <p className="text-gray-400 mb-2">No trailer available at id: {id}</p>
@@ -136,6 +138,7 @@ const MediaCardModal = ({
         </div>
       </div>
     </Link>
+            </>
   );
 };
 

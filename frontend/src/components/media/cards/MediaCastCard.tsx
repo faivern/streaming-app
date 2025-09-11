@@ -1,4 +1,3 @@
-import React from 'react'
 import avatarPlaceholder from "../../../images/no-avatar-placeholder.png";
 import { Link, useParams } from "react-router-dom";
 

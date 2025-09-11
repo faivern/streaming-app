@@ -1,10 +1,17 @@
 import "../../../style/MediaCard.css";
 
 import MediaCardModal from "../modals/MediaCardModal";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Poster from "../../media/shared/Poster";
 import RatingPill from "../../ui/RatingPill";
+import {
+  useFloating,
+  offset,
+  flip,
+  shift,
+  autoUpdate,
+} from "@floating-ui/react";
 
 type MediaCardProps = {
   id: number;
@@ -17,45 +24,43 @@ type MediaCardProps = {
   vote_count?: number; // Optional prop to display vote count
   original_language?: string; // Default to English if not provided
   runtime?: number; // Optional prop for movie length
-  media_type?: string; // Optional prop to specify media type
+  media_type?: "movie" | "tv"; // Optional prop to specify media type
   number_of_seasons?: number; // Optional prop for season number
   number_of_episodes?: number; // Optional prop for episode count
 };
 
-export default function MediaCard({
-  id,
-  title,
-  posterPath,
-  overview,
-  releaseDate,
-  vote_average,
-  genre_ids,
-  vote_count, // Optional prop to display vote count
-  original_language, // Default to English if not provided
-  runtime, // Optional prop for movie length
-  media_type,
-  number_of_seasons, // Optional prop for season number
-  number_of_episodes, // Optional prop for episode count
-}: MediaCardProps) {
+export default function MediaCard(props: MediaCardProps) {
+  const {
+    id,
+    title,
+    posterPath,
+    media_type,
+    overview,
+    releaseDate,
+    vote_average,
+    genre_ids,
+    vote_count,
+    original_language,
+    runtime,
+    number_of_seasons,
+    number_of_episodes,
+  } = props;
   const [hovered, setHovered] = useState(false);
-  const [showLeft, setShowLeft] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (hovered && cardRef.current) {
-      const rect = cardRef.current.getBoundingClientRect();
-      const modalWidth = 320;
-      const spaceRight = window.innerWidth - rect.right;
-      setShowLeft(spaceRight < modalWidth);
-    }
-  }, [hovered]);
+  const { refs, floatingStyles } = useFloating({
+    placement: "right",
+    middleware: [offset(8), flip(), shift()],
+    whileElementsMounted: autoUpdate,
+  });
 
   return (
     <div
+      ref={refs.setReference}
       className="relative w-full max-w-[360px] mx-auto"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      ref={cardRef}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
     >
       <div className="group relative z-10 hover:z-30 transition-transform duration-300 cursor-pointer"></div>
 
@@ -94,11 +99,7 @@ export default function MediaCard({
         </div>
         {/* 🟡 Simple test modal */}
         {hovered && (
-          <div
-            className={`absolute top-0 z-50 ${
-              showLeft ? "right-full" : "left-full"
-            }`}
-          >
+          <div ref={refs.setFloating} style={floatingStyles} className="z-50">
             <MediaCardModal
               id={id}
               title={title}
