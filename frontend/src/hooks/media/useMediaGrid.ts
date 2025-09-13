@@ -1,9 +1,9 @@
-import { useState, useCallback } from 'react';
-import { getTrendingMediaWithDetails } from '../../api/media.api';
-import type { MediaGridItem, MediaType } from '../../api/media.api';
+import { useState, useCallback } from "react";
+import { getTrendingMediaWithDetails } from "../../api/media.api";
+import type { MediaGridItem, MediaType } from "../../api/media.api";
 
 // Re-export types for convenience
-export type { MediaGridItem, MediaType } from '../../api/media.api';
+export type { MediaGridItem, MediaType } from "../../api/media.api";
 
 interface UseMediaGridReturn {
   items: MediaGridItem[];
@@ -27,10 +27,9 @@ export default function useMediaGrid(): UseMediaGridReturn {
       // Use the API function to get trending media with details
       const mediaWithDetails = await getTrendingMediaWithDetails(mediaType);
       setItems(mediaWithDetails);
-
     } catch (err) {
-      console.error('Failed to fetch media grid:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch media');
+      console.error("Failed to fetch media grid:", err);
+      setError(err instanceof Error ? err.message : "Failed to fetch media");
       setItems([]);
     } finally {
       setLoading(false);

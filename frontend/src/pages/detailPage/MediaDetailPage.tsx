@@ -19,6 +19,10 @@ export default function MediaDetailPage() {
   const numericId = Number(id); // important: route param -> number
   const { isPlaying, handleWatchNow } = useToWatch();
 
+  if (!media_type || !id) {
+    return <div>Invalid media type or ID.</div>;
+  }
+
   const {
     data: details,
     isLoading,
@@ -58,45 +62,22 @@ export default function MediaDetailPage() {
 
       <div className="flex flex-col md:flex-row gap-8">
         <div className="md:w-3/4 w-full">
-          <MediaDetailHeader
-            cast={credits.cast ?? []} // wire these later via their own hooks
-            crew={credits.crew ?? []} // (credits/keywords/similar come after this step)
-            title={details.title ?? details.name}
-            overview={details.overview}
-            poster_path={details.poster_path ?? ""}
-            backdrop_path={details.backdrop_path ?? ""}
-            release_date={details.release_date ?? details.first_air_date ?? ""}
-            runtime={details.runtime ?? details.episode_run_time?.[0] ?? 0}
-            vote_average={details.vote_average ?? 0}
-            genre_ids={
-              details.genre_ids ?? details.genres?.map((g) => g.id) ?? []
-            }
-            country={
-              details.production_countries?.[0]?.name ??
-              details.origin_country?.[0] ??
-              ""
-            }
-            original_language={details.original_language ?? ""}
-            production_companies={details.production_companies ?? []}
-            tagline={details.tagline ?? ""}
-            vote_count={details.vote_count ?? 0}
-            onWatchNow={handleWatchNow}
-            number_of_episodes={details.number_of_episodes}
-            media_type={media_type}
-            number_of_seasons={details.number_of_seasons}
-            keywords={keywords?.map((k) => k.name)} // later
-            budget={details.budget}
-            revenue={details.revenue}
-            logo_path={logoPath}
-          />
-
+            <MediaDetailHeader
+              details={details}            
+              cast={credits?.cast ?? []}    
+              crew={credits?.crew ?? []}              
+              keywords={(keywords ?? []).map(k => k.name)}
+              media_type={media_type}              
+              onWatchNow={handleWatchNow}
+              logo_path={logoPath}
+            />
           <div className="mt-8">
-            <MediaCastCarousel cast={credits?.cast ?? []} /> {/* later */}
+            <MediaCastCarousel cast={credits?.cast ?? []} />
           </div>
         </div>
 
         <div className="md:w-1/4 w-full">
-          <MediaGridSimilar similarMedia={similarMedia} /> {/* later */}
+          <MediaGridSimilar similarMedia={similarMedia} />
         </div>
       </div>
     </main>

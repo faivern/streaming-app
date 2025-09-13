@@ -1,9 +1,9 @@
-// components/media/MediaMetaChips.tsx
 import RatingPill from "../../ui/RatingPill";
 import RuntimePill from "../../ui/RuntimePill";
 import TvInfoPill from "../../ui/TvInfoPill";
 import DatePill from "../../ui/DatePill";
 import GenrePill from "../../ui/GenrePill";
+
 type Props = {
   vote_average: number;
   vote_count?: number;

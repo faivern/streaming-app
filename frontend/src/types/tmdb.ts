@@ -41,7 +41,7 @@ export type DetailMedia = {
   original_language?: string;
   production_countries?: { name: string }[];
   origin_country?: string[];
-  production_companies?: { name: string; logo_path?: string | null }[];
+  production_companies?: { id: number; name: string; logo_path?: string | null }[];
   tagline?: string;
   runtime?: number;
   episode_run_time?: number[];
