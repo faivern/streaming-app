@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getDiscoverMovies, getDiscoverTv } from "../../api/discover.api";
+import { getDiscoverMovies, getDiscoverTv} from "../../api/discover.api";
 import type { DiscoverMedia } from "../../types/tmdb";
 
 export function useDiscoverMovies() {

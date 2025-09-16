@@ -1,5 +1,5 @@
 import { api } from "../api/http/axios";
-import type { DiscoverMedia } from "../types/tmdb";
+import type { DiscoverMedia} from "../types/tmdb";
 
 export async function getDiscoverMovies() {
     const { data } = await api.get("/api/Movies/discover/movie");
