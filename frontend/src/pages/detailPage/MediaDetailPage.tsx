@@ -62,15 +62,15 @@ export default function MediaDetailPage() {
 
       <div className="flex flex-col md:flex-row gap-8">
         <div className="md:w-3/4 w-full">
-            <MediaDetailHeader
-              details={details}            
-              cast={credits?.cast ?? []}    
-              crew={credits?.crew ?? []}              
-              keywords={(keywords ?? []).map(k => k.name)}
-              media_type={media_type}              
-              onWatchNow={handleWatchNow}
-              logo_path={logoPath}
-            />
+          <MediaDetailHeader
+            details={details}
+            cast={credits?.cast ?? []}
+            crew={credits?.crew ?? []}
+            keywords={(keywords ?? []).map((k) => k.name)}
+            media_type={media_type}
+            onWatchNow={handleWatchNow}
+            logo_path={logoPath}
+          />
           <div className="mt-8">
             <MediaCastCarousel cast={credits?.cast ?? []} />
           </div>
