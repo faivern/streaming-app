@@ -3,8 +3,8 @@
 export type MediaType = "movie" | "tv";
 
 export type Genre = {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
 };
 
 export type DetailMediaGenre = {
@@ -41,7 +41,11 @@ export type DetailMedia = {
   original_language?: string;
   production_countries?: { name: string }[];
   origin_country?: string[];
-  production_companies?: { id: number; name: string; logo_path?: string | null }[];
+  production_companies?: {
+    id: number;
+    name: string;
+    logo_path?: string | null;
+  }[];
   tagline?: string;
   runtime?: number;
   episode_run_time?: number[];
@@ -52,57 +56,68 @@ export type DetailMedia = {
   media_type?: MediaType;
 };
 
-
 export type Collection = {
-    id: number;
-    name: string;
-    overview: string;
-    poster_path: string | null;
-    backdrop_path: string | null;
-    parts: DetailMedia[];
-}
+  id: number;
+  name: string;
+  overview: string;
+  poster_path: string | null;
+  backdrop_path: string | null;
+  parts: DetailMedia[];
+};
 
 export type TrendingMedia = {
-    id: number;
-    title?: string;
-    name?: string;
-    backdrop_path?: string | null;
-    media_type?: "movie" | "tv" | "person";
-    vote_average?: number;
-    overview?: string;
-    release_date?: string;
-    first_air_date?: string;
-    genre_ids?: number[];
-}
+  id: number;
+  title?: string;
+  name?: string;
+  backdrop_path?: string | null;
+  media_type?: "movie" | "tv" | "person";
+  vote_average?: number;
+  overview?: string;
+  release_date?: string;
+  first_air_date?: string;
+  genre_ids?: number[];
+};
 
 export type LogoImage = {
-    file_path: string;
-    iso_639_1?: string | null;
-}
+  file_path: string;
+  iso_639_1?: string | null;
+};
 export type LogoImagesResponse = {
-    logos: LogoImage[];
-}
+  logos: LogoImage[];
+};
 
 export type DiscoverMedia = {
-    total_results: number;
-}
+  total_results: number;
+};
 
 export type Keyword = {
-    id: number;
-    name: string;
-}
+  id: number;
+  name: string;
+};
 
 export type Credit = {
-    id: number;
-    name?: string;
-    character?: string;
-    job?: string;
-    profile_path?: string | null;
-    department?: string;
-    order?: number;
-}
+  id: number;
+  name?: string;
+  character?: string;
+  job?: string;
+  profile_path?: string | null;
+  department?: string;
+  order?: number;
+};
 
 export type CreditsResponse = {
-    cast: Credit[];
-    crew: Credit[];
-}
+  cast: Credit[];
+  crew: Credit[];
+};
+
+export type Person = {
+  id: number;
+  name: string;
+  birthday: string;
+  biography?: string;
+  known_for_department?: string;
+  place_of_birth?: string;
+  profile_path?: string;
+  gender?: number;
+  deathday?: string;
+};

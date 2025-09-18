@@ -6,8 +6,10 @@ import type { MediaType, CreditsResponse } from "../../types/tmdb";
 import { useMediaCredits } from "../../hooks/people/useMediaCredits";
 import { useMediaDetail } from "../../hooks/media/useMediaDetail";
 
+//TODO Separate the filter segments into their own component
+
 type RouteParams = {
-  mediaType: MediaType; // e.g. "movie" | "tv"
+  mediaType: MediaType;
   id: string;
 };
 
