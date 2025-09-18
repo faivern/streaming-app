@@ -23,11 +23,7 @@ export default function MediaDetailPage() {
     return <div>Invalid media type or ID.</div>;
   }
 
-  const {
-    data: details,
-    isLoading,
-    isError,
-  } = useMediaDetail(media_type, numericId);
+  const { data: details, isLoading, isError, } = useMediaDetail(media_type, numericId);
   const { data: credits } = useMediaCredits(media_type, numericId);
   const { data: similarMedia = [] } = useSimilarMedia(media_type, numericId);
   const { data: keywords = [] } = useMediaKeywords(media_type, numericId);

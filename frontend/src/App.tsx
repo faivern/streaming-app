@@ -28,7 +28,7 @@ function App() {
           />
           <Route path="/media/:media_type/:id" element={<MediaDetailPage />} />
           <Route
-            path="/media/:media_type/:id/credits"
+            path="/media/:mediaType/:id/credits"
             element={<CreditsPage />}
           />
           <Route path="/person/:id/:name" element={<CreditsDetailPage />} />

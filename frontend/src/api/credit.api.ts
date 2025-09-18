@@ -1,9 +1,9 @@
 import { api } from "./http/axios";
 import type { Paged } from "../types/common";
-import type { Credit, CreditsResponse  } from "../types/tmdb";
+import type { Credit, CreditsResponse, MediaType  } from "../types/tmdb";
 
 export async function getMediaCredits(
-    mediaType: "movie" | "tv",
+    mediaType: MediaType,
     mediaId: number
 ): Promise<CreditsResponse> {
     const path = 

@@ -5,8 +5,7 @@ import type { Credit } from '../../../types/tmdb.ts';
 
 type Props = {
   cast: Credit[];
-};
-
+}
 
 const MediaCastCarousel = ({ cast }: Props) => {
     const { media_type, id } = useParams<{ media_type: string; id: string }>();
@@ -30,10 +29,7 @@ const MediaCastCarousel = ({ cast }: Props) => {
         {cast.slice(mediaCastStart, mediaCastEnd).map((person) => (
           <MediaCastCard
             key={person.id}
-            name={person.name}
-            profile_path={person.profile_path || ""}
-            character={person.character}
-            id={person.id}
+            cast={person}
           />
         ))}
       </div>

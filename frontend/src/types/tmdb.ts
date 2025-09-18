@@ -94,7 +94,7 @@ export type Keyword = {
 
 export type Credit = {
     id: number;
-    name: string;
+    name?: string;
     character?: string;
     job?: string;
     profile_path?: string | null;
