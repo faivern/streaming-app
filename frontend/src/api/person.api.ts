@@ -1,5 +1,5 @@
 import { api } from "./http/axios";
-import type { Person, CreditsResponse } from "../types/tmdb";
+import type { Person, CreditsResponse, DetailMedia, MediaType } from "../types/tmdb";
 
 export async function getPersonDetails(personId: number): Promise<Person> {
   const endpoint = `api/Movies/People/${personId}`;
@@ -17,3 +17,15 @@ export async function getCombinedCredits(
     crew: data.crew ?? [],
   };
 }
+
+export async function getEnrichedCredits(
+  personId: number,
+  mediaType: MediaType
+): Promise<CreditsResponse> {
+    const endpoint = `api/Movies/${mediaType}/${personId}`;
+    const { data } = await api.get<CreditsResponse>(endpoint);
+    return {
+      cast: data.cast ?? [],
+      crew: data.crew ?? [],
+    };
+  }

@@ -10,3 +10,4 @@ export function useMediaCredits(mediaType?: MediaType, id?: number) {
     staleTime: 5 * 60 * 1000,
   });
 }
+

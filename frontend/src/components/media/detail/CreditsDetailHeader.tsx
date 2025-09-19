@@ -1,4 +1,3 @@
-import React from "react";
 import { dateFormatLong } from "../../../utils/dateFormatLong";
 import { calcAge } from "../../../utils/calcAge";
 import { knownForDepartment } from "../../../utils/knownForDepartment";

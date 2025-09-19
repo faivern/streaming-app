@@ -5,6 +5,15 @@ import CreditsDetailHeader from '../../components/media/detail/CreditsDetailHead
 import CreditsDetailGrid from '../../components/media/grid/CreditsDetailGrid';
 import BackLink from '../../components/media/breadcrumbs/BackLink';
 
+// custom hooks to refactor the exisiting code
+import { usePerson } from '../../hooks/people/usePerson';
+import { useCombinedCredits} from '../../hooks/people/useCombinedCredits';
+import { useEnrichedCredits } from '../../hooks/people/useEnrichedCredits';
+import { useMediaDetail } from '../../hooks/media/useMediaDetail';
+
+// types imported from tmdb file to refactor the existing code
+import type { MediaType, DetailMedia, Person, CreditsResponse } from '../../types/tmdb';
+
 const CreditsDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
@@ -16,6 +25,8 @@ const CreditsDetailPage = () => {
   const [error, setError] = useState(false);
   const [combinedCredits, setCombinedCredits] = useState<any>([]);
   const [mediaDetails, setMediaDetails] = useState<any>(null);
+
+  //TODO Detailmedia hook and person hook for id and one for combined credits and one fro media details with credit.id
 
   useEffect(() => {
     const fetchData = async () => {
