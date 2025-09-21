@@ -1,19 +1,21 @@
-import MediaSimilarCard from '../cards/MediaSimilarCard';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
-import type { DetailMedia } from '../../../types/tmdb';
+// components/media/grid/MediaGridSimilar.tsx
+import MediaSimilarCard from "../cards/MediaSimilarCard";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import type { DetailMedia, MediaType } from "../../../types/tmdb";
 
 type Props = {
   similarMedia: DetailMedia[];
+  parentType: MediaType; // "movie" | "tv" from the current detail page
 };
 
-const MediaGridSimilar = ({ similarMedia }: Props) => {
+const MediaGridSimilar = ({ similarMedia, parentType }: Props) => {
+  const start = 0, end = 8;
 
-  const startMediaToShow = 0;
-  const endMediaToShow = 8;
-
-  const startTitleToShow = 0;
-  const endTitleToShow = 22;
+  // helper: infer type if TMDB item doesn't include it
+  const inferType = (m: DetailMedia): MediaType =>
+    (m.media_type as MediaType) ??
+    (m.first_air_date ? "tv" : "movie"); // crude but works for TMDB
 
   return (
     <aside className="mt-8 shadow-lg w-md:max-w-6xl">
@@ -22,29 +24,34 @@ const MediaGridSimilar = ({ similarMedia }: Props) => {
           <FontAwesomeIcon icon={faPlay} className="text-md pr-2" />
           You may also like
         </h2>
-        {/* Fixed grid layout with consistent spacing */}
+
         <div className="grid grid-cols-1 gap-2">
-          {similarMedia.slice(startMediaToShow, endMediaToShow).map((media, index) => (
-            <MediaSimilarCard
-              key={`${media.id}-${media.media_type}`}
-              id={media.id}
-              poster_path={media.poster_path || ''}
-              title={media.title ? media.title.slice(startTitleToShow, endTitleToShow) + (media.title.length > endTitleToShow ? "..." : "") : media.name || 'Unknown Title'}
-              releaseDate={media.release_date || media.first_air_date || ''}
-              media_type={media.media_type}
-              runtime={media.runtime}
-              number_of_seasons={media.number_of_seasons}
-              number_of_episodes={media.number_of_episodes}
-              overview={media.overview}
-              vote_average={media.vote_average}
-              vote_count={media.vote_count}
-              genre_ids={media.genre_ids}
-              original_language={media.original_language}
-              backdrop_path={media.backdrop_path || ''}
-              index={index}
-            />
-          ))}
-          
+          {similarMedia.slice(start, end).map((m, index) => {
+            const mt: MediaType = (m.media_type as MediaType) ?? parentType ?? inferType(m);
+            return (
+              <MediaSimilarCard
+                key={`${m.id}-${mt}`}
+                id={m.id}
+                media_type={mt}
+                title={m.title ?? m.name ?? "Unknown Title"}
+                name={m.name}
+                poster_path={m.poster_path ?? undefined}
+                backdrop_path={m.backdrop_path ?? undefined}
+                release_date={m.release_date}
+                first_air_date={m.first_air_date}
+                overview={m.overview}
+                vote_average={m.vote_average}
+                vote_count={m.vote_count}
+                genre_ids={m.genre_ids}
+                original_language={m.original_language}
+                // optional row subtitle extras
+                runtime={m.runtime}
+                number_of_seasons={m.number_of_seasons}
+                number_of_episodes={m.number_of_episodes}
+              />
+            );
+          })}
+
           {!similarMedia.length && (
             <p className="text-gray-400 text-sm text-center py-4">
               No similar titles found

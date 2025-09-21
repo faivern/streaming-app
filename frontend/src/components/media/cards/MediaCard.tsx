@@ -16,18 +16,18 @@ import {
 
 type MediaCardProps = {
   id: number;
-  media_type: MediaType; // Optional prop to specify media type
+  media_type: MediaType; 
   title: string;
   posterPath: string;
   overview?: string;
   releaseDate?: string;
   vote_average?: number;
-  genre_ids?: number[]; // Assuming genreIds is not used here, you can pass an empty array
-  vote_count?: number; // Optional prop to display vote count
-  original_language?: string; // Default to English if not provided
-  runtime?: number; // Optional prop for movie length
-  number_of_seasons?: number; // Optional prop for season number
-  number_of_episodes?: number; // Optional prop for episode count
+  genre_ids?: number[];
+  vote_count?: number; 
+  original_language?: string; 
+  runtime?: number; 
+  number_of_seasons?: number;
+  number_of_episodes?: number; 
 };
 
 export default function MediaCard(props: MediaCardProps) {

@@ -3,6 +3,8 @@ import type { Paged } from "../types/common";
 import type { DetailMediaGenre } from "../types/tmdb";
 import type { MediaType, DetailMedia } from "../types/tmdb";
 
+type GetOpts = { signal?: AbortSignal };
+
 export type MediaGridItem = DetailMediaGenre;
 
 
@@ -39,11 +41,12 @@ export async function getTrendingMediaGrid(
  */
 export async function getMediaDetails(
   mediaType: MediaType,
-  mediaId: number
+  mediaId: number,
+  opts: GetOpts = {}
 ): Promise<DetailMedia> {
 
   const endpoint = `api/Movies/${mediaType}/${mediaId}`;
-  const { data } = await api.get<DetailMedia>(endpoint);
+  const { data } = await api.get<DetailMedia>(endpoint, { signal: opts.signal });
   return data;
 }
 
