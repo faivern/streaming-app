@@ -4,6 +4,7 @@ import type { Credit } from "../../../types/tmdb";
 
 type Props = {
   cast?: Credit;
+  
 };
 
 const MediaCastCard = ({ cast }: Props) => {

@@ -121,3 +121,11 @@ export type Person = {
   gender?: number;
   deathday?: string;
 };
+
+// types/tmdb.ts
+export type EnrichedCreditMedia = DetailMedia & {
+  character?: string;
+  job?: string;
+  department?: string;
+  person_id?: number;
+};

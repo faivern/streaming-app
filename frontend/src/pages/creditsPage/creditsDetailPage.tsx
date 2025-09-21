@@ -1,116 +1,119 @@
-import { useEffect, useState } from 'react'
 import { useParams, useSearchParams } from "react-router-dom";
-import axios from 'axios'
-import CreditsDetailHeader from '../../components/media/detail/CreditsDetailHeader';
-import CreditsDetailGrid from '../../components/media/grid/CreditsDetailGrid';
-import BackLink from '../../components/media/breadcrumbs/BackLink';
+import CreditsDetailHeader from "../../components/media/detail/CreditsDetailHeader";
+import CreditsDetailGrid from "../../components/media/grid/CreditsDetailGrid";
+import BackLink from "../../components/media/breadcrumbs/BackLink";
+import Loading from "../../components/feedback/Loading";
+import Error from "../../components/feedback/Error";
 
-// custom hooks to refactor the exisiting code
-import { usePerson } from '../../hooks/people/usePerson';
-import { useCombinedCredits} from '../../hooks/people/useCombinedCredits';
-import { useEnrichedCredits } from '../../hooks/people/useEnrichedCredits';
-import { useMediaDetail } from '../../hooks/media/useMediaDetail';
-
-// types imported from tmdb file to refactor the existing code
-import type { MediaType, DetailMedia, Person, CreditsResponse } from '../../types/tmdb';
+import { usePerson } from "../../hooks/people/usePerson";
+import { useCombinedCredits } from "../../hooks/people/useCombinedCredits";
+import { useMediaDetail } from "../../hooks/media/useMediaDetail";
+import type { MediaType } from "../../types/tmdb";
 
 const CreditsDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id, name } = useParams<{ id: string; name: string }>();
   const [searchParams] = useSearchParams();
-  const fromMediaType = searchParams.get('from');
-  const mediaId = searchParams.get('mediaId');
+
+  // Debug logging
+  console.log("=== CreditsDetailPage Debug ===");
+  console.log("URL:", window.location.href);
+  console.log("Route params:", { id, name });
+  console.log("Search params:", Object.fromEntries(searchParams.entries()));
+  console.log("Person ID:", Number(id));
+
+  const fromMediaType = searchParams.get("from") as MediaType | null;
+  const mediaId = searchParams.get("mediaId");
+
+  console.log("Extracted:", { fromMediaType, mediaId });
+
+  const personId = Number(id);
+
+  // Add early return with debug info
+  if (!id || isNaN(personId)) {
+    console.log("Invalid person ID:", { id, personId });
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="bg-red-600 text-white p-4 rounded">
+          <p>Debug: Invalid person ID</p>
+          <p>ID from URL: {id}</p>
+          <p>Parsed ID: {personId}</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Fetch person details
+  const {
+    data: person,
+    isLoading: personLoading,
+    error: personError,
+  } = usePerson(personId);
+
+  console.log("Person data:", { person, personLoading, personError });
+
+
+  //use combinedcredits
+  const {
+    data: creditsData,
+    isLoading: creditsLoading,
+    error: creditsError,
+  } = useCombinedCredits(personId);
+
+  // Extract cast from the credits response
   
-  const [loading, setLoading] = useState(true);
-  const [person, setPerson] = useState<any>(null);
-  const [error, setError] = useState(false);
-  const [combinedCredits, setCombinedCredits] = useState<any>([]);
-  const [mediaDetails, setMediaDetails] = useState<any>(null);
+  // Fetch media details if we have context (optional)
+  const {
+    data: mediaDetails,
+    isLoading: mediaLoading,
+    error: mediaError,
+  } = useMediaDetail(
+    fromMediaType || undefined,
+    mediaId ? Number(mediaId) : undefined
+  );
+  
+  const enrichedCredits = creditsData?.cast || [];
 
-  //TODO Detailmedia hook and person hook for id and one for combined credits and one fro media details with credit.id
+  // Loading states
+  const isLoading = personLoading || creditsLoading;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
+  // Error states
+  const hasError = personError || creditsError;
 
-        const personEndpoint = `/api/Movies/person/${id}`;
-        const combinedCreditsEndpoint = `/api/Movies/person/${id}/combined_credits`;
-
-        // Fetch media details if we have the context
-        const requests = [
-          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}${personEndpoint}`),
-          axios.get(`${import.meta.env.VITE_BACKEND_API_URL}${combinedCreditsEndpoint}`)
-        ];
-
-        if (fromMediaType && mediaId) {
-          const mediaEndpoint = fromMediaType === "movie"
-            ? `/api/Movies/movie/${mediaId}`
-            : `/api/Movies/tv/${mediaId}`;
-          requests.push(axios.get(`${import.meta.env.VITE_BACKEND_API_URL}${mediaEndpoint}`));
-        }
-
-        const responses = await Promise.all(requests);
-        const [personRes, combinedCreditsRes, mediaRes] = responses;
-
-        setPerson(personRes.data);
-        if (mediaRes) {
-          setMediaDetails(mediaRes.data);
-        }
-
-        const credits = (combinedCreditsRes.data.cast || []).slice(0, 10);
-
-        const enrichedCredits = await Promise.all(
-          credits.map(async (credit: any) => {
-            const detailsEndpoint = credit.media_type === "movie"
-              ? `/api/Movies/movie/${credit.id}`
-              : `/api/Movies/tv/${credit.id}`;
-
-            try {
-              const detailRes = await axios.get(`${import.meta.env.VITE_BACKEND_API_URL}${detailsEndpoint}`);
-              const detail = detailRes.data;
-
-              return {
-                ...credit,
-                runtime: detail.runtime,
-                number_of_seasons: detail.number_of_seasons,
-                number_of_episodes: detail.number_of_episodes,
-                title: detail.title || detail.name,
-                id: detail.id,
-                media_type: credit.media_type,
-              };
-            } catch (error) {
-              console.warn(`Failed to enrich credit id ${credit.id}:`, error);
-              return credit;
-            }
-          })
-        );
-
-        setCombinedCredits({ cast: enrichedCredits });
-        setLoading(false);
-
-      } catch (err) {
-        console.error("Error fetching person details:", err);
-        setError(true);
-      }
-    };
-
-    fetchData();
-  }, [id, fromMediaType, mediaId]);
-
-  if (loading) {
-    return <div>Loading...</div>;
+  // Add debug render for loading
+  if (isLoading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="bg-blue-600 text-white p-4 rounded">
+          <p>Loading person {personId}...</p>
+        </div>
+      </div>
+    );
   }
 
-  if (error) {
-    return <div>Error fetching person details.</div>;
+  // Add debug render for error
+  if (hasError || !person) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="bg-red-600 text-white p-4 rounded">
+          <p>Error loading person {personId}</p>
+          <p>Person error: {personError?.message}</p>
+          <p>Credits error: {creditsError?.message}</p>
+        </div>
+      </div>
+    );
   }
 
+  // Add debug to your main render
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="bg-green-600 text-white p-4 rounded mb-4">
+        <p>Successfully loaded person: {person.name}</p>
+      </div>
+
       <BackLink
         media_type={fromMediaType || undefined}
         id={mediaId || undefined}
-        title={mediaDetails?.title || mediaDetails?.name || 'Media'}
+        title={mediaDetails?.title || mediaDetails?.name || "Media"}
       />
 
       <CreditsDetailHeader
@@ -124,13 +127,16 @@ const CreditsDetailPage = () => {
         gender={person.gender}
         deathday={person.deathday}
       />
-      <div className="mt-4">
-      <CreditsDetailGrid
-        credits={combinedCredits.cast || []}
-        />
-        </div>
-    </div>
-  )
-}
 
-export default CreditsDetailPage
+      <div className="mt-4">
+        <CreditsDetailGrid
+          credits={enrichedCredits}
+          loading={creditsLoading}
+          error={creditsError ? "Failed to load credits" : null}
+        />
+      </div>
+    </div>
+  );
+};
+
+export default CreditsDetailPage;

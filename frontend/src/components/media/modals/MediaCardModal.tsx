@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 
 import {useFloating} from '@floating-ui/react';
 
+import type { DetailMedia, MediaType } from "../../../types/tmdb";
+
 type MediaCardModalProps = {
   title: string;
   backdrop?: string;
@@ -18,7 +20,7 @@ type MediaCardModalProps = {
   vote_count?: number; // Optional prop to display vote count
   runtime?: number; // Optional prop for movie length
   number_of_seasons?: number; // Optional prop for season number
-  media_type?: string; // Optional prop to specify media type
+  media_type: "movie" | "tv"; // Optional prop to specify media type
   number_of_episodes?: number; // Optional prop for episode count
 };
 

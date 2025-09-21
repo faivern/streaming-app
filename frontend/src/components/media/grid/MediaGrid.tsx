@@ -55,7 +55,7 @@ export default function MediaGrid({
                 genre_ids={item.genre_ids || []}
                 vote_count={item.vote_count}
                 original_language={item.original_language || "en"}
-                runtime={item.runtime ?? 0}
+                runtime={item.runtime}
                 media_type={media_type}
                 number_of_seasons={item.number_of_seasons}
                 number_of_episodes={item.number_of_episodes}

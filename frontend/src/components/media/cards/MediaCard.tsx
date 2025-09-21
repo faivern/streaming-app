@@ -5,6 +5,7 @@ import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Poster from "../../media/shared/Poster";
 import RatingPill from "../../ui/RatingPill";
+import type { MediaType } from "../../../types/tmdb";
 import {
   useFloating,
   offset,
@@ -15,6 +16,7 @@ import {
 
 type MediaCardProps = {
   id: number;
+  media_type: MediaType; // Optional prop to specify media type
   title: string;
   posterPath: string;
   overview?: string;
@@ -24,7 +26,6 @@ type MediaCardProps = {
   vote_count?: number; // Optional prop to display vote count
   original_language?: string; // Default to English if not provided
   runtime?: number; // Optional prop for movie length
-  media_type?: "movie" | "tv"; // Optional prop to specify media type
   number_of_seasons?: number; // Optional prop for season number
   number_of_episodes?: number; // Optional prop for episode count
 };
