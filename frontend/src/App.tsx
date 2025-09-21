@@ -11,8 +11,12 @@ import CollectionPage from "./pages/collectionPage/collectionPage";
 import ScrollToTop from "./components/layout/ScrollToTop";
 
 function App() {
+  // theme select (for development purposes, might add user selection later)
+  const theme = "blizzard";
+  document.documentElement.setAttribute("data-preset", theme);
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-900 to-blue-950 text-white scrollbar">
+    <div className="min-h-screen flex flex-col bg-primary text-white scrollbar">
       <Header />
       <main className="flex-grow">
         <ScrollToTop />
