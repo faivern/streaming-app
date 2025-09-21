@@ -107,6 +107,9 @@ const languageMap: Record<string, string> = {
     yo: "Yoruba",
     zu: "Zulu",
     zh: "Chinese",
-    xx: "Unknown", // Fallback for unknown languages
+    xx: "Unknown",
+    tl: "Tagalog",
+    cn: "Chinese (Simplified)",
+    tw: "Chinese (Traditional)"
 };
 export default languageMap;
