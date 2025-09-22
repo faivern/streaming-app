@@ -1,4 +1,3 @@
-/* default (use anything; we’ll override via data-preset) */
 :root {
   --background: 220 15% 9%;
   --foreground: 210 24% 96%;
@@ -10,7 +9,7 @@
   --ring: 199 100% 45%;
 
   /* brand */
-  --primary: 199 100% 45%;      /* blizzard blue ~#009AE4 */
+  --primary: 199 100% 45%;     
   --primary-foreground: 210 40% 98%;
   --accent: 188 66% 80%;
   --accent-foreground: 224 71% 4%;
@@ -18,20 +17,16 @@
 
 /* Blizzard preset (dark gray + sky blue) */
 :root[data-preset="blizzard"] {
-  --background: 220 15% 9%;
-  --card: 220 15% 12%;
-  --border: 220 10% 20%;
-  --ring: 199 100% 45%;
   --primary: hsl(224, 37%, 12%);
-  --primary-foreground: 210 40% 98%;
+  --secondary: hsl(207, 92%, 36%);
+  --accent-primary: hsl(197, 100%, 50%);
+  --accent-secondary:hsl(215, 99%, 58%);
+  --background: hsl(224, 37%, 12%);
+  --card: hsl(220, 15%, 12%);
+  --border: hsl(240, 1%, 24%);
+  --ring: hsl(199, 100%, 45%);
+  --foreground: hsl(0, 0%, 27%);
+  --gradient: linear-gradient(135deg, hsl(199, 100%, 45%), hsl(188, 66%, 80%));
+  --text-h1: hsl(0, 0%, 100%);
 }
 
-/* Netflix preset (near-black + red) */
-:root[data-preset="netflix"] {
-  --background: 0 0% 8%;        /* ~#141414 */
-  --card: 0 0% 10%;
-  --border: 0 0% 18%;
-  --ring: 357 92% 47%;          /* ~#E50914 */
-  --primary: hsl(308, 100%, 52%);
-  --primary-foreground: 0 0% 100%;
-}

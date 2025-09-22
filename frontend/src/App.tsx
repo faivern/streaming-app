@@ -16,7 +16,7 @@ function App() {
   document.documentElement.setAttribute("data-preset", theme);
 
   return (
-    <div className="min-h-screen flex flex-col bg-primary text-white scrollbar">
+    <div className="min-h-screen flex flex-col bg-background text-white scrollbar">
       <Header />
       <main className="flex-grow">
         <ScrollToTop />
