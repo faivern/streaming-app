@@ -100,7 +100,6 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                     i === 0 ? "opacity-100 z-10" : "opacity-0 z-0"
                   } pointer-events-none`}
                 >
-                  <div className="absolute bottom-0 left-0 w-full h-15 bg-gradient-to-b from-transparent to-gray-900 z-10"></div>
                   <div className="w-full h-full bg-white/10 animate-pulse" />
                 </div>
               ))
@@ -114,7 +113,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                   }`}
                 >
                   <Link to={`/media/${m.media_type}/${m.id}`}>
-                    <div className="absolute bottom-0 left-0 w-full h-15 bg-gradient-to-b from-transparent to-gray-900 z-10"></div>
+                    <div className="absolute bottom-0 left-0 w-full h-15 bg-gradient-to-b from-transparent to-background z-10"></div>
                     <Backdrop
                       path={m.backdrop_path}
                       alt={m.title || m.name || "Backdrop"}
@@ -122,7 +121,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                       sizes="100vw"
                       priority={idx === currentIndex}
                     />
-                    <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/80 via-black/40 to-transparent z-0 pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/70 via-black/30 to-transparent z-0 pointer-events-none" />
                   </Link>
 
                   <div className="flex flex-col gap-4 absolute bottom-12 left-12 z-20 max-w-xl bg-gray-700/5 p-6 rounded-xl backdrop-blur-sm shadow-lg">
@@ -193,8 +192,8 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
               key={idx}
               className={`w-8 h-1.5 rounded-full transition-all ${
                 !loading && idx === currentIndex
-                  ? "bg-sky-500 scale-125 shadow hover:cursor-pointer"
-                  : "bg-gray-400/60 hover:bg-blue-300/80 cursor-pointer"
+                  ? "bg-gradient-to-r from-accent-primary to-accent-secondary scale-125 shadow hover:cursor-pointer"
+                  : "bg-gray-400/60 hover:bg-gradient-to-r from-accent-primary/75 to-accent-secondary/75 cursor-pointer"
               }`}
               onClick={() => !loading && setCurrentIndex(idx)}
               aria-label={`Go to slide ${idx + 1}`}

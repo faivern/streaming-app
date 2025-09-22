@@ -71,8 +71,8 @@ export default function Header() {
         className={`sticky top-0 z-50 w-full backdrop-blur-lg transition-colors duration-700 ease-in-out
         ${
           isScrolled
-            ? "bg-gradient-to-b from-blue-950 via-blue-900 to-blue-900 shadow-md shadow-blue-900/50"
-            : "bg-gradient-to-b from-blue-950/90 via-blue-900/60 to-transparent"
+            ? "bg-gradient-to-b from-secondary via-secondary to-secondary shadow-xl"
+            : "bg-gradient-to-b from-secondary/90 via-secondary/60 to-transparent"
         }`}
       >
         {/* Full-width container - no max-width constraint */}

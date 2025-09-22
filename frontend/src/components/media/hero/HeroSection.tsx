@@ -10,9 +10,9 @@ const HeroSection = ({ total_results }: Props) => {
 
   return (
     <div className="text-center mb-8 py-4">
-      <h1 className="sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-white">
+      <h1 className="sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-text-h1">
         Explore{" "}
-        <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-500">
+        <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">
           <CountUp end={total_results} duration={durationTime} separator={separatorSymbol} />
         </span>{" "}
         Movies & TV Shows
