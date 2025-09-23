@@ -245,12 +245,12 @@ export default function SearchBar({
         <div className="relative">
           <Combobox.Input
             ref={inputRef}
-            className="w-full bg-gray-900/40 border border-gray-600 rounded-full px-4 py-2.5 pl-10 pr-10 text-white placeholder-gray-400 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all duration-200 text-sm md:text-base"
+            className="w-full bg-gray-900/40 border border-gray-600 rounded-full px-4 py-2.5 pl-10 pr-10 text-white placeholder-gray-400 focus:outline-none focus:border-accent-secondary focus:border-2 focus:ring-2 focus:ring-accent-primary/20 transition-all duration-200 text-sm md:text-base"
             placeholder="Search Movies, TV Shows, People..."
             displayValue={() => query}
             onChange={(e) => handleInput(e.target.value)}
             onFocus={() => query && setOpen(true)}
-          />
+            />
           <FontAwesomeIcon
             icon={faSearch}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"
@@ -323,7 +323,7 @@ export default function SearchBar({
                           <div className="flex-1 min-w-0">
                             <p
                               className={`font-medium truncate ${
-                                active ? "text-sky-300" : "text-white"
+                                active ? "text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary" : "text-white"
                               }`}
                             >
                               {r.title || r.name}

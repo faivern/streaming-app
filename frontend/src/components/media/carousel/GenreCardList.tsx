@@ -1,6 +1,6 @@
 import GenreCard from "../cards/GenreCard.tsx";
 import "../../../style/TitleHover.css";
-import TitleMid from "../title/titleMid.tsx";
+import TitleMid from "../title/TitleMid.tsx";
 type Props = {
   genres: {
     id: number;
