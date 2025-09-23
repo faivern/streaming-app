@@ -54,7 +54,7 @@ export default function MediaDetailPage() {
         />
       </div>
 
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-500/80 to-transparent" />
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-accent-foreground to-transparent" />
 
       <div className="flex flex-col md:flex-row gap-8">
         <div className="md:w-3/4 w-full">

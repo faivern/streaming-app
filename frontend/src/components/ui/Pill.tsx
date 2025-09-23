@@ -8,8 +8,8 @@ type PillProps = {
 };
 
 const base =
-  "inline-flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 " +
-  "rounded-full border border-gray-600/50 shadow-sm";
+  "inline-flex items-center gap-1 bg-badge-primary text-white px-3 py-1 " +
+  "rounded-full border border-badge-foreground shadow-sm";
 
 export default function Pill({
   children,

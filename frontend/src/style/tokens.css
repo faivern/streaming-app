@@ -20,7 +20,8 @@
   --primary: hsl(224, 37%, 12%);
   --secondary: hsl(207, 92%, 36%);
   --accent-primary: hsl(197, 100%, 50%);
-  --accent-secondary:hsl(215, 99%, 58%);
+  --accent-secondary: hsl(215, 99%, 58%);
+  --accent-thirdary: hsl(228, 85%, 62%);
   --background: hsl(224, 37%, 12%);
   --card: hsl(220, 15%, 12%);
   --border: hsl(240, 1%, 24%);
@@ -28,5 +29,60 @@
   --foreground: hsl(0, 0%, 27%);
   --gradient: linear-gradient(135deg, hsl(199, 100%, 45%), hsl(188, 66%, 80%));
   --text-h1: hsl(0, 0%, 100%);
+  --badge-primary: hsl(215, 32%, 15%);
+  --badge-foreground: hsl(216, 23%, 22%);
+  --accent-foreground: hsl(226, 16%, 26%);
+  --component-primary: hsl(222, 38%, 14%);
+  --action-primary: hsl(217, 35%, 16%);
+  --action-hover: hsl(217, 35%, 26%);
 }
 
+:root[data-preset="netflixish"] {
+  --primary: hsl(0, 0%, 8%);          /* deep black background */
+  --secondary: hsl(357, 85%, 24%);    /* dark red secondary */
+  --accent-primary: hsl(0, 100%, 45%); /* Netflix red */
+  --accent-secondary: hsl(0, 90%, 55%); /* brighter red for hover/active */
+  --accent-thirdary: hsl(8, 80%, 60%);  /* orange-red highlight */
+  --background: hsl(0, 0%, 8%);        /* near black background */
+  --card: hsl(0, 0%, 12%);             /* card surfaces */
+  --border: hsl(0, 0%, 20%);           /* subtle border gray */
+  --ring: hsl(0, 90%, 55%);            /* focus rings in red */
+  --foreground: hsl(0, 0%, 90%);       /* light text */
+  --gradient: linear-gradient(
+    135deg,
+    hsl(0, 100%, 45%),
+    hsl(8, 80%, 60%)
+  );
+  --text-h1: hsl(0, 0%, 100%);         /* white headings */
+  --badge-primary: hsl(0, 0%, 15%);    /* subtle badge bg */
+  --badge-foreground: hsl(0, 0%, 40%); /* muted badge text */
+  --accent-foreground: hsl(0, 0%, 25%);/* darker foreground for accents */
+  --component-primary: hsl(0, 0%, 12%);/* component base */
+  --action-primary: hsl(0, 0%, 15%);   /* button bg default */
+  --action-hover: hsl(0, 0%, 25%);     /* button hover */
+}
+
+:root[data-preset="sleek"] {
+  --primary: hsl(220, 15%, 10%);        /* almost-black navy */
+  --secondary: hsl(220, 15%, 18%);      /* dark gray-blue */
+  --accent-primary: hsl(200, 90%, 55%); /* teal/cyan accent */
+  --accent-secondary: hsl(280, 75%, 60%); /* purple accent */
+  --accent-thirdary: hsl(340, 75%, 60%);  /* magenta highlight */
+  --background: hsl(220, 15%, 10%);     /* matches primary */
+  --card: hsl(220, 15%, 14%);           /* slightly lighter for cards */
+  --border: hsl(220, 10%, 25%);         /* subtle borders */
+  --ring: hsl(200, 90%, 55%);           /* teal focus ring */
+  --foreground: hsl(0, 0%, 90%);        /* light text */
+  --gradient: linear-gradient(
+    135deg,
+    hsl(200, 90%, 55%),
+    hsl(280, 75%, 60%)
+  );
+  --text-h1: hsl(0, 0%, 100%);          /* pure white headings */
+  --badge-primary: hsl(220, 15%, 16%);  /* muted badge bg */
+  --badge-foreground: hsl(220, 15%, 45%); /* soft badge text */
+  --accent-foreground: hsl(220, 15%, 25%); /* darker accent fg */
+  --component-primary: hsl(220, 15%, 14%); /* component bg */
+  --action-primary: hsl(220, 15%, 18%); /* button bg default */
+  --action-hover: hsl(220, 15%, 28%);   /* button hover */
+}

@@ -165,7 +165,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                             <GenrePill
                               key={id}
                               id={id}
-                              className="bg-gray-700/40 border border-gray-600/40"
+                              className="bg-badge-primary/70 border-badge-foreground/40 shadow-sm"
                             />
                           ))}
                         </div>

@@ -11,9 +11,9 @@ const BackLink = ({ media_type, id, title }: Props) => {
   if (media_type && id && title) {
     return (
       <div className="text-sm text-gray-400 space-x-2 mb-6">
-        <Link to="/" className="hover:text-blue-300">Home</Link>
+        <Link to="/" className="hover:text-accent-primary">Home</Link>
         <span>/</span>
-        <Link to={`/media/${media_type}/${id}`} className="hover:text-blue-300">
+        <Link to={`/media/${media_type}/${id}`} className="hover:text-accent-primary">
           ← Back to {title}
         </Link>
       </div>
@@ -23,7 +23,7 @@ const BackLink = ({ media_type, id, title }: Props) => {
   // Fallback to home if no media context
   return (
     <div className="text-sm text-gray-400 space-x-2 mb-6">
-      <Link to="/" className="hover:text-blue-300">← Back to Home</Link>
+      <Link to="/" className="hover:text-accent-primary">← Back to Home</Link>
     </div>
   );
 };

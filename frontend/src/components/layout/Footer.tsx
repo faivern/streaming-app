@@ -1,18 +1,32 @@
-
+import logo from "../../assets/react.svg";
 const Footer = () => {
   return (
 
-<footer className="bg-white dark:bg-gray-900 mt-16">
+<footer className="bg-white dark:bg-primary mt-16 border-t border-accent-foreground/70">
   <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
     <div className="md:flex md:justify-between">
       <div className="mb-6 md:mb-0">
-        <a href="https://flowbite.com/" className="flex items-center">
-          <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 me-3" alt="FlowBite Logo" />
+        <a href="" className="flex items-center">
+                          <span
+                  aria-label="logo"
+                  role="img"
+                  className="h-8 w-8 mr-2 inline-block bg-gradient-to-r from-accent-primary to-accent-secondary hover:rotate-210 transition duration-450"
+                  style={{
+                  WebkitMaskImage: `url(${logo})`,
+                  maskImage: `url(${logo})`,
+                  WebkitMaskRepeat: "no-repeat",
+                  maskRepeat: "no-repeat",
+                  WebkitMaskSize: "contain",
+                  maskSize: "contain",
+                  WebkitMaskPosition: "center",
+                  maskPosition: "center",
+                  }}
+                />
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                        <h1 className="text-2xl font-bold">
-            <span className="text-white">Movie</span>
-            <span className="text-blue-300">Bucket</span>
-            </h1>
+                <h1 className="text-xl lg:text-2xl font-bold whitespace-nowrap">
+                  <span className="text-white">Movie</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">Bucket</span>
+                </h1>
           </span>
         </a>
       </div>
@@ -21,7 +35,7 @@ const Footer = () => {
           <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
           <ul className="text-gray-500 dark:text-gray-400 font-medium">
             <li className="mb-4">
-              <a href="https://flowbite.com/" className="hover:underline">MovieBucket</a>
+              <a href="" className="hover:underline">MovieBucket</a>
             </li>
             <li>
               <a href="https://tailwindcss.com/" className="hover:underline">Tailwind CSS</a>
@@ -32,10 +46,10 @@ const Footer = () => {
           <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
           <ul className="text-gray-500 dark:text-gray-400 font-medium">
             <li className="mb-4">
-              <a href="https://github.com/themesberg/flowbite" className="hover:underline ">Github</a>
+              <a href="" className="hover:underline ">Github</a>
             </li>
             <li>
-              <a href="https://discord.gg/4eeurUVvTy" className="hover:underline">Discord</a>
+              <a href="" className="hover:underline">Discord</a>
             </li>
           </ul>
         </div>
@@ -54,7 +68,7 @@ const Footer = () => {
     </div>
     <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
     <div className="sm:flex sm:items-center sm:justify-between">
-      <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="https://flowbite.com/" className="hover:underline">MovieBucket™</a> - Powered by <a href="https://developer.themoviedb.org/" target="_blank" className="hover:underline">TMDB</a>.
+      <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2025 <a href="" className="hover:underline">MovieBucket™</a> - Powered by <a href="https://developer.themoviedb.org/" target="_blank" className="hover:underline">TMDB</a>.
       </span>
       
       <div className="flex mt-4 sm:justify-center sm:mt-0">
