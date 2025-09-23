@@ -19,7 +19,7 @@ const MediaGridSimilar = ({ similarMedia, parentType }: Props) => {
 
   return (
     <aside className="mt-8 shadow-lg w-md:max-w-6xl">
-      <div className="bg-slate-800/40 rounded-xl p-4 border border-slate-600/30 overflow-visible">
+      <div className="bg-component-primary rounded-xl p-4 border border-accent-foreground/60 overflow-visible">
         <h2 className="text-lg font-semibold text-white mb-4">
           <FontAwesomeIcon icon={faPlay} className="text-md pr-2" />
           You may also like

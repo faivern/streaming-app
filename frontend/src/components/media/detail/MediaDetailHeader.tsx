@@ -51,7 +51,7 @@ export default function MediaDetailHeader({
             loading="lazy"
             src={`https://image.tmdb.org/t/p/w500${posterPath}`}
             alt={title}
-            className="w-full aspect-[2/3] object-cover rounded-3xl shadow-lg border border-slate-600/30"
+            className="w-full aspect-[2/3] object-cover rounded-3xl shadow-lg border border-accent-foreground"
           />
           {logo_path && (
             <div className="absolute top-2 left-2 bg-white/80 px-2 py-1 rounded">

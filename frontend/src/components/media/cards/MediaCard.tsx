@@ -69,7 +69,7 @@ export default function MediaCard(props: MediaCardProps) {
         <div
           className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
   rounded-2xl border border-gray-400/30 overflow-hidden shadow-lg
-  hover:shadow-xl hover:scale-105 hover:border-blue-500/30 transition-all duration-300 relative group"
+  hover:shadow-xl hover:scale-105 hover:border-accent-primary/75 transition-all duration-300 relative group"
         >
           <Link to={`/media/${media_type}/${id}`}>
             {/* Shine layer */}
@@ -80,10 +80,9 @@ export default function MediaCard(props: MediaCardProps) {
           <FontAwesomeIcon icon={faBookmark} />
           </div>
           */}
-
             <RatingPill
               rating={vote_average}
-              className="absolute top-2 right-2"
+              className="absolute top-1 right-1 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
               showOutOfTen={false}
             />
 
@@ -101,6 +100,7 @@ export default function MediaCard(props: MediaCardProps) {
         {/* 🟡 Simple test modal */}
         {hovered && (
           <div ref={refs.setFloating} style={floatingStyles} className="z-50">
+            
             <MediaCardModal
               id={id}
               title={title}

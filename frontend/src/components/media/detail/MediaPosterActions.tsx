@@ -1,4 +1,3 @@
-import { use, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faBookmark, faShare } from "@fortawesome/free-solid-svg-icons";
 import useShare from "../../../hooks/useShare";
@@ -16,10 +15,10 @@ export default function MediaPosterActions({ onWatchNow }: Props) {
     <div className="mt-6 space-y-3">
 <button
   onClick={onWatchNow}
-  className="w-full bg-gradient-to-r from-blue-600 to-blue-800 
-             hover:from-sky-500 hover:via-blue-500 hover:to-blue-700 
+  className="w-full bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-thirdary
+             hover:from-accent-primary hover:to-accent-secondary
              text-white py-4 px-6 rounded-xl font-semibold shadow-lg 
-             transform transition-transform duration-200 hover:scale-105 
+             transform transition-transform duration-200 hover:scale-103 
              flex items-center justify-center gap-3 cursor-pointer"
 >
   <FontAwesomeIcon icon={faPlay} className="text-white text-lg" />
@@ -29,14 +28,17 @@ export default function MediaPosterActions({ onWatchNow }: Props) {
       <div className="grid grid-cols-2 gap-3">
         <button
             onClick={handleAddWatchList} 
-            className="bg-slate-800/80 backdrop-blur-sm hover:bg-slate-700/80 text-white py-3 px-4 rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 border border-slate-600/50 hover:cursor-pointer">
+            className="bg-action-primary hover:bg-action-hover text-white py-3 px-4 rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 border border-slate-600/50 hover:cursor-pointer">
           <FontAwesomeIcon icon={faBookmark} />
           <span>Watchlist</span>
         </button>
 
         <button
             onClick={handleShare} 
-            className="bg-slate-800/80 backdrop-blur-sm hover:bg-slate-700/80 text-white py-3 px-4 rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 border border-slate-600/50 hover:cursor-pointer">
+            className="bg-action-primary
+            hover:bg-action-hover text-white py-3 px-4 rounded-xl font-medium shadow-md transition-all duration-200 
+              hover:scale-105 flex items-center justify-center gap-2 border border-accent-foreground 
+              hover:cursor-pointer">
           <FontAwesomeIcon icon={faShare} />
           <span>Share</span>
         </button>
