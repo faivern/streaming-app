@@ -71,8 +71,8 @@ export default function Header() {
         className={`sticky top-0 z-50 w-full backdrop-blur-lg transition-colors duration-700 ease-in-out
         ${
           isScrolled
-            ? "bg-gradient-to-b from-secondary via-secondary to-secondary shadow-xl"
-            : "bg-gradient-to-b from-secondary/90 via-secondary/60 to-transparent"
+            ? "bg-gradient-to-b from-primary via-primary to-primary shadow-xl"
+            : "bg-gradient-to-b from-primary/90 via-primary/60 to-transparent"
         }`}
       >
         {/* Full-width container - no max-width constraint */}
@@ -89,7 +89,7 @@ export default function Header() {
                 />
                 <h1 className="text-xl lg:text-2xl font-bold whitespace-nowrap">
                   <span className="text-white">Movie</span>
-                  <span className="text-blue-300">Bucket</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">Bucket</span>
                 </h1>
               </Link>
 

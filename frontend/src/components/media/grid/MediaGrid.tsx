@@ -1,8 +1,8 @@
 import MediaCard from "../cards/MediaCard";
 import MediaCardSkeleton from "../skeleton/MediaCardSkeleton";
 import TitleMid from "../title/TitleMid";
-import type { MediaGridItem, MediaType } from "../../../api/media.api";
-
+import type { MediaGridItem } from "../../../api/media.api";
+import type { MediaType } from "../../../types/tmdb";
 interface MediaGridProps {
   media_type: MediaType;
   items: MediaGridItem[];
@@ -18,8 +18,9 @@ export default function MediaGrid({
   error = null,
   title,
 }: MediaGridProps) {
-  const displayTitle =
+  const displayTitle = 
     title || `Trending ${media_type === "movie" ? "Movies" : "TV Shows"}`;
+  const skeletonCount = 10;
 
   // Error state
   if (error) {
@@ -35,12 +36,13 @@ export default function MediaGrid({
   }
 
   return (
+
     <div className="md:mx-8 px-4 sm:px-6 lg:px-8">
       <TitleMid>{displayTitle}</TitleMid>
 
       <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 justify-items-center">
         {loading
-          ? Array.from({ length: 10 }).map((_, i) => (
+          ? Array.from({ length: skeletonCount }).map((_, i) => (
               <MediaCardSkeleton key={i} />
             ))
           : items.map((item) => (

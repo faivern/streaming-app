@@ -9,7 +9,7 @@
 
 /* Only apply hover if not active */
 .underline-hover:hover:not(.active) {
-  color: #38bdf8;
+  color: var(--accent-primary);
 }
 
 .underline-bar {
@@ -18,7 +18,7 @@
   bottom: -0.25rem;
   width: 0;
   height: 0.125rem;
-  background-color: #38bdf8;
+  background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
   transition: all 0.3s;
 }
 
