@@ -63,12 +63,13 @@
 }
 
 :root[data-preset="sleek"] {
-  --primary: hsl(220, 15%, 10%);        /* almost-black navy */
+  --primary: hsl(220, 15%, 10%);
+          /* almost-black navy */
   --secondary: hsl(220, 15%, 18%);      /* dark gray-blue */
   --accent-primary: hsl(200, 90%, 55%); /* teal/cyan accent */
   --accent-secondary: hsl(280, 75%, 60%); /* purple accent */
   --accent-thirdary: hsl(340, 75%, 60%);  /* magenta highlight */
-  --background: hsl(220, 15%, 10%);     /* matches primary */
+  --background:hsl(0, 0%, 6%);   /* matches primary */
   --card: hsl(220, 15%, 14%);           /* slightly lighter for cards */
   --border: hsl(220, 10%, 25%);         /* subtle borders */
   --ring: hsl(200, 90%, 55%);           /* teal focus ring */
