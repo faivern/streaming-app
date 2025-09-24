@@ -81,27 +81,29 @@ export default function Header() {
           <nav className="grid grid-cols-[auto_1fr_auto] items-center py-4 gap-8 xl:gap-12">
             {/* LEFT: Logo + Nav Links */}
             <div className="flex items-center gap-6">
-                <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+              <Link to="/" className="flex items-center gap-2 flex-shrink-0">
                 <span
                   aria-label="logo"
                   role="img"
                   className="h-8 w-8 inline-block bg-gradient-to-r from-accent-primary to-accent-secondary hover:rotate-210 transition duration-450"
                   style={{
-                  WebkitMaskImage: `url(${logo})`,
-                  maskImage: `url(${logo})`,
-                  WebkitMaskRepeat: "no-repeat",
-                  maskRepeat: "no-repeat",
-                  WebkitMaskSize: "contain",
-                  maskSize: "contain",
-                  WebkitMaskPosition: "center",
-                  maskPosition: "center",
+                    WebkitMaskImage: `url(${logo})`,
+                    maskImage: `url(${logo})`,
+                    WebkitMaskRepeat: "no-repeat",
+                    maskRepeat: "no-repeat",
+                    WebkitMaskSize: "contain",
+                    maskSize: "contain",
+                    WebkitMaskPosition: "center",
+                    maskPosition: "center",
                   }}
                 />
                 <h1 className="text-xl lg:text-2xl font-bold whitespace-nowrap">
                   <span className="text-white">Movie</span>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">Bucket</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">
+                    Bucket
+                  </span>
                 </h1>
-                </Link>
+              </Link>
 
               {/* Desktop Nav Links */}
               <div className="hidden xl:flex items-center gap-6">
@@ -137,9 +139,9 @@ export default function Header() {
             </div>
 
             {/* CENTER: Search Bar - Takes remaining space, perfectly centered */}
-              <div className="w-xl md:w-md absolute left-1/2 transform -translate-x-1/2">
-                <SearchBar />
-              </div>
+            <div className="w-xl md:w-md absolute left-1/2 transform -translate-x-1/2">
+              <SearchBar />
+            </div>
 
             {/* RIGHT: User Actions */}
             <div className="flex items-center justify-end gap-4">
@@ -171,7 +173,7 @@ export default function Header() {
                 </button>
               </div>
 
-              <button className="flex items-center bg-blue-500/80 hover:bg-sky-400 text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
+              <button className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
                 <FaRegUser className="mr-1 lg:mr-2" />
                 <span className="hidden sm:inline">Login</span>
               </button>
