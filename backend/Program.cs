@@ -9,6 +9,19 @@ namespace backend
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddRazorPages();
+            builder.Services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+                }
+                );
+
+
+
+
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -36,16 +49,23 @@ namespace backend
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+            } else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-            // Enable CORS middleware
+            app.UseRouting();
+
             app.UseCors("AllowAll");
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
+            app.MapRazorPages();
 
             app.Run();
         }
