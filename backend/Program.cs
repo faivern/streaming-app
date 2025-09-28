@@ -1,73 +1,67 @@
-
 using backend.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using backend.Data;
 
-namespace backend
-{
-    public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+builder.Services.AddCors(o => o.AddPolicy("Spa",
+  p => p.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod()));
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddHttpClient<TmdbService>();
+
+builder.Services.AddDbContext<AppDbContext>(o =>
+    o.UseSqlite("Data Source=moviebucket.db"));
+
+builder.Services.AddIdentityCore<IdentityUser>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddSignInManager();
+
+builder.Services.AddAuthentication()
+    .AddCookie("External")
+    .AddGoogle("Google", o =>
     {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+        o.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+        o.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+        o.CallbackPath = "/auth/google-callback";
+        o.SignInScheme = "External";
+        o.Scope.Add("profile");
+        o.Scope.Add("email");
+        o.SaveTokens = true;
+    });
 
-            builder.Services.AddRazorPages();
-            builder.Services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-                    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-                }
-                );
+builder.Services.AddAuthorization();
 
+var app = builder.Build();
 
+if (app.Environment.IsDevelopment()) {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+   } 
+           
+app.UseHttpsRedirection();
 
+app.UseRouting();
+app.UseCors("Spa");
 
+app.UseAuthentication();
+app.UseAuthorization();
 
-            // Add services to the container.
+app.MapControllers();
 
-            builder.Services.AddControllers();
-            // Add CORS service and policy
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAll", policy =>
-                {
-                    policy.AllowAnyOrigin()
-                          .AllowAnyMethod()
-                          .AllowAnyHeader();
-                });
-            });
+app.MapGet("/auth/google", (HttpContext http) =>
+{
+    var props = new AuthenticationProperties { RedirectUri = "/auth/google-callback" };
+    return Results.Challenge(props, new[] { "Google" });
+});
+app.MapGet("/auth/google-callback", () => Results.Ok(new { ok = true }));
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-            builder.Services.AddMemoryCache();
-            builder.Services.AddHttpClient<TmdbService>();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            } else
-            {
-                app.UseExceptionHandler("/Error");
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseCors("AllowAll");
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapControllers();
-            app.MapRazorPages();
-
-            app.Run();
-        }
-    }
-}
+app.Run();

@@ -13,20 +13,20 @@ namespace backend.Services
         private readonly IMemoryCache _cache;
         private readonly ILogger<TmdbService> _logger;
 
-        public TmdbService(HttpClient httpClient, IConfiguration configuration, IMemoryCache cache, ILogger<TmdbService> logger)
+        public TmdbService(HttpClient httpClient, IConfiguration cfg, IMemoryCache cache, ILogger<TmdbService> logger)
         {
             _httpClient = httpClient;
-            _apiKey = configuration["TMDB:ApiKey"];
+            _apiKey = cfg["TMDB:ApiKey"] ?? throw new InvalidOperationException("TMDB:API-key is missing!");
             _cache = cache;
             _logger = logger;
         }
 
         private async Task<string> FetchWithCacheAsync(string cacheKey, string url, TimeSpan cacheDuration)
         {
-            if (_cache.TryGetValue(cacheKey, out string cachedData))
+            if (_cache.TryGetValue(cacheKey, out string? cachedData))
             {
                 _logger.LogInformation($"✅ Cache hit for key: {cacheKey}");
-                return cachedData;
+                return cachedData ?? string.Empty;
             }
 
             _logger.LogInformation($"❌ Cache miss for key: {cacheKey} — fetching from TMDB");
@@ -42,7 +42,7 @@ namespace backend.Services
                 AbsoluteExpirationRelativeToNow = cacheDuration
             });
 
-            return cachedData;
+            return cachedData ?? string.Empty;
         }
 
         //-----------------------------SEARCH MULTI---------------------------------------
