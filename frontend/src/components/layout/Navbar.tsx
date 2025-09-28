@@ -172,11 +172,13 @@ export default function Header() {
                   </svg>
                 </button>
               </div>
-
-              <button className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
-                <FaRegUser className="mr-1 lg:mr-2" />
-                <span className="hidden sm:inline">Login</span>
-              </button>
+              {/* Login Button */}
+              <a href="https://localhost:7124/auth/google">
+                <button className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
+                  <FaRegUser className="mr-1 lg:mr-2" />
+                  <span className="hidden sm:inline">Login</span>
+                </button>
+              </a>
             </div>
           </nav>
         </div>
