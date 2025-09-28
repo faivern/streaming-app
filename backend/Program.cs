@@ -38,8 +38,8 @@ builder.Services.AddAuthentication(options =>
     o.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
     o.CallbackPath = "/auth/google-callback";
     o.SignInScheme = "External";
-   // o.Scope.Add("profile");
-   // o.Scope.Add("email");
+    o.Scope.Add("profile");
+    o.Scope.Add("email");
     o.SaveTokens = true;
 });
 
