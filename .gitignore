@@ -7,9 +7,19 @@ frontend/.vite/
 # backend
 backend/bin/
 backend/obj/
+backend/*.db
+backend/secrets.json 
+
+# common config/secrets
+*.ini
+*.yml
+*.yaml
 
 # editor/os
 .vscode/
 *.log
 .DS_Store
 Thumbs.db
+*.user
+*.suo
+*.csproj.user
