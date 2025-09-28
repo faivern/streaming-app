@@ -25,18 +25,24 @@ builder.Services.AddIdentityCore<IdentityUser>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddSignInManager();
 
-builder.Services.AddAuthentication()
-    .AddCookie("External")
-    .AddGoogle("Google", o =>
-    {
-        o.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
-        o.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
-        o.CallbackPath = "/auth/google-callback";
-        o.SignInScheme = "External";
-        o.Scope.Add("profile");
-        o.Scope.Add("email");
-        o.SaveTokens = true;
-    });
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = "Google";
+})
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie("External")
+.AddGoogle("Google", o =>
+{
+    o.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
+    o.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+    o.CallbackPath = "/auth/google-callback";
+    o.SignInScheme = "External";
+   // o.Scope.Add("profile");
+   // o.Scope.Add("email");
+    o.SaveTokens = true;
+});
+
 
 builder.Services.AddAuthorization();
 
@@ -57,11 +63,15 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGet("/auth/google", (HttpContext http) =>
-{
-    var props = new AuthenticationProperties { RedirectUri = "/auth/google-callback" };
-    return Results.Challenge(props, new[] { "Google" });
-});
-app.MapGet("/auth/google-callback", () => Results.Ok(new { ok = true }));
+app.MapGet("/auth/google", () =>
+    Results.Challenge(
+        new AuthenticationProperties
+        {
+            RedirectUri = "http://localhost:5173" // where to land AFTER Google login
+        },
+        authenticationSchemes: new[] { "Google" }  // <— explicit scheme
+    )
+);
+
 
 app.Run();
