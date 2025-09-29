@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import MediaCardModal from "../modals/MediaCardModal";
 import { usePrefetchMediaDetail } from "../../../hooks/media/useMediaDetail";
 import type { MediaType, DetailMedia } from "../../../types/tmdb";
+import { truncateText } from "../../../utils/truncateText";
 
 type MediaSimilarCardProps = {
   id: number;
@@ -37,6 +38,7 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
 
   const posterForCard = poster_path ?? backdrop_path ?? "";
   const displayTitle = title ?? name ?? "Untitled";
+  const titleshort = truncateText(displayTitle);
 
   const initial = useMemo<Partial<DetailMedia>>(
     () => ({
@@ -66,7 +68,7 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
           </div>
           <div className="flex-1 min-w-0 h-full flex flex-col justify-center">
             <h3 className="text-sm font-medium text-white group-hover:text-blue-300 transition-colors truncate leading-tight">
-              {displayTitle}
+              {titleshort}
             </h3>
             <p className="text-xs text-gray-400 mt-1 truncate">
               {(release_date ?? first_air_date ?? "Unknown").slice(0, 4)}
