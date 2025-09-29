@@ -18,10 +18,10 @@ const MediaGridSimilar = ({ similarMedia, parentType }: Props) => {
     (m.first_air_date ? "tv" : "movie"); // crude but works for TMDB
 
   return (
-    <aside className="mt-8 shadow-lg w-md:max-w-6xl">
+    <aside className="mt-8 shadow-lg w-md:max-w-6xl inline-block">
       <div className="bg-component-primary rounded-xl p-4 border border-accent-foreground/60 overflow-visible">
-        <h2 className="text-lg font-semibold text-white mb-4">
-          <FontAwesomeIcon icon={faPlay} className="text-md pr-2" />
+        <h2 className="text-xl font-semibold text-white mb-4">
+          <FontAwesomeIcon icon={faPlay} className="text-md pr-2 text-accent-primary" />
           You may also like
         </h2>
 

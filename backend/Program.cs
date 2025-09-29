@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using backend.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,7 +20,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<TmdbService>();
 
 builder.Services.AddDbContext<AppDbContext>(o =>
-    o.UseSqlite("Data Source=moviebucket.db"));
+    o.UseNpgsql("Data Source=moviebucket.db"));
 
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddEntityFrameworkStores<AppDbContext>()
@@ -67,11 +68,10 @@ app.MapGet("/auth/google", () =>
     Results.Challenge(
         new AuthenticationProperties
         {
-            RedirectUri = "http://localhost:5173" // where to land AFTER Google login
+            RedirectUri = "http://localhost:5173"
         },
-        authenticationSchemes: new[] { "Google" }  // <— explicit scheme
+        authenticationSchemes: new[] { "Google" }
     )
 );
-
 
 app.Run();
