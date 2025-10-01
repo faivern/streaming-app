@@ -37,7 +37,7 @@
   --action-hover: hsl(217, 35%, 26%);
 }
 
-:root[data-preset="netflixish"] {
+:root[data-preset="netflix"] {
   --primary: hsl(0, 0%, 8%);          /* deep black background */
   --secondary: hsl(357, 85%, 24%);    /* dark red secondary */
   --accent-primary: hsl(0, 100%, 45%); /* Netflix red */

@@ -1,3 +1,6 @@
+import { useState } from "react";
+import mediaPlaceholder from "../../../images/media-placeholder.png";
+
 type PosterProps = {
   path?: string;
   alt: string;
@@ -11,14 +14,23 @@ export default function Poster({
   className = "",
   useCustomSize = false,
 }: PosterProps) {
-  if (!path)
+  const [imageError, setImageError] = useState(false);
+
+  // If no path or image failed to load, show placeholder
+  if (!path || imageError) {
     return (
-      <div
+      <img
+        loading="lazy"
+        decoding="async"
         className={`${
           useCustomSize ? "" : "aspect-[2/3] rounded-lg"
-        } bg-white/5 ${className}`}
+        } object-cover bg-white/5 ${className}`}
+        src={mediaPlaceholder}
+        alt={alt}
+        onError={() => setImageError(true)}
       />
     );
+  }
 
   const base = "https://image.tmdb.org/t/p";
   return (
@@ -32,6 +44,7 @@ export default function Poster({
       srcSet={`${base}/w185${path} 185w, ${base}/w342${path} 342w, ${base}/w500${path} 500w`}
       sizes="(max-width: 640px) 45vw, (max-width: 1024px) 25vw, 200px"
       alt={alt}
+      onError={() => setImageError(true)}
     />
   );
 }
