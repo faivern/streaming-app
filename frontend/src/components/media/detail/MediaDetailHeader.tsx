@@ -51,19 +51,19 @@ export default function MediaDetailHeader({
             loading="lazy"
             src={`https://image.tmdb.org/t/p/w500${posterPath}`}
             alt={title}
-            className="w-full aspect-[2/3] object-cover rounded-3xl shadow-lg border border-accent-foreground"
+            className="w-full aspect-[2/3] object-cover rounded-3xl shadow-lg border border-slate-600/30"
           />
-          {logo_path && (
-            <div className="absolute top-2 left-2 bg-white/80 px-2 py-1 rounded">
-              <img
-                loading="lazy"
-                src={`https://image.tmdb.org/t/p/w92${logo_path}`}
+{/*
+               {logo_path && (              <div className="absolute top-2 left-2 bg-white/80 px-2 py-1 rounded">           <img
+                     loading="lazy"                  src={`https://image.tmdb.org/t/p/w92${logo_path}`}
                 alt={`${title} logo`}
                 className="object-contain h-5"
               />
             </div>
           )}
-        </div>
+*/}
+
+   </div>
         <MediaPosterActions onWatchNow={onWatchNow} />
       </div>
 
