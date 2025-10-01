@@ -315,7 +315,7 @@ export default function SearchBar({
                       {({ active }) => (
                         <>
                           <Poster
-                            path={r.poster_path || r.profile_path}
+                            path={r.poster_path || r.profile_path }
                             alt={r.title || r.name}
                             useCustomSize
                             className="w-8 h-12 rounded flex-shrink-0"
