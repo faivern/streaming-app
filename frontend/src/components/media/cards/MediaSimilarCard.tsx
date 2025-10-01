@@ -5,6 +5,7 @@ import MediaCardModal from "../modals/MediaCardModal";
 import { usePrefetchMediaDetail } from "../../../hooks/media/useMediaDetail";
 import type { MediaType, DetailMedia } from "../../../types/tmdb";
 import { truncateText } from "../../../utils/truncateText";
+import { useDelayHover } from "../../../hooks/useDelayHover";
 
 type MediaSimilarCardProps = {
   id: number;
@@ -33,7 +34,7 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
     genre_ids, original_language, runtime, number_of_seasons, number_of_episodes,
   } = p;
 
-  const [hovered, setHovered] = useState(false);
+  const { hovered, onEnter, onLeave, setHovered } = useDelayHover(600);
   const prefetch = usePrefetchMediaDetail();
 
   const posterForCard = poster_path ?? backdrop_path ?? "";
@@ -53,11 +54,11 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
   return (
     <div
       className={`group relative transition-transform duration-300 cursor-pointer h-20 ${hovered ? "z-[9999]" : "z-10 hover:z-30"}`}
-      onMouseEnter={() => { setHovered(true); window.setTimeout(() => prefetch(media_type, id), 160); }}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
     >
       <Link to={`/media/${media_type}/${id}`}>
-        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-sky-500/20 transition-all duration-200 bg-transparent h-full">
+        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-sky-500/20 transition-all duration-200 bg-transparent h-full w-xs">
           <div className="flex-shrink-0">
             <img
               src={posterForCard ? `https://image.tmdb.org/t/p/w92${posterForCard}` : "/placeholder-poster.png"}
