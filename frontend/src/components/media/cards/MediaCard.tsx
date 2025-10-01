@@ -1,11 +1,11 @@
 import "../../../style/MediaCard.css";
 
 import MediaCardModal from "../modals/MediaCardModal";
-import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import Poster from "../../media/shared/Poster";
 import RatingPill from "../../ui/RatingPill";
 import type { MediaType } from "../../../types/tmdb";
+import { useDelayHover } from "../../../hooks/useDelayHover";
 import {
   useFloating,
   offset,
@@ -46,7 +46,9 @@ export default function MediaCard(props: MediaCardProps) {
     number_of_seasons,
     number_of_episodes,
   } = props;
-  const [hovered, setHovered] = useState(false);
+
+  const hoverDelay = 600;
+  const { hovered, onEnter, onLeave, setHovered } = useDelayHover(hoverDelay);
 
   const { refs, floatingStyles } = useFloating({
     placement: "right",
@@ -58,9 +60,9 @@ export default function MediaCard(props: MediaCardProps) {
     <div
       ref={refs.setReference}
       className="relative w-full max-w-[360px] mx-auto"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      onFocus={() => setHovered(true)}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
+      onFocus={() => setHovered(true)}   // keep instant for keyboard a11y
       onBlur={() => setHovered(false)}
     >
       <div className="group relative z-10 hover:z-30 transition-transform duration-300 cursor-pointer"></div>

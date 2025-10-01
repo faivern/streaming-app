@@ -70,8 +70,7 @@
               "RelativeToolTip": "docker-compose.yml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
-              "WhenOpened": "2025-09-28T23:12:46.465Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-28T23:12:46.465Z"
             },
             {
               "$type": "Document",
@@ -155,8 +154,7 @@
               "RelativeToolTip": "Properties\\launchSettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-25T18:39:59.649Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-25T18:39:59.649Z"
             },
             {
               "$type": "Document",
@@ -164,8 +162,8 @@
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Program.cs*",
-              "RelativeToolTip": "Program.cs*",
+              "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Program.cs",
+              "RelativeToolTip": "Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-25T17:50:19.587Z",
