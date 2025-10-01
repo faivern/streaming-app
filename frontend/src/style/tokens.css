@@ -35,6 +35,7 @@
   --component-primary: hsl(222, 38%, 14%);
   --action-primary: hsl(217, 35%, 16%);
   --action-hover: hsl(217, 35%, 26%);
+  --subtle: hsl(0, 0%, 64%);
 }
 
 :root[data-preset="netflix"] {

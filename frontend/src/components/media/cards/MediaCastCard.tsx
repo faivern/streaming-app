@@ -42,7 +42,7 @@ const MediaCastCard = ({ cast }: Props) => {
         </div>
       )}
       <h3 className="mt-2 text-lg font-semibold">{name}</h3>
-      {characterName && <p className="text-sm text-gray-500 italic truncate">{characterName}</p>}
+      {characterName && <p className="text-sm text-subtle italic">{characterName}</p>}
     </div>
   );
 };

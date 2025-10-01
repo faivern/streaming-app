@@ -72,7 +72,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
           </div>
         ) : null}
 
-        <p className="text-sm text-gray-200 mb-2 line-clamp-4">{overview}</p>
+        <p className="text-sm text-gray-200 mb-2 line-clamp-3">{overview}</p>
         <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-700/70 to-transparent mb-2" />
 
         <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm text-gray-300">
@@ -108,7 +108,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
 
           <div className="col-span-2">
             <strong>Runtime</strong>
-            <div className="mt-1 text-white">
+            <div className="mt-1">
               {media_type === "movie" && typeof runtimeMin === "number"
                 ? `${Math.floor(runtimeMin / 60)}h ${runtimeMin % 60}min`
                 : media_type === "tv"
