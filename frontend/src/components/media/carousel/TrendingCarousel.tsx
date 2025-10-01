@@ -177,7 +177,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                     </div>
 
                     {/* Overview */}
-                    <p className="text-gray-300 text-base leading-relaxed line-clamp-3">
+                    <p className="text-gray-300 line-clamp-3 text-lg leading-snug">
                       {m.overview || "No overview available."}
                     </p>
                   </div>
