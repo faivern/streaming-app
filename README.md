@@ -11,7 +11,7 @@ A modern fullstack web application built with **React + ASP.NET Core 8**, featur
 
 ---
 
-## ⚙️ Backend
+##  Backend
 -  **ASP.NET Core 8 (C#)** – High-performance backend API  
 -  **PostgreSQL** – Reliable relational database  
 -  **Docker** – Containerized deployment  
