@@ -16,8 +16,10 @@ type Genre = {
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [genres, setGenres] = useState<Genre[]>([]);
-  const [showGenres, setShowGenres] = useState(false);
+  const [showGenres, setShowGenres] = useState(false); // desktop hover dropdown
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // NEW
+  const [showMobileGenres, setShowMobileGenres] = useState(false); // NEW
 
   useEffect(() => {
     const handleScroll = () => {
@@ -64,6 +66,8 @@ export default function Header() {
   const handleSelectGenre = (genre: Genre) => {
     navigate(`/discover?genre=${genre.id}`);
     setShowGenres(false);
+    setIsMobileMenuOpen(false); // close drawer on mobile
+    setShowMobileGenres(false);
   };
 
   return (
@@ -139,14 +143,14 @@ export default function Header() {
               </div>
             </div>
 
-            {/* CENTER: Search Bar - Takes remaining space, perfectly centered */}
-            <div className="w-xl md:w-md absolute left-1/2 transform -translate-x-1/2">
+            {/* CENTER: Search Bar (hidden on mobile) */}
+            <div className="hidden md:block w-full max-w-xl mx-auto">
               <SearchBar />
             </div>
 
             {/* RIGHT: User Actions */}
             <div className="flex items-center justify-end gap-4">
-              {/* Mobile search icon */}
+              {/* Mobile search icon (only icon < md) */}
               <div className="md:hidden">
                 <SearchBar
                   isMobile={true}
@@ -157,9 +161,13 @@ export default function Header() {
 
               {/* Mobile menu button for nav links */}
               <div className="xl:hidden">
-                <button className="p-2 text-white hover:text-blue-300 transition">
+                <button
+                  aria-label="Open menu"
+                  onClick={() => setIsMobileMenuOpen(true)}
+                  className="p-2 text-white hover:text-accent-primary transition"
+                >
                   <svg
-                    className="w-6 h-6"
+                    className="w-7 h-7"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -179,7 +187,6 @@ export default function Header() {
                 <button className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
                   <FaRegUser className="mr-1 lg:mr-2" />
                   <span className="hidden sm:inline">Login</span>
-                  
                 </button>
               </a>
             </div>
@@ -194,6 +201,104 @@ export default function Header() {
           isExpanded={true}
           onToggle={() => setIsMobileSearchOpen(false)}
         />
+      )}
+
+      {/* Mobile nav drawer */}
+      {isMobileMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[140]"
+            onClick={() => setIsMobileMenuOpen(false)}
+            aria-hidden="true"
+          />
+          {/* Drawer */}
+          <aside
+            className="fixed inset-y-0 left-0 w-72 bg-gray-900/95 backdrop-blur-lg border-r border-gray-700 z-[150] flex flex-col shadow-2xl animate-[slideIn_.25s_ease]"
+            role="dialog"
+            aria-label="Mobile navigation"
+          >
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-700">
+              <h2 className="text-lg font-semibold text-white">Menu</h2>
+              <button
+                aria-label="Close menu"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="p-2 text-gray-300 hover:text-white transition"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <nav className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+              <Link
+                to="/my-list"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="block w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+              >
+                My List
+              </Link>
+
+              <div>
+                <button
+                  onClick={() => setShowMobileGenres((p) => !p)}
+                  className="flex items-center justify-between w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+                  aria-expanded={showMobileGenres}
+                  aria-controls="mobile-genres-panel"
+                >
+                  <span>Genres</span>
+                  <svg
+                    className={`w-5 h-5 transform transition ${
+                      showMobileGenres ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+
+                {showMobileGenres && (
+                  <div
+                    id="mobile-genres-panel"
+                    className="mt-3 max-h-72 overflow-y-auto pr-1 space-y-1 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
+                  >
+                    <GenreList
+                      genres={genres}
+                      onGenreSelect={handleSelectGenre}
+                    />
+                  </div>
+                )}
+              </div>
+            </nav>
+
+            <div className="px-5 py-4 border-t border-gray-700">
+              <a href={GOOGLE_LOGIN_URL} className="block">
+                <button className="w-full flex items-center justify-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 py-2 rounded-full transition">
+                  <FaRegUser className="mr-2" />
+                  Login
+                </button>
+              </a>
+            </div>
+          </aside>
+        </>
       )}
     </>
   );
