@@ -1,4 +1,3 @@
-// TODO axios instance with baseURL, timeout
 import axios from "axios";
 const PORT = "5000";
 

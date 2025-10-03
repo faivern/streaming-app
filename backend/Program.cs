@@ -52,13 +52,15 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment()) {
         app.UseSwagger();
         app.UseSwaggerUI();
-   } 
-           
-app.UseHttpsRedirection();
+   }
+
+else
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseRouting();
 app.UseCors("Spa");
-
 app.UseAuthentication();
 app.UseAuthorization();
 
