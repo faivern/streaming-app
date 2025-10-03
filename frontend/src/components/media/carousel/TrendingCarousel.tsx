@@ -121,12 +121,25 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                       sizes="100vw"
                       priority={idx === currentIndex}
                     />
-                    <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/70 via-black/30 to-transparent z-0 pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/60 via-black/30 to-transparent z-0 pointer-events-none" />
                   </Link>
 
-                  <div className="flex flex-col gap-4 absolute bottom-12 left-12 z-20 max-w-xl bg-gray-700/5 p-6 rounded-xl backdrop-blur-sm shadow-lg">
+                    <div
+                    className="absolute bottom-6 sm:bottom-10 md:bottom-14 left-4 sm:left-8 md:left-12 z-20
+                           flex flex-col gap-3
+                           w-[calc(100%-2rem)] sm:w-[min(75%,36rem)] max-w-2xl
+                           px-4 sm:px-6 py-4 sm:py-6
+                           rounded-xl 
+                           backdrop-blur-sm
+                           shadow-lg
+                           "
+                    >
                     {/* Title / Logo */}
-                    <div className="flex items-center justify-between flex-wrap gap-2 min-h-12 md:min-h-14 lg:min-h-16 transition-all duration-300 ease-in-out">
+                    <div
+                      className="flex items-start flex-wrap gap-2
+                           min-h-10 sm:min-h-12 md:min-h-14
+                           transition-all duration-300"
+                    >
                       {idx === currentIndex &&
                         (logoPath ? (
                           <Logo
@@ -186,21 +199,25 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
         </div>
 
         {/* Dots */}
-        <div className="absolute bottom-8 left-1/2 z-20 flex gap-2 -translate-x-1/2">
-          {(loading ? Array.from({ length: 6 }) : filtered).map((_, idx) => (
-            <button
+        <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 lg:bottom-6 xl:bottom-8 left-1/2 z-20 flex gap-2 -translate-x-1/2">
+          {(loading ? Array.from({ length: 6 }) : filtered).map((_, idx) => {
+            const isActive = !loading && idx === currentIndex;
+            return (
+              <button
               key={idx}
-              className={`w-8 h-1.5 rounded-full transition-all ${
-                !loading && idx === currentIndex
-                  ? "bg-gradient-to-r from-accent-primary to-accent-secondary scale-125 shadow hover:cursor-pointer"
-                  : "bg-gray-400/60 hover:bg-gradient-to-r from-accent-primary/75 to-accent-secondary/75 cursor-pointer"
-              }`}
-              onClick={() => !loading && setCurrentIndex(idx)}
+              type="button"
               aria-label={`Go to slide ${idx + 1}`}
-              style={{ outline: "none" }}
+              aria-current={isActive ? "true" : "false"}
               disabled={loading}
-            />
-          ))}
+              onClick={() => !loading && setCurrentIndex(idx)}
+              className={`h-1 sm:h-1.5 md:h-2 lg:h-2.5 xl:h-3 w-4 sm:w-6 md:w-8 lg:w-10 xl:w-12 rounded-full transition-all
+                ${isActive
+                ? "bg-gradient-to-r from-accent-primary to-accent-secondary scale-110 shadow"
+                : "bg-gray-400/60 hover:bg-gradient-to-r hover:from-accent-primary/75 hover:to-accent-secondary/75"
+                } disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-accent-primary/40`}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
