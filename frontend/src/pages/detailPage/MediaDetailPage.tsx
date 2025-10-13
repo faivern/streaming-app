@@ -50,7 +50,11 @@ export default function MediaDetailPage() {
         <BackLink />
         <MediaDetailVideo
           backdrop_path={details.backdrop_path ?? ""}
+          poster_path={details.poster_path ?? ""}
+          title={details.title ?? details.name ?? "Media Trailer"}
           isPlaying={isPlaying}
+          media_type={media_type}
+          id={numericId}
         />
       </div>
 

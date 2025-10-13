@@ -8,8 +8,22 @@ import { dateFormat } from "../../../utils/dateFormat";
 import type { DetailMedia, MediaType } from "../../../types/tmdb";
 import { useVideo } from "../../../hooks/useVideo";
 
-type InitialBits = Pick<DetailMedia,
-  "poster_path" | "backdrop_path" | "overview" | "vote_average" | "vote_count" | "genre_ids" | "original_language" | "runtime" | "number_of_seasons" | "number_of_episodes" | "title" | "name" | "release_date" | "first_air_date"
+type InitialBits = Pick<
+  DetailMedia,
+  | "poster_path"
+  | "backdrop_path"
+  | "overview"
+  | "vote_average"
+  | "vote_count"
+  | "genre_ids"
+  | "original_language"
+  | "runtime"
+  | "number_of_seasons"
+  | "number_of_episodes"
+  | "title"
+  | "name"
+  | "release_date"
+  | "first_air_date"
 >;
 
 type MediaCardModalProps = {
@@ -21,31 +35,45 @@ type MediaCardModalProps = {
 const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
   const { refs } = useFloating();
   const { data, isLoading } = useMediaDetail(media_type, id, initial);
-  const title = data?.title ?? data?.name ?? initial?.title ?? initial?.name ?? "Loading…";
+  const title =
+    data?.title ?? data?.name ?? initial?.title ?? initial?.name ?? "Loading…";
 
   // trailer uses the correct type now (was hardcoded "movie")
-  const { videoUrl, loading: trailerLoading } = useVideo(media_type, id);
+  const { videoUrl, loading: trailerLoading } = useVideo(media_type, id, true); // true = fetch immediately for modal
 
-  const release = data?.release_date ?? data?.first_air_date ?? initial?.release_date ?? initial?.first_air_date;
+  const release =
+    data?.release_date ??
+    data?.first_air_date ??
+    initial?.release_date ??
+    initial?.first_air_date;
   const overview = data?.overview ?? initial?.overview ?? "No description";
-  const poster = data?.backdrop_path ?? initial?.backdrop_path ?? data?.poster_path ?? initial?.poster_path;
+  const poster =
+    data?.backdrop_path ??
+    initial?.backdrop_path ??
+    data?.poster_path ??
+    initial?.poster_path;
   const voteAvg = data?.vote_average ?? initial?.vote_average;
   const voteCount = data?.vote_count ?? initial?.vote_count;
   const lang = data?.original_language ?? initial?.original_language ?? "en";
-  const genres = data?.genre_ids ?? initial?.genre_ids ?? data?.genres?.map(g => g.id);
+  const genres =
+    data?.genre_ids ?? initial?.genre_ids ?? data?.genres?.map((g) => g.id);
 
   // runtime: movies vs tv
   const runtimeMin =
     typeof (data as any)?.runtime === "number"
       ? (data as any).runtime
-      : Array.isArray((data as any)?.episode_run_time) && (data as any).episode_run_time[0];
+      : Array.isArray((data as any)?.episode_run_time) &&
+        (data as any).episode_run_time[0];
 
   const seasons = (data as any)?.number_of_seasons;
   const episodes = (data as any)?.number_of_episodes;
 
   return (
     <Link to={`/media/${media_type}/${id}`}>
-      <div ref={refs.setFloating} className="backdrop-blur-md bg-gray-900/80 min-w-96 p-4 shadow-2xl rounded-lg border border-gray-600/70 text-white">
+      <div
+        ref={refs.setFloating}
+        className="backdrop-blur-md bg-gray-900/80 min-w-96 p-4 shadow-2xl rounded-lg border border-gray-600/70 text-white"
+      >
         <h2 className="text-xl font-bold mb-2 text-gray-100">{title}</h2>
 
         {/* Trailer / image */}
@@ -84,7 +112,8 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
           <div>
             <strong>IMDb</strong>
             <div>
-              {voteAvg?.toFixed?.(1) ?? "No rating"}/10{voteCount ? ` by ${voteCount.toLocaleString()} reviews` : ""}
+              {voteAvg?.toFixed?.(1) ?? "No rating"}/10
+              {voteCount ? ` by ${voteCount.toLocaleString()} reviews` : ""}
             </div>
           </div>
 
@@ -112,7 +141,9 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
               {media_type === "movie" && typeof runtimeMin === "number"
                 ? `${Math.floor(runtimeMin / 60)}h ${runtimeMin % 60}min`
                 : media_type === "tv"
-                ? `${seasons ?? "?"} Season${seasons === 1 ? "" : "s"} • ${episodes ?? "?"} Episode${episodes === 1 ? "" : "s"}`
+                ? `${seasons ?? "?"} Season${seasons === 1 ? "" : "s"} • ${
+                    episodes ?? "?"
+                  } Episode${episodes === 1 ? "" : "s"}`
                 : "Unknown"}
             </div>
           </div>
