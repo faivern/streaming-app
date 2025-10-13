@@ -4,14 +4,17 @@ using Microsoft.Extensions.Configuration;
 using backend.Models;
 using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
+
 namespace backend.Services
 {
-    public class TmdbService
+    public enum MediaType { Movie, Tv }
+    public partial class TmdbService
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
         private readonly IMemoryCache _cache;
         private readonly ILogger<TmdbService> _logger;
+        private static readonly TimeSpan CacheDurationVideos = TimeSpan.FromHours(6);
 
         public TmdbService(HttpClient httpClient, IConfiguration cfg, IMemoryCache cache, ILogger<TmdbService> logger)
         {
@@ -147,37 +150,39 @@ namespace backend.Services
 
 
         //--------------------------------VIDEOS---------------------------------------
-        public async Task<string> GetMovieVideosAsync(int movie_id)
+        public async Task<string> GetVideosAsync(MediaType type, int id)
         {
-            var url = $"https://api.themoviedb.org/3/movie/{movie_id}/videos?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"movie_videos_{movie_id}", url, TimeSpan.FromHours(6));
+            var path = type == MediaType.Movie ? $"movie/{id}/videos" : $"tv/{id}/videos";
+            var url = $"https://api.themoviedb.org/3/{path}?api_key={_apiKey}";
+            var cacheKey = $"{type.ToString().ToLowerInvariant()}_videos_{id}";
+            return await FetchWithCacheAsync(cacheKey, url, CacheDurationVideos);
         }
 
-        public async Task<(string? Name, string? Url)> GetMovieTrailerAsync(int movieId)
+        public async Task<(string? Name, string? Url)> GetTrailerAsync(MediaType type, int id)
         {
-            var json = await FetchWithCacheAsync(
-                $"movie_trailer_{movieId}",
-                $"https://api.themoviedb.org/3/movie/{movieId}/videos?api_key={_apiKey}",
-                TimeSpan.FromHours(6)
-            );
+            var path = type == MediaType.Movie ? $"movie/{id}/videos" : $"tv/{id}/videos";
+            var url = $"https://api.themoviedb.org/3/{path}?api_key={_apiKey}";
+            var cacheKey = $"{type.ToString().ToLowerInvariant()}_trailer_{id}";
 
-            Console.WriteLine($"🧾 Raw JSON for movie {movieId}:\n{json}");
+            var json = await FetchWithCacheAsync(cacheKey, url, CacheDurationVideos);
+
+            Console.WriteLine($"🧾 Raw JSON for {type} {id}:\n{json}");
 
             var videoResponse = JsonSerializer.Deserialize<TmdbVideoResponse>(json);
 
-            var firstYoutubeVideo = videoResponse?.results?
-                .FirstOrDefault(v => v.site == "YouTube");
+            var firstYoutubeVideo = videoResponse?.Results?
+                .FirstOrDefault(v => v.Site == "YouTube");
 
             if (firstYoutubeVideo == null)
             {
-                Console.WriteLine($"❌ No YouTube video found for movie ID {movieId}");
+                Console.WriteLine($"❌ No YouTube video found for {type} ID {id}");
                 return (null, null);
             }
 
-            Console.WriteLine($"✅ Found video: {firstYoutubeVideo.name} ({firstYoutubeVideo.key})");
+            Console.WriteLine($"✅ Found video: {firstYoutubeVideo.Name} ({firstYoutubeVideo.Key})");
             return (
-                firstYoutubeVideo.name,
-                $"https://www.youtube.com/embed/{firstYoutubeVideo.key}"
+                firstYoutubeVideo.Name,
+                $"https://www.youtube.com/embed/{firstYoutubeVideo.Key}"
             );
         }
         //----------------------------------------------------------------------------

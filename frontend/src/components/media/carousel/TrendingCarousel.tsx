@@ -210,7 +210,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
               aria-current={isActive ? "true" : "false"}
               disabled={loading}
               onClick={() => !loading && setCurrentIndex(idx)}
-              className={`h-1 sm:h-1.5 md:h-2 lg:h-2.5 xl:h-3 w-4 sm:w-6 md:w-8 lg:w-10 xl:w-12 rounded-full transition-all
+              className={`h-1 sm:h-0.5 md:h-1 lg:h-1.5 xl:h-2 w-4 sm:w-6 md:w-8 lg:w-10 xl:w-12 rounded-full transition-all
                 ${isActive
                 ? "bg-gradient-to-r from-accent-primary to-accent-secondary scale-110 shadow"
                 : "bg-gray-400/60 hover:bg-gradient-to-r hover:from-accent-primary/75 hover:to-accent-secondary/75"

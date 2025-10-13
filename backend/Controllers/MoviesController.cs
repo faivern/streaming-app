@@ -145,23 +145,26 @@ namespace backend.Controllers
         }
 
 
-        [HttpGet("movie/{movieId}/videos")]
-        public async Task<IActionResult> GetMovieTrailer(int movieId)
+        [HttpGet("{mediaType}/{id:int}/trailer")]
+        public async Task<IActionResult> GetTrailer(string mediaType, int id)
         {
-            var (name, url) = await _tmdbService.GetMovieTrailerAsync(movieId);
+            if (!Enum.TryParse<backend.Services.MediaType>(mediaType, true, out var type))
+                return BadRequest("mediaType must be 'movie' or 'tv'.");
 
-            if (url == null)
-                return Ok(new { name = (string?)null, url = (string?)null });
-
-            return Ok(new { name, url });
+            var (name, url) = await _tmdbService.GetTrailerAsync(type, id);
+            return Ok(new { name, url }); // { name: null, url: null } when not found
         }
 
-        [HttpGet("movie/{movieId}/videos/raw")]
-        public async Task<IActionResult> GetMovieVideosRaw(int movieId)
+        [HttpGet("{mediaType}/{id:int}/videos/raw")]
+        public async Task<IActionResult> GetVideosRaw(string mediaType, int id)
         {
-            var rawJson = await _tmdbService.GetMovieVideosAsync(movieId);
+            if (!Enum.TryParse<backend.Services.MediaType>(mediaType, true, out var type))
+                return BadRequest("mediaType must be 'movie' or 'tv'.");
+
+            var rawJson = await _tmdbService.GetVideosAsync(type, id);
             return Content(rawJson, "application/json");
         }
+
 
 
         // keywords fetch for movie and tv
