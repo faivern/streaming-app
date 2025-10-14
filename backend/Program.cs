@@ -11,7 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddCors(o => o.AddPolicy("Spa",
-  p => p.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod()));
+  p => p.WithOrigins("http://localhost:5173")
+  .AllowAnyHeader()
+  .AllowAnyMethod()
+  .AllowCredentials()));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,8 +34,38 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = "Google";
 })
-.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
-.AddCookie("External")
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o=>
+{
+    o.Cookie.Name ="MovieBucketAuth";
+    o.Cookie.HttpOnly = true;
+    o.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    o.Cookie.SameSite = SameSiteMode.None;
+    o.Cookie.MaxAge = TimeSpan.FromDays(7);
+    o.Events = new CookieAuthenticationEvents
+    {
+        OnRedirectToLogin = ctx =>
+        {
+            ctx.Response.StatusCode = 401;
+            return Task.CompletedTask;
+        }
+    };
+})
+.AddCookie("External", o =>
+{
+    o.Cookie.Name = "MovieBucketExternalAuth";
+    o.Cookie.HttpOnly = true;
+    o.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    o.Cookie.SameSite = SameSiteMode.None;
+    o.Cookie.MaxAge = TimeSpan.FromMinutes(5);
+    o.Events = new CookieAuthenticationEvents
+    {
+        OnRedirectToLogin = ctx =>
+        {
+            ctx.Response.StatusCode = 401;
+            return Task.CompletedTask;
+        }
+    };
+})
 .AddGoogle("Google", o =>
 {
     o.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
@@ -42,6 +75,9 @@ builder.Services.AddAuthentication(options =>
     o.Scope.Add("profile");
     o.Scope.Add("email");
     o.SaveTokens = true;
+    o.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
+    o.ClaimActions.MapJsonKey("urn:google:locale", "locale", "string");
+
 });
 
 
@@ -63,17 +99,5 @@ app.UseRouting();
 app.UseCors("Spa");
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
-app.MapGet("/auth/google", () =>
-    Results.Challenge(
-        new AuthenticationProperties
-        {
-            RedirectUri = "http://localhost:5173"
-        },
-        authenticationSchemes: new[] { "Google" }
-    )
-);
-
 app.Run();
