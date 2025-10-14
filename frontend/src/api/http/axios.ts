@@ -1,7 +1,7 @@
 import axios from "axios";
-const PORT = "5000";
 
-const baseURL = import.meta.env.VITE_BACKEND_API_URL ?? "http://localhost:" + PORT;
+const timeout = 10000;
+const baseURL = import.meta.env.VITE_BACKEND_API_URL;
 
     if (!baseURL) {
         throw new Error("No base URL defined");
@@ -9,11 +9,12 @@ const baseURL = import.meta.env.VITE_BACKEND_API_URL ?? "http://localhost:" + PO
 
 export const api = axios.create({
     baseURL,
-    timeout: 10000,
+    timeout,
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-    }
+    },
+    withCredentials: true
 });
 
 export default api;
