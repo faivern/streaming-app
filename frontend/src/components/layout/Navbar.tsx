@@ -82,8 +82,8 @@ export default function Header() {
       >
         {/* Full-width container - no max-width constraint */}
         <div className="w-full px-4 lg:px-8 xl:px-12">
-          {/* Three-column grid layout spanning full width */}
-          <nav className="grid grid-cols-[auto_1fr_auto] items-center py-4 gap-8 xl:gap-12">
+          {/* Three-column grid layout with equal-width outer columns for true centering */}
+          <nav className="grid grid-cols-[1fr_auto_1fr] items-center py-4 gap-4 xl:gap-8">
             {/* LEFT: Logo + Nav Links */}
             <div className="flex items-center gap-6">
               <Link to="/" className="flex items-center gap-2 flex-shrink-0">
@@ -143,8 +143,8 @@ export default function Header() {
               </div>
             </div>
 
-            {/* CENTER: Search Bar (hidden on mobile) */}
-            <div className="hidden md:block w-full max-w-xl mx-auto">
+            {/* CENTER: Search Bar (hidden on mobile) - truly centered */}
+            <div className="hidden md:block w-2xl">
               <SearchBar />
             </div>
 

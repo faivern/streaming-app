@@ -12,8 +12,9 @@ const GenreCardList = ({ genres }: Props) => {
   if (!genres.length) return null;
 
   return (
-    <section className="md:mx-8 px-4 sm:px-6 lg:px-8">
-      <TitleMid className="mt-4">Featured Genres</TitleMid>
+    <section className="md:mx-8 px-4 sm:px-6 lg:px-8 mt-8">
+      <TitleMid>Featured Genres</TitleMid>
+
       <div className="grid grid-cols-5 gap-4">
         {genres
           .sort(() => Math.random() - 0.4)
