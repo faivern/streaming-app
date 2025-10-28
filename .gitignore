@@ -9,6 +9,7 @@ backend/bin/
 backend/obj/
 backend/*.db
 backend/secrets.json 
+backend/.vs/
 
 # common config/secrets
 *.ini
@@ -23,3 +24,5 @@ Thumbs.db
 *.user
 *.suo
 *.csproj.user
+
+GEMINI.md
