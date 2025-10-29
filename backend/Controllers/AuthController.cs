@@ -7,7 +7,7 @@ using System.Security.Claims;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("auth")]
+    [Route("api/auth")]
     public class AuthController : Controller
     {
         [HttpGet("google")]
@@ -15,7 +15,7 @@ namespace backend.Controllers
         {
             var props = new AuthenticationProperties
             {
-                RedirectUri = "/auth/google-callback"
+                RedirectUri = "http://localhost:5173"
             };
             return Challenge(props, "Google");
         }

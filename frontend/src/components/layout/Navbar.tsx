@@ -7,6 +7,7 @@ import "../../style/TitleHover.css";
 import GenreList from "../filters/GenreList";
 import axios from "axios";
 import { GOOGLE_LOGIN_URL } from "../../lib/config";
+import { toast } from 'react-hot-toast';
 
 type Genre = {
   id: number;
@@ -187,6 +188,8 @@ export default function Header() {
                 <button className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
                   <FaRegUser className="mr-1 lg:mr-2" />
                   <span className="hidden sm:inline">Login</span>
+
+
                 </button>
               </a>
             </div>
