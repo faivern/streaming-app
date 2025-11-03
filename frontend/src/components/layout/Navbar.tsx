@@ -200,9 +200,9 @@ export default function Header() {
               {/* Login Button or User Profile */}
               {user ? (
                 <div className="flex items-center gap-3">
-                  {user.pictureUrl && (
+                  {user.picture && (
                     <img
-                      src={user.pictureUrl}
+                      src={user.picture}
                       alt="Profile"
                       className="w-8 h-8 rounded-full"
                     />
@@ -329,14 +329,14 @@ export default function Header() {
               {user ? (
                 <div className="space-y-3">
                   <div className="flex items-center gap-3">
-                    {user.pictureUrl && (
+                    {user.picture && (
                       <img
-                        src={user.pictureUrl}
+                        src={user.picture}
                         alt="Profile"
                         className="w-8 h-8 rounded-full"
                       />
                     )}
-                    <span className="text-white font-medium">{user.name}</span>
+                    <span className="text-green-500 font-medium">{user.name}</span>
                   </div>
                   <button
                     onClick={handleLogout}
