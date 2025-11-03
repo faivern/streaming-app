@@ -72,11 +72,12 @@ builder.Services.AddAuthentication(options =>
     o.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
    // o.CallbackPath = "/api/auth/google-callback";
     o.SignInScheme = "External";
+    o.Scope.Add("openid");
     o.Scope.Add("profile");
     o.Scope.Add("email");
     o.SaveTokens = true;
-    o.ClaimActions.MapJsonKey("urn:google:picture", "picture", "url");
-    o.ClaimActions.MapJsonKey("urn:google:locale", "locale", "string");
+    o.ClaimActions.MapJsonKey("picture", "picture");
+    o.ClaimActions.MapJsonKey("locale", "locale");
 
 });
 

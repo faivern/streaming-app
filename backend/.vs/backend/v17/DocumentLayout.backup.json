@@ -7,12 +7,12 @@
       "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\models\\moviebucketuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:models\\moviebucketuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\models\\moviebucketuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|solutionrelative:models\\moviebucketuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{990CC00B-FA96-428E-8C79-881450D30A82}|backend.csproj|c:\\users\\gusta\\desktop\\streaming-app\\backend\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -80,7 +80,7 @@
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
               "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Controllers\\AuthController.cs",
               "RelativeToolTip": "Controllers\\AuthController.cs",
-              "ViewState": "AgIAACoAAAAAAAAAAAAowD4AAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABkAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-14T21:52:17.396Z",
               "EditorCaption": ""
@@ -111,7 +111,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MoviebucketUser.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Models\\MoviebucketUser.cs",
               "RelativeDocumentMoniker": "Models\\MoviebucketUser.cs",
@@ -197,13 +197,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\gusta\\Desktop\\streaming-app\\backend\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAIwE0AAABGAAAAAAAAAA==",
+              "ViewState": "AgIAADAAAAAAAAAAAAAIwEkAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-25T17:50:19.587Z",
               "EditorCaption": ""

@@ -64,7 +64,7 @@ namespace backend.Controllers
                 id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
                 name = User.Identity!.Name,
                 email = User.FindFirst(ClaimTypes.Email)?.Value,
-                pictureUrl = User.FindFirst("picture")?.Value
+                picture = User.FindFirst("picture")?.Value
             });
         }
 
