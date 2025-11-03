@@ -7,7 +7,9 @@ import "../../style/TitleHover.css";
 import GenreList from "../filters/GenreList";
 import axios from "axios";
 import { GOOGLE_LOGIN_URL } from "../../lib/config";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
+import { useUser } from "../../hooks/user/useUser";
+import { postLogoutUser } from "../../api/user.api";
 
 type Genre = {
   id: number;
@@ -21,6 +23,7 @@ export default function Header() {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // NEW
   const [showMobileGenres, setShowMobileGenres] = useState(false); // NEW
+  const { data: user } = useUser();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,6 +72,17 @@ export default function Header() {
     setShowGenres(false);
     setIsMobileMenuOpen(false); // close drawer on mobile
     setShowMobileGenres(false);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await postLogoutUser();
+      toast.success("Logged out successfully");
+      navigate("/");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      toast.error("Failed to logout");
+    }
   };
 
   return (
@@ -183,15 +197,34 @@ export default function Header() {
                 </button>
               </div>
 
-              {/* Login Button */}
-              <a href={GOOGLE_LOGIN_URL}>
-                <button className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
-                  <FaRegUser className="mr-1 lg:mr-2" />
-                  <span className="hidden sm:inline">Login</span>
-
-
-                </button>
-              </a>
+              {/* Login Button or User Profile */}
+              {user ? (
+                <div className="flex items-center gap-3">
+                  {user.pictureUrl && (
+                    <img
+                      src={user.pictureUrl}
+                      alt="Profile"
+                      className="w-8 h-8 rounded-full"
+                    />
+                  )}
+                  <span className="text-white font-medium hidden sm:inline whitespace-nowrap">
+                    {user.name}
+                  </span>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <a href={GOOGLE_LOGIN_URL}>
+                  <button className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
+                    <FaRegUser className="mr-1 lg:mr-2" />
+                    <span className="hidden sm:inline">Login</span>
+                  </button>
+                </a>
+              )}
             </div>
           </nav>
         </div>
@@ -293,12 +326,33 @@ export default function Header() {
             </nav>
 
             <div className="px-5 py-4 border-t border-gray-700">
-              <a href={GOOGLE_LOGIN_URL} className="block">
-                <button className="w-full flex items-center justify-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 py-2 rounded-full transition">
-                  <FaRegUser className="mr-2" />
-                  Login
-                </button>
-              </a>
+              {user ? (
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    {user.pictureUrl && (
+                      <img
+                        src={user.pictureUrl}
+                        alt="Profile"
+                        className="w-8 h-8 rounded-full"
+                      />
+                    )}
+                    <span className="text-white font-medium">{user.name}</span>
+                  </div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-full transition"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <a href={GOOGLE_LOGIN_URL} className="block">
+                  <button className="w-full flex items-center justify-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 py-2 rounded-full transition">
+                    <FaRegUser className="mr-2" />
+                    Login
+                  </button>
+                </a>
+              )}
             </div>
           </aside>
         </>

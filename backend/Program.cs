@@ -70,7 +70,7 @@ builder.Services.AddAuthentication(options =>
 {
     o.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
     o.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
-    o.CallbackPath = "/api/auth/google-callback";
+   // o.CallbackPath = "/api/auth/google-callback";
     o.SignInScheme = "External";
     o.Scope.Add("profile");
     o.Scope.Add("email");
