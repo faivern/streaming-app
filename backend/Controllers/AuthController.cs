@@ -15,7 +15,7 @@ namespace backend.Controllers
         {
             var props = new AuthenticationProperties
             {
-                RedirectUri = "http://localhost:5173"
+                RedirectUri = "/api/auth/google-callback"
             };
             return Challenge(props, "Google");
         }
@@ -56,10 +56,11 @@ namespace backend.Controllers
         public IActionResult Me()
         {
             if (User?.Identity?.IsAuthenticated != true)
-                return Ok(null);
+                return Unauthorized(new {isAuthenticated = false});
 
             return Ok(new
             {
+                isAuthenticated = true,
                 id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
                 name = User.Identity!.Name,
                 email = User.FindFirst(ClaimTypes.Email)?.Value,
