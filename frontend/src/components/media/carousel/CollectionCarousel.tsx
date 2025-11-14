@@ -3,8 +3,11 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import type { Collection } from "../../../types/tmdb";
 import CollectionCard from "../cards/CollectionCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import TitleMid from "../title/titleMid";
+import TitleMid from "../title/TitleMid.tsx";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
   items: Collection[];
@@ -32,7 +35,10 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
     setPageSize(Math.max(1, Math.floor((vw + 1) / step)));
   }, []);
 
-  const pageCount = Math.max(1, Math.ceil((items?.length ?? 0) / Math.max(1, pageSize)));
+  const pageCount = Math.max(
+    1,
+    Math.ceil((items?.length ?? 0) / Math.max(1, pageSize))
+  );
 
   const clampPage = useCallback(
     (p: number) => Math.min(Math.max(0, p), Math.max(0, pageCount - 1)),
@@ -44,7 +50,9 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
     if (!track) return;
     const startIndex = page * pageSize;
     const target = track.children[startIndex] as HTMLElement | undefined;
-    track.style.transform = target ? `translateX(${-target.offsetLeft}px)` : "translateX(0)";
+    track.style.transform = target
+      ? `translateX(${-target.offsetLeft}px)`
+      : "translateX(0)";
   }, [page, pageSize]);
 
   useEffect(() => {
@@ -63,8 +71,9 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
   const prev = () => setPage((p) => clampPage(p - 1));
   const next = () => setPage((p) => clampPage(p + 1));
 
-  const renderItems =
-    loading ? Array.from({ length: 8 }).map((_, i) => ({ id: i } as any)) : items;
+  const renderItems = loading
+    ? Array.from({ length: 8 }).map((_, i) => ({ id: i } as any))
+    : items;
 
   return (
     <section className="md:mx-8 px-4 sm:px-6 lg:px-8 mt-8">

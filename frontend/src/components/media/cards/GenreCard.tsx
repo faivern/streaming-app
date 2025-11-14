@@ -16,7 +16,7 @@ const GenreCard = ({ id, name }: Genre) => {
     >
       <Link
         to={`/genre/${id}?mediaType=movie&name=${encodeURIComponent(name)}`}
-        className="block h-full w-full"
+        className="block h-full w-md"
       >
         {/* Optional subtle overlay tint */}
         <div className="absolute inset-0 bg-black/10" />
