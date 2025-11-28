@@ -81,7 +81,7 @@ export default function GenreCardList({ genres, loading = false }: Props) {
 
   return (
     <section className="md:mx-8 px-4 sm:px-6 lg:px-8 mt-8">
-      <TitleMid>Featured Genres</TitleMid>
+      <TitleMid>Genres</TitleMid>
 
       <div className="relative -my-3">
         <div ref={viewportRef} className="overflow-hidden py-3">

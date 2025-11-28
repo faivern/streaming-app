@@ -51,7 +51,6 @@ const CreditsDetailPage = () => {
 
   console.log("Person data:", { person, personLoading, personError });
 
-
   //use combinedcredits
   const {
     data: creditsData,
@@ -60,7 +59,7 @@ const CreditsDetailPage = () => {
   } = useCombinedCredits(personId);
 
   // Extract cast from the credits response
-  
+
   // Fetch media details if we have context (optional)
   const {
     data: mediaDetails,
@@ -70,7 +69,7 @@ const CreditsDetailPage = () => {
     fromMediaType || undefined,
     mediaId ? Number(mediaId) : undefined
   );
-  
+
   const enrichedCredits = creditsData?.cast || [];
 
   // Loading states
@@ -106,10 +105,6 @@ const CreditsDetailPage = () => {
   // Add debug to your main render
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="bg-green-600 text-white p-4 rounded mb-4">
-        <p>Successfully loaded person: {person.name}</p>
-      </div>
-
       <BackLink
         media_type={fromMediaType || undefined}
         id={mediaId || undefined}
