@@ -10,15 +10,27 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddCors(o => o.AddPolicy("Spa",
-  p => p.WithOrigins(
-    "http://localhost:5173",   // Vite dev server
-    "http://localhost:3000",   // Docker frontend
-    "http://frontend"          // Docker internal
-  )
-  .AllowAnyHeader()
-  .AllowAnyMethod()
-  .AllowCredentials()));
+var frontendUrl = builder.Configuration["FRONTEND_URL"];
+
+builder.Services.AddCors(o => o.AddPolicy("Spa", p =>
+{
+    var origins = new List<string>
+    {
+        "http://localhost:5173",   // Vite dev server
+        "http://localhost:3000",   // Docker frontend
+        "http://frontend"          // Docker internal
+    };
+
+    if (!string.IsNullOrEmpty(frontendUrl))
+    {
+        origins.Add(frontendUrl);
+    }
+
+    p.WithOrigins(origins.ToArray())
+     .AllowAnyHeader()
+     .AllowAnyMethod()
+     .AllowCredentials();
+}));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
