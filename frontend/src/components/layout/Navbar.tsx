@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import SearchBar from "../layout/SearchBar";
 import "../../style/TitleHover.css";
 import GenreList from "../filters/GenreList";
-import axios from "axios";
+import { api } from "../../api/http/axios";
 import { GOOGLE_LOGIN_URL } from "../../lib/config";
 import { toast } from "react-hot-toast";
 import { useUser } from "../../hooks/user/useUser";
@@ -38,14 +38,8 @@ export default function Header() {
     const fetchGenres = async () => {
       try {
         const [movieGenreRes, tvGenreRes] = await Promise.all([
-          axios.get(
-            `${
-              import.meta.env.VITE_BACKEND_API_URL
-            }/api/Movies/genre/movie/list`
-          ),
-          axios.get(
-            `${import.meta.env.VITE_BACKEND_API_URL}/api/Movies/genre/tv/list`
-          ),
+          api.get("/api/Movies/genre/movie/list"),
+          api.get("/api/Movies/genre/tv/list"),
         ]);
 
         const allGenres = [
@@ -336,7 +330,9 @@ export default function Header() {
                         className="w-8 h-8 rounded-full"
                       />
                     )}
-                    <span className="text-green-500 font-medium">{user.name}</span>
+                    <span className="text-green-500 font-medium">
+                      {user.name}
+                    </span>
                   </div>
                   <button
                     onClick={handleLogout}

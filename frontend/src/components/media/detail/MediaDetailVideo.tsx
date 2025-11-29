@@ -53,9 +53,7 @@ export default function MediaDetailVideo({
       console.log("🎬 Video Fetch Result:", {
         videoUrl,
         trailerLoading,
-        fetchUrl: `${
-          import.meta.env.VITE_BACKEND_API_URL
-        }/api/Movies/${media_type}/${id}/trailer`,
+        fetchUrl: `/api/Movies/${media_type}/${id}/trailer`,
       });
     }
   }, [videoUrl, trailerLoading, shouldFetchVideo, media_type, id]);
@@ -77,7 +75,6 @@ export default function MediaDetailVideo({
     console.log("🎬 Play button clicked - fetching video...", {
       media_type,
       id,
-      backendUrl: import.meta.env.VITE_BACKEND_API_URL,
     });
     setShouldFetchVideo(true); // Start fetching
     setIsPlaying(true);
@@ -102,7 +99,6 @@ export default function MediaDetailVideo({
     <div
       className={`relative m-4 overflow-hidden rounded-lg shadow-2xl group mx-auto border border-badge-foreground ${WRAPPER_MAX_W}`}
     >
-
       {/* Media area */}
       <div className="aspect-video w-full rounded-lg overflow-hidden bg-black">
         {showTrailer && (

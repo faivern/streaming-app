@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MovieBucket Banner Creator</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: hsl(224, 37%, 12%); /* --background from blizzard preset */
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+
+      h1 {
+        color: white;
+        margin-bottom: 20px;
+      }
+
+      .controls {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .controls label {
+        color: white;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .controls input,
+      .controls select {
+        padding: 8px;
+        border-radius: 4px;
+        border: none;
+        background: #2d2d44;
+        color: white;
+      }
+
+      .banner-container {
+        position: relative;
+        width: 1280px;
+        height: 640px;
+        overflow: hidden;
+        border-radius: 12px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+
+      .banner-bg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .banner-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          135deg,
+          hsla(224, 37%, 12%, 0.7) 0%,
+          hsla(224, 37%, 12%, 0.3) 50%,
+          transparent 100%
+        );
+      }
+
+      .logo-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .logo-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(
+          to right,
+          hsl(197, 100%, 50%),
+          hsl(215, 99%, 58%)
+        );
+        -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+        mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+      }
+
+      .logo-text {
+        font-size: 72px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .logo-text .movie {
+        color: white;
+      }
+
+      .logo-text .bucket {
+        color: transparent;
+        background-image: linear-gradient(
+          to right,
+          hsl(197, 100%, 50%),
+          hsl(215, 99%, 58%)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+
+      .tagline {
+        position: absolute;
+        top: calc(50% + 60px);
+        left: 50%;
+        transform: translateX(-50%);
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 24px;
+        font-weight: 300;
+        letter-spacing: 2px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .instructions {
+        margin-top: 20px;
+        color: #888;
+        text-align: center;
+      }
+
+      button {
+        margin-top: 15px;
+        padding: 12px 24px;
+        background: linear-gradient(
+          to right,
+          hsl(197, 100%, 50%),
+          hsl(215, 99%, 58%)
+        );
+        border: none;
+        border-radius: 8px;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(0, 184, 255, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>MovieBucket Banner Creator</h1>
+
+    <div class="controls">
+      <label>
+        Font Size
+        <input
+          type="range"
+          id="fontSize"
+          min="40"
+          max="120"
+          value="72"
+          oninput="updateFontSize(this.value)"
+        />
+      </label>
+      <label>
+        Logo Position Y
+        <input
+          type="range"
+          id="posY"
+          min="20"
+          max="80"
+          value="50"
+          oninput="updatePosition()"
+        />
+      </label>
+      <label>
+        Overlay Opacity
+        <input
+          type="range"
+          id="overlay"
+          min="0"
+          max="100"
+          value="50"
+          oninput="updateOverlay(this.value)"
+        />
+      </label>
+      <label>
+        Tagline
+        <input
+          type="text"
+          id="tagline"
+          value="Your Personal Streaming Library"
+          oninput="updateTagline(this.value)"
+        />
+      </label>
+    </div>
+
+    <div class="banner-container" id="banner">
+      <img
+        src="screenshots/banner-bg-gif.gif"
+        alt="Background"
+        class="banner-bg"
+      />
+      <div class="banner-overlay" id="bannerOverlay"></div>
+      <div class="logo-container" id="logoContainer">
+        <span class="logo-text">
+          <span class="movie">Movie</span><span class="bucket">Bucket</span>
+        </span>
+      </div>
+      <div class="tagline" id="taglineText">
+       Discover - Track - Explore
+      </div>
+    </div>
+
+    <p class="instructions">
+      Adjust the controls above, then right-click the banner and "Save image
+      as..." or use a screenshot tool.
+    </p>
+
+    <button onclick="downloadBanner()">
+      Download Banner (requires html2canvas)
+    </button>
+
+    <script>
+      function updateFontSize(size) {
+        document.querySelector(".logo-text").style.fontSize = size + "px";
+        document.querySelector(".logo-icon").style.width = size * 1.1 + "px";
+        document.querySelector(".logo-icon").style.height = size * 1.1 + "px";
+      }
+
+      function updatePosition() {
+        const y = document.getElementById("posY").value;
+        document.getElementById("logoContainer").style.top = y + "%";
+        document.getElementById("taglineText").style.top = `calc(${y}% + 60px)`;
+      }
+
+      function updateOverlay(opacity) {
+        const overlay = document.getElementById("bannerOverlay");
+        overlay.style.background = `linear-gradient(135deg, hsla(224, 37%, 12%, ${
+          opacity / 100
+        }) 0%, hsla(224, 37%, 12%, ${opacity / 200}) 50%, transparent 100%)`;
+      }
+
+      function updateTagline(text) {
+        document.getElementById("taglineText").textContent = text;
+        document.getElementById("taglineText").style.display = text
+          ? "block"
+          : "none";
+      }
+
+      async function downloadBanner() {
+        alert(
+          'To download: Right-click the banner image and select "Save image as..." or use a screenshot tool like Snipping Tool (Win+Shift+S on Windows)'
+        );
+      }
+    </script>
+  </body>
+</html>
