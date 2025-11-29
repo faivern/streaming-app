@@ -2,7 +2,7 @@
 
 MovieBucket is a modern, full-stack web application designed to help you discover, track, and explore movies and TV shows. This project is built with a focus on clean architecture, a responsive user experience, and best-in-class development practices.
 
-![_](https://placehold.co/1200x400?text=MovieBucket+Banner)
+![MovieBucket Banner](./screenshots/banner-img.png)
 
 ## ✨ Features
 
