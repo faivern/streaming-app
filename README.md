@@ -18,9 +18,29 @@ MovieBucket is a modern, full-stack web application designed to help you discove
 
 A sneak peek into the MovieBucket experience.
 
-|                          Home Page                           |                          Media Details                          |                              Search                               |
-| :----------------------------------------------------------: | :-------------------------------------------------------------: | :---------------------------------------------------------------: |
-| ![_](https://placehold.co/600x400?text=Home+Page+Screenshot) | ![_](https://placehold.co/600x400?text=Media+Detail+Screenshot) | ![_](https://placehold.co/600x400?text=Search+Results+Screenshot) |
+### Browse & Discover
+
+|                            Genre Collections                            |                    Media Modal                    |
+| :---------------------------------------------------------------------: | :-----------------------------------------------: |
+| ![Genre Collections](./screenshots/genre-collection-carouselle-img.png) | ![Media Modal](./screenshots/media-modal-img.png) |
+
+### Media Details
+
+|                     Details View 1                      |                     Details View 2                      |
+| :-----------------------------------------------------: | :-----------------------------------------------------: |
+| ![Media Details](./screenshots/media-details-img-1.png) | ![Media Details](./screenshots/media-details-img-2.png) |
+
+### Search & Collections
+
+|                 Search                  |                   Collection Detail                    |
+| :-------------------------------------: | :----------------------------------------------------: |
+| ![Search](./screenshots/search-img.png) | ![Collection](./screenshots/collection-detail-img.png) |
+
+### Cast & Crew
+
+|                   Cast Details                    |                    Cast Explore                     |
+| :-----------------------------------------------: | :-------------------------------------------------: |
+| ![Cast Detail](./screenshots/cast-detail-img.png) | ![Cast Explore](./screenshots/cast-explore-img.png) |
 
 ## Tech Stack
 
