@@ -1,10 +1,10 @@
-# MovieBucket 🍿
+# MovieBucket
 
 MovieBucket is a modern, full-stack web application designed to help you discover, track, and explore movies and TV shows. This project is built with a focus on clean architecture, a responsive user experience, and best-in-class development practices.
 
 ![MovieBucket Banner](./screenshots/banner-img.png)
 
-## ✨ Features
+## Features
 
 - **Discover Media:** Browse extensive lists of movies and TV shows.
 - **Trending Content:** Stay up-to-date with what's currently trending.
@@ -14,7 +14,7 @@ MovieBucket is a modern, full-stack web application designed to help you discove
 - **User Watchlists:** (Coming Soon) Track media you want to watch.
 - **Secure Authentication:** User accounts with secure OAuth 2.0 integration.
 
-## 📸 Screenshots
+## Screenshots
 
 A sneak peek into the MovieBucket experience.
 
@@ -22,7 +22,7 @@ A sneak peek into the MovieBucket experience.
 | :----------------------------------------------------------: | :-------------------------------------------------------------: | :---------------------------------------------------------------: |
 | ![_](https://placehold.co/600x400?text=Home+Page+Screenshot) | ![_](https://placehold.co/600x400?text=Media+Detail+Screenshot) | ![_](https://placehold.co/600x400?text=Search+Results+Screenshot) |
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 This project is built with a modern, decoupled frontend and backend architecture.
 
@@ -48,7 +48,7 @@ This project is built with a modern, decoupled frontend and backend architecture
 - [TMDB API](https://www.themoviedb.org/documentation/api) for all media content.
 - [OAuth 2.0](https://oauth.net/2/) for secure user authentication (Google).
 
-## 🚀 Getting Started
+## Getting Started
 
 Follow these instructions to get the project up and running on your local machine for development and testing purposes.
 
@@ -119,12 +119,6 @@ Follow these instructions to get the project up and running on your local machin
     npm run dev
     ```
     The application will be available at `http://localhost:3000`.
-
-## 🤝 Contributing
-
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-Please read `CONTRIBUTING.md` for details on our code of conduct and the process for submitting pull requests.
 
 ## 📝 License
 
