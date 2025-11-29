@@ -1,0 +1,12 @@
+# .dockerignore for React frontend
+node_modules/
+dist/
+.git/
+.gitignore
+*.md
+Dockerfile
+.env
+.env.*
+.vscode/
+coverage/
+*.log

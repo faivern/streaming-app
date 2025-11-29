@@ -18,8 +18,8 @@ MovieBucket is a modern, full-stack web application designed to help you discove
 
 A sneak peek into the MovieBucket experience.
 
-| Home Page | Media Details | Search |
-| :---: | :---: | :---: |
+|                          Home Page                           |                          Media Details                          |                              Search                               |
+| :----------------------------------------------------------: | :-------------------------------------------------------------: | :---------------------------------------------------------------: |
 | ![_](https://placehold.co/600x400?text=Home+Page+Screenshot) | ![_](https://placehold.co/600x400?text=Media+Detail+Screenshot) | ![_](https://placehold.co/600x400?text=Search+Results+Screenshot) |
 
 ## 🛠️ Tech Stack
@@ -27,6 +27,7 @@ A sneak peek into the MovieBucket experience.
 This project is built with a modern, decoupled frontend and backend architecture.
 
 **Frontend:**
+
 - [React 18](https://react.dev/)
 - [Vite](https://vitejs.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
@@ -35,6 +36,7 @@ This project is built with a modern, decoupled frontend and backend architecture
 - [Axios](https://axios-http.com/)
 
 **Backend:**
+
 - [.NET 8](https://dotnet.microsoft.com/en-us/) (ASP.NET Core)
 - [C#](https://learn.microsoft.com/en-us/dotnet/csharp/)
 - [Entity Framework Core 8](https://learn.microsoft.com/en-us/ef/core/)
@@ -42,6 +44,7 @@ This project is built with a modern, decoupled frontend and backend architecture
 - [Docker](https://www.docker.com/) for containerization
 
 **APIs & Authentication:**
+
 - [TMDB API](https://www.themoviedb.org/documentation/api) for all media content.
 - [OAuth 2.0](https://oauth.net/2/) for secure user authentication (Google).
 
@@ -59,6 +62,7 @@ Follow these instructions to get the project up and running on your local machin
 ### Backend Setup
 
 1.  **Clone the repository:**
+
     ```bash
     git clone https://github.com/your-username/streaming-app.git
     cd streaming-app/backend
@@ -66,6 +70,7 @@ Follow these instructions to get the project up and running on your local machin
 
 2.  **Configure User Secrets:**
     Set up your TMDB API Key using the .NET Secret Manager. This keeps your key out of the codebase.
+
     ```bash
     dotnet user-secrets init
     dotnet user-secrets set "Tmdb:ApiKey" "YOUR_TMDB_API_KEY"
@@ -73,11 +78,13 @@ Follow these instructions to get the project up and running on your local machin
 
 3.  **Launch PostgreSQL using Docker:**
     Navigate to the root of the project and run:
+
     ```bash
     # (Assuming a docker-compose.yml is present in the root)
     docker-compose up -d
     ```
-    *If no `docker-compose.yml` is available, you will need to run a PostgreSQL container manually.*
+
+    _If no `docker-compose.yml` is available, you will need to run a PostgreSQL container manually._
 
 4.  **Run the backend server:**
     ```bash
@@ -89,17 +96,20 @@ Follow these instructions to get the project up and running on your local machin
 ### Frontend Setup
 
 1.  **Navigate to the frontend directory:**
+
     ```bash
     cd ../frontend
     ```
 
 2.  **Install dependencies:**
+
     ```bash
     npm install
     ```
 
 3.  **Create an environment file:**
     Create a `.env.local` file in the `frontend` directory and add the URL for the backend API:
+
     ```
     VITE_API_BASE_URL=http://localhost:5000
     ```

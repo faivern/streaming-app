@@ -1,6 +1,7 @@
 # frontend
 frontend/node_modules/
 frontend/.env
+frontend/.env.*
 frontend/dist/
 frontend/.vite/
 
@@ -8,13 +9,18 @@ frontend/.vite/
 backend/bin/
 backend/obj/
 backend/*.db
-backend/secrets.json 
+backend/secrets.json
 backend/.vs/
+backend/appsettings.Development.json
+backend/appsettings.Production.json
+
+# Root environment files (contain secrets)
+.env
+.env.*
+!.env.example
 
 # common config/secrets
 *.ini
-*.yml
-*.yaml
 
 # editor/os
 .vscode/

@@ -9,7 +9,7 @@ export async function searchCollections(
   includeAdult = false
 ) {
   const { data } = await api.get<Paged<Collection>>(
-    "api/Movies/search/collection",
+    "/api/Movies/search/collection",
     {
       params: { q, page, language, includeAdult },
     }
@@ -18,7 +18,7 @@ export async function searchCollections(
 }
 
 export async function getCollectionById(id: number, language = "en-US") {
-  const { data } = await api.get<Collection>(`api/Movies/collection/${id}`, {
+  const { data } = await api.get<Collection>(`/api/Movies/collection/${id}`, {
     params: { language },
   });
   return data;

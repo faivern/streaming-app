@@ -7,7 +7,6 @@ type GetOpts = { signal?: AbortSignal };
 
 export type MediaGridItem = DetailMediaGenre;
 
-
 export type MediaDetailsResponse = {
   id: number;
   runtime?: number;
@@ -23,7 +22,7 @@ export async function getTrendingMediaGrid(
   timeWindow: "day" | "week" = "day",
   pages: number[] = [1, 2]
 ): Promise<MediaGridItem[]> {
-  const endpoint = `api/Movies/trending/${mediaType}/${timeWindow}`;
+  const endpoint = `/api/Movies/trending/${mediaType}/${timeWindow}`;
 
   const responses = await Promise.all(
     pages.map((page) =>
@@ -44,9 +43,10 @@ export async function getMediaDetails(
   mediaId: number,
   opts: GetOpts = {}
 ): Promise<DetailMedia> {
-
-  const endpoint = `api/Movies/${mediaType}/${mediaId}`;
-  const { data } = await api.get<DetailMedia>(endpoint, { signal: opts.signal });
+  const endpoint = `/api/Movies/${mediaType}/${mediaId}`;
+  const { data } = await api.get<DetailMedia>(endpoint, {
+    signal: opts.signal,
+  });
   return data;
 }
 

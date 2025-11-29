@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:16
+    container_name: moviebucket-db
+    environment:
+      POSTGRES_USER: moviebucket
+      POSTGRES_PASSWORD: devpassword
+      POSTGRES_DB: moviebucket
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: moviebucket-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@moviebucket.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+volumes:
+  pgdata:

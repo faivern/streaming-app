@@ -7,8 +7,8 @@ export async function getMediaCredits(
 ): Promise<CreditsResponse> {
   const path =
     mediaType === "movie"
-      ? `api/Movies/movie/${mediaId}/credits`
-      : `api/Movies/tv/${mediaId}/aggregate_credits`;
+      ? `/api/Movies/movie/${mediaId}/credits`
+      : `/api/Movies/tv/${mediaId}/aggregate_credits`;
 
   const response = await api.get<CreditsResponse>(path);
   return {

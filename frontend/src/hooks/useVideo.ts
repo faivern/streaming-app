@@ -1,4 +1,8 @@
 import { useEffect, useState } from "react";
+import { api } from "../api/http/axios";
+
+// Get base URL for fetch calls
+const getBaseUrl = () => api.defaults.baseURL || "";
 
 export function useVideo(
   mediaType?: "movie" | "tv",
@@ -18,11 +22,7 @@ export function useVideo(
     setLoading(true);
     setVideoUrl(null); // Reset previous URL
 
-    fetch(
-      `${
-        import.meta.env.VITE_BACKEND_API_URL
-      }/api/Movies/${mediaType}/${id}/trailer`
-    )
+    fetch(`${getBaseUrl()}/api/Movies/${mediaType}/${id}/trailer`)
       .then((res) => res.json())
       .then((data) => {
         console.log("Video data:", data);

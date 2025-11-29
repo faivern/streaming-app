@@ -1,0 +1,106 @@
+# Root docker-compose.yml - Full stack orchestration
+# Usage: docker compose up -d
+# Dev:   docker compose --profile dev up -d
+
+services:
+  # ============================================
+  # DATABASE
+  # ============================================
+  db:
+    image: postgres:16-alpine
+    container_name: moviebucket-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-moviebucket}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devpassword}
+      POSTGRES_DB: ${POSTGRES_DB:-moviebucket}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moviebucket -d moviebucket"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - moviebucket-network
+
+  # ============================================
+  # BACKEND (.NET 8)
+  # ============================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: moviebucket-backend
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=${POSTGRES_DB:-moviebucket};Username=${POSTGRES_USER:-moviebucket};Password=${POSTGRES_PASSWORD:-devpassword}
+    volumes:
+      # Mount BOTH config files - Development overrides base settings with secrets
+      - ./backend/appsettings.json:/app/appsettings.json:ro
+      - ./backend/appsettings.Development.json:/app/appsettings.Development.json:ro
+    ports:
+      - "5242:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - moviebucket-network
+
+  # ============================================
+  # FRONTEND (Vite + React + Nginx)
+  # ============================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: moviebucket-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - moviebucket-network
+
+  # ============================================
+  # DEVELOPMENT TOOLS (optional)
+  # ============================================
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: moviebucket-pgadmin
+    restart: unless-stopped
+    profiles:
+      - dev
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@moviebucket.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - moviebucket-network
+
+# ============================================
+# VOLUMES
+# ============================================
+volumes:
+  pgdata:
+    driver: local
+
+# ============================================
+# NETWORKS
+# ============================================
+networks:
+  moviebucket-network:
+    driver: bridge

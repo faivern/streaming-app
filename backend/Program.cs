@@ -11,7 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddCors(o => o.AddPolicy("Spa",
-  p => p.WithOrigins("http://localhost:5173")
+  p => p.WithOrigins(
+    "http://localhost:5173",   // Vite dev server
+    "http://localhost:3000",   // Docker frontend
+    "http://frontend"          // Docker internal
+  )
   .AllowAnyHeader()
   .AllowAnyMethod()
   .AllowCredentials()));

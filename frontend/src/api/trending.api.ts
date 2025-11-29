@@ -9,7 +9,7 @@ export async function getTrendingMedia(
   language = "en-US"
 ) {
   const { data } = await api.get<Paged<TrendingMedia>>(
-    `api/Movies/trending/${mediaType}/${timeWindow}`,
+    `/api/Movies/trending/${mediaType}/${timeWindow}`,
     { params: { page, language } }
   );
   return data.results ?? [];
