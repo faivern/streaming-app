@@ -129,3 +129,34 @@ export type EnrichedCreditMedia = DetailMedia & {
   department?: string;
   person_id?: number;
 };
+
+// Watch Provider Types
+export type WatchProvider = {
+  logo_path: string;
+  provider_id: number;
+  provider_name: string;
+  display_priority: number;
+};
+
+export type CountryWatchProviders = {
+  link: string;
+  flatrate?: WatchProvider[];
+  rent?: WatchProvider[];
+  buy?: WatchProvider[];
+  ads?: WatchProvider[];
+};
+
+export type WatchProvidersResponse = {
+  id: number;
+  results: Record<string, CountryWatchProviders>;
+};
+
+export type WatchProviderRegion = {
+  iso_3166_1: string;
+  english_name: string;
+  native_name: string;
+};
+
+export type WatchProviderRegionsResponse = {
+  results: WatchProviderRegion[];
+};
