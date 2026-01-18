@@ -6,7 +6,7 @@ echo.
 echo ========================================
 echo MovieBucket is running!
 echo Frontend: http://localhost:3000
-echo Backend:  http://localhost:5242
+echo Backend:  https://localhost:7123
 echo ========================================
 echo.
 pause

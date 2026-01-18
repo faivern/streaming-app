@@ -64,7 +64,13 @@ export default function MediaDetailHeader({
 */}
 
    </div>
-        <MediaPosterActions onWatchNow={onWatchNow} />
+        <MediaPosterActions
+          onWatchNow={onWatchNow}
+          mediaId={details.id}
+          mediaType={media_type ?? details.media_type ?? "movie"}
+          title={title}
+          posterPath={posterPath}
+        />
       </div>
 
       {/* Details */}

@@ -3,13 +3,16 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 
+# Build arg for auth URL (bypasses nginx for OAuth)
+ARG VITE_AUTH_URL=https://localhost:7123
+
 # Copy package files and install dependencies (layer caching)
 COPY package.json package-lock.json* ./
 RUN npm ci
 
 # Copy source and build
 COPY . .
-RUN npm run build
+RUN VITE_AUTH_URL=$VITE_AUTH_URL npm run build
 
 # Stage 2: Production with Nginx
 FROM nginx:alpine AS runtime

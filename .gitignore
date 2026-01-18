@@ -11,6 +11,7 @@ backend/obj/
 backend/*.db
 backend/secrets.json
 backend/.vs/
+backend/.keys/
 backend/appsettings.Development.json
 backend/appsettings.Production.json
 

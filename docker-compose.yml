@@ -35,20 +35,30 @@ services:
       dockerfile: Dockerfile
     container_name: moviebucket-backend
     restart: unless-stopped
+    env_file:
+      - .env
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:8080
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=${ASPNETCORE_HTTPS_PASSWORD:-devcertpassword}
       - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=${POSTGRES_DB:-moviebucket};Username=${POSTGRES_USER:-moviebucket};Password=${POSTGRES_PASSWORD:-devpassword}
-    volumes:
-      # Mount BOTH config files - Development overrides base settings with secrets
-      - ./backend/appsettings.json:/app/appsettings.json:ro
-      - ./backend/appsettings.Development.json:/app/appsettings.Development.json:ro
+      - FrontendUrl=http://localhost:3000
+      - BackendUrl=https://localhost:7123
+      - CorsOrigins=http://localhost:3000,http://frontend
+      - TMDB__ApiKey=${TMDB_API_KEY:-your_tmdb_key_here}
+      - Authentication__Google__ClientId=${GOOGLE_CLIENT_ID:-your_google_client_id}
+      - Authentication__Google__ClientSecret=${GOOGLE_CLIENT_SECRET:-your_google_client_secret}
     ports:
-      - "5242:8080"
+      - "7123:8080"
+    volumes:
+      - backend-https:/https
+      - backend-keys:/keys
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD", "curl", "-fk", "https://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -96,6 +106,10 @@ services:
 # ============================================
 volumes:
   pgdata:
+    driver: local
+  backend-https:
+    driver: local
+  backend-keys:
     driver: local
 
 # ============================================
