@@ -432,5 +432,48 @@ namespace backend.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
                 }
             }
+
+        // Watch providers
+        [HttpGet("movie/{movieId}/watch/providers")]
+        public async Task<IActionResult> GetMovieWatchProviders(int movieId)
+        {
+            try
+            {
+                var data = await _tmdbService.GetMovieWatchProvidersAsync(movieId);
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("tv/{seriesId}/watch/providers")]
+        public async Task<IActionResult> GetTvWatchProviders(int seriesId)
+        {
+            try
+            {
+                var data = await _tmdbService.GetTvWatchProvidersAsync(seriesId);
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("watch/providers/regions")]
+        public async Task<IActionResult> GetWatchProviderRegions()
+        {
+            try
+            {
+                var data = await _tmdbService.GetWatchProviderRegionsAsync();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
     }
 }

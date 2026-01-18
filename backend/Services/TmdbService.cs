@@ -332,5 +332,25 @@ namespace backend.Services
             return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
         }
 
+        //------------------------------WATCH PROVIDERS--------------------------------------------
+        public async Task<string> GetMovieWatchProvidersAsync(int movieId)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}/watch/providers?api_key={_apiKey}";
+            return await FetchWithCacheAsync($"movie_watch_providers_{movieId}", url, TimeSpan.FromHours(12));
+        }
+
+        public async Task<string> GetTvWatchProvidersAsync(int seriesId)
+        {
+            var url = $"https://api.themoviedb.org/3/tv/{seriesId}/watch/providers?api_key={_apiKey}";
+            return await FetchWithCacheAsync($"tv_watch_providers_{seriesId}", url, TimeSpan.FromHours(12));
+        }
+
+        public async Task<string> GetWatchProviderRegionsAsync()
+        {
+            var url = $"https://api.themoviedb.org/3/watch/providers/regions?api_key={_apiKey}";
+            return await FetchWithCacheAsync("watch_provider_regions", url, TimeSpan.FromHours(24));
+        }
+        //-----------------------------------------------------------------------------------
+
     }
 }

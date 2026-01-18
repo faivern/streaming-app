@@ -10,6 +10,7 @@ import MediaDetailVideo from "../../components/media/detail/MediaDetailVideo";
 import MediaDetailHeader from "../../components/media/detail/MediaDetailHeader";
 import MediaCastCarousel from "../../components/media/carousel/MediaCastCarousel";
 import MediaGridSimilar from "../../components/media/grid/MediaGridSimilar";
+import WatchProviders from "../../components/media/WatchProviders";
 import useToWatch from "../../hooks/useToWatch";
 import { useSimilarMedia } from "../../hooks/media/useSimilarMedia";
 import { useMediaKeywords } from "../../hooks/media/useMediaKeywords";
@@ -71,6 +72,9 @@ export default function MediaDetailPage() {
             onWatchNow={handleWatchNow}
             logo_path={logoPath}
           />
+          <div className="mt-8 mx-4 md:mx-16">
+            <WatchProviders mediaType={media_type} mediaId={numericId} />
+          </div>
           <div className="mt-8">
             <MediaCastCarousel cast={credits?.cast ?? []} />
           </div>
