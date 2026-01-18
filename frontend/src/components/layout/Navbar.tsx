@@ -1,15 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/react.svg";
 import { FaRegUser } from "react-icons/fa";
+import { FaMasksTheater, FaHouse, FaBucket } from "react-icons/fa6";
 import { useState, useEffect } from "react";
 import SearchBar from "../layout/SearchBar";
 import "../../style/TitleHover.css";
 import GenreList from "../filters/GenreList";
 import { api } from "../../api/http/axios";
 import { GOOGLE_LOGIN_URL } from "../../lib/config";
-import { toast } from "react-hot-toast";
 import { useUser } from "../../hooks/user/useUser";
-import { postLogoutUser } from "../../api/user.api";
+import { useLogout } from "../../hooks/user/useLogout";
+import { UserModal } from "./UserModal";
 
 type Genre = {
   id: number;
@@ -23,7 +24,9 @@ export default function Header() {
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // NEW
   const [showMobileGenres, setShowMobileGenres] = useState(false); // NEW
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const { data: user } = useUser();
+  const { mutate: logout } = useLogout();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,15 +71,9 @@ export default function Header() {
     setShowMobileGenres(false);
   };
 
-  const handleLogout = async () => {
-    try {
-      await postLogoutUser();
-      toast.success("Logged out successfully");
-      navigate("/");
-    } catch (error) {
-      console.error("Logout failed:", error);
-      toast.error("Failed to logout");
-    }
+  const handleLogout = () => {
+    logout();
+    setIsUserModalOpen(false);
   };
 
   return (
@@ -121,9 +118,15 @@ export default function Header() {
 
               {/* Desktop Nav Links */}
               <div className="hidden xl:flex items-center gap-6">
+                <Link to="/">
+                  <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center">
+                    <FaHouse className="mr-1" /> Home
+                    <span className="underline-bar"></span>
+                  </span>
+                </Link>
                 <Link to="/my-list">
-                  <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap">
-                    My List
+                  <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center">
+                    <FaBucket className="mr-1" /> My Bucket
                     <span className="underline-bar"></span>
                   </span>
                 </Link>
@@ -133,7 +136,8 @@ export default function Header() {
                   onMouseEnter={() => setShowGenres(true)}
                   onMouseLeave={() => setShowGenres(false)}
                 >
-                  <div className="underline-hover !text-base !font-semibold !mb-0 cursor-pointer">
+                  <div className="underline-hover !text-base !font-semibold !mb-0 cursor-pointer flex items-center">
+                    <FaMasksTheater className="mr-1" />
                     Genres
                     <span className="underline-bar"></span>
                   </div>
@@ -191,25 +195,26 @@ export default function Header() {
                 </button>
               </div>
 
-              {/* Login Button or User Profile */}
+              {/* Login Button or User Profile Dropdown */}
               {user ? (
-                <div className="flex items-center gap-3">
-                  {user.picture && (
-                    <img
-                      src={user.picture}
-                      alt="Profile"
-                      className="w-8 h-8 rounded-full"
-                    />
-                  )}
-                  <span className="text-white font-medium hidden sm:inline whitespace-nowrap">
-                    {user.name}
-                  </span>
+                <div className="relative">
                   <button
-                    onClick={handleLogout}
-                    className="bg-red-600 hover:bg-red-700 text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap"
+                    onClick={() => setIsUserModalOpen(!isUserModalOpen)}
+                    className="flex items-center gap-2 hover:opacity-80 transition cursor-pointer"
                   >
-                    Logout
+                    {user.picture && (
+                      <img
+                        src={user.picture}
+                        alt="Profile"
+                        className="w-8 h-8 rounded-full"
+                      />
+                    )}
                   </button>
+                  <UserModal
+                    show={isUserModalOpen}
+                    userName={user.name}
+                    onLogout={handleLogout}
+                  />
                 </div>
               ) : (
                 <a href={GOOGLE_LOGIN_URL}>
@@ -273,11 +278,18 @@ export default function Header() {
 
             <nav className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
               <Link
+                to="/"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+              >
+                <FaHouse className="mr-2" /> Home
+              </Link>
+              <Link
                 to="/my-list"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+                className="flex items-center w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
               >
-                My List
+                <FaBucket className="mr-2" /> My Bucket
               </Link>
 
               <div>
@@ -287,7 +299,9 @@ export default function Header() {
                   aria-expanded={showMobileGenres}
                   aria-controls="mobile-genres-panel"
                 >
-                  <span>Genres</span>
+                  <span className="flex items-center">
+                    <FaMasksTheater className="mr-2" /> Genres
+                  </span>
                   <svg
                     className={`w-5 h-5 transform transition ${
                       showMobileGenres ? "rotate-180" : ""
@@ -335,7 +349,7 @@ export default function Header() {
                     </span>
                   </div>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => logout()}
                     className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-full transition"
                   >
                     Logout

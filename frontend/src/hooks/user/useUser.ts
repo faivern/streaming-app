@@ -1,4 +1,3 @@
-//hook
 import { useQuery } from "@tanstack/react-query";
 import { getUserCredentials } from "../../api/user.api";
 import type { User } from "../../types/user";
