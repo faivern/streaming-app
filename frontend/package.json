@@ -25,6 +25,7 @@
     "@tanstack/react-query-devtools": "^5.85.6",
     "axios": "^1.9.0",
     "embla-carousel-react": "^8.6.0",
+    "flag-icons": "^7.5.0",
     "flyonui": "^2.2.0",
     "lucide-react": "^0.542.0",
     "react": "^19.1.0",

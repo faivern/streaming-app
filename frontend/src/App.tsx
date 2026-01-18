@@ -40,9 +40,12 @@ function App() {
           <Route
             path="/my-list"
             element={
-              <div className="text-white text-center py-10 text-xl">
-                My List Page Coming Soon
-              </div>
+              <>
+                <span className="fi fi-us"></span> United States
+                <div className="text-white text-center py-10 text-xl">
+                  My List Page Coming Soon
+                </div>
+              </>
             }
           />
           <Route

@@ -110,7 +110,10 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
           <Listbox value={selectedCountry} onChange={setSelectedCountry}>
             <div className="relative w-full sm:w-48">
               <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-gray-800 border border-gray-600 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all text-sm">
-                <span className="block truncate">
+                <span className="flex items-center gap-2">
+                  <span
+                    className={`fi fi-${selectedCountry.toLowerCase()}`}
+                  ></span>
                   {selectedRegion?.english_name || selectedCountry}
                 </span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
@@ -139,16 +142,20 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
                     >
                       {({ selected }) => (
                         <>
-                          <span
-                            className={`block truncate ${
-                              selected ? "font-medium text-white" : "font-normal"
-                            }`}
-                          >
+                          <span className="flex items-center gap-2">
+                            <span
+                              className={`fi fi-${region.iso_3166_1.toLowerCase()}`}
+                            >
+                              {/*region.iso_3166_1.toLowerCase()*/}
+                            </span>
                             {region.english_name}
                           </span>
                           {selected && (
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-400">
-                              <FontAwesomeIcon icon={faCheck} className="h-4 w-4" />
+                              <FontAwesomeIcon
+                                icon={faCheck}
+                                className="h-4 w-4"
+                              />
                             </span>
                           )}
                         </>
@@ -166,10 +173,16 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
         <ProvidersSkeleton />
       ) : hasProviders ? (
         <>
-          <ProviderGroup title="Stream" providers={countryProviders?.flatrate} />
+          <ProviderGroup
+            title="Stream"
+            providers={countryProviders?.flatrate}
+          />
           <ProviderGroup title="Rent" providers={countryProviders?.rent} />
           <ProviderGroup title="Buy" providers={countryProviders?.buy} />
-          <ProviderGroup title="Free with Ads" providers={countryProviders?.ads} />
+          <ProviderGroup
+            title="Free with Ads"
+            providers={countryProviders?.ads}
+          />
 
           {countryProviders?.link && (
             <a
@@ -197,7 +210,8 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
         </>
       ) : (
         <p className="text-gray-400 text-sm">
-          No streaming information available for {selectedRegion?.english_name || selectedCountry}.
+          No streaming information available for{" "}
+          {selectedRegion?.english_name || selectedCountry}.
         </p>
       )}
 
