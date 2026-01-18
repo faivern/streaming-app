@@ -10,6 +10,13 @@ namespace backend.Controllers
     [Route("api/auth")]
     public class AuthController : Controller
     {
+        private readonly string _frontendUrl;
+
+        public AuthController(IConfiguration configuration)
+        {
+            _frontendUrl = configuration["FrontendUrl"] ?? "http://localhost:5173";
+        }
+
         [HttpGet("google")]
         public IActionResult GoogleLogin()
         {
@@ -25,7 +32,7 @@ namespace backend.Controllers
         {
             var result = await HttpContext.AuthenticateAsync("External");
             if (!result.Succeeded || result.Principal is null)
-                return Redirect("http://localhost:5173?auth=failed");
+                return Redirect($"{_frontendUrl}?auth=failed");
 
             var ext = result.Principal;
             var claims = new List<Claim>
@@ -49,7 +56,7 @@ namespace backend.Controllers
             });
 
             await HttpContext.SignOutAsync("External");
-            return Redirect("http://localhost:5173");
+            return Redirect(_frontendUrl);
         }
 
         [HttpGet("me")]

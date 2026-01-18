@@ -15,11 +15,20 @@ RUN dotnet publish -c Release -o /app/publish --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
+# Install curl for healthcheck and openssl for HTTPS cert generation
+RUN apt-get update && apt-get install -y --no-install-recommends curl openssl && rm -rf /var/lib/apt/lists/*
+
 # Create non-root user for security
 RUN adduser --disabled-password --gecos "" appuser
 
 # Copy published app
 COPY --from=build /app/publish .
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# Create and set ownership for the HTTPS cert directory and Data Protection keys
+RUN mkdir /https && chown appuser:appuser /https
+RUN mkdir /keys && chown appuser:appuser /keys
 
 # Change ownership and switch to non-root user
 RUN chown -R appuser:appuser /app
@@ -30,10 +39,10 @@ EXPOSE 8080
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8080/health || exit 1
+  CMD curl -fk https://localhost:8080/health || exit 1
 
 # Set environment variables
-ENV ASPNETCORE_URLS=http://+:8080
+ENV ASPNETCORE_URLS=https://+:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
 
-ENTRYPOINT ["dotnet", "backend.dll"]
+ENTRYPOINT ["/app/entrypoint.sh"]

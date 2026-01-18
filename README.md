@@ -105,13 +105,15 @@ Follow these instructions to get the project up and running on your local machin
     ```
 
     _If no `docker-compose.yml` is available, you will need to run a PostgreSQL container manually._
+    
+    _HTTPS in Docker:_ the backend container generates a self-signed localhost cert on startup using `ASPNETCORE_HTTPS_PASSWORD`.
 
 4.  **Run the backend server:**
     ```bash
     dotnet restore
     dotnet run
     ```
-    The API will be available at `http://localhost:5000` (or as specified in `launchSettings.json`). The Swagger UI can be found at `http://localhost:5000/swagger`.
+    The API will be available at `https://localhost:7123` (or as specified in `launchSettings.json`). The Swagger UI can be found at `https://localhost:7123/swagger`.
 
 ### Frontend Setup
 
@@ -131,7 +133,7 @@ Follow these instructions to get the project up and running on your local machin
     Create a `.env.local` file in the `frontend` directory and add the URL for the backend API:
 
     ```
-    VITE_API_BASE_URL=http://localhost:5000
+    VITE_API_URL=https://localhost:7123
     ```
 
 4.  **Run the development server:**

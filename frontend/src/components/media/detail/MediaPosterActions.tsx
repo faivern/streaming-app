@@ -5,11 +5,24 @@ import useAddWatchList from "../../../hooks/useAddWatchList";
 
 type Props = {
   onWatchNow: () => void;
+  mediaId: number;
+  mediaType: string;
+  title: string;
+  posterPath?: string | null;
 };
 
-export default function MediaPosterActions({ onWatchNow }: Props) {
+export default function MediaPosterActions({ onWatchNow, mediaId, mediaType, title, posterPath }: Props) {
     const handleShare = useShare();
-    const handleAddWatchList = useAddWatchList();
+    const addToWatchList = useAddWatchList();
+
+    const handleAddWatchList = () => {
+      addToWatchList({
+        tmdbId: mediaId,
+        mediaType,
+        title,
+        posterPath: posterPath ?? undefined,
+      });
+    };
 
   return (
     <div className="mt-6 space-y-3">
