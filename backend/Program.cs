@@ -39,7 +39,7 @@ builder.Services.AddControllers();
 // CORS origins from configuration (comma-separated)
 var corsOrigins = builder.Configuration["CorsOrigins"]?
     .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-    ?? new[] { "http://localhost:5173", "http://localhost:3000", "http://frontend", "https://localhost:7123" };
+    ?? new[] { "http://localhost:3000", "http://frontend" };
 
 builder.Services.AddCors(o => o.AddPolicy("Spa", p =>
 {

@@ -27,56 +27,56 @@ services:
       - moviebucket-network
 
   # ============================================
-  # BACKEND (.NET 8)
+  # BACKEND (.NET 8) - Dev with hot reload
   # ============================================
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: moviebucket-backend
-    restart: unless-stopped
-    env_file:
-      - .env
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    working_dir: /src
+    ports:
+      - "7123:7123"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:8080
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=${ASPNETCORE_HTTPS_PASSWORD:-devcertpassword}
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=${POSTGRES_DB:-moviebucket};Username=${POSTGRES_USER:-moviebucket};Password=${POSTGRES_PASSWORD:-devpassword}
+      - ASPNETCORE_URLS=http://+:7123
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=moviebucket;Username=${POSTGRES_USER:-moviebucket};Password=${POSTGRES_PASSWORD:-devpassword}
+      - TMDB__ApiKey=${TMDB_API_KEY}
+      - Authentication__Google__ClientId=${GOOGLE_CLIENT_ID}
+      - Authentication__Google__ClientSecret=${GOOGLE_CLIENT_SECRET}
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - DOTNET_WATCH_SUPPRESS_LAUNCH_BROWSER=1
+      - CorsOrigins=http://localhost:3000,http://localhost:5173
       - FrontendUrl=http://localhost:3000
-      - BackendUrl=https://localhost:7123
-      - CorsOrigins=http://localhost:3000,http://frontend
-      - TMDB__ApiKey=${TMDB_API_KEY:-your_tmdb_key_here}
-      - Authentication__Google__ClientId=${GOOGLE_CLIENT_ID:-your_google_client_id}
-      - Authentication__Google__ClientSecret=${GOOGLE_CLIENT_SECRET:-your_google_client_secret}
-    ports:
-      - "7123:8080"
     volumes:
-      - backend-https:/https
-      - backend-keys:/keys
+      - ./backend:/src
+      - backend-nuget:/root/.nuget
+    command: dotnet watch run --no-launch-profile --project /src/backend.csproj
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-fk", "https://localhost:8080/health"]
+      test: ["CMD-SHELL", "curl -f http://localhost:7123/health || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 10s
+      start_period: 40s
     networks:
       - moviebucket-network
 
   # ============================================
-  # FRONTEND (Vite + React + Nginx)
+  # FRONTEND (Vite + React) - Dev with hot reload
   # ============================================
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: moviebucket-frontend
-    restart: unless-stopped
+    image: node:20-alpine
+    working_dir: /app
     ports:
-      - "3000:80"
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:7123
+      - VITE_AUTH_URL=http://localhost:7123
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend:/app
+      - frontend-node-modules:/app/node_modules
+    command: sh -c "npm install && npm run dev -- --host --port 3000"
     depends_on:
       - backend
     networks:
@@ -107,9 +107,9 @@ services:
 volumes:
   pgdata:
     driver: local
-  backend-https:
+  backend-nuget:
     driver: local
-  backend-keys:
+  frontend-node-modules:
     driver: local
 
 # ============================================
