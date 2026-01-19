@@ -13,17 +13,19 @@ export const UserModal = ({ userName, onLogout, show }: UserModalProps) => {
   }
 
   return (
-    <div className="absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg py-1 z-50 border border-accent-primary/75">
-      <div className="px-4 py-2 text-sm text-gray-400">{userName}</div>
+    <div className="absolute right-0 mt-2 w-48 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl py-3 z-50 border border-gray-700">
+      <div className="px-4 py-2 text-sm text-gray-400 border-b border-gray-700/50 mb-1">
+        {userName}
+      </div>
       <Link
         to="/watchlist"
-        className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700"
+        className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700/50 hover:text-white transition-colors"
       >
         Watch List
       </Link>
       <button
         onClick={onLogout}
-        className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 cursor-pointer"
+        className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-gray-700/50 hover:text-white transition-colors cursor-pointer"
       >
         <FaSignOutAlt className="mr-2" />
         Sign Out
