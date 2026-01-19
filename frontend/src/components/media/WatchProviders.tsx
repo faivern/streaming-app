@@ -24,51 +24,33 @@ function getDefaultCountry(): string {
 function ProviderGroup({
   title,
   providers,
-  link,
 }: {
   title: string;
   providers?: WatchProvider[];
-  link?: string;
 }) {
   if (!providers || providers.length === 0) return null;
 
   return (
     <div className="mb-5">
       <h4 className="text-sm text-gray-400 mb-3 font-medium">{title}</h4>
-      <div className="flex flex-wrap gap-3">
-        {providers.map((provider) => {
-          const content = (
-            <div
-              key={provider.provider_id}
-              className="group flex flex-col items-center gap-1.5"
-            >
-              <div className="relative">
-                <img
-                  src={`https://image.tmdb.org/t/p/w92${provider.logo_path}`}
-                  alt={provider.provider_name}
-                  className="w-12 h-12 rounded-xl object-cover border-2 border-gray-700 group-hover:border-sky-500 transition-all group-hover:scale-105 shadow-md"
-                />
-              </div>
-              <span className="text-xs text-gray-400 group-hover:text-white transition-colors text-center max-w-[4.5rem] truncate">
-                {provider.provider_name}
-              </span>
+      <div className="flex flex-wrap gap-4">
+        {providers.map((provider) => (
+          <div
+            key={provider.provider_id}
+            className="group flex flex-col items-center gap-1.5"
+          >
+            <div className="relative">
+              <img
+                src={`https://image.tmdb.org/t/p/w92${provider.logo_path}`}
+                alt={provider.provider_name}
+                className="w-12 h-12 rounded-xl object-cover border-2 border-gray-700 group-hover:border-sky-500 transition-all group-hover:scale-105 shadow-md"
+              />
             </div>
-          );
-
-          return link ? (
-            <a
-              key={provider.provider_id}
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="no-underline"
-            >
-              {content}
-            </a>
-          ) : (
-            <div key={provider.provider_id}>{content}</div>
-          );
-        })}
+            <span className="text-xs text-gray-400 group-hover:text-white transition-colors text-center">
+              {provider.provider_name}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -227,22 +209,18 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
           <ProviderGroup
             title="Stream"
             providers={countryProviders?.flatrate}
-            link={countryProviders?.link}
           />
           <ProviderGroup
             title="Rent"
             providers={countryProviders?.rent}
-            link={countryProviders?.link}
           />
           <ProviderGroup
             title="Buy"
             providers={countryProviders?.buy}
-            link={countryProviders?.link}
           />
           <ProviderGroup
             title="Free with Ads"
             providers={countryProviders?.ads}
-            link={countryProviders?.link}
           />
 
           {countryProviders?.link && (
