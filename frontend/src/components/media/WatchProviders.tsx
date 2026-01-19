@@ -1,7 +1,7 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useMemo } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faCheck, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useWatchProviders, useWatchProviderRegions } from "../../hooks/media/useWatchProviders";
 import type { MediaType, WatchProvider, WatchProviderRegion } from "../../types/tmdb";
 
@@ -24,32 +24,51 @@ function getDefaultCountry(): string {
 function ProviderGroup({
   title,
   providers,
+  link,
 }: {
   title: string;
   providers?: WatchProvider[];
+  link?: string;
 }) {
   if (!providers || providers.length === 0) return null;
 
   return (
-    <div className="mb-4">
-      <h4 className="text-sm text-gray-400 mb-2">{title}</h4>
-      <div className="flex flex-wrap gap-2">
-        {providers.map((provider) => (
-          <div
-            key={provider.provider_id}
-            className="group relative"
-            title={provider.provider_name}
-          >
-            <img
-              src={`https://image.tmdb.org/t/p/w92${provider.logo_path}`}
-              alt={provider.provider_name}
-              className="w-10 h-10 rounded-lg object-cover border border-gray-700 hover:border-sky-500 transition-colors"
-            />
-            <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
-              {provider.provider_name}
-            </span>
-          </div>
-        ))}
+    <div className="mb-5">
+      <h4 className="text-sm text-gray-400 mb-3 font-medium">{title}</h4>
+      <div className="flex flex-wrap gap-3">
+        {providers.map((provider) => {
+          const content = (
+            <div
+              key={provider.provider_id}
+              className="group flex flex-col items-center gap-1.5"
+            >
+              <div className="relative">
+                <img
+                  src={`https://image.tmdb.org/t/p/w92${provider.logo_path}`}
+                  alt={provider.provider_name}
+                  className="w-12 h-12 rounded-xl object-cover border-2 border-gray-700 group-hover:border-sky-500 transition-all group-hover:scale-105 shadow-md"
+                />
+              </div>
+              <span className="text-xs text-gray-400 group-hover:text-white transition-colors text-center max-w-[4.5rem] truncate">
+                {provider.provider_name}
+              </span>
+            </div>
+          );
+
+          return link ? (
+            <a
+              key={provider.provider_id}
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="no-underline"
+            >
+              {content}
+            </a>
+          ) : (
+            <div key={provider.provider_id}>{content}</div>
+          );
+        })}
       </div>
     </div>
   );
@@ -76,6 +95,7 @@ function ProvidersSkeleton() {
 
 export default function WatchProviders({ mediaType, mediaId }: Props) {
   const [selectedCountry, setSelectedCountry] = useState(getDefaultCountry);
+  const [countrySearch, setCountrySearch] = useState("");
 
   const { data: providersData, isLoading: providersLoading } = useWatchProviders(
     mediaType,
@@ -87,6 +107,16 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
   const countryProviders = providersData?.results?.[selectedCountry];
 
   const selectedRegion = regions.find((r) => r.iso_3166_1 === selectedCountry);
+
+  const filteredRegions = useMemo(() => {
+    if (!countrySearch.trim()) return regions;
+    const search = countrySearch.toLowerCase();
+    return regions.filter(
+      (r) =>
+        r.english_name.toLowerCase().includes(search) ||
+        r.iso_3166_1.toLowerCase().includes(search)
+    );
+  }, [regions, countrySearch]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, selectedCountry);
@@ -129,39 +159,60 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-gray-800 border border-gray-600 py-1 text-sm shadow-lg focus:outline-none">
-                  {regions.map((region: WatchProviderRegion) => (
-                    <Listbox.Option
-                      key={region.iso_3166_1}
-                      className={({ active }) =>
-                        `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                          active ? "bg-sky-500/20 text-white" : "text-gray-300"
-                        }`
-                      }
-                      value={region.iso_3166_1}
-                    >
-                      {({ selected }) => (
-                        <>
-                          <span className="flex items-center gap-2">
-                            <span
-                              className={`fi fi-${region.iso_3166_1.toLowerCase()}`}
-                            >
-                              {/*region.iso_3166_1.toLowerCase()*/}
-                            </span>
-                            {region.english_name}
-                          </span>
-                          {selected && (
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-400">
-                              <FontAwesomeIcon
-                                icon={faCheck}
-                                className="h-4 w-4"
-                              />
-                            </span>
+                <Listbox.Options className="absolute z-20 mt-1 max-h-72 w-full overflow-hidden rounded-lg bg-gray-800 border border-gray-600 text-sm shadow-lg focus:outline-none">
+                  <div className="sticky top-0 bg-gray-800 p-2 border-b border-gray-700">
+                    <div className="relative">
+                      <FontAwesomeIcon
+                        icon={faSearch}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-3 w-3"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Search countries..."
+                        value={countrySearch}
+                        onChange={(e) => setCountrySearch(e.target.value)}
+                        className="w-full bg-gray-700 border border-gray-600 rounded-md py-1.5 pl-8 pr-3 text-white placeholder-gray-400 focus:outline-none focus:border-sky-500 text-sm"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </div>
+                  </div>
+                  <div className="max-h-52 overflow-auto py-1">
+                    {filteredRegions.length === 0 ? (
+                      <div className="py-2 px-4 text-gray-400 text-center">No countries found</div>
+                    ) : (
+                      filteredRegions.map((region: WatchProviderRegion) => (
+                        <Listbox.Option
+                          key={region.iso_3166_1}
+                          className={({ active }) =>
+                            `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                              active ? "bg-sky-500/20 text-white" : "text-gray-300"
+                            }`
+                          }
+                          value={region.iso_3166_1}
+                        >
+                          {({ selected }) => (
+                            <>
+                              <span className="flex items-center gap-2">
+                                <span
+                                  className={`fi fi-${region.iso_3166_1.toLowerCase()}`}
+                                >
+                                </span>
+                                {region.english_name}
+                              </span>
+                              {selected && (
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-400">
+                                  <FontAwesomeIcon
+                                    icon={faCheck}
+                                    className="h-4 w-4"
+                                  />
+                                </span>
+                              )}
+                            </>
                           )}
-                        </>
-                      )}
-                    </Listbox.Option>
-                  ))}
+                        </Listbox.Option>
+                      ))
+                    )}
+                  </div>
                 </Listbox.Options>
               </Transition>
             </div>
@@ -176,12 +227,22 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
           <ProviderGroup
             title="Stream"
             providers={countryProviders?.flatrate}
+            link={countryProviders?.link}
           />
-          <ProviderGroup title="Rent" providers={countryProviders?.rent} />
-          <ProviderGroup title="Buy" providers={countryProviders?.buy} />
+          <ProviderGroup
+            title="Rent"
+            providers={countryProviders?.rent}
+            link={countryProviders?.link}
+          />
+          <ProviderGroup
+            title="Buy"
+            providers={countryProviders?.buy}
+            link={countryProviders?.link}
+          />
           <ProviderGroup
             title="Free with Ads"
             providers={countryProviders?.ads}
+            link={countryProviders?.link}
           />
 
           {countryProviders?.link && (

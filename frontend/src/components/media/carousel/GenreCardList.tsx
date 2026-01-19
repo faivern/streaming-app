@@ -102,17 +102,18 @@ export default function GenreCardList({ genres, loading = false }: Props) {
           </div>
         </div>
 
-        <button
-          type="button"
-          onClick={prev}
-          disabled={page === 0}
-          className="absolute left-2 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full
-                     bg-gray-900/70 backdrop-blur border border-white/10 text-white
-                     hover:bg-gray-800/80 disabled:opacity-40 disabled:cursor-not-allowed hover:cursor-pointer"
-          aria-label="Previous"
-        >
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </button>
+        {page > 0 && (
+          <button
+            type="button"
+            onClick={prev}
+            className="absolute left-2 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full
+                       bg-gray-900/70 backdrop-blur border border-white/10 text-white
+                       hover:bg-gray-800/80 hover:cursor-pointer"
+            aria-label="Previous"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </button>
+        )}
         <button
           type="button"
           onClick={next}

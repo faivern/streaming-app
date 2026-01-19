@@ -91,6 +91,7 @@ export default function MediaDetailHeader({
           number_of_seasons={seasons}
           number_of_episodes={episodes}
           genre_ids={genreIds}
+          imdb_id={details.imdb_id}
         />
 
         {details.overview && <p className="text-gray-300">{details.overview}</p>}

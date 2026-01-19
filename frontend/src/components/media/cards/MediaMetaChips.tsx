@@ -13,6 +13,7 @@ type Props = {
   number_of_seasons?: number;
   number_of_episodes?: number;
   genre_ids: number[];
+  imdb_id?: string;
 };
 export default function MediaMetaChips({
   vote_average,
@@ -23,10 +24,11 @@ export default function MediaMetaChips({
   number_of_seasons,
   number_of_episodes,
   genre_ids = [],
+  imdb_id,
 }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
-      <RatingPill rating={vote_average} count={vote_count} showOutOfTen={true} />
+      <RatingPill rating={vote_average} count={vote_count} showOutOfTen={true} imdbId={imdb_id} />
       {media_type === "movie" && <RuntimePill minutes={runtime} />}
       {media_type === "tv" && (
         <TvInfoPill seasons={number_of_seasons} episodes={number_of_episodes} />
