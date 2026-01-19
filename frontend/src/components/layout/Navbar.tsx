@@ -209,6 +209,9 @@ export default function Header() {
                         className="w-8 h-8 rounded-full"
                       />
                     )}
+                    <span className="hidden lg:inline text-sm font-medium text-white">
+                      {user.name}
+                    </span>
                   </button>
                   <UserModal
                     show={isUserModalOpen}
