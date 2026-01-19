@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/react.svg";
 import { FaRegUser } from "react-icons/fa";
 import { FaMasksTheater, FaHouse, FaBucket } from "react-icons/fa6";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SearchBar from "../layout/SearchBar";
 import "../../style/TitleHover.css";
 import GenreList from "../filters/GenreList";
@@ -27,6 +27,7 @@ export default function Header() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const { data: user } = useUser();
   const { mutate: logout } = useLogout();
+  const userPanelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -61,6 +62,20 @@ export default function Header() {
     };
 
     fetchGenres();
+  }, []);
+
+  // Close user panel when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        userPanelRef.current &&
+        !userPanelRef.current.contains(e.target as Node)
+      ) {
+        setIsUserModalOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const navigate = useNavigate();
@@ -197,7 +212,7 @@ export default function Header() {
 
               {/* Login Button or User Profile Dropdown */}
               {user ? (
-                <div className="relative">
+                <div className="relative" ref={userPanelRef}>
                   <button
                     onClick={() => setIsUserModalOpen(!isUserModalOpen)}
                     className="flex items-center gap-2 hover:opacity-80 transition cursor-pointer"
