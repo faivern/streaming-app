@@ -7,7 +7,8 @@ type Props = {
   rating?: number;
   count?: number;
   className?: string;
-  showOutOfTen?: boolean; // NEW prop
+  showOutOfTen?: boolean;
+  imdbId?: string;
 };
 
 export default function RatingPill({
@@ -15,12 +16,13 @@ export default function RatingPill({
   count,
   className = "",
   showOutOfTen = true,
+  imdbId,
 }: Props) {
-  return (
+  const content = (
     <Pill
-      className={`font-medium ${className}`}
+      className={`font-medium ${imdbId ? "hover:bg-amber-500/20 transition-colors cursor-pointer" : ""} ${className}`}
       icon={<FontAwesomeIcon icon={faStar} className="text-amber-400 mr-1" />}
-      title="Average rating"
+      title={imdbId ? "View on IMDB" : "Average rating"}
     >
       {rating ? (
         <>
@@ -37,4 +39,19 @@ export default function RatingPill({
       )}
     </Pill>
   );
+
+  if (imdbId) {
+    return (
+      <a
+        href={`https://www.imdb.com/title/${imdbId}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="no-underline"
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return content;
 }

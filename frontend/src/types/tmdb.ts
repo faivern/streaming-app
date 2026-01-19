@@ -54,6 +54,7 @@ export type DetailMedia = {
   budget?: number;
   revenue?: number;
   media_type?: MediaType;
+  imdb_id?: string;
 };
 
 export type Collection = {

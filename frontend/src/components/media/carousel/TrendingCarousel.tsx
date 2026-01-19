@@ -67,17 +67,18 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
     <div className="w-full">
       <div className="relative w-full overflow-hidden -mt-40">
         {/* Arrows */}
-        <button
-          onClick={goToPrev}
-          aria-label="Previous"
-          disabled={loading || filtered.length === 0}
-          className="absolute left-6 top-1/2 z-20 -translate-y-1/2 bg-gray-900/50 backdrop-blur-md text-white 
-                     hover:bg-gray-800/80 disabled:opacity-40 disabled:cursor-not-allowed 
-                     rounded-full p-3 transition-all duration-200 shadow-md border border-gray-700/30 
-                     hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500/40 cursor-pointer"
-        >
-          <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
-        </button>
+        {!loading && filtered.length > 0 && currentIndex > 0 && (
+          <button
+            onClick={goToPrev}
+            aria-label="Previous"
+            className="absolute left-6 top-1/2 z-20 -translate-y-1/2 bg-gray-900/50 backdrop-blur-md text-white
+                       hover:bg-gray-800/80
+                       rounded-full p-3 transition-all duration-200 shadow-md border border-gray-700/30
+                       hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500/40 cursor-pointer"
+          >
+            <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
+          </button>
+        )}
 
         <button
           onClick={goToNext}
