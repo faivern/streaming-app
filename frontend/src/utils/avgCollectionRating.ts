@@ -7,7 +7,7 @@ export function avgCollectionRating(
   let count = 0;
 
   for (const { vote_average } of parts) {
-    if (typeof vote_average === "number") {
+    if (typeof vote_average === "number" && vote_average > 0) {
       sum += vote_average;
       count++;
     }

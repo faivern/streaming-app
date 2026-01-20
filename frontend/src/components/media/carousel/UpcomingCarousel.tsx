@@ -116,9 +116,9 @@ export default function UpcomingCarousel({
               const shouldPrioritize = index < 4; // Eager-load first 4 items
 
               return (
-                <div key={item.id} className="shrink-0 w-[320px]">
+                <div key={item.id} className="shrink-0 w-lg">
                   {loading ? (
-                    <div className="aspect-video w-full rounded-2xl bg-white/10 animate-pulse" />
+                    <div className="w-lg aspect-video rounded-2xl bg-white/10 animate-pulse" />
                   ) : (
                     <Link to={`/media/${mediaType}/${item.id}`}>
                       <div
@@ -137,7 +137,7 @@ export default function UpcomingCarousel({
                           path={backdropPath}
                           alt={itemTitle}
                           className="w-full aspect-video object-cover"
-                          sizes="320px"
+                          sizes="300px"
                           priority={shouldPrioritize}
                         />
 
