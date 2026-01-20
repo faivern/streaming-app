@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import type { TrendingMedia } from "../../../types/tmdb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TitleMid from "../title/TitleMid.tsx";
-import Poster from "../shared/Poster";
+import Backdrop from "../shared/Backdrop";
 import RatingPill from "../../ui/RatingPill";
 import {
   faChevronLeft,
@@ -112,12 +112,12 @@ export default function UpcomingCarousel({
               const itemTitle = item.title || item.name || "Untitled";
               const releaseDate =
                 mediaType === "movie" ? item.release_date : item.first_air_date;
-              const posterPath = item.poster_path || "";
+              const backdropPath = item.backdrop_path || "";
 
               return (
-                <div key={item.id} className="shrink-0 w-[200px]">
+                <div key={item.id} className="shrink-0 w-[320px]">
                   {loading ? (
-                    <div className="h-[300px] w-full rounded-2xl bg-white/10 animate-pulse" />
+                    <div className="aspect-video w-full rounded-2xl bg-white/10 animate-pulse" />
                   ) : (
                     <Link to={`/media/${mediaType}/${item.id}`}>
                       <div
@@ -128,20 +128,20 @@ export default function UpcomingCarousel({
                       >
                         <RatingPill
                           rating={item.vote_average}
-                          className="absolute top-1 right-1 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
+                          className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
                           showOutOfTen={false}
                         />
 
-                        <Poster
-                          path={posterPath}
+                        <Backdrop
+                          path={backdropPath}
                           alt={itemTitle}
-                          className="w-full aspect-[2/3] object-cover"
+                          className="w-full aspect-video object-cover"
                         />
 
                         <div className="p-3">
                           <h3 className="text-sm font-semibold text-white truncate mb-2">
-                            {itemTitle.length > 25
-                              ? `${itemTitle.slice(0, 25)}...`
+                            {itemTitle.length > 35
+                              ? `${itemTitle.slice(0, 35)}...`
                               : itemTitle}
                           </h3>
 

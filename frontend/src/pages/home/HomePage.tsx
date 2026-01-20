@@ -63,11 +63,6 @@ export default function HomePage() {
       <TrendingCarousel items={trending} loading={trendingLoading} />
       <HeroSection total_results={totalMedia} />
       <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
-      <UpcomingCarousel
-        items={upcoming}
-        loading={upcomingLoading}
-        mediaType={mediaType}
-      />
       <MediaGrid
         key={mediaType}
         media_type={mediaType}
@@ -77,6 +72,11 @@ export default function HomePage() {
       />
       <GenreCardList genres={genres} />
       <CollectionCarousel items={featured} loading={isLoading} />
+      <UpcomingCarousel
+        items={upcoming}
+        loading={upcomingLoading}
+        mediaType={mediaType}
+      />
     </main>
   );
 }
