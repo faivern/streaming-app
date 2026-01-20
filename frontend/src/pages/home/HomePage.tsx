@@ -5,6 +5,7 @@ import HeroSection from "../../components/media/hero/HeroSection";
 import GenreCardList from "../../components/media/carousel/GenreCardList";
 import CollectionCarousel from "../../components/media/carousel/CollectionCarousel";
 import TrendingCarousel from "../../components/media/carousel/TrendingCarousel";
+import UpcomingCarousel from "../../components/media/carousel/UpcomingCarousel";
 
 import Loading from "../../components/feedback/Loading";
 
@@ -16,6 +17,7 @@ import {
 } from "../../hooks/discover/useDiscover";
 import { useGenres } from "../../hooks/genres/useGenres";
 import { useFeaturedCollections } from "../../hooks/collections/useCollections";
+import { useUpcomingMedia } from "../../hooks/upcoming/useUpcomingMedia";
 import { featuredCollections } from "../../utils/featuredCollections";
 import useMediaGrid from "../../hooks/media/useMediaGrid";
 
@@ -31,6 +33,8 @@ export default function HomePage() {
   const { data: movies, isLoading: moviesLoading } = useDiscoverMovies();
   const { data: tv, isLoading: tvLoading } = useDiscoverTv();
   const { data: genres = [], isLoading: genresLoading } = useGenres();
+  const { data: upcoming = [], isLoading: upcomingLoading } =
+    useUpcomingMedia(mediaType);
 
   // Use the new MediaGrid hook
   const {
@@ -59,6 +63,11 @@ export default function HomePage() {
       <TrendingCarousel items={trending} loading={trendingLoading} />
       <HeroSection total_results={totalMedia} />
       <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
+      <UpcomingCarousel
+        items={upcoming}
+        loading={upcomingLoading}
+        mediaType={mediaType}
+      />
       <MediaGrid
         key={mediaType}
         media_type={mediaType}

@@ -75,11 +75,17 @@ namespace backend.Services
 
 
 
-        //----------------------------UPCOMING_MOVIES------------------------------------
+        //----------------------------UPCOMING------------------------------------
         public async Task<string> GetUpcomingMoviesAsync()
         {
             var url = $"https://api.themoviedb.org/3/movie/upcoming?api_key={_apiKey}";
             return await FetchWithCacheAsync("upcoming_movies", url, TimeSpan.FromHours(6));
+        }
+
+        public async Task<string> GetUpcomingTvAsync()
+        {
+            var url = $"https://api.themoviedb.org/3/tv/on_the_air?api_key={_apiKey}";
+            return await FetchWithCacheAsync("upcoming_tv", url, TimeSpan.FromHours(6));
         }
         //----------------------------------------------------------------------------
 
