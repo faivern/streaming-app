@@ -29,7 +29,7 @@ export default function Backdrop({
       decoding="async"
       className={`rounded-lg object-cover ${className}`}
       src={`${base}/w780${path}`}
-      srcSet={`${base}/w780${path} 780w, ${base}/w1280${path} 1280w, ${base}/original${path} 1920w`}
+      srcSet={`${base}/w300${path} 300w, ${base}/w780${path} 780w, ${base}/w1280${path} 1280w`}
       sizes={sizes}
       alt={alt}
     />

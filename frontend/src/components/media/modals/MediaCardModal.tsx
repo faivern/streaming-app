@@ -93,7 +93,11 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
         ) : poster ? (
           <div className="aspect-video w-full rounded-lg overflow-hidden mb-3">
             <img
-              src={`https://image.tmdb.org/t/p/w500${poster}`}
+              src={`https://image.tmdb.org/t/p/w780${poster}`}
+              srcSet={`https://image.tmdb.org/t/p/w300${poster} 300w, https://image.tmdb.org/t/p/w780${poster} 780w`}
+              sizes="384px"
+              loading="lazy"
+              decoding="async"
               alt={title}
               className="w-full h-48 object-cover object-center rounded mb-2"
             />

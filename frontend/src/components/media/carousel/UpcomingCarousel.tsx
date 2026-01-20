@@ -108,11 +108,12 @@ export default function UpcomingCarousel({
             className="flex gap-6 transition-transform duration-300 will-change-transform"
             style={{ transform: "translateX(0)" }}
           >
-            {renderItems.map((item) => {
+            {renderItems.map((item, index) => {
               const itemTitle = item.title || item.name || "Untitled";
               const releaseDate =
                 mediaType === "movie" ? item.release_date : item.first_air_date;
               const backdropPath = item.backdrop_path || "";
+              const shouldPrioritize = index < 4; // Eager-load first 4 items
 
               return (
                 <div key={item.id} className="shrink-0 w-[320px]">
@@ -136,6 +137,8 @@ export default function UpcomingCarousel({
                           path={backdropPath}
                           alt={itemTitle}
                           className="w-full aspect-video object-cover"
+                          sizes="320px"
+                          priority={shouldPrioritize}
                         />
 
                         <div className="p-3 flex flex-wrap items-center justify-between">

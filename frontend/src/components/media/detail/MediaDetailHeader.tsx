@@ -49,7 +49,10 @@ export default function MediaDetailHeader({
         <div className="relative">
           <img
             loading="lazy"
+            decoding="async"
             src={`https://image.tmdb.org/t/p/w500${posterPath}`}
+            srcSet={`https://image.tmdb.org/t/p/w342${posterPath} 342w, https://image.tmdb.org/t/p/w500${posterPath} 500w`}
+            sizes="(max-width: 768px) 100vw, 360px"
             alt={title}
             className="w-full aspect-[2/3] object-cover rounded-3xl shadow-lg border border-slate-600/30"
           />
