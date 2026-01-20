@@ -21,9 +21,16 @@ const MediaCastCard = ({ cast }: Props) => {
           <div className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-sm flex items-center justify-center hover:border-2 border-accent-primary hover:scale-105 transition-transform duration-200 cursor-pointer">
             <img
               src={profilePath
-                ? `https://image.tmdb.org/t/p/w200${profilePath}`
+                ? `https://image.tmdb.org/t/p/w185${profilePath}`
                 : avatarPlaceholder
               }
+              srcSet={profilePath
+                ? `https://image.tmdb.org/t/p/w185${profilePath} 185w, https://image.tmdb.org/t/p/w300${profilePath} 300w`
+                : undefined
+              }
+              sizes="128px"
+              loading="lazy"
+              decoding="async"
               alt={name}
               className="w-full h-full object-cover"
             />
@@ -33,9 +40,16 @@ const MediaCastCard = ({ cast }: Props) => {
         <div className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-sm flex items-center justify-center">
           <img
             src={profilePath
-              ? `https://image.tmdb.org/t/p/w200${profilePath}`
+              ? `https://image.tmdb.org/t/p/w185${profilePath}`
               : avatarPlaceholder
             }
+            srcSet={profilePath
+              ? `https://image.tmdb.org/t/p/w185${profilePath} 185w, https://image.tmdb.org/t/p/w300${profilePath} 300w`
+              : undefined
+            }
+            sizes="128px"
+            loading="lazy"
+            decoding="async"
             alt={name}
             className="w-full h-full object-cover"
           />

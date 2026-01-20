@@ -47,6 +47,14 @@ const CreditsDetailHeader = ({
                 ? `https://image.tmdb.org/t/p/w300${profile_path}`
                 : avatarPlaceholder
             }
+            srcSet={
+              profile_path
+                ? `https://image.tmdb.org/t/p/w185${profile_path} 185w, https://image.tmdb.org/t/p/w300${profile_path} 300w, https://image.tmdb.org/t/p/w500${profile_path} 500w`
+                : undefined
+            }
+            sizes="256px"
+            loading="lazy"
+            decoding="async"
             alt={name}
             className="aspect-[2/3] w-64 h-auto rounded-2xl shadow-xl object-cover border border-slate-600/30"
           />

@@ -104,6 +104,7 @@ export default function Top10Carousel({
               const itemTitle = item.title || item.name || "Untitled";
               const backdropPath = item.backdrop_path || "";
               const rank = index + 1;
+              const shouldPrioritize = index < 4; // Eager-load first 4 items
 
               return (
                 <div key={item.id} className="shrink-0 w-[320px]">
@@ -127,6 +128,8 @@ export default function Top10Carousel({
                           path={backdropPath}
                           alt={itemTitle}
                           className="w-full aspect-video object-cover"
+                          sizes="320px"
+                          priority={shouldPrioritize}
                         />
 
                         <div className="p-3 flex flex-wrap items-center justify-between">

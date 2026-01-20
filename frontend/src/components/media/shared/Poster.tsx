@@ -6,6 +6,7 @@ type PosterProps = {
   alt: string;
   className?: string;
   useCustomSize?: boolean; // Add this prop to conditionally disable default aspect ratio
+  priority?: boolean; // eager-load when true
 };
 
 export default function Poster({
@@ -13,6 +14,7 @@ export default function Poster({
   alt,
   className = "",
   useCustomSize = false,
+  priority = false,
 }: PosterProps) {
   const [imageError, setImageError] = useState(false);
 
@@ -20,7 +22,7 @@ export default function Poster({
   if (!path || imageError) {
     return (
       <img
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
         decoding="async"
         className={`${
           useCustomSize ? "" : "aspect-[2/3] rounded-lg"
@@ -35,7 +37,7 @@ export default function Poster({
   const base = "https://image.tmdb.org/t/p";
   return (
     <img
-      loading="lazy"
+      loading={priority ? "eager" : "lazy"}
       decoding="async"
       className={`${
         useCustomSize ? "" : "aspect-[2/3] rounded-t-lg"
