@@ -92,13 +92,19 @@ namespace backend.Services
 
 
 
-        //--------------------------------TOP_RATED_MOVIES--------------------------------
+        //--------------------------------TOP_RATED--------------------------------
         public async Task<string> GetTopRatedMoviesAsync()
         {
             var url = $"https://api.themoviedb.org/3/movie/top_rated?api_key={_apiKey}";
             return await FetchWithCacheAsync("top_rated_movies", url, TimeSpan.FromHours(6));
         }
-        //--------------------------------------------------------------------------------
+
+        public async Task<string> GetTopRatedTvAsync()
+        {
+            var url = $"https://api.themoviedb.org/3/tv/top_rated?api_key={_apiKey}";
+            return await FetchWithCacheAsync("top_rated_tv", url, TimeSpan.FromHours(6));
+        }
+        //--------------------------------------------------------------------------
 
 
 
