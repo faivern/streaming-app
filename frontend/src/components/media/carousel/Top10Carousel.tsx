@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TitleMid from "../title/TitleMid.tsx";
 import Backdrop from "../shared/Backdrop";
 import RatingPill from "../../ui/RatingPill";
+import "../../../style/MediaCard.css";
 import {
   faChevronLeft,
   faChevronRight,
@@ -107,45 +108,57 @@ export default function Top10Carousel({
               const shouldPrioritize = index < 4; // Eager-load first 4 items
 
               return (
-                <div key={item.id} className="shrink-0 w-[320px]">
+                <div key={item.id} className="shrink-0">
                   {loading ? (
-                    <div className="aspect-video w-full rounded-2xl bg-white/10 animate-pulse" />
+                    <div className="aspect-video rounded-2xl bg-white/10 animate-pulse" />
                   ) : (
-                    <Link to={`/media/${mediaType}/${item.id}`}>
-                      <div
-                        className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
-                          rounded-2xl border border-gray-400/30 overflow-hidden shadow-lg
-                          hover:shadow-xl hover:scale-105 hover:border-accent-primary/75
-                          transition-all duration-300 relative group cursor-pointer"
-                      >
-                        <RatingPill
-                          rating={item.vote_average}
-                          className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
-                          showOutOfTen={false}
-                        />
-                        <span className="shine-overlay" />
-                        <Backdrop
-                          path={backdropPath}
-                          alt={itemTitle}
-                          className="w-full aspect-video object-cover"
-                          sizes="320px"
-                          priority={shouldPrioritize}
-                        />
+                    <Link
+                      to={`/media/${mediaType}/${item.id}`}
+                      className="block group/card"
+                    >
+                      <div className="relative flex items-center">
+                        {/* Large ranking number */}
+                        <span
+                          className="absolute bottom-0 right-0 pb-4 pr-4 z-10 text-[8rem] font-black leading-none select-none
+                            transition-all duration-300 ease-out
+                            [-webkit-text-stroke:3px_var(--accent-primary)] text-transparent
+                            group-hover/card:shine-overlay
+                            group-hover/card:group-hover/card:text-transparent
+                            group-hover/card:text-[9rem]
+                            group-hover/card:bg-clip-text group-hover/card:bg-gradient-to-r
+                            group-hover/card:from-accent-primary group-hover/card:to-accent-secondary
+                            group-hover/card:[-webkit-text-stroke:0px]"
+                          style={{ fontFamily: "system-ui, sans-serif" }}
+                        >
+                          {rank}
+                          </span>
 
-                        <div className="p-3 flex flex-wrap items-center justify-between">
-                          <h3 className="text-sm font-semibold text-white truncate mb-2">
-                            {itemTitle.length > 35
-                              ? `${itemTitle.slice(0, 35)}...`
-                              : itemTitle}
-                          </h3>
+                        <div
+                          className="w-lg bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
+                            rounded-2xl border border-gray-400/30 overflow-hidden shadow-lg
+                            hover:shadow-xl hover:scale-105 hover:border-accent-primary/75
+                            transition-all duration-300 relative cursor-pointer"
+                        >
+                          <RatingPill
+                            rating={item.vote_average}
+                            className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
+                            showOutOfTen={false}
+                          />
+                          <span className="shine-overlay" />
+                          <Backdrop
+                            path={backdropPath}
+                            alt={itemTitle}
+                            className="w-full aspect-video object-cover"
+                            sizes="300px"
+                            priority={shouldPrioritize}
+                          />
 
-                          <div className="flex gap-2 text-xs text-accent-primary">
-                            <span
-                              className="inline-flex items-center justify-center w-6 h-6 rounded-full
-                                bg-gradient-to-br from-amber-500 to-amber-700 text-white font-bold text-xs shadow-md"
-                            >
-                              {rank}
-                            </span>
+                          <div className="p-3 flex flex-wrap items-center justify-between">
+                            <h3 className="text-sm font-semibold text-white truncate mb-2">
+                              {itemTitle.length > 35
+                                ? `${itemTitle.slice(0, 35)}...`
+                                : itemTitle}
+                            </h3>
                           </div>
                         </div>
                       </div>

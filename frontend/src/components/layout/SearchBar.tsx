@@ -107,8 +107,8 @@ export default function SearchBar({
     return (
       <div className="fixed inset-0 z-[100] bg-gray-900/95 backdrop-blur-lg">
         <div className="flex items-center p-4 border-b border-gray-700">
-          <Combobox value={selected} onChange={handleChange} nullable>
-            <div className="flex-1 relative" ref={searchRef}>
+          <div className="flex-1 relative" ref={searchRef}>
+            <Combobox value={selected} onChange={handleChange} nullable>
               <div className="relative">
                 <Combobox.Input
                   ref={inputRef}
@@ -122,15 +122,6 @@ export default function SearchBar({
                   icon={faSearch}
                   className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
                 />
-                {query && (
-                  <button
-                    type="button"
-                    onClick={handleClear}
-                    className="absolute right-12 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 p-1"
-                  >
-                    <FontAwesomeIcon icon={faTimes} />
-                  </button>
-                )}
               </div>
 
               <Transition
@@ -223,8 +214,19 @@ export default function SearchBar({
                   )}
                 </Combobox.Options>
               </Transition>
-            </div>
-          </Combobox>
+            </Combobox>
+
+            {/* Clear button outside Combobox to avoid event capture issues */}
+            {query && (
+              <button
+                type="button"
+                onClick={handleClear}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 p-1 z-[110]"
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </button>
+            )}
+          </div>
 
           <button
             onClick={onToggle}
@@ -240,8 +242,8 @@ export default function SearchBar({
 
   // Desktop: Regular search bar
   return (
-    <Combobox value={selected} onChange={handleChange} nullable>
-      <div className="relative w-full" ref={searchRef}>
+    <div className="relative w-full" ref={searchRef}>
+      <Combobox value={selected} onChange={handleChange} nullable>
         <div className="relative">
           <Combobox.Input
             ref={inputRef}
@@ -250,20 +252,11 @@ export default function SearchBar({
             displayValue={() => query}
             onChange={(e) => handleInput(e.target.value)}
             onFocus={() => query && setOpen(true)}
-            />
+          />
           <FontAwesomeIcon
             icon={faSearch}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"
           />
-          {query && (
-            <button
-              type="button"
-              onClick={handleClear}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 p-1"
-            >
-              <FontAwesomeIcon icon={faTimes} className="text-sm" />
-            </button>
-          )}
         </div>
 
         <Transition
@@ -315,7 +308,7 @@ export default function SearchBar({
                       {({ active }) => (
                         <>
                           <Poster
-                            path={r.poster_path || r.profile_path }
+                            path={r.poster_path || r.profile_path}
                             alt={r.title || r.name}
                             useCustomSize
                             className="w-8 h-12 rounded flex-shrink-0"
@@ -351,7 +344,18 @@ export default function SearchBar({
             )}
           </Combobox.Options>
         </Transition>
-      </div>
-    </Combobox>
+      </Combobox>
+
+      {/* Clear button outside Combobox to avoid event capture issues */}
+      {query && (
+        <button
+          type="button"
+          onClick={handleClear}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 p-1 z-[70]"
+        >
+          <FontAwesomeIcon icon={faTimes} className="text-sm" />
+        </button>
+      )}
+    </div>
   );
 }

@@ -89,7 +89,7 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
             {renderItems.map((c: any) => (
               <div key={c.id} className="shrink-0">
                 {loading ? (
-                  <div className="h-40 w-40 rounded-2xl bg-white/10 animate-pulse" />
+                  <div className="w-lg aspect-video rounded-2xl bg-white/10 animate-pulse" />
                 ) : (
                   <CollectionCard
                     id={c.id}

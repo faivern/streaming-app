@@ -81,3 +81,7 @@ PostgreSQL 16 via Docker. Connection managed through EF Core with ASP.NET Identi
 - Frontend environment: Create `.env.local` with `VITE_API_URL=https://localhost:7123`
 - Backend secrets: Use .NET User Secrets Manager (not appsettings for sensitive values)
 - CORS configured for localhost:3000 (Docker) and localhost:5173 (Vite default)
+
+## Instructions
+- NEVER touch any type of environment or configuration files if not told to explicitly do so.
+
