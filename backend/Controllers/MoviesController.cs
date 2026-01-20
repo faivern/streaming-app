@@ -58,6 +58,25 @@ namespace backend.Controllers
             }
         }
 
+        [HttpGet("upcoming/{mediaType}")]
+        public async Task<IActionResult> GetUpcoming(string mediaType)
+        {
+            try
+            {
+                if (mediaType != "movie" && mediaType != "tv")
+                    return BadRequest("mediaType must be 'movie' or 'tv'.");
+
+                var data = mediaType == "movie"
+                    ? await _tmdbService.GetUpcomingMoviesAsync()
+                    : await _tmdbService.GetUpcomingTvAsync();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("top_rated")]
         public async Task<IActionResult> GetTopRatedMovies()
         {
