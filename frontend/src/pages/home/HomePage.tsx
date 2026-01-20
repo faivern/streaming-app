@@ -6,6 +6,7 @@ import GenreCardList from "../../components/media/carousel/GenreCardList";
 import CollectionCarousel from "../../components/media/carousel/CollectionCarousel";
 import TrendingCarousel from "../../components/media/carousel/TrendingCarousel";
 import UpcomingCarousel from "../../components/media/carousel/UpcomingCarousel";
+import Top10Carousel from "../../components/media/carousel/Top10Carousel";
 
 import Loading from "../../components/feedback/Loading";
 
@@ -18,6 +19,7 @@ import {
 import { useGenres } from "../../hooks/genres/useGenres";
 import { useFeaturedCollections } from "../../hooks/collections/useCollections";
 import { useUpcomingMedia } from "../../hooks/upcoming/useUpcomingMedia";
+import { useTopRatedMedia } from "../../hooks/toprated/useTopRatedMedia";
 import { featuredCollections } from "../../utils/featuredCollections";
 import useMediaGrid from "../../hooks/media/useMediaGrid";
 
@@ -35,6 +37,8 @@ export default function HomePage() {
   const { data: genres = [], isLoading: genresLoading } = useGenres();
   const { data: upcoming = [], isLoading: upcomingLoading } =
     useUpcomingMedia(mediaType);
+  const { data: topRated = [], isLoading: topRatedLoading } =
+    useTopRatedMedia(mediaType);
 
   // Use the new MediaGrid hook
   const {
@@ -69,6 +73,11 @@ export default function HomePage() {
         items={mediaItems}
         loading={mediaLoading}
         error={mediaError}
+      />
+      <Top10Carousel
+        items={topRated}
+        loading={topRatedLoading}
+        mediaType={mediaType}
       />
       <GenreCardList genres={genres} />
       <CollectionCarousel items={featured} loading={isLoading} />

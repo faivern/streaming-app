@@ -8,7 +8,6 @@ import RatingPill from "../../ui/RatingPill";
 import {
   faChevronLeft,
   faChevronRight,
-  faCalendar,
 } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
@@ -17,17 +16,7 @@ type Props = {
   mediaType: "movie" | "tv";
 };
 
-function formatDate(dateStr?: string): string {
-  if (!dateStr) return "TBA";
-  const date = new Date(dateStr);
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-}
-
-export default function UpcomingCarousel({
+export default function Top10Carousel({
   items,
   loading = false,
   mediaType,
@@ -36,6 +25,9 @@ export default function UpcomingCarousel({
   const trackRef = useRef<HTMLDivElement>(null);
   const [pageSize, setPageSize] = useState(3);
   const [page, setPage] = useState(0);
+
+  // Only take top 10 items
+  const top10Items = items.slice(0, 10);
 
   const measure = useCallback(() => {
     const viewport = viewportRef.current;
@@ -53,7 +45,7 @@ export default function UpcomingCarousel({
 
   const pageCount = Math.max(
     1,
-    Math.ceil((items?.length ?? 0) / Math.max(1, pageSize))
+    Math.ceil((top10Items?.length ?? 0) / Math.max(1, pageSize))
   );
 
   const clampPage = useCallback(
@@ -82,7 +74,7 @@ export default function UpcomingCarousel({
   useEffect(() => {
     setPage((p) => clampPage(p));
     applyTranslate();
-  }, [pageSize, items?.length, clampPage, applyTranslate]);
+  }, [pageSize, top10Items?.length, clampPage, applyTranslate]);
 
   useEffect(() => {
     setPage(0);
@@ -92,10 +84,10 @@ export default function UpcomingCarousel({
   const next = () => setPage((p) => clampPage(p + 1));
 
   const renderItems = loading
-    ? Array.from({ length: 8 }).map((_, i) => ({ id: i }) as TrendingMedia)
-    : items;
+    ? Array.from({ length: 10 }).map((_, i) => ({ id: i }) as TrendingMedia)
+    : top10Items;
 
-  const title = mediaType === "movie" ? "Upcoming Movies" : "On The Air";
+  const title = mediaType === "movie" ? "Top 10 Movies" : "Top 10 TV Shows";
 
   return (
     <section className="md:mx-8 px-4 sm:px-6 lg:px-8 mt-8">
@@ -108,11 +100,10 @@ export default function UpcomingCarousel({
             className="flex gap-6 transition-transform duration-300 will-change-transform"
             style={{ transform: "translateX(0)" }}
           >
-            {renderItems.map((item) => {
+            {renderItems.map((item, index) => {
               const itemTitle = item.title || item.name || "Untitled";
-              const releaseDate =
-                mediaType === "movie" ? item.release_date : item.first_air_date;
               const backdropPath = item.backdrop_path || "";
+              const rank = index + 1;
 
               return (
                 <div key={item.id} className="shrink-0 w-[320px]">
@@ -146,12 +137,11 @@ export default function UpcomingCarousel({
                           </h3>
 
                           <div className="flex gap-2 text-xs text-accent-primary">
-                            <FontAwesomeIcon
-                              icon={faCalendar}
-                              className="text-accent-secondary"
-                            />
-                            <span className="font-medium">
-                              {formatDate(releaseDate)}
+                            <span
+                              className="inline-flex items-center justify-center w-6 h-6 rounded-full
+                                bg-gradient-to-br from-amber-500 to-amber-700 text-white font-bold text-xs shadow-md"
+                            >
+                              {rank}
                             </span>
                           </div>
                         </div>

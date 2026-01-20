@@ -91,6 +91,25 @@ namespace backend.Controllers
             }
         }
 
+        [HttpGet("top_rated/{mediaType}")]
+        public async Task<IActionResult> GetTopRated(string mediaType)
+        {
+            try
+            {
+                if (mediaType != "movie" && mediaType != "tv")
+                    return BadRequest("mediaType must be 'movie' or 'tv'.");
+
+                var data = mediaType == "movie"
+                    ? await _tmdbService.GetTopRatedMoviesAsync()
+                    : await _tmdbService.GetTopRatedTvAsync();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet("trending/all/day")]
         public async Task<IActionResult> GetTrendingAllDaily()
         {
