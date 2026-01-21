@@ -67,7 +67,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
     <div className="w-full">
       <div className="relative w-full overflow-hidden -mt-40">
         {/* Arrows */}
-        {!loading && filtered.length > 0 && currentIndex > 0 && (
+        {!loading && filtered.length > 0 &&  (
           <button
             onClick={goToPrev}
             aria-label="Previous"
@@ -92,7 +92,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
           <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
         </button>
 
-        <div className="relative w-full h-[60vh] md:h-[65vh] lg:h-[66vh] xl:h-[68vh] mb-6 transition-all duration-300 ease-in-out shadow-lg overflow-hidden">
+        <div className="relative w-full h-[60vh] md:h-[65vh] lg:h-[75vh] xl:h-[78vh] mb-6 transition-all duration-300 ease-in-out shadow-lg overflow-hidden">
           {loading
             ? slides.map((i) => (
                 <div

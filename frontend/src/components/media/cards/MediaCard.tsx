@@ -59,7 +59,7 @@ export default function MediaCard(props: MediaCardProps) {
   return (
     <div
       ref={refs.setReference}
-      className="relative w-full max-w-[360px] mx-auto"
+      className="relative w-full mx-auto"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
       onFocus={() => setHovered(true)}   // keep instant for keyboard a11y

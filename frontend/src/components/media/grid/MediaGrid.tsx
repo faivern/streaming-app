@@ -25,7 +25,7 @@ export default function MediaGrid({
   // Error state
   if (error) {
     return (
-      <div className="md:mx-8 px-4 sm:px-6 lg:px-8">
+      <div className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36">
         <TitleMid>{displayTitle}</TitleMid>
         <div className="text-red-400 text-center py-8 bg-red-500/10 rounded-lg border border-red-500/20">
           <p className="text-lg font-medium">Failed to load media</p>
@@ -37,10 +37,11 @@ export default function MediaGrid({
 
   return (
 
-    <div className="md:mx-8 px-4 sm:px-6 lg:px-8">
+    <div className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36">
       <TitleMid>{displayTitle}</TitleMid>
 
-      <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 justify-items-center">
+      <div className="max-w-[2000px] mx-auto">
+      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 3xl:grid-cols-8 4xl:grid-cols-9 justify-items-center">
         {loading
           ? Array.from({ length: skeletonCount }).map((_, i) => (
               <MediaCardSkeleton key={i} />
@@ -63,6 +64,7 @@ export default function MediaGrid({
                 number_of_episodes={item.number_of_episodes}
               />
             ))}
+      </div>
       </div>
     </div>
   );
