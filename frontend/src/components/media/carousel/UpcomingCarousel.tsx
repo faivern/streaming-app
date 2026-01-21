@@ -98,11 +98,11 @@ export default function UpcomingCarousel({
   const title = mediaType === "movie" ? "Upcoming Movies" : "On The Air";
 
   return (
-    <section className="md:mx-8 px-4 sm:px-6 lg:px-8 mt-8">
+    <section className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36 mt-8">
       <TitleMid>{title}</TitleMid>
 
-      <div className="relative -my-3">
-        <div ref={viewportRef} className="overflow-hidden py-3">
+      <div className="relative -my-3 -mx-3">
+        <div ref={viewportRef} className="overflow-hidden py-3 px-3">
           <div
             ref={trackRef}
             className="flex gap-6 transition-transform duration-300 will-change-transform"
@@ -142,7 +142,7 @@ export default function UpcomingCarousel({
                         />
 
                         <div className="p-3 flex flex-wrap items-center justify-between">
-                          <h3 className="text-sm font-semibold text-white truncate mb-2">
+                          <h3 className="text-md font-semibold text-white truncate mb-2">
                             {itemTitle.length > 35
                               ? `${itemTitle.slice(0, 35)}...`
                               : itemTitle}
@@ -171,27 +171,30 @@ export default function UpcomingCarousel({
           <button
             type="button"
             onClick={prev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full
-                       bg-gray-900/70 backdrop-blur border border-white/10 text-white
-                       hover:bg-gray-800/80 hover:cursor-pointer"
+            className="absolute left-0 inset-y-0 z-10 w-12 flex items-center justify-center
+                       bg-gradient-to-r from-primary/80 to-transparent
+                       text-white/80 hover:text-white hover:from-primary/80
+                       transition-all duration-200 cursor-pointer"
             aria-label="Previous"
           >
-            <FontAwesomeIcon icon={faChevronLeft} />
+            <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
           </button>
         )}
         <button
           type="button"
           onClick={next}
           disabled={page >= pageCount - 1}
-          className="absolute right-2 top-1/2 -translate-y-1/2 grid h-10 w-10 place-items-center rounded-full
-                     bg-gray-900/70 backdrop-blur border border-white/10 text-white
-                     hover:bg-gray-800/80 disabled:opacity-40 disabled:cursor-not-allowed hover:cursor-pointer"
+          className="absolute right-0 inset-y-0 z-10 w-12 flex items-center justify-center
+                     bg-gradient-to-l from-primary/80 to-transparent
+                     text-white/80 hover:text-white hover:from-primary/80
+                     disabled:opacity-0 disabled:pointer-events-none
+                     transition-all duration-200 cursor-pointer"
           aria-label="Next"
         >
-          <FontAwesomeIcon icon={faChevronRight} />
+          <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
         </button>
 
-        <div className="absolute inset-x-0 bottom-0">
+        <div className="">
           <div className="flex items-center justify-center gap-2">
             {Array.from({ length: pageCount }).map((_, i) => (
               <button
