@@ -20,6 +20,7 @@ import { useGenres } from "../../hooks/genres/useGenres";
 import { useFeaturedCollections } from "../../hooks/collections/useCollections";
 import { useUpcomingMedia } from "../../hooks/upcoming/useUpcomingMedia";
 import { useTopRatedMedia } from "../../hooks/toprated/useTopRatedMedia";
+import { useSortByBayesian } from "../../hooks/sorting/useSortByBayesian";
 import { featuredCollections } from "../../utils/featuredCollections";
 import useMediaGrid from "../../hooks/media/useMediaGrid";
 
@@ -37,8 +38,9 @@ export default function HomePage() {
   const { data: genres = [], isLoading: genresLoading } = useGenres();
   const { data: upcoming = [], isLoading: upcomingLoading } =
     useUpcomingMedia(mediaType);
-  const { data: topRated = [], isLoading: topRatedLoading } =
-    useTopRatedMedia(mediaType);
+const { data: topRatedRaw = [], isLoading: topRatedLoading } =
+  useTopRatedMedia(mediaType);
+const topRated = useSortByBayesian(topRatedRaw);
 
   // Use the new MediaGrid hook
   const {

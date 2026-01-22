@@ -7,4 +7,4 @@ export type SortableMedia = {
   vote_count?: number;
 };
 
-export type SortOption = "bayesian" | "newest" | "oldest" | "a-z" | "z-a";
+export type SortOption = "chronological" | "bayesian" | "newest" | "oldest" | "a-z" | "z-a";
