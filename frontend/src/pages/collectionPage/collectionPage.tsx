@@ -46,7 +46,7 @@ const CollectionPage = () => {
       <div className="max-w-7xl mx-auto px-4 py-8 mt-20">
         <BackLink />
         <MediaDetailVideoSkeleton />
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 mt-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-6 mt-6">
           {Array.from({ length: 10 }).map((_, i) => (
             <div key={i} className="animate-pulse">
               <div className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950 rounded-xl border border-gray-700/30 overflow-hidden shadow-md">
@@ -65,7 +65,7 @@ const CollectionPage = () => {
 
   if (error || !collection) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8 mt-20">
+      <div className="">
         <BackLink />
         <div className="text-red-400 text-center">
           Error loading collection.
@@ -75,7 +75,7 @@ const CollectionPage = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 mt-20">
+    <div className="max-w-7xl mx-auto px-4 py-8 mt-10">
       <BackLink />
       <HeroCollection collection={collection} />
       <CollectionPartsSection parts={collection.parts} />
