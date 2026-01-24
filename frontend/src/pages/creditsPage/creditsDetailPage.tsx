@@ -1,23 +1,24 @@
+import { useState } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import CreditsDetailHeader from "../../components/media/detail/CreditsDetailHeader";
 import CreditsDetailGrid from "../../components/media/grid/CreditsDetailGrid";
 import BackLink from "../../components/media/breadcrumbs/BackLink";
-import Loading from "../../components/feedback/Loading";
-import Error from "../../components/feedback/Error";
-
+import SortingDropdown from "../../components/ui/SortingDropdown";
 import { usePerson } from "../../hooks/people/usePerson";
 import { useCombinedCredits } from "../../hooks/people/useCombinedCredits";
 import { useMediaDetail } from "../../hooks/media/useMediaDetail";
+import { useSortedMedia, type SortOption } from "../../hooks/sorting";
 import type { MediaType } from "../../types/tmdb";
 
 const CreditsDetailPage = () => {
-  const { id, name } = useParams<{ id: string; name: string }>();
+  const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
+  const [sortOption, setSortOption] = useState<SortOption>("bayesian");
 
   // Debug logging
   console.log("=== CreditsDetailPage Debug ===");
   console.log("URL:", window.location.href);
-  console.log("Route params:", { id, name });
+  console.log("Route params:", { id });
   console.log("Search params:", Object.fromEntries(searchParams.entries()));
   console.log("Person ID:", Number(id));
 
@@ -27,7 +28,6 @@ const CreditsDetailPage = () => {
   console.log("Extracted:", { fromMediaType, mediaId });
 
   const personId = Number(id);
-
   // Add early return with debug info
   if (!id || isNaN(personId)) {
     console.log("Invalid person ID:", { id, personId });
@@ -61,16 +61,13 @@ const CreditsDetailPage = () => {
   // Extract cast from the credits response
 
   // Fetch media details if we have context (optional)
-  const {
-    data: mediaDetails,
-    isLoading: mediaLoading,
-    error: mediaError,
-  } = useMediaDetail(
+  const { data: mediaDetails } = useMediaDetail(
     fromMediaType || undefined,
     mediaId ? Number(mediaId) : undefined
   );
 
   const enrichedCredits = creditsData?.cast || [];
+  const sortedCredits = useSortedMedia(enrichedCredits, sortOption);
 
   // Loading states
   const isLoading = personLoading || creditsLoading;
@@ -110,7 +107,6 @@ const CreditsDetailPage = () => {
         id={mediaId || undefined}
         title={mediaDetails?.title || mediaDetails?.name || "Media"}
       />
-
       <CreditsDetailHeader
         id={person.id}
         name={person.name}
@@ -121,15 +117,14 @@ const CreditsDetailPage = () => {
         birthday={person.birthday}
         gender={person.gender}
         deathday={person.deathday}
-      />
+        />
 
-      <div className="mt-4">
-        <CreditsDetailGrid
-          credits={enrichedCredits}
+<CreditsDetailGrid
+          credits={sortedCredits}
           loading={creditsLoading}
           error={creditsError ? "Failed to load credits" : null}
+          headerRight={<SortingDropdown value={sortOption} onChange={setSortOption} />}
         />
-      </div>
     </div>
   );
 };
