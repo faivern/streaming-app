@@ -225,6 +225,21 @@ export default function Header() {
                     <span className="hidden lg:inline text-sm font-medium text-white">
                       {user.name}
                     </span>
+                    <svg
+                      className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${
+                        isUserModalOpen ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
                   </button>
                   <UserModal
                     show={isUserModalOpen}
