@@ -21,7 +21,7 @@ const GenreDetailGrid = ({ genreMedia, mediaType }: Props) => {
             vote_count={media.vote_count}
             vote_average={media.vote_average}
             genre_ids={media.genre_ids}
-            media_type={media.media_type}
+            media_type={media.media_type || "movie" || "tv"}
             runtime={media.runtime}
             number_of_seasons={media.number_of_seasons}
             number_of_episodes={media.number_of_episodes}
