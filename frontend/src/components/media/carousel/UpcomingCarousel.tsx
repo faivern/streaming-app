@@ -171,27 +171,31 @@ export default function UpcomingCarousel({
           <button
             type="button"
             onClick={prev}
-            className="absolute left-0 inset-y-0 z-10 w-12 flex items-center justify-center
-                       bg-gradient-to-r from-primary/80 to-transparent
-                       text-white/80 hover:text-white hover:from-primary/80
-                       transition-all duration-200 cursor-pointer"
+            className="absolute left-0 inset-y-0 z-10 w-20 flex items-center justify-start pl-2
+                       bg-gradient-to-r from-background via-background/60 to-transparent
+                       text-white/60 hover:text-white
+                       transition-all duration-300 cursor-pointer"
             aria-label="Previous"
           >
-            <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
+            <span className="drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]">
+              <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
+            </span>
           </button>
         )}
         <button
           type="button"
           onClick={next}
           disabled={page >= pageCount - 1}
-          className="absolute right-0 inset-y-0 z-10 w-12 flex items-center justify-center
-                     bg-gradient-to-l from-primary/80 to-transparent
-                     text-white/80 hover:text-white hover:from-primary/80
+          className="absolute right-0 inset-y-0 z-10 w-20 flex items-center justify-end pr-2
+                     bg-gradient-to-l from-background via-background/60 to-transparent
+                     text-white/60 hover:text-white
                      disabled:opacity-0 disabled:pointer-events-none
-                     transition-all duration-200 cursor-pointer"
+                     transition-all duration-300 cursor-pointer"
           aria-label="Next"
         >
-          <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
+          <span className="drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]">
+            <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
+          </span>
         </button>
 
         <div className="">

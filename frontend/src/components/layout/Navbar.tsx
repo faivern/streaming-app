@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/react.svg";
 import { FaRegUser } from "react-icons/fa";
-import { FaMasksTheater, FaHouse, FaBucket } from "react-icons/fa6";
 import { useState, useEffect, useRef } from "react";
 import SearchBar from "../layout/SearchBar";
 import "../../style/TitleHover.css";
@@ -135,13 +134,13 @@ export default function Header() {
               <div className="hidden xl:flex items-center gap-6">
                 <Link to="/">
                   <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center">
-                    <FaHouse className="mr-1" /> Home
+                    Home
                     <span className="underline-bar"></span>
                   </span>
                 </Link>
-                <Link to="/my-list">
+                <Link to="/lists">
                   <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center">
-                    <FaBucket className="mr-1" /> My Bucket
+                    Lists
                     <span className="underline-bar"></span>
                   </span>
                 </Link>
@@ -152,7 +151,6 @@ export default function Header() {
                   onMouseLeave={() => setShowGenres(false)}
                 >
                   <div className="underline-hover !text-base !font-semibold !mb-0 cursor-pointer flex items-center">
-                    <FaMasksTheater className="mr-1" />
                     Genres
                     <span className="underline-bar"></span>
                   </div>
@@ -300,14 +298,14 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
               >
-                <FaHouse className="mr-2" /> Home
+                 Home
               </Link>
               <Link
                 to="/my-list"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
               >
-                <FaBucket className="mr-2" /> My Bucket
+                 My Lists
               </Link>
 
               <div>
@@ -318,7 +316,7 @@ export default function Header() {
                   aria-controls="mobile-genres-panel"
                 >
                   <span className="flex items-center">
-                    <FaMasksTheater className="mr-2" /> Genres
+                     Genres
                   </span>
                   <svg
                     className={`w-5 h-5 transform transition ${
