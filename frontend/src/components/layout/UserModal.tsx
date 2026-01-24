@@ -8,12 +8,15 @@ interface UserModalProps {
 }
 
 export const UserModal = ({ userName, onLogout, show }: UserModalProps) => {
-  if (!show) {
-    return null;
-  }
-
   return (
-    <div className="absolute right-0 mt-2 w-48 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl py-3 z-50 border border-gray-700">
+    <div
+      className={`absolute right-0 mt-2 w-48 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl py-3 z-50 border border-gray-700
+        transition-all duration-300 ease-out origin-top-right
+        ${show
+          ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+        }`}
+    >
       <div className="px-4 py-2 text-sm text-gray-400 border-b border-gray-700/50 mb-1">
         {userName}
       </div>
