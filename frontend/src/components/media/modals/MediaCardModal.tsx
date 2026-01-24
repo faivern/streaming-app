@@ -34,7 +34,7 @@ type MediaCardModalProps = {
 
 const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
   const { refs } = useFloating();
-  const { data, isLoading } = useMediaDetail(media_type, id, initial);
+  const { data } = useMediaDetail(media_type, id, initial);
   const title =
     data?.title ?? data?.name ?? initial?.title ?? initial?.name ?? "Loading…";
 
@@ -76,33 +76,33 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
       >
         <h2 className="text-xl font-bold mb-2 text-gray-100">{title}</h2>
 
-        {/* Trailer / image */}
-        {trailerLoading ? (
-          <p className="text-gray-400 mb-2">Loading trailer...</p>
-        ) : videoUrl ? (
-          <div className="aspect-video w-full rounded-lg overflow-hidden mb-3">
-            <iframe
-              src={videoUrl}
-              title={`${title} Trailer`}
-              className="w-full h-48 rounded mb-2"
-              allow="autoplay; encrypted-media"
-              allowFullScreen
-              loading="lazy"
-            />
-          </div>
-        ) : poster ? (
-          <div className="aspect-video w-full rounded-lg overflow-hidden mb-3">
+        {/* Trailer / backdrop placeholder */}
+        <div className="aspect-video w-full rounded-lg overflow-hidden mb-3 relative">
+          {/* Backdrop image as skeleton/placeholder */}
+          {poster && (
             <img
               src={`https://image.tmdb.org/t/p/w780${poster}`}
               srcSet={`https://image.tmdb.org/t/p/w300${poster} 300w, https://image.tmdb.org/t/p/w780${poster} 780w`}
               sizes="384px"
-              loading="lazy"
+              loading="eager"
               decoding="async"
               alt={title}
-              className="w-full h-48 object-cover object-center rounded mb-2"
+              className={`w-full h-48 object-cover object-center rounded transition-opacity duration-300 ${
+                videoUrl && !trailerLoading ? "opacity-0 absolute inset-0" : "opacity-100"
+              }`}
             />
-          </div>
-        ) : null}
+          )}
+          {/* Video overlay once loaded */}
+          {videoUrl && !trailerLoading && (
+            <iframe
+              src={videoUrl}
+              title={`${title} Trailer`}
+              className="w-full h-48 rounded absolute inset-0"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            />
+          )}
+        </div>
 
         <p className="text-sm text-gray-200 mb-2 line-clamp-3">{overview}</p>
         <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-700/70 to-transparent mb-2" />

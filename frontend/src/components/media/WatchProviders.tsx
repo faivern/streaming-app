@@ -112,7 +112,7 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
       countryProviders.ads?.length);
 
   return (
-    <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-700/50">
+    <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-700/50 shadow-lg">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h3 className="text-lg font-semibold text-white">Where to Watch</h3>
 
