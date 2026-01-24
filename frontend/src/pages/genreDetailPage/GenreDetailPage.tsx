@@ -5,15 +5,14 @@ import { useParams, useSearchParams } from "react-router-dom";
 import BackLink from "../../components/media/breadcrumbs/BackLink";
 import MediaTypeToggle from "../../components/media/grid/MediaTypeToggle";
 import GenreDetailGrid from "../../components/media/grid/GenreDetailGrid";
-import SortingDropdown from "../../components/ui/SortingDropdown";
 
 import Loading from "../../components/feedback/Loading";
 import Error from "../../components/feedback/Error";
 
 import TitleMid from "../../components/media/title/TitleMid";
 
-import { useDiscoverGenre } from "../../hooks/genres/useDiscoverGenre";
-import { useSortedMedia, type SortOption } from "../../hooks/sorting";
+import { useInfiniteDiscoverGenre } from "../../hooks/genres/useInfiniteDiscoverGenre";
+import InfiniteScrollWrapper from "../../components/ui/InfiniteScrollWrapper";
 import type { MediaType } from "../../types/tmdb";
 
 export default function GenreDetailPage() {
@@ -24,7 +23,6 @@ export default function GenreDetailPage() {
   const initialType: MediaType =
     searchParams.get("mediaType") === "tv" ? "tv" : "movie";
   const [mediaType, setMediaType] = useState<MediaType>(initialType);
-  const [sortOption, setSortOption] = useState<SortOption>("bayesian");
 
   const genreName = searchParams.get("name") || "Unknown Genre";
 
@@ -34,14 +32,19 @@ export default function GenreDetailPage() {
     return Number.isFinite(n) ? n : undefined;
   }, [genreId]);
 
-  const { data, isLoading, isError } = useDiscoverGenre({
+  const {
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteDiscoverGenre({
     mediaType,
     genreId: genreIdNum,
-    page: 1,
   });
 
-  const items = data?.results ?? [];
-  const sortedItems = useSortedMedia(items, sortOption);
+  const items = data?.pages.flatMap((p) => p.results) ?? [];
 
   if (!genreIdNum) {
     return <Error message="Invalid or missing genre id." />;
@@ -67,12 +70,24 @@ export default function GenreDetailPage() {
         {mediaType === "tv" ? "shows" : "movies"}
       </p>
 
-      <div className="flex items-center justify-between mt-4">
+      <div className="mt-4">
         <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
-        <SortingDropdown value={sortOption} onChange={setSortOption} />
       </div>
 
-      <GenreDetailGrid genreMedia={sortedItems} mediaType={mediaType} />
+      <InfiniteScrollWrapper
+        dataLength={items.length}
+        hasMore={hasNextPage ?? false}
+        next={fetchNextPage}
+        loader={
+          isFetchingNextPage ? (
+            <div className="flex justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white" />
+            </div>
+          ) : undefined
+        }
+      >
+        <GenreDetailGrid genreMedia={items} mediaType={mediaType} />
+      </InfiniteScrollWrapper>
     </main>
   );
 }

@@ -18,14 +18,14 @@ export const UserModal = ({ userName, onLogout, show }: UserModalProps) => {
         {userName}
       </div>
       <Link
-        to="/watchlist"
-        className="block px-4 py-2 text-sm text-gray-200 hover:bg-gray-700/50 hover:text-white transition-colors"
+        to="/lists"
+        className="block px-4 py-2 text-sm text-gray-200 hover:bg-sky-500/20 hover:text-white transition-colors"
       >
-        Watch List
+        Lists
       </Link>
       <button
         onClick={onLogout}
-        className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-gray-700/50 hover:text-white transition-colors cursor-pointer"
+        className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-sky-500/20 hover:text-white transition-colors cursor-pointer"
       >
         <FaSignOutAlt className="mr-2" />
         Sign Out

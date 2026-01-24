@@ -67,16 +67,19 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
     <div className="w-full">
       <div className="relative w-full overflow-hidden -mt-40">
         {/* Arrows */}
-        {!loading && filtered.length > 0 &&  (
+        {!loading && filtered.length > 0 && (
           <button
             onClick={goToPrev}
             aria-label="Previous"
-            className="absolute left-6 top-1/2 z-20 -translate-y-1/2 bg-gray-900/50 backdrop-blur-md text-white
-                       hover:bg-gray-800/80
-                       rounded-full p-3 transition-all duration-200 shadow-md border border-gray-700/30
-                       hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500/40 cursor-pointer"
+            className="absolute left-4 top-1/2 z-20 -translate-y-1/2
+                       bg-black/40 backdrop-blur-sm text-white/70
+                       hover:bg-black/60 hover:text-white
+                       rounded-full p-4 transition-all duration-300
+                       shadow-[0_0_20px_rgba(0,0,0,0.5)]
+                       hover:shadow-[0_0_30px_rgba(0,0,0,0.7)]
+                       hover:scale-110 focus:outline-none cursor-pointer"
           >
-            <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
+            <FontAwesomeIcon icon={faChevronLeft} className="text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
           </button>
         )}
 
@@ -84,12 +87,16 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
           onClick={goToNext}
           aria-label="Next"
           disabled={loading || filtered.length === 0}
-          className="absolute right-6 top-1/2 z-20 -translate-y-1/2 bg-gray-900/50 backdrop-blur-md text-white 
-                     hover:bg-gray-800/80 disabled:opacity-40 disabled:cursor-not-allowed 
-                     rounded-full p-3 transition-all duration-200 shadow-md border border-gray-700/30 
-                     hover:scale-105 cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-500/40"
+          className="absolute right-4 top-1/2 z-20 -translate-y-1/2
+                     bg-black/40 backdrop-blur-sm text-white/70
+                     hover:bg-black/60 hover:text-white
+                     disabled:opacity-0 disabled:cursor-not-allowed
+                     rounded-full p-4 transition-all duration-300
+                     shadow-[0_0_20px_rgba(0,0,0,0.5)]
+                     hover:shadow-[0_0_30px_rgba(0,0,0,0.7)]
+                     hover:scale-110 cursor-pointer focus:outline-none"
         >
-          <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
+          <FontAwesomeIcon icon={faChevronRight} className="text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
         </button>
 
         <div className="relative w-full h-[60vh] md:h-[65vh] lg:h-[75vh] xl:h-[78vh] mb-6 transition-all duration-300 ease-in-out shadow-lg overflow-hidden">

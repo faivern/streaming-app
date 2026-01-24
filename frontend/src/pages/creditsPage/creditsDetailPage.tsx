@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import CreditsDetailHeader from "../../components/media/detail/CreditsDetailHeader";
 import CreditsDetailGrid from "../../components/media/grid/CreditsDetailGrid";
@@ -8,6 +8,8 @@ import { usePerson } from "../../hooks/people/usePerson";
 import { useCombinedCredits } from "../../hooks/people/useCombinedCredits";
 import { useMediaDetail } from "../../hooks/media/useMediaDetail";
 import { useSortedMedia, type SortOption } from "../../hooks/sorting";
+import { useClientChunkedData } from "../../hooks/infinite";
+import InfiniteScrollWrapper from "../../components/ui/InfiniteScrollWrapper";
 import type { MediaType } from "../../types/tmdb";
 
 const CreditsDetailPage = () => {
@@ -15,29 +17,14 @@ const CreditsDetailPage = () => {
   const [searchParams] = useSearchParams();
   const [sortOption, setSortOption] = useState<SortOption>("bayesian");
 
-  // Debug logging
-  console.log("=== CreditsDetailPage Debug ===");
-  console.log("URL:", window.location.href);
-  console.log("Route params:", { id });
-  console.log("Search params:", Object.fromEntries(searchParams.entries()));
-  console.log("Person ID:", Number(id));
-
   const fromMediaType = searchParams.get("from") as MediaType | null;
   const mediaId = searchParams.get("mediaId");
 
-  console.log("Extracted:", { fromMediaType, mediaId });
-
   const personId = Number(id);
-  // Add early return with debug info
   if (!id || isNaN(personId)) {
-    console.log("Invalid person ID:", { id, personId });
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-red-600 text-white p-4 rounded">
-          <p>Debug: Invalid person ID</p>
-          <p>ID from URL: {id}</p>
-          <p>Parsed ID: {personId}</p>
-        </div>
+        <p className="text-red-400">Invalid person ID</p>
       </div>
     );
   }
@@ -48,8 +35,6 @@ const CreditsDetailPage = () => {
     isLoading: personLoading,
     error: personError,
   } = usePerson(personId);
-
-  console.log("Person data:", { person, personLoading, personError });
 
   //use combinedcredits
   const {
@@ -69,37 +54,34 @@ const CreditsDetailPage = () => {
   const enrichedCredits = creditsData?.cast || [];
   const sortedCredits = useSortedMedia(enrichedCredits, sortOption);
 
+  const { visibleItems, hasMore, loadMore, reset } = useClientChunkedData(sortedCredits, 20);
+
+  // Reset visible items when sort changes
+  useEffect(() => {
+    reset();
+  }, [sortOption, reset]);
+
   // Loading states
   const isLoading = personLoading || creditsLoading;
 
   // Error states
   const hasError = personError || creditsError;
 
-  // Add debug render for loading
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-blue-600 text-white p-4 rounded">
-          <p>Loading person {personId}...</p>
-        </div>
+        <p className="text-gray-400">Loading...</p>
       </div>
     );
   }
 
-  // Add debug render for error
   if (hasError || !person) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-red-600 text-white p-4 rounded">
-          <p>Error loading person {personId}</p>
-          <p>Person error: {personError?.message}</p>
-          <p>Credits error: {creditsError?.message}</p>
-        </div>
+        <p className="text-red-400">Error loading person</p>
       </div>
     );
   }
-
-  // Add debug to your main render
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <BackLink
@@ -119,12 +101,19 @@ const CreditsDetailPage = () => {
         deathday={person.deathday}
         />
 
-<CreditsDetailGrid
-          credits={sortedCredits}
-          loading={creditsLoading}
-          error={creditsError ? "Failed to load credits" : null}
-          headerRight={<SortingDropdown value={sortOption} onChange={setSortOption} />}
-        />
+<InfiniteScrollWrapper
+          dataLength={visibleItems.length}
+          hasMore={hasMore}
+          next={loadMore}
+        >
+          <CreditsDetailGrid
+            credits={visibleItems}
+            totalCount={sortedCredits.length}
+            loading={creditsLoading}
+            error={creditsError ? "Failed to load credits" : null}
+            headerRight={<SortingDropdown value={sortOption} onChange={setSortOption} />}
+          />
+        </InfiniteScrollWrapper>
     </div>
   );
 };

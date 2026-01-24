@@ -11,6 +11,7 @@ export interface EnrichedCredit extends DetailMedia {
 
 type Props = {
   credits: EnrichedCredit[]; // Now expects enriched credits
+  totalCount?: number; // Total number of credits (for infinite scroll)
   loading?: boolean;
   error?: string | null;
   headerRight?: ReactNode;
@@ -18,10 +19,12 @@ type Props = {
 
 const CreditsDetailGrid = ({
   credits,
+  totalCount,
   loading = false,
   error = null,
   headerRight,
 }: Props) => {
+  const displayCount = totalCount ?? credits.length;
   if (loading) {
     return (
       <div>
@@ -61,7 +64,7 @@ const CreditsDetailGrid = ({
         <div className="flex gap-2 items-center">
           <TitleMid>Known for</TitleMid>
           <span className="text-gray-400 text-sm font-medium mb-3">
-            {credits.length} {credits.length === 1 ? 'title' : 'titles'}
+            {displayCount} {displayCount === 1 ? 'title' : 'titles'}
           </span>
         </div>
         {headerRight}

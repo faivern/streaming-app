@@ -38,7 +38,7 @@ function App() {
           <Route path="/person/:id/:name" element={<CreditsDetailPage />} />
 
           <Route
-            path="/my-list"
+            path="/lists"
             element={
               <>
                 <span className="fi fi-us"></span> United States
