@@ -1,6 +1,7 @@
+import type { ReactNode } from "react";
 import MediaCard from "../../media/cards/MediaCard";
 import type { DetailMedia, MediaType } from "../../../types/tmdb";
-
+import TitleMid from "../title/TitleMid";
 // Define the enriched credit type that has both credit and media info
 export interface EnrichedCredit extends DetailMedia {
   character?: string;
@@ -12,17 +13,19 @@ type Props = {
   credits: EnrichedCredit[]; // Now expects enriched credits
   loading?: boolean;
   error?: string | null;
+  headerRight?: ReactNode;
 };
 
 const CreditsDetailGrid = ({
   credits,
   loading = false,
   error = null,
+  headerRight,
 }: Props) => {
   if (loading) {
     return (
       <div>
-        <h2 className="text-lg font-semibold text-white">Known For</h2>
+        <TitleMid> Known for</TitleMid>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 3xl:grid-cols-8 4xl:grid-cols-9 gap-4 mt-4">
           {Array.from({ length: 10 }).map((_, i) => (
             <div
@@ -46,7 +49,7 @@ const CreditsDetailGrid = ({
   if (!credits.length) {
     return (
       <div className="text-center py-8">
-        <h2 className="text-lg font-semibold text-white">Known For</h2>
+        <TitleMid> Known for</TitleMid>
         <p className="text-gray-400 mt-4">No credits available</p>
       </div>
     );
@@ -54,11 +57,14 @@ const CreditsDetailGrid = ({
 
   return (
     <>
-      <div className="flex items-baseline gap-3 mb-4">
-        <h2 className="text-2xl font-bold text-white">Known For</h2>
-        <span className="text-gray-400 text-sm font-medium">
-          {credits.length} {credits.length === 1 ? 'title' : 'titles'}
-        </span>
+      <div className="flex justify-between items-center mt-4">
+        <div className="flex gap-2 items-center">
+          <TitleMid>Known for</TitleMid>
+          <span className="text-gray-400 text-sm font-medium mb-3">
+            {credits.length} {credits.length === 1 ? 'title' : 'titles'}
+          </span>
+        </div>
+        {headerRight}
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 3xl:grid-cols-8 4xl:grid-cols-9 gap-4 mt-4">
         {credits.map((credit) => (
