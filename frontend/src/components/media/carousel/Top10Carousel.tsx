@@ -114,7 +114,7 @@ export default function Top10Carousel({
                   ) : (
                     <Link
                       to={`/media/${mediaType}/${item.id}`}
-                      className="block group/card"
+                      className="block group group/card"
                     >
                       <div className="relative flex items-center">
                         {/* Large ranking number */}
@@ -122,7 +122,6 @@ export default function Top10Carousel({
                           className="absolute bottom-0 right-0 pb-4 pr-4 z-10 text-[8rem] font-black leading-none select-none
                             transition-all duration-300 ease-out
                             [-webkit-text-stroke:3px_var(--accent-primary)] text-transparent
-                            group-hover/card:shine-overlay
                             group-hover/card:group-hover/card:text-transparent
                             group-hover/card:text-[9rem]
                             group-hover/card:bg-clip-text group-hover/card:bg-gradient-to-r
@@ -131,7 +130,7 @@ export default function Top10Carousel({
                           style={{ fontFamily: "system-ui, sans-serif" }}
                         >
                           {rank}
-                          </span>
+                        </span>
 
                         <div
                           className="w-lg bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
@@ -139,12 +138,13 @@ export default function Top10Carousel({
                             hover:shadow-xl hover:scale-105 hover:border-accent-primary/75
                             transition-all duration-300 relative cursor-pointer"
                         >
+                          <span className="shine-overlay" />
                           <RatingPill
                             rating={item.vote_average}
                             className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
                             showOutOfTen={false}
                           />
-                          <span className="shine-overlay" />
+
                           <Backdrop
                             path={backdropPath}
                             alt={itemTitle}
