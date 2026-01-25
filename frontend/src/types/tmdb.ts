@@ -7,6 +7,12 @@ export type Genre = {
   name: string;
 };
 
+export type EnrichedGenre = {
+  id: number;
+  name: string;
+  supportedMediaTypes: MediaType[];
+};
+
 export type DetailMediaGenre = {
   id: number;
   title?: string;

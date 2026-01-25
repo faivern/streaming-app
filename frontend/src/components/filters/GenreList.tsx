@@ -1,19 +1,12 @@
 {/*Re-usable popover wrapper for the navbar.*/}
 import { useNavigate } from 'react-router-dom';
-import { Combobox, Transition } from "@headlessui/react";
-
-type Genre = {
-    id: number;
-    name: string;
-}
+import type { EnrichedGenre, MediaType } from '../../types/tmdb';
 
 type Props = {
-    genres?: Genre[];
-    onGenreSelect?: (genre: Genre) => void;
+    genres?: EnrichedGenre[];
 }
 
-export default function GenreList({ genres, onGenreSelect }: Props) {
-    console.log("GenreList received genres:", genres); // Debug log
+export default function GenreList({ genres }: Props) {
     const navigate = useNavigate();
 
     if (!genres || genres.length === 0) {
@@ -24,6 +17,10 @@ export default function GenreList({ genres, onGenreSelect }: Props) {
         );
     }
 
+    const getDefaultMediaType = (genre: EnrichedGenre): MediaType => {
+        return genre.supportedMediaTypes?.includes("movie") ? "movie" : "tv";
+    };
+
     return (
         <div className="max-h-80 overflow-y-auto">
             <h3 className="text-white font-semibold mb-3 text-sm uppercase tracking-wide">
@@ -33,8 +30,8 @@ export default function GenreList({ genres, onGenreSelect }: Props) {
                 {genres.map((genre) => (
                     <li
                         key={genre.id}
-                        onClick={() => 
-                            navigate(`/genre/${genre.id}?mediaType=movie&name=${encodeURIComponent(genre.name)}`)
+                        onClick={() =>
+                            navigate(`/genre/${genre.id}?mediaType=${getDefaultMediaType(genre)}&name=${encodeURIComponent(genre.name)}`)
                         }
                         className="text-gray-300 hover:text-white hover:bg-sky-500/20 px-2 py-2 rounded-md cursor-pointer transition-colors text-sm"
                     >

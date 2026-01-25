@@ -7,12 +7,10 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import type { EnrichedGenre } from "../../../types/tmdb";
 
 type Props = {
-  genres: {
-    id: number;
-    name: string;
-  }[];
+  genres: EnrichedGenre[];
   loading?: boolean;
 };
 
@@ -90,12 +88,16 @@ export default function GenreCardList({ genres, loading = false }: Props) {
             className="flex gap-6 transition-transform duration-300 will-change-transform"
             style={{ transform: "translateX(0)" }}
           >
-            {renderItems.map((genre: any) => (
+            {renderItems.map((genre: EnrichedGenre) => (
               <div key={genre.id} className="shrink-0">
                 {loading ? (
                   <div className="h-40 w-40 rounded-2xl bg-white/10 animate-pulse" />
                 ) : (
-                  <GenreCard id={genre.id} name={genre.name} />
+                  <GenreCard
+                    id={genre.id}
+                    name={genre.name}
+                    supportedMediaTypes={genre.supportedMediaTypes}
+                  />
                 )}
               </div>
             ))}
