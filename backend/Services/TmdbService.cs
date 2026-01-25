@@ -153,7 +153,7 @@ namespace backend.Services
 
         public async Task<string> GetShowDetailsAsync(int series_id)
         {
-            var url = $"https://api.themoviedb.org/3/tv/{series_id}?api_key={_apiKey}";
+            var url = $"https://api.themoviedb.org/3/tv/{series_id}?api_key={_apiKey}&append_to_response=external_ids";
             return await FetchWithCacheAsync($"show_details_{series_id}", url, TimeSpan.FromHours(6));
         }
         //----------------------------------------------------------------------------
