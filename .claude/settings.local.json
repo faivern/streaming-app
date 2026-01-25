@@ -16,5 +16,6 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(npx get-shit-done-cc --global)"
     ]
-  }
+  },
+  "outputStyle": "Learning"
 }
