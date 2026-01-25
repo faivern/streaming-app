@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type Props = {
   media_type?: string;
@@ -7,6 +7,8 @@ type Props = {
 };
 
 const BackLink = ({ media_type, id, title }: Props) => {
+  const navigate = useNavigate();
+
   // If media context, show full breadcrumb
   if (media_type && id && title) {
     return (
@@ -20,10 +22,23 @@ const BackLink = ({ media_type, id, title }: Props) => {
     );
   }
 
-  // Fallback to home if no media context
+  // Use browser history to go back, fallback to home if no history
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <div className="text-sm text-gray-400 space-x-2 mb-6">
-      <Link to="/" className="hover:text-accent-primary">← Back to Home</Link>
+      <button
+        onClick={handleBack}
+        className="hover:text-accent-primary cursor-pointer"
+      >
+        ← Back
+      </button>
     </div>
   );
 };
