@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import MediaCastCard from "../../components/media/cards/MediaCastCard";
-
+import TitleMid from "../../components/media/title/TitleMid";
 import type { MediaType, CreditsResponse } from "../../types/tmdb";
 import { useMediaCredits } from "../../hooks/people/useMediaCredits";
 import { useMediaDetail } from "../../hooks/media/useMediaDetail";
@@ -117,16 +117,14 @@ const CreditsPage = () => {
         {/* Content */}
         {activeTab === "cast" && (
           <>
+                <TitleMid>Actors</TitleMid>
             {cast.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 p-2">
                 {cast
                   .slice() // don’t mutate original
                   .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
                   .map((person) => (
-                    <MediaCastCard
-                      key={person.id}
-                      cast={person}
-                    />
+                    <MediaCastCard key={person.id} cast={person} />
                   ))}
               </div>
             ) : (
@@ -147,10 +145,9 @@ const CreditsPage = () => {
                   .sort(([a], [b]) => a.localeCompare(b))
                   .map(([department, members]) => (
                     <div key={department}>
-                      <h2 className="text-2xl font-bold mb-4 text-blue-400">
-                        {department}
-                      </h2>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                      <TitleMid>{department}</TitleMid>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 p-2">
                         {members.map((person) => (
                           <MediaCastCard
                             key={`${person.id}-${person.job}`}

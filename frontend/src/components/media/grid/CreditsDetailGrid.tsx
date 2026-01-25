@@ -29,7 +29,7 @@ const CreditsDetailGrid = ({
     return (
       <div>
         <TitleMid> Known for</TitleMid>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6 3xl:grid-cols-7 4xl:grid-cols-8 gap-4 mt-4 p-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6 3xl:grid-cols-7 4xl:grid-cols-8 gap-4 mt-4 m-8">
           {Array.from({ length: 10 }).map((_, i) => (
             <div
               key={i}
@@ -69,7 +69,7 @@ const CreditsDetailGrid = ({
         </div>
         {headerRight}
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6 3xl:grid-cols-7 4xl:grid-cols-8 gap-4 mt-4 p-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6 3xl:grid-cols-7 4xl:grid-cols-8 gap-4 mt-4 m-2">
         {credits.map((credit) => (
           <div key={`${credit.id}-${credit.character || credit.job}`}>
             <MediaCard
