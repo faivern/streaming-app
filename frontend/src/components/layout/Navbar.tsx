@@ -1,24 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../../assets/react.svg";
 import { FaRegUser } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
 import SearchBar from "../layout/SearchBar";
 import "../../style/TitleHover.css";
 import GenreList from "../filters/GenreList";
-import { api } from "../../api/http/axios";
 import { GOOGLE_LOGIN_URL } from "../../lib/config";
 import { useUser } from "../../hooks/user/useUser";
 import { useLogout } from "../../hooks/user/useLogout";
 import { UserModal } from "./UserModal";
-
-type Genre = {
-  id: number;
-  name: string;
-};
+import { useGenres } from "../../hooks/genres/useGenres";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [genres, setGenres] = useState<Genre[]>([]);
+  const { data: genres = [] } = useGenres();
   const [showGenres, setShowGenres] = useState(false); // desktop hover dropdown
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // NEW
@@ -37,32 +32,6 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    const fetchGenres = async () => {
-      try {
-        const [movieGenreRes, tvGenreRes] = await Promise.all([
-          api.get("/api/Movies/genre/movie/list"),
-          api.get("/api/Movies/genre/tv/list"),
-        ]);
-
-        const allGenres = [
-          ...movieGenreRes.data.genres,
-          ...tvGenreRes.data.genres,
-        ];
-        const uniqueGenres = allGenres.filter(
-          (genre, index, self) =>
-            index === self.findIndex((g) => g.id === genre.id)
-        );
-
-        setGenres(uniqueGenres);
-      } catch (error) {
-        console.error("Failed to fetch genres:", error);
-      }
-    };
-
-    fetchGenres();
-  }, []);
-
   // Close user panel when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -76,14 +45,6 @@ export default function Header() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const navigate = useNavigate();
-  const handleSelectGenre = (genre: Genre) => {
-    navigate(`/discover?genre=${genre.id}`);
-    setShowGenres(false);
-    setIsMobileMenuOpen(false); // close drawer on mobile
-    setShowMobileGenres(false);
-  };
 
   const handleLogout = () => {
     logout();
@@ -158,10 +119,7 @@ export default function Header() {
                   {showGenres && (
                     <div className="absolute left-0 top-full pt-2 z-[100]">
                       <div className="w-96 bg-gray-900/95 backdrop-blur-lg border border-gray-700 rounded-xl p-6 shadow-2xl">
-                        <GenreList
-                          genres={genres}
-                          onGenreSelect={handleSelectGenre}
-                        />
+                        <GenreList genres={genres} />
                       </div>
                     </div>
                   )}
@@ -355,10 +313,7 @@ export default function Header() {
                     id="mobile-genres-panel"
                     className="mt-3 max-h-72 overflow-y-auto pr-1 space-y-1 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
                   >
-                    <GenreList
-                      genres={genres}
-                      onGenreSelect={handleSelectGenre}
-                    />
+                    <GenreList genres={genres} />
                   </div>
                 )}
               </div>

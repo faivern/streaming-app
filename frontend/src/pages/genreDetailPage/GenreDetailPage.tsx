@@ -1,6 +1,6 @@
 // pages/genres/GenreDetailPage.tsx
-import { useMemo, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 
 import BackLink from "../../components/media/breadcrumbs/BackLink";
 import MediaTypeToggle from "../../components/media/grid/MediaTypeToggle";
@@ -12,17 +12,14 @@ import Error from "../../components/feedback/Error";
 import TitleMid from "../../components/media/title/TitleMid";
 
 import { useInfiniteDiscoverGenre } from "../../hooks/genres/useInfiniteDiscoverGenre";
+import { useGenreById } from "../../hooks/genres/useGenreById";
 import InfiniteScrollWrapper from "../../components/ui/InfiniteScrollWrapper";
 import type { MediaType } from "../../types/tmdb";
 
 export default function GenreDetailPage() {
   const { genreId } = useParams();
   const [searchParams] = useSearchParams();
-
-  // initial media type from query (?mediaType=tv|movie)
-  const initialType: MediaType =
-    searchParams.get("mediaType") === "tv" ? "tv" : "movie";
-  const [mediaType, setMediaType] = useState<MediaType>(initialType);
+  const navigate = useNavigate();
 
   const genreName = searchParams.get("name") || "Unknown Genre";
 
@@ -31,6 +28,65 @@ export default function GenreDetailPage() {
     const n = Number(genreId);
     return Number.isFinite(n) ? n : undefined;
   }, [genreId]);
+
+  // Get genre metadata to know which media types are supported
+  const {
+    genre,
+    supportsBoth,
+    defaultMediaType,
+    isLoading: genreLoading,
+  } = useGenreById(genreIdNum);
+
+  // Get media type from URL, fallback to defaultMediaType
+  const urlMediaType = searchParams.get("mediaType") as MediaType | null;
+  const [mediaType, setMediaType] = useState<MediaType>("movie");
+
+  // Sync media type with URL and validate against supported types
+  useEffect(() => {
+    // Wait for genre data to load
+    if (genreLoading || !genreIdNum) return;
+
+    // If we have genre data, validate the URL's media type
+    if (genre) {
+      const isUrlTypeValid =
+        urlMediaType &&
+        genre.supportedMediaTypes.includes(urlMediaType);
+
+      if (isUrlTypeValid) {
+        setMediaType(urlMediaType);
+      } else {
+        // URL has invalid or missing media type - redirect to valid one
+        const validType = defaultMediaType;
+        setMediaType(validType);
+
+        // Update URL to reflect the valid media type
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set("mediaType", validType);
+        navigate(`/genre/${genreIdNum}?${newParams.toString()}`, {
+          replace: true,
+        });
+      }
+    } else {
+      // Genre not found in our data, use URL type or default
+      setMediaType(urlMediaType || "movie");
+    }
+  }, [
+    genre,
+    genreLoading,
+    genreIdNum,
+    urlMediaType,
+    defaultMediaType,
+    navigate,
+    searchParams,
+  ]);
+
+  const handleToggle = (type: MediaType) => {
+    setMediaType(type);
+    // Update URL when toggling
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set("mediaType", type);
+    navigate(`/genre/${genreIdNum}?${newParams.toString()}`, { replace: true });
+  };
 
   const {
     data,
@@ -50,7 +106,7 @@ export default function GenreDetailPage() {
     return <Error message="Invalid or missing genre id." />;
   }
 
-  const pageLoading = isLoading;
+  const pageLoading = isLoading || genreLoading;
 
   if (pageLoading) {
     return <Loading message={`Loading ${genreName}...`} />;
@@ -70,9 +126,12 @@ export default function GenreDetailPage() {
         {mediaType === "tv" ? "shows" : "movies"}
       </p>
 
-      <div className="mt-4">
-        <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
-      </div>
+      {/* Only show toggle when genre supports both media types */}
+      {supportsBoth && (
+        <div className="mt-4">
+          <MediaTypeToggle selectedType={mediaType} onToggle={handleToggle} />
+        </div>
+      )}
 
       <InfiniteScrollWrapper
         dataLength={items.length}

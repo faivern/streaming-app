@@ -1,21 +1,27 @@
 import { Link } from "react-router-dom";
 import "../../../style/MediaCard.css";
 import { getGenreColor } from "../../../theme/genreColors";
+import type { MediaType } from "../../../types/tmdb";
 
-type Genre = {
+type GenreCardProps = {
   id: number;
   name: string;
+  supportedMediaTypes?: MediaType[];
 };
 
-const GenreCard = ({ id, name }: Genre) => {
+const GenreCard = ({ id, name, supportedMediaTypes }: GenreCardProps) => {
+  // Use first supported type (movie if available, else tv)
+  const defaultMediaType: MediaType =
+    supportedMediaTypes?.includes("movie") ? "movie" : "tv";
+
   return (
     <div
-      className={`group relative h-48 rounded-lg overflow-hidden 
-                 ${getGenreColor(id)} border border-gray-400/70 shadow-lg 
+      className={`group relative h-48 rounded-lg overflow-hidden
+                 ${getGenreColor(id)} border border-gray-400/70 shadow-lg
                  transition-transform duration-300 hover:scale-105 hover:border-accent-primary/75`}
     >
       <Link
-        to={`/genre/${id}?mediaType=movie&name=${encodeURIComponent(name)}`}
+        to={`/genre/${id}?mediaType=${defaultMediaType}&name=${encodeURIComponent(name)}`}
         className="block h-full w-md"
       >
         {/* Optional subtle overlay tint */}
