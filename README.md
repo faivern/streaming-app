@@ -63,6 +63,10 @@ MovieBucket is a personal project that showcases fullstack engineering capabilit
 |:-------------:|:------------------:|
 | ![Full cast and crew page with department tabs](./screenshots/credits.png) | ![Person detail with filmography grid](./screenshots/person.png) |
 
+| Collection |
+|:----------:|
+| ![Collection page showing movie series](./screenshots/collectionpage.png) |
+
 ## Architecture Overview
 
 The application follows a layered architecture with clear separation of concerns:
