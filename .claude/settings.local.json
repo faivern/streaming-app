@@ -14,7 +14,8 @@
       "Bash(docker compose logs:*)",
       "Bash(npm view:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(npx get-shit-done-cc --global)"
+      "Bash(npx get-shit-done-cc --global)",
+      "Bash(git log:*)"
     ]
   },
   "outputStyle": "Learning"

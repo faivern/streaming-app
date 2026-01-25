@@ -1,9 +1,9 @@
-import React from "react";
 import { dateFormat } from "../../../utils/dateFormat";
 import languageMap from "../../../utils/languageMap";
 import { keywordsFormat } from "../../../utils/keywordsFormat";
-import { getDirector, getMainCast } from "../../../utils/creditsUtils";
+import { getDirector, getMainCast, getCreatorsString } from "../../../utils/creditsUtils";
 import { moneyFormat } from "../../../utils/moneyFormat";
+import type { MediaType } from "../../../types/tmdb";
 
 type CastMember = {
   id: number;
@@ -24,6 +24,12 @@ type ProductionCompany = {
   name: string;
 };
 
+type Creator = {
+  id: number;
+  name: string;
+  profile_path?: string | null;
+};
+
 type Props = {
   cast: CastMember[];
   crew: CrewMember[];
@@ -34,6 +40,8 @@ type Props = {
   keywords?: string[];
   budget?: number;
   revenue?: number;
+  media_type?: MediaType;
+  created_by?: Creator[];
 };
 
 export default function MediaDetails({
@@ -46,9 +54,13 @@ export default function MediaDetails({
   keywords = [],
   budget,
   revenue,
+  media_type,
+  created_by,
 }: Props) {
   const director = getDirector(crew);
   const mainCast = getMainCast(cast);
+  const isTV = media_type === "tv";
+  const creatorsString = getCreatorsString(created_by);
 
   return (
     <div className="bg-component-primary rounded-2xl p-6 border border-accent-foreground/60 shadow-lg">
@@ -87,9 +99,13 @@ export default function MediaDetails({
           </div>
 
           <div>
-            <span className="text-slate-400 text-sm font-medium block">Director</span>
+            <span className="text-slate-400 text-sm font-medium block">
+              {isTV ? "Created By" : "Director"}
+            </span>
             <span className="text-white font-medium">
-              {director ? director.name : "N/A"}
+              {isTV
+                ? (creatorsString || "N/A")
+                : (director ? director.name : "N/A")}
             </span>
           </div>
 
@@ -100,19 +116,22 @@ export default function MediaDetails({
             </span>
           </div>
 
-          <div>
-            <span className="text-slate-400 text-sm font-medium block">Budget</span>
-            <span className="text-white font-medium">
-              {budget ? moneyFormat(budget) : "N/A"}
-            </span>
-          </div>
-
-                    <div>
-            <span className="text-slate-400 text-sm font-medium block">Revenue</span>
-            <span className="text-white font-medium">
-              {revenue ? moneyFormat(revenue) : "N/A"}
-            </span>
-          </div>
+          {!isTV && (
+            <>
+              <div>
+                <span className="text-slate-400 text-sm font-medium block">Budget</span>
+                <span className="text-white font-medium">
+                  {budget ? moneyFormat(budget) : "N/A"}
+                </span>
+              </div>
+              <div>
+                <span className="text-slate-400 text-sm font-medium block">Revenue</span>
+                <span className="text-white font-medium">
+                  {revenue ? moneyFormat(revenue) : "N/A"}
+                </span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

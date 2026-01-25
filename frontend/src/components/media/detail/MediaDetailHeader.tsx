@@ -109,6 +109,8 @@ export default function MediaDetailHeader({
           keywords={keywords}
           budget={budget}
           revenue={revenue}
+          media_type={media_type ?? details.media_type}
+          created_by={details.created_by}
         />
       </div>
     </main>
