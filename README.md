@@ -1,147 +1,127 @@
 # MovieBucket
 
-MovieBucket is a modern, full-stack web application designed to help you discover, track, and explore movies and TV shows. This project is built with a focus on clean architecture, a responsive user experience, and best-in-class development practices.
+A full-stack movie and TV show discovery application demonstrating modern web development practices with React and .NET.
 
-![MovieBucket Banner](./screenshots/banner-img.png)
+![MovieBucket Banner](./screenshots/banner.png)
 
-## Features
+## About
 
-- **Discover Media:** Browse extensive lists of movies and TV shows.
-- **Trending Content:** Stay up-to-date with what's currently trending.
-- **Detailed Information:** Get in-depth details for any movie or TV show, including cast, crew, genres, and similar titles.
-- **Powerful Search:** Quickly find media by title.
-- **Genre-based Exploration:** Discover content by browsing through genres.
-- **User Watchlists:** (Coming Soon) Track media you want to watch.
-- **Secure Authentication:** User accounts with secure OAuth 2.0 integration.
-
-## Screenshots
-
-A sneak peek into the MovieBucket experience.
-
-### Browse & Discover
-
-|                            Genre Collections                            |                    Media Modal                    |
-| :---------------------------------------------------------------------: | :-----------------------------------------------: |
-| ![Genre Collections](./screenshots/genre-collection-carouselle-img.png) | ![Media Modal](./screenshots/media-modal-img.png) |
-
-### Media Details
-
-|                     Details View 1                      |                     Details View 2                      |
-| :-----------------------------------------------------: | :-----------------------------------------------------: |
-| ![Media Details](./screenshots/media-details-img-1.png) | ![Media Details](./screenshots/media-details-img-2.png) |
-
-### Search & Collections
-
-|                 Search                  |                   Collection Detail                    |
-| :-------------------------------------: | :----------------------------------------------------: |
-| ![Search](./screenshots/search-img.png) | ![Collection](./screenshots/collection-detail-img.png) |
-
-### Cast & Crew
-
-|                   Cast Details                    |                    Cast Explore                     |
-| :-----------------------------------------------: | :-------------------------------------------------: |
-| ![Cast Detail](./screenshots/cast-detail-img.png) | ![Cast Explore](./screenshots/cast-explore-img.png) |
+MovieBucket is a personal project that showcases fullstack engineering capabilities through a polished media discovery experience. The application proxies data from The Movie Database (TMDB) API through a custom .NET backend, implementing caching strategies, secure authentication, and a responsive React frontend.
 
 ## Tech Stack
 
-This project is built with a modern, decoupled frontend and backend architecture.
+| Frontend | Backend | Infrastructure |
+|----------|---------|----------------|
+| React 18, TypeScript | .NET 8, C# | PostgreSQL 16 |
+| Vite, Tailwind CSS | Entity Framework Core | Docker |
+| React Query, Axios | ASP.NET Identity | OAuth 2.0 (Google) |
 
-**Frontend:**
+## Key Features
 
-- [React 18](https://react.dev/)
-- [Vite](https://vitejs.dev/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [React Query](https://tanstack.com/query/latest)
-- [Axios](https://axios-http.com/)
+**Discovery**
+- Trending, popular, top-rated, and upcoming content feeds
+- Genre-based filtering with infinite scroll pagination
+- Multi-type search across movies, TV shows, and people
 
-**Backend:**
+**Media Details**
+- Comprehensive detail pages with trailers, cast, and crew information
+- Watch provider availability by region
+- Related recommendations and collection browsing
 
-- [.NET 8](https://dotnet.microsoft.com/en-us/) (ASP.NET Core)
-- [C#](https://learn.microsoft.com/en-us/dotnet/csharp/)
-- [Entity Framework Core 8](https://learn.microsoft.com/en-us/ef/core/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Docker](https://www.docker.com/) for containerization
+**User Features**
+- Google OAuth authentication with secure cookie sessions
+- Personal watchlist management (coming soon)
+- Share functionality for social media
 
-**APIs & Authentication:**
+## Technical Highlights
 
-- [TMDB API](https://www.themoviedb.org/documentation/api) for all media content.
-- [OAuth 2.0](https://oauth.net/2/) for secure user authentication (Google).
+- **Custom Hooks Architecture**: 20+ reusable hooks encapsulating data fetching, sorting logic, and UI state management
+- **Bayesian Rating Algorithm**: IMDb-style weighted rating calculation to handle vote count bias in popularity rankings
+- **API Caching Layer**: Backend memory cache with 6-hour TTL combined with React Query client-side caching for optimal performance
+- **Performance Optimizations**: Debounced hover interactions (200ms), lazy image loading, and infinite scroll pagination
+- **Type Safety**: Full TypeScript coverage across the frontend codebase
+
+## Screenshots
+
+| Homepage | Homepage Carousels |
+|:--------:|:------------------:|
+| ![Homepage hero section](./screenshots/homepage.png) | ![Homepage genre carousels](./screenshots/carouselles-homepage.png) |
+
+| Movie Details | TV Show Details |
+|:-------------:|:---------------:|
+| ![Movie detail page with cast, crew, and metadata](./screenshots/detail-movie.png) | ![TV show detail page with seasons and created by info](./screenshots/detail-tv.png) |
+
+| Search | Login |
+|:------:|:-----:|
+| ![Search dropdown with mixed results](./screenshots/search.png) | ![Google OAuth login page](./screenshots/login.png) |
+
+| Genre Page | Genre Modal |
+|:----------:|:-----------:|
+| ![Genre page with media type toggle](./screenshots/genrepage.png) | ![Genre selection modal](./screenshots/genre-modal.png) |
+
+| Cast and Crew | Person Filmography |
+|:-------------:|:------------------:|
+| ![Full cast and crew page with department tabs](./screenshots/credits.png) | ![Person detail with filmography grid](./screenshots/person.png) |
+
+## Architecture Overview
+
+The application follows a layered architecture with clear separation of concerns:
+
+```
+Frontend (React) → React Query → Axios → Backend API → TmdbService (cached) → TMDB API
+```
+
+- **Frontend**: React components manage UI state, React Query handles server state synchronization
+- **Backend**: ASP.NET Core controllers route requests to services, TmdbService manages TMDB API communication with memory caching
+- **Database**: PostgreSQL stores user data and authentication state via Entity Framework Core
 
 ## Getting Started
 
-Follow these instructions to get the project up and running on your local machine for development and testing purposes.
-
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/en) (LTS version)
-- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-- [Docker](https://www.docker.com/products/docker-desktop/) (for running PostgreSQL)
-- A TMDB API Key - [Get one here](https://www.themoviedb.org/signup)
+- Node.js (LTS version)
+- .NET 8 SDK
+- Docker Desktop
+- TMDB API Key ([register here](https://www.themoviedb.org/signup))
 
 ### Backend Setup
 
-1.  **Clone the repository:**
+```bash
+# Clone and navigate to backend
+git clone https://github.com/your-username/streaming-app.git
+cd streaming-app/backend
 
-    ```bash
-    git clone https://github.com/your-username/streaming-app.git
-    cd streaming-app/backend
-    ```
+# Configure TMDB API key
+dotnet user-secrets init
+dotnet user-secrets set "Tmdb:ApiKey" "YOUR_TMDB_API_KEY"
 
-2.  **Configure User Secrets:**
-    Set up your TMDB API Key using the .NET Secret Manager. This keeps your key out of the codebase.
+# Start PostgreSQL
+cd .. && docker-compose up -d && cd backend
 
-    ```bash
-    dotnet user-secrets init
-    dotnet user-secrets set "Tmdb:ApiKey" "YOUR_TMDB_API_KEY"
-    ```
+# Run the server
+dotnet restore && dotnet run
+```
 
-3.  **Launch PostgreSQL using Docker:**
-    Navigate to the root of the project and run:
-
-    ```bash
-    # (Assuming a docker-compose.yml is present in the root)
-    docker-compose up -d
-    ```
-
-    _If no `docker-compose.yml` is available, you will need to run a PostgreSQL container manually._
-    
-    _HTTPS in Docker:_ the backend container generates a self-signed localhost cert on startup using `ASPNETCORE_HTTPS_PASSWORD`.
-
-4.  **Run the backend server:**
-    ```bash
-    dotnet restore
-    dotnet run
-    ```
-    The API will be available at `https://localhost:7123` (or as specified in `launchSettings.json`). The Swagger UI can be found at `https://localhost:7123/swagger`.
+The API will be available at `https://localhost:7123`.
 
 ### Frontend Setup
 
-1.  **Navigate to the frontend directory:**
+```bash
+cd frontend
+npm install
 
-    ```bash
-    cd ../frontend
-    ```
+# Create environment file
+echo "VITE_API_URL=https://localhost:7123" > .env.local
 
-2.  **Install dependencies:**
+npm run dev
+```
 
-    ```bash
-    npm install
-    ```
+The application will be available at `http://localhost:3000`.
 
-3.  **Create an environment file:**
-    Create a `.env.local` file in the `frontend` directory and add the URL for the backend API:
+## API Documentation
 
-    ```
-    VITE_API_URL=https://localhost:7123
-    ```
+Interactive API documentation is available via Swagger UI at `https://localhost:7123/swagger` when running the backend in development mode.
 
-4.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
-    The application will be available at `http://localhost:3000`.
+## License
 
-## 📝 License
-
-This project is licensed under the MIT License - see the `LICENSE.md` file for details.
+This project is licensed under the MIT License. See the LICENSE.md file for details.
