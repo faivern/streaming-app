@@ -31,7 +31,7 @@ const CreditsDetailHeader = ({
   const knownFor = knownForDepartment(known_for_department, gender);
 
   return (
-    <div className="bg-slate-800/40 rounded-2xl p-6 border border-slate-600/30 shadow-lg">
+    <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600/30 shadow-lg mb-6">
       <div className="flex flex-col md:flex-row gap-6">
         {/* LEFT COLUMN - IMAGE + BASIC INFO */}
         <div className="w-full md:w-1/3 flex flex-col items-center p-4 rounded">
