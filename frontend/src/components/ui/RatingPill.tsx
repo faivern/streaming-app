@@ -43,7 +43,7 @@ export default function RatingPill({
   if (imdbId) {
     return (
       <a
-        href={`https://www.imdb.com/title/${imdbId}`}
+        href={`https://www.imdb.com/title/${imdbId}/ratings/?ref_=tt_ov_rat`}
         target="_blank"
         rel="noopener noreferrer"
         className="no-underline"

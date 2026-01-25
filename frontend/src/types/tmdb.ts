@@ -55,6 +55,13 @@ export type DetailMedia = {
   revenue?: number;
   media_type?: MediaType;
   imdb_id?: string;
+  external_ids?: {
+    imdb_id?: string;
+    tvdb_id?: number;
+    facebook_id?: string;
+    instagram_id?: string;
+    twitter_id?: string;
+  };
 };
 
 export type Collection = {
