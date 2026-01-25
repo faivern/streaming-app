@@ -68,6 +68,7 @@ export type DetailMedia = {
     instagram_id?: string;
     twitter_id?: string;
   };
+  created_by?: { id: number; name: string; profile_path?: string | null }[];
 };
 
 export type Collection = {
