@@ -1,4 +1,4 @@
-# MovieBucket 🎬
+# MovieBucket
 
 A full-stack movie and TV show discovery app built with React and .NET.
 
@@ -21,11 +21,11 @@ A full-stack movie and TV show discovery app built with React and .NET.
 
 ## Features
 
-- 🔍 **Search** - Movies, TV shows, and people with real-time results
-- 🎭 **Browse by Genre** - Filter content with infinite scroll pagination
-- 📺 **Detailed Info** - Cast, crew, trailers, and watch providers
-- 🔐 **Google OAuth** - Secure authentication with cookie sessions
-- 📱 **Responsive** - Works on desktop and mobile
+-  **Search** - Movies, TV shows, and people with real-time results
+-  **Browse by Genre** - Filter content with infinite scroll pagination
+-  **Detailed Info** - Cast, crew, trailers, and watch providers
+-  **Google OAuth** - Secure authentication with cookie sessions
+-  **Responsive** - Works on desktop and mobile
 
 ## Technical Highlights
 
