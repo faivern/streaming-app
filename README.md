@@ -36,17 +36,29 @@ A full-stack movie and TV show discovery app built with React and .NET.
 
 ## Screenshots
 
-| Homepage | Movie Details |
-|:--------:|:-------------:|
-| ![Homepage](./screenshots/homepage.png) | ![Movie Details](./screenshots/detail-movie.png) |
+| Homepage | Homepage Carousels |
+|:--------:|:------------------:|
+| ![Homepage](./screenshots/homepage.png) | ![Carousels](./screenshots/carouselles-homepage.png) |
 
-| Search | Browse by Genre |
-|:------:|:---------------:|
-| ![Search](./screenshots/search.png) | ![Genre Page](./screenshots/genrepage.png) |
+| Movie Details | TV Show Details |
+|:-------------:|:---------------:|
+| ![Movie Details](./screenshots/detail-movie.png) | ![TV Details](./screenshots/detail-tv.png) |
 
-| Cast & Crew | Collections |
-|:-----------:|:-----------:|
-| ![Credits](./screenshots/credits.png) | ![Collection](./screenshots/collectionpage.png) |
+| Search | Login |
+|:------:|:-----:|
+| ![Search](./screenshots/search.png) | ![Login](./screenshots/login.png) |
+
+| Browse by Genre | Genre Modal |
+|:---------------:|:-----------:|
+| ![Genre Page](./screenshots/genrepage.png) | ![Genre Modal](./screenshots/genre-modal.png) |
+
+| Cast & Crew | Person Details |
+|:-----------:|:--------------:|
+| ![Credits](./screenshots/credits.png) | ![Person](./screenshots/person.png) |
+
+| Collections |
+|:-----------:|
+| ![Collection](./screenshots/collectionpage.png) |
 
 ## Architecture
 
