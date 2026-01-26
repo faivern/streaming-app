@@ -1,131 +1,81 @@
-# MovieBucket
+# MovieBucket 🎬
 
-A full-stack movie and TV show discovery application demonstrating modern web development practices with React and .NET.
+A full-stack movie and TV show discovery app built with React and .NET.
 
 ![MovieBucket Banner](./screenshots/banner.png)
 
-## About
-
-MovieBucket is a personal project that showcases fullstack engineering capabilities through a polished media discovery experience. The application proxies data from The Movie Database (TMDB) API through a custom .NET backend, implementing caching strategies, secure authentication, and a responsive React frontend.
-
 ## Tech Stack
 
-| Frontend | Backend | Infrastructure |
-|----------|---------|----------------|
-| React 18, TypeScript | .NET 8, C# | PostgreSQL 16 |
-| Vite, Tailwind CSS | Entity Framework Core | Docker |
-| React Query, Axios | ASP.NET Identity | OAuth 2.0 (Google) |
+### Frontend
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
+![React Query](https://img.shields.io/badge/React_Query-FF4154?style=flat-square&logo=reactquery&logoColor=white)
 
-## Key Features
+### Backend
+![.NET](https://img.shields.io/badge/.NET_8-512BD4?style=flat-square&logo=dotnet&logoColor=white)
+![C#](https://img.shields.io/badge/C%23-239120?style=flat-square&logo=csharp&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
 
-**Discovery**
-- Trending, popular, top-rated, and upcoming content feeds
-- Genre-based filtering with infinite scroll pagination
-- Multi-type search across movies, TV shows, and people
+## Features
 
-**Media Details**
-- Comprehensive detail pages with trailers, cast, and crew information
-- Watch provider availability by region
-- Related recommendations and collection browsing
-
-**User Features**
-- Google OAuth authentication with secure cookie sessions
-- Personal watchlist management (coming soon)
-- Share functionality for social media
+- 🔍 **Search** - Movies, TV shows, and people with real-time results
+- 🎭 **Browse by Genre** - Filter content with infinite scroll pagination
+- 📺 **Detailed Info** - Cast, crew, trailers, and watch providers
+- 🔐 **Google OAuth** - Secure authentication with cookie sessions
+- 📱 **Responsive** - Works on desktop and mobile
 
 ## Technical Highlights
 
-- **Custom Hooks Architecture**: 20+ reusable hooks encapsulating data fetching, sorting logic, and UI state management
-- **Bayesian Rating Algorithm**: IMDb-style weighted rating calculation to handle vote count bias in popularity rankings
-- **API Caching Layer**: Backend memory cache with 6-hour TTL combined with React Query client-side caching for optimal performance
-- **Performance Optimizations**: Debounced hover interactions (200ms), lazy image loading, and infinite scroll pagination
-- **Type Safety**: Full TypeScript coverage across the frontend codebase
+- **20+ Custom React Hooks** for data fetching, sorting, and UI state
+- **Backend Caching Layer** with 6-hour TTL for optimal performance
+- **Bayesian Rating Algorithm** (IMDb-style) for fair popularity rankings
+- **Full TypeScript Coverage** across the frontend
 
 ## Screenshots
 
-| Homepage | Homepage Carousels |
-|:--------:|:------------------:|
-| ![Homepage hero section](./screenshots/homepage.png) | ![Homepage genre carousels](./screenshots/carouselles-homepage.png) |
+| Homepage | Movie Details |
+|:--------:|:-------------:|
+| ![Homepage](./screenshots/homepage.png) | ![Movie Details](./screenshots/detail-movie.png) |
 
-| Movie Details | TV Show Details |
-|:-------------:|:---------------:|
-| ![Movie detail page with cast, crew, and metadata](./screenshots/detail-movie.png) | ![TV show detail page with seasons and created by info](./screenshots/detail-tv.png) |
+| Search | Browse by Genre |
+|:------:|:---------------:|
+| ![Search](./screenshots/search.png) | ![Genre Page](./screenshots/genrepage.png) |
 
-| Search | Login |
-|:------:|:-----:|
-| ![Search dropdown with mixed results](./screenshots/search.png) | ![Google OAuth login page](./screenshots/login.png) |
+| Cast & Crew | Collections |
+|:-----------:|:-----------:|
+| ![Credits](./screenshots/credits.png) | ![Collection](./screenshots/collectionpage.png) |
 
-| Genre Page | Genre Modal |
-|:----------:|:-----------:|
-| ![Genre page with media type toggle](./screenshots/genrepage.png) | ![Genre selection modal](./screenshots/genre-modal.png) |
-
-| Cast and Crew | Person Filmography |
-|:-------------:|:------------------:|
-| ![Full cast and crew page with department tabs](./screenshots/credits.png) | ![Person detail with filmography grid](./screenshots/person.png) |
-
-| Collection |
-|:----------:|
-| ![Collection page showing movie series](./screenshots/collectionpage.png) |
-
-## Architecture Overview
-
-The application follows a layered architecture with clear separation of concerns:
+## Architecture
 
 ```
-Frontend (React) → React Query → Axios → Backend API → TmdbService (cached) → TMDB API
+React → React Query → Axios → .NET API → TmdbService (cached) → TMDB API
+                                  ↓
+                            PostgreSQL
 ```
 
-- **Frontend**: React components manage UI state, React Query handles server state synchronization
-- **Backend**: ASP.NET Core controllers route requests to services, TmdbService manages TMDB API communication with memory caching
-- **Database**: PostgreSQL stores user data and authentication state via Entity Framework Core
+## Quick Start
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js (LTS version)
-- .NET 8 SDK
-- Docker Desktop
-- TMDB API Key ([register here](https://www.themoviedb.org/signup))
-
-### Backend Setup
+**Prerequisites:** Node.js, .NET 8 SDK, Docker, [TMDB API Key](https://www.themoviedb.org/signup)
 
 ```bash
-# Clone and navigate to backend
+# Clone the repo
 git clone https://github.com/your-username/streaming-app.git
-cd streaming-app/backend
+cd streaming-app
 
-# Configure TMDB API key
-dotnet user-secrets init
-dotnet user-secrets set "Tmdb:ApiKey" "YOUR_TMDB_API_KEY"
+# Start the database
+docker-compose up -d
 
-# Start PostgreSQL
-cd .. && docker-compose up -d && cd backend
+# Backend (in /backend)
+dotnet user-secrets set "Tmdb:ApiKey" "YOUR_KEY"
+dotnet run
 
-# Run the server
-dotnet restore && dotnet run
-```
-
-The API will be available at `https://localhost:7123`.
-
-### Frontend Setup
-
-```bash
-cd frontend
-npm install
-
-# Create environment file
+# Frontend (in /frontend)
 echo "VITE_API_URL=https://localhost:7123" > .env.local
-
-npm run dev
+npm install && npm run dev
 ```
 
-The application will be available at `http://localhost:3000`.
-
-## API Documentation
-
-Interactive API documentation is available via Swagger UI at `https://localhost:7123/swagger` when running the backend in development mode.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE.md file for details.
+**Backend:** https://localhost:7123 (Swagger docs at `/swagger`)
+**Frontend:** http://localhost:3000
