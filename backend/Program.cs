@@ -34,7 +34,12 @@ var cookieSecurePolicy = requireSecureCookies
     ? CookieSecurePolicy.Always
     : CookieSecurePolicy.SameAsRequest;
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 
 // CORS origins from configuration (comma-separated)
 var corsOrigins = builder.Configuration["CorsOrigins"]?
@@ -57,6 +62,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<TmdbService>();
+builder.Services.AddScoped<ListService>();
+builder.Services.AddScoped<MediaEntryService>();
 
 builder.Services.AddDbContext<AppDbContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

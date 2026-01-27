@@ -178,7 +178,7 @@ namespace backend.Services
 
             var json = await FetchWithCacheAsync(cacheKey, url, CacheDurationVideos);
 
-            Console.WriteLine($"🧾 Raw JSON for {type} {id}:\n{json}");
+            Console.WriteLine($"Raw JSON for {type} {id}:\n{json}");
 
             var videoResponse = JsonSerializer.Deserialize<TmdbVideoResponse>(json);
 
@@ -187,11 +187,11 @@ namespace backend.Services
 
             if (firstYoutubeVideo == null)
             {
-                Console.WriteLine($"❌ No YouTube video found for {type} ID {id}");
+                Console.WriteLine($"No YouTube video found for {type} ID {id}");
                 return (null, null);
             }
 
-            Console.WriteLine($"✅ Found video: {firstYoutubeVideo.Name} ({firstYoutubeVideo.Key})");
+            Console.WriteLine($"Found video: {firstYoutubeVideo.Name} ({firstYoutubeVideo.Key})");
             return (
                 firstYoutubeVideo.Name,
                 $"https://www.youtube.com/embed/{firstYoutubeVideo.Key}"

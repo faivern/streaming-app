@@ -23,6 +23,9 @@ namespace backend.Models
 
         public bool IsPublic { get; set; } = false;
 
+        [MaxLength(500)]
+        public string? ThumbnailPath { get; set; }
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
