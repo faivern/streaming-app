@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    public class UserMediaEntry
+    public class MediaEntry
     {
         [Key]
         public int Id { get; set; }
@@ -12,7 +12,7 @@ namespace backend.Models
         public string UserId { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]
-        public MoviebucketUser User { get; set; } = null!;
+        public AppUser User { get; set; } = null!;
 
         [Required]
         public int TmdbId { get; set; }
@@ -26,6 +26,14 @@ namespace backend.Models
 
         [MaxLength(500)]
         public string? PosterPath { get; set; }
+
+        [MaxLength(500)]
+        public string? BackdropPath { get; set; }
+
+        [MaxLength(2000)]
+        public string? Overview { get; set; }
+
+        public double? VoteAverage { get; set; }
 
         [Required]
         public WatchStatus Status { get; set; } = WatchStatus.WantToWatch;

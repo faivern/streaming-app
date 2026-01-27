@@ -4,40 +4,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Data
 {
-    public class AppDbContext : IdentityDbContext<MoviebucketUser>
+    public class AppDbContext : IdentityDbContext<AppUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<WatchlistItem> WatchlistItems => Set<WatchlistItem>();
-        public DbSet<UserMediaEntry> UserMediaEntries => Set<UserMediaEntry>();
+        public DbSet<MediaEntry> MediaEntries => Set<MediaEntry>();
         public DbSet<Review> Reviews => Set<Review>();
-        public DbSet<Collection> Collections => Set<Collection>();
-        public DbSet<CollectionItem> CollectionItems => Set<CollectionItem>();
+        public DbSet<List> Lists => Set<List>();
+        public DbSet<ListItem> ListItems => Set<ListItem>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<MoviebucketUser>(entity =>
+            builder.Entity<AppUser>(entity =>
             {
                 entity.Property(u => u.DisplayName).HasMaxLength(100);
                 entity.Property(u => u.AvatarUrl).HasMaxLength(500);
             });
 
-            builder.Entity<WatchlistItem>(entity =>
+            // MediaEntry configuration
+            builder.Entity<MediaEntry>(entity =>
             {
-                // Prevent duplicate entries (same user + same media)
-                entity.HasIndex(w => new { w.UserId, w.TmdbId, w.MediaType }).IsUnique();
+                entity.ToTable("MediaEntries");
 
-                entity.HasOne(w => w.User)
-                    .WithMany()
-                    .HasForeignKey(w => w.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            // UserMediaEntry configuration
-            builder.Entity<UserMediaEntry>(entity =>
-            {
                 // Prevent duplicate entries (same user + same media)
                 entity.HasIndex(e => new { e.UserId, e.TmdbId, e.MediaType }).IsUnique();
 
@@ -49,26 +39,31 @@ namespace backend.Data
                 // Default value for Status
                 entity.Property(e => e.Status)
                     .HasDefaultValue(WatchStatus.WantToWatch);
+
+                entity.Property(e => e.BackdropPath).HasMaxLength(500);
+                entity.Property(e => e.Overview).HasMaxLength(2000);
             });
 
-            // Review configuration - 1:1 relationship with UserMediaEntry
+            // Review configuration - 1:1 relationship with MediaEntry
             builder.Entity<Review>(entity =>
             {
                 // Enforce 1:1 relationship via unique index
-                entity.HasIndex(r => r.UserMediaEntryId).IsUnique();
+                entity.HasIndex(r => r.MediaEntryId).IsUnique();
 
-                entity.HasOne(r => r.UserMediaEntry)
+                entity.HasOne(r => r.MediaEntry)
                     .WithOne(e => e.Review)
-                    .HasForeignKey<Review>(r => r.UserMediaEntryId)
+                    .HasForeignKey<Review>(r => r.MediaEntryId)
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.Property(r => r.IsPublic).HasDefaultValue(true);
                 entity.Property(r => r.ContainsSpoilers).HasDefaultValue(false);
             });
 
-            // Collection configuration
-            builder.Entity<Collection>(entity =>
+            // List configuration
+            builder.Entity<List>(entity =>
             {
+                entity.ToTable("Lists");
+
                 entity.HasOne(c => c.User)
                     .WithMany()
                     .HasForeignKey(c => c.UserId)
@@ -77,18 +72,18 @@ namespace backend.Data
                 entity.Property(c => c.IsPublic).HasDefaultValue(false);
             });
 
-            // CollectionItem configuration
-            builder.Entity<CollectionItem>(entity =>
+            // ListItem configuration
+            builder.Entity<ListItem>(entity =>
             {
-                // Prevent duplicate items in same collection
-                entity.HasIndex(ci => new { ci.CollectionId, ci.TmdbId, ci.MediaType }).IsUnique();
+                entity.ToTable("ListItems");
 
-                entity.HasOne(ci => ci.Collection)
+                // Prevent duplicate items in same list
+                entity.HasIndex(ci => new { ci.ListId, ci.TmdbId, ci.MediaType }).IsUnique();
+
+                entity.HasOne(ci => ci.List)
                     .WithMany(c => c.Items)
-                    .HasForeignKey(ci => ci.CollectionId)
+                    .HasForeignKey(ci => ci.ListId)
                     .OnDelete(DeleteBehavior.Cascade);
-
-                entity.Property(ci => ci.Position).HasDefaultValue(0);
             });
         }
     }

@@ -61,7 +61,7 @@ builder.Services.AddHttpClient<TmdbService>();
 builder.Services.AddDbContext<AppDbContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentityCore<MoviebucketUser>()
+builder.Services.AddIdentityCore<AppUser>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddSignInManager();
 
