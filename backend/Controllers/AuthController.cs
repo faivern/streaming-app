@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using backend.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -11,10 +13,12 @@ namespace backend.Controllers
     public class AuthController : Controller
     {
         private readonly string _frontendUrl;
+        private readonly UserManager<MoviebucketUser> _userManager;
 
-        public AuthController(IConfiguration configuration)
+        public AuthController(IConfiguration configuration, UserManager<MoviebucketUser> userManager)
         {
             _frontendUrl = configuration["FrontendUrl"] ?? "http://localhost:5173";
+            _userManager = userManager;
         }
 
         [HttpGet("google")]
@@ -35,16 +39,58 @@ namespace backend.Controllers
                 return Redirect($"{_frontendUrl}?auth=failed");
 
             var ext = result.Principal;
+            var email = ext.FindFirst(ClaimTypes.Email)?.Value;
+            var name = ext.Identity?.Name ?? "";
+            var picture = ext.FindFirst("picture")?.Value;
+
+            if (string.IsNullOrEmpty(email))
+                return Redirect($"{_frontendUrl}?auth=failed&reason=no_email");
+
+            // Find or create user in database
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                user = new MoviebucketUser
+                {
+                    Email = email,
+                    UserName = email,
+                    DisplayName = name,
+                    AvatarUrl = picture,
+                    EmailConfirmed = true // Google already verified the email
+                };
+
+                var createResult = await _userManager.CreateAsync(user);
+                if (!createResult.Succeeded)
+                    return Redirect($"{_frontendUrl}?auth=failed&reason=create_failed");
+            }
+            else
+            {
+                // Update profile info if changed
+                bool updated = false;
+                if (user.DisplayName != name && !string.IsNullOrEmpty(name))
+                {
+                    user.DisplayName = name;
+                    updated = true;
+                }
+                if (user.AvatarUrl != picture && !string.IsNullOrEmpty(picture))
+                {
+                    user.AvatarUrl = picture;
+                    updated = true;
+                }
+                if (updated)
+                    await _userManager.UpdateAsync(user);
+            }
+
+            // Create claims using database user's ID
             var claims = new List<Claim>
             {
-                new(ClaimTypes.NameIdentifier, ext.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? Guid.NewGuid().ToString()),
-                new(ClaimTypes.Name, ext.Identity?.Name ?? ""),
-                new(ClaimTypes.Email, ext.FindFirst(ClaimTypes.Email)?.Value ?? "")
+                new(ClaimTypes.NameIdentifier, user.Id), // Database ID, not Google's
+                new(ClaimTypes.Name, user.DisplayName ?? ""),
+                new(ClaimTypes.Email, user.Email ?? "")
             };
 
-            var picture = ext.FindFirst("picture")?.Value;
-            if (!string.IsNullOrEmpty(picture))
-                claims.Add(new("picture", picture));
+            if (!string.IsNullOrEmpty(user.AvatarUrl))
+                claims.Add(new("picture", user.AvatarUrl));
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
@@ -52,7 +98,7 @@ namespace backend.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties
             {
                 IsPersistent = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(8)
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7) // Extended to 7 days
             });
 
             await HttpContext.SignOutAsync("External");
@@ -63,7 +109,7 @@ namespace backend.Controllers
         public IActionResult Me()
         {
             if (User?.Identity?.IsAuthenticated != true)
-                return Unauthorized(new {isAuthenticated = false});
+                return Unauthorized(new { isAuthenticated = false });
 
             return Ok(new
             {
