@@ -4,9 +4,8 @@ namespace backend.Models
 {
     public class MoviebucketUser : IdentityUser
     {
-        public int? UserId { get; set; }
+        // Id, Email, UserName inherited from IdentityUser
         public string? DisplayName { get; set; }
         public string? AvatarUrl { get; set; }
-        
     }
 }
