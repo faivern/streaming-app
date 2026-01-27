@@ -15,7 +15,8 @@
       "Bash(npm view:*)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "Bash(npx get-shit-done-cc --global)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(npx tsc --noEmit --pretty)"
     ]
   },
   "outputStyle": "Learning"

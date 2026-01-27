@@ -55,8 +55,7 @@ namespace backend.Data
                     .HasForeignKey<Review>(r => r.MediaEntryId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                entity.Property(r => r.IsPublic).HasDefaultValue(true);
-                entity.Property(r => r.ContainsSpoilers).HasDefaultValue(false);
+                entity.Property(r => r.Content).HasMaxLength(10000);
             });
 
             // List configuration
@@ -70,6 +69,7 @@ namespace backend.Data
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.Property(c => c.IsPublic).HasDefaultValue(false);
+                entity.Property(c => c.ThumbnailPath).HasMaxLength(500);
             });
 
             // ListItem configuration

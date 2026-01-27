@@ -38,8 +38,13 @@ namespace backend.Models
         [Required]
         public WatchStatus Status { get; set; } = WatchStatus.WantToWatch;
 
-        [Range(1, 10)]
-        public int? Rating { get; set; }
+        public double? RatingActing { get; set; }
+
+        public double? RatingStory { get; set; }
+
+        public double? RatingSoundtrack { get; set; }
+
+        public double? RatingVisuals { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
