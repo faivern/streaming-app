@@ -3,16 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    public class CollectionItem
+    public class ListItem
     {
         [Key]
         public int Id { get; set; }
 
         [Required]
-        public int CollectionId { get; set; }
+        public int ListId { get; set; }
 
-        [ForeignKey(nameof(CollectionId))]
-        public Collection Collection { get; set; } = null!;
+        [ForeignKey(nameof(ListId))]
+        public List List { get; set; } = null!;
 
         [Required]
         public int TmdbId { get; set; }
@@ -26,11 +26,6 @@ namespace backend.Models
 
         [MaxLength(500)]
         public string? PosterPath { get; set; }
-
-        public int Position { get; set; } = 0;
-
-        [MaxLength(500)]
-        public string? Note { get; set; }
 
         public DateTime AddedAt { get; set; } = DateTime.UtcNow;
     }

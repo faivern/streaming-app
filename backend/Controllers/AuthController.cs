@@ -13,9 +13,9 @@ namespace backend.Controllers
     public class AuthController : Controller
     {
         private readonly string _frontendUrl;
-        private readonly UserManager<MoviebucketUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public AuthController(IConfiguration configuration, UserManager<MoviebucketUser> userManager)
+        public AuthController(IConfiguration configuration, UserManager<AppUser> userManager)
         {
             _frontendUrl = configuration["FrontendUrl"] ?? "http://localhost:5173";
             _userManager = userManager;
@@ -50,7 +50,7 @@ namespace backend.Controllers
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                user = new MoviebucketUser
+                user = new AppUser
                 {
                     Email = email,
                     UserName = email,

@@ -9,10 +9,10 @@ namespace backend.Models
         public int Id { get; set; }
 
         [Required]
-        public int UserMediaEntryId { get; set; }
+        public int MediaEntryId { get; set; }
 
-        [ForeignKey(nameof(UserMediaEntryId))]
-        public UserMediaEntry UserMediaEntry { get; set; } = null!;
+        [ForeignKey(nameof(MediaEntryId))]
+        public MediaEntry MediaEntry { get; set; } = null!;
 
         [Required]
         [MaxLength(10000)]

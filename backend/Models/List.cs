@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    public class Collection
+    public class List
     {
         [Key]
         public int Id { get; set; }
@@ -12,7 +12,7 @@ namespace backend.Models
         public string UserId { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]
-        public MoviebucketUser User { get; set; } = null!;
+        public AppUser User { get; set; } = null!;
 
         [Required]
         [MaxLength(200)]
@@ -27,7 +27,7 @@ namespace backend.Models
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
-        // Navigation property for collection items
-        public ICollection<CollectionItem> Items { get; set; } = new List<CollectionItem>();
+        // Navigation property for list items
+        public ICollection<ListItem> Items { get; set; } = new List<ListItem>();
     }
 }
