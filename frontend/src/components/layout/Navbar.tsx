@@ -274,7 +274,7 @@ export default function Header() {
                  Home
               </Link>
               <Link
-                to="/my-list"
+                to="/lists"
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
               >
