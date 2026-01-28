@@ -1,24 +1,31 @@
-import MediaCard from "../../media/cards/MediaCard";
+import ListGridCard from "./ListGridCard";
 import type { DisplayItem } from "../../../types/lists.view";
-import type { MediaType } from "../../../types/tmdb";
 
 type ListGridViewProps = {
   items: DisplayItem[];
+  onEditItem?: (item: DisplayItem) => void;
+  onRemoveItem?: (item: DisplayItem) => void;
+  showStatus?: boolean; // Show status badge on hover (custom lists only)
+  forceShowStatus?: boolean; // Mobile toggle - always show status
 };
 
-export default function ListGridView({ items }: ListGridViewProps) {
-  console.log("ListGridView items:", items);
+export default function ListGridView({
+  items,
+  onEditItem,
+  onRemoveItem,
+  showStatus = false,
+  forceShowStatus = false,
+}: ListGridViewProps) {
   return (
     <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
       {items.map((item) => (
-        <MediaCard
-        key={`${item.source}-${item.id}`}
-        id={item.tmdbId}
-        title={item.title || "not title"}
-        posterPath={item.posterPath || ""}
-        overview={item.overview || undefined}
-        vote_average={item.voteAverage ?? undefined}
-        media_type={item.mediaType as MediaType}
+        <ListGridCard
+          key={`${item.source}-${item.id}`}
+          item={item}
+          onEdit={onEditItem ? () => onEditItem(item) : undefined}
+          onRemove={onRemoveItem ? () => onRemoveItem(item) : undefined}
+          showStatus={showStatus}
+          forceShowStatus={forceShowStatus}
         />
       ))}
     </div>

@@ -73,6 +73,9 @@ export default function MediaDetailHeader({
           mediaType={media_type ?? details.media_type ?? "movie"}
           title={title}
           posterPath={posterPath}
+          backdropPath={backdropPath}
+          overview={details.overview}
+          voteAverage={voteAverage}
         />
       </div>
 
