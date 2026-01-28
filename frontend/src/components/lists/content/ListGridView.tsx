@@ -7,17 +7,18 @@ type ListGridViewProps = {
 };
 
 export default function ListGridView({ items }: ListGridViewProps) {
+  console.log("ListGridView items:", items);
   return (
     <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
       {items.map((item) => (
         <MediaCard
-          key={`${item.source}-${item.id}`}
-          id={item.tmdbId}
-          title={item.title}
-          posterPath={item.posterPath || ""}
-          overview={item.overview || undefined}
-          vote_average={item.voteAverage ?? undefined}
-          media_type={item.mediaType as MediaType}
+        key={`${item.source}-${item.id}`}
+        id={item.tmdbId}
+        title={item.title || "not title"}
+        posterPath={item.posterPath || ""}
+        overview={item.overview || undefined}
+        vote_average={item.voteAverage ?? undefined}
+        media_type={item.mediaType as MediaType}
         />
       ))}
     </div>

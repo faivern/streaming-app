@@ -28,6 +28,17 @@ type InitialBits = Pick<
 
 type MediaCardModalProps = {
   id: number;
+  title: string;
+  backdrop?: string;
+  overview?: string;
+  releaseDate?: string;
+  vote_average?: number;
+  genre_ids?: number[];
+  vote_count?: number;
+  original_language?: string;
+  runtime?: number;
+  number_of_seasons?: number;
+  number_of_episodes?: number;
   media_type: MediaType;
   initial?: InitialBits; // optional tiny payload for instant UI
 };
