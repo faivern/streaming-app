@@ -33,6 +33,8 @@ Thumbs.db
 *.csproj.user
 
 docs/designs/
+.claude
+.planning/todos
 
 GEMINI.md
 AGENTS.md
