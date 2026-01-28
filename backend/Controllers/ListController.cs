@@ -140,7 +140,9 @@ namespace backend.Controllers
                 var item = new ListItem
                 {
                     MediaType = request.MediaType,
-                    TmdbId = request.TmdbId
+                    TmdbId = request.TmdbId,
+                    Title = request.Title,
+                    PosterPath = request.PosterPath
                 };
 
                 list.Items.Add(item);
