@@ -62,32 +62,34 @@ export default function StarRating({
     }
 
     return (
-      <button
-        key={index}
-        type="button"
-        disabled={readOnly}
-        onClick={() => handleClick(starPosition)}
-        onMouseEnter={() => handleMouseEnter(starPosition)}
-        onMouseLeave={handleMouseLeave}
-        className={`text-yellow-400 transition-transform ${
-          !readOnly ? "hover:scale-110 cursor-pointer" : "cursor-default"
-        }`}
-        aria-label={`Rate ${starPosition} out of ${maxStars} stars`}
-      >
+      <span key={index} className={`text-accent-primary`}>
         <StarIcon />
-      </button>
+      </span>
     );
   };
 
   return (
-    <div className={`flex items-center ${sizeClasses[size]} ${className}`}>
-      <div className="flex">
-        {Array.from({ length: maxStars }, (_, i) => renderStar(i))}
+    <div className={`flex flex-col gap-1 ${className}`}>
+      <div className={`flex items-center ${sizeClasses[size]}`}>
+        <div className="flex">
+          {Array.from({ length: maxStars }, (_, i) => renderStar(i))}
+        </div>
+        {showValue && value !== null && (
+          <span className="ml-2 text-gray-400 text-sm font-medium">
+            {value.toFixed(1)}
+          </span>
+        )}
       </div>
-      {showValue && value !== null && (
-        <span className="ml-2 text-gray-400 text-sm font-medium">
-          {value.toFixed(1)}
-        </span>
+      {!readOnly && (
+        <input
+          type="range"
+          min={0}
+          max={maxValue}
+          step={0.1}
+          value={value ?? 0}
+          onChange={(e) => onChange && onChange(parseFloat(e.target.value))}
+          className="w-full accent-accent-primary h-1 mt-1"
+        />
       )}
     </div>
   );
