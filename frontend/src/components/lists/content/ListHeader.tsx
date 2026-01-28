@@ -1,10 +1,11 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faCheck, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faCheck, faPlus, faTag } from "@fortawesome/free-solid-svg-icons";
 import ViewToggle from "./ViewToggle";
 import type { ViewMode, ListsSortOption } from "../../../types/lists.view";
 import { LISTS_SORT_OPTIONS } from "../../../hooks/lists/useListsSorting";
+import TitleMid from "../../media/title/TitleMid";
 
 type ListHeaderProps = {
   title: string;
@@ -16,6 +17,10 @@ type ListHeaderProps = {
   onSortChange: (option: ListsSortOption) => void;
   onAddMedia?: () => void;
   showAddButton?: boolean;
+  // Status badge toggle (for mobile in custom lists)
+  showStatusToggle?: boolean;
+  statusBadgesVisible?: boolean;
+  onStatusToggle?: () => void;
 };
 
 export default function ListHeader({
@@ -28,6 +33,9 @@ export default function ListHeader({
   onSortChange,
   onAddMedia,
   showAddButton = true,
+  showStatusToggle = false,
+  statusBadgesVisible = false,
+  onStatusToggle,
 }: ListHeaderProps) {
   const selectedSortLabel =
     LISTS_SORT_OPTIONS.find((opt) => opt.value === sortOption)?.label || "Sort";
@@ -37,7 +45,9 @@ export default function ListHeader({
       {/* Title row */}
       <div className="flex items-start justify-between gap-4 mb-2">
         <div>
+          <TitleMid>
           <h1 className="text-2xl font-bold text-white">{title}</h1>
+          </TitleMid>
           {description && (
             <p className="text-gray-400 text-sm mt-1">{description}</p>
           )}
@@ -61,6 +71,22 @@ export default function ListHeader({
         </span>
 
         <div className="flex items-center gap-3">
+          {/* Status badge toggle (for custom lists) */}
+          {showStatusToggle && onStatusToggle && (
+            <button
+              onClick={onStatusToggle}
+              className={`p-2 rounded-lg transition-colors ${
+                statusBadgesVisible
+                  ? "bg-accent-primary/20 text-accent-primary"
+                  : "bg-gray-800 text-gray-400 hover:text-white"
+              }`}
+              aria-label={statusBadgesVisible ? "Hide status badges" : "Show status badges"}
+              title={statusBadgesVisible ? "Hide status badges" : "Show status badges"}
+            >
+              <FontAwesomeIcon icon={faTag} className="text-sm" />
+            </button>
+          )}
+
           {/* Sort dropdown */}
           <Listbox value={sortOption} onChange={onSortChange}>
             <div className="relative w-36">

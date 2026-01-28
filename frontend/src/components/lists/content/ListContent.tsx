@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { List } from "../../../types/list";
 import type { MediaEntry, WatchStatus } from "../../../types/mediaEntry";
 import type {
@@ -15,6 +16,7 @@ import ListHeader from "./ListHeader";
 import ListGridView from "./ListGridView";
 import ListRowView from "./ListRowView";
 import EmptyListState from "./EmptyListState";
+import TitleMid from "../../media/title/TitleMid";
 
 type ListContentProps = {
   activeView: ActiveView;
@@ -51,6 +53,12 @@ export default function ListContent({
   onRemoveItem,
   isLoading,
 }: ListContentProps) {
+  // Mobile toggle for showing status badges in custom lists
+  const [showStatusBadges, setShowStatusBadges] = useState(false);
+
+  // Only show status in custom lists (not in status tabs - that would be redundant)
+  const isCustomList = activeView === "list";
+
   // Convert to display items based on active view
   const displayItems: DisplayItem[] =
     activeView === "status"
@@ -101,12 +109,15 @@ export default function ListContent({
           onViewModeChange={onViewModeChange}
           onSortChange={onSortChange}
           onAddMedia={onAddMedia}
-          showAddButton={activeView === "list"}
-        />
+          showAddButton={isCustomList}
+          showStatusToggle={isCustomList}
+          statusBadgesVisible={showStatusBadges}
+          onStatusToggle={() => setShowStatusBadges(!showStatusBadges)}
+          />
         <EmptyListState
           type={activeView === "status" ? "status" : "list"}
           title={title}
-          onAddMedia={activeView === "list" ? onAddMedia : undefined}
+          onAddMedia={isCustomList ? onAddMedia : undefined}
         />
       </div>
     );
@@ -123,17 +134,26 @@ export default function ListContent({
         onViewModeChange={onViewModeChange}
         onSortChange={onSortChange}
         onAddMedia={onAddMedia}
-        showAddButton={activeView === "list"}
+        showAddButton={isCustomList}
+        showStatusToggle={isCustomList}
+        statusBadgesVisible={showStatusBadges}
+        onStatusToggle={() => setShowStatusBadges(!showStatusBadges)}
       />
 
       {viewMode === "grid" ? (
-        <ListGridView items={sortedItems} />
+        <ListGridView
+          items={sortedItems}
+          onEditItem={activeView === "status" ? onEditEntry : undefined}
+          onRemoveItem={onRemoveItem}
+          showStatus={isCustomList}
+          forceShowStatus={isCustomList && showStatusBadges}
+        />
       ) : (
         <ListRowView
           items={sortedItems}
-          onEditItem={onEditEntry}
+          onEditItem={activeView === "status" ? onEditEntry : undefined}
           onRemoveItem={onRemoveItem}
-          showStatus={activeView === "status"}
+          showStatus={isCustomList && showStatusBadges}
         />
       )}
     </div>

@@ -194,13 +194,13 @@ export default function MediaEntryModal({
                     </div>
                   </div>
 
-                  {/* Notes */}
+                  {/* Review */}
                   <div className="p-4 border-b border-gray-700">
                     <label
                       htmlFor="entry-notes"
                       className="block text-sm font-medium text-gray-300 mb-2"
                     >
-                      Notes
+                      Review
                     </label>
                     <textarea
                       id="entry-notes"
