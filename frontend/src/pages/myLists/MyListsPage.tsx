@@ -50,12 +50,25 @@ export default function MyListsPage() {
   const updateMediaEntryMutation = useUpdateMediaEntry();
   const upsertReviewMutation = useUpsertReview();
 
-  // View state
+  // View state - unified selection (only one can be active at a time)
   const [activeView, setActiveView] = useState<ActiveView>("status");
   const [selectedStatus, setSelectedStatus] = useState<WatchStatus>("WantToWatch");
   const [selectedListId, setSelectedListId] = useState<number | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [sortOption, setSortOption] = useState<ListsSortOption>("date-added");
+
+  // Unified handlers to ensure mutual exclusivity
+  const handleSelectStatus = (status: WatchStatus) => {
+    setActiveView("status");
+    setSelectedStatus(status);
+    setSelectedListId(null); // Clear list selection
+  };
+
+  const handleSelectList = (listId: number) => {
+    setActiveView("list");
+    setSelectedListId(listId);
+    // Note: selectedStatus stays as fallback default, but activeView controls what's shown
+  };
 
   // Mobile drawer state
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -252,9 +265,8 @@ export default function MyListsPage() {
           selectedStatus={selectedStatus}
           selectedListId={selectedListId}
           statusCounts={statusCounts}
-          onViewChange={setActiveView}
-          onStatusChange={setSelectedStatus}
-          onListSelect={setSelectedListId}
+          onStatusChange={handleSelectStatus}
+          onListSelect={handleSelectList}
           onCreateList={() => setCreateModalOpen(true)}
           onEditList={(list) => {
             setSelectedList(list);
@@ -288,9 +300,8 @@ export default function MyListsPage() {
         selectedStatus={selectedStatus}
         selectedListId={selectedListId}
         statusCounts={statusCounts}
-        onViewChange={setActiveView}
-        onStatusChange={setSelectedStatus}
-        onListSelect={setSelectedListId}
+        onStatusChange={handleSelectStatus}
+        onListSelect={handleSelectList}
         onCreateList={() => setCreateModalOpen(true)}
         onEditList={(list) => {
           setSelectedList(list);

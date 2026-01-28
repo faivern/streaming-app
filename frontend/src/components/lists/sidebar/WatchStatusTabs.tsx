@@ -10,6 +10,7 @@ type WatchStatusTabsProps = {
     Watching: number;
     Watched: number;
   };
+  isActive?: boolean; // Whether status view is currently active (vs custom list view)
 };
 
 const TABS: { status: WatchStatus; label: string; icon: React.ReactNode }[] = [
@@ -22,8 +23,12 @@ export default function WatchStatusTabs({
   selectedStatus,
   onStatusChange,
   counts,
+  isActive = true,
 }: WatchStatusTabsProps) {
-  const selectedIndex = TABS.findIndex((t) => t.status === selectedStatus);
+  // Only show selection when status view is active; -1 means no selection
+  const selectedIndex = isActive
+    ? TABS.findIndex((t) => t.status === selectedStatus)
+    : -1;
 
   return (
     <Tab.Group

@@ -5,6 +5,8 @@ import { FaTrash, FaEdit } from "react-icons/fa";
 import Poster from "../../media/shared/Poster";
 import WatchStatusBadge from "../shared/WatchStatusBadge";
 import type { DisplayItem } from "../../../types/lists.view";
+import { calculateAverageRating } from "../../../types/lists.view";
+import RatingPillUser from "../../ui/RatingPillUser";
 
 type ListMediaCardProps = {
   item: DisplayItem;
@@ -22,7 +24,7 @@ export default function ListMediaCard({
   showStatus = false,
 }: ListMediaCardProps) {
   const shouldShowStatusBadge = showStatus && item.status;
-
+const avgRating = calculateAverageRating(item);
   // Conditional classes: disable scale/z-index hover effects in edit mode
   const containerClass = isEditMode
     ? "group relative z-10 transition-transform duration-300"
@@ -38,6 +40,12 @@ export default function ListMediaCard({
         <Link to={`/media/${item.mediaType}/${item.tmdbId}`}>
           {/* Shine overlay effect */}
           <div className="shine-overlay" />
+
+          <RatingPillUser
+            rating={avgRating || 0}
+            className="absolute top-1 right-1 text-accent-primary bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
+            showOutOfTen={false}
+          />
 
           {/* Poster */}
           <Poster

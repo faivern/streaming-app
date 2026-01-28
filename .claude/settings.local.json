@@ -1,0 +1,8 @@
+{
+  "outputStyle": "Learning",
+  "permissions": {
+    "allow": [
+      "Bash(npm run lint:*)"
+    ]
+  }
+}
