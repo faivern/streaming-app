@@ -55,6 +55,8 @@ export default function ListContent({
 }: ListContentProps) {
   // Mobile toggle for showing status badges in custom lists
   const [showStatusBadges, setShowStatusBadges] = useState(false);
+  // Edit mode toggle for grid view delete buttons
+  const [isEditMode, setIsEditMode] = useState(false);
 
   // Only show status in custom lists (not in status tabs - that would be redundant)
   const isCustomList = activeView === "list";
@@ -113,7 +115,9 @@ export default function ListContent({
           showStatusToggle={isCustomList}
           statusBadgesVisible={showStatusBadges}
           onStatusToggle={() => setShowStatusBadges(!showStatusBadges)}
-          />
+          isEditMode={isEditMode}
+          onEditToggle={() => setIsEditMode(!isEditMode)}
+        />
         <EmptyListState
           type={activeView === "status" ? "status" : "list"}
           title={title}
@@ -138,15 +142,17 @@ export default function ListContent({
         showStatusToggle={isCustomList}
         statusBadgesVisible={showStatusBadges}
         onStatusToggle={() => setShowStatusBadges(!showStatusBadges)}
+        isEditMode={isEditMode}
+        onEditToggle={() => setIsEditMode(!isEditMode)}
       />
 
       {viewMode === "grid" ? (
         <ListGridView
           items={sortedItems}
-          onEditItem={activeView === "status" ? onEditEntry : undefined}
+          isEditMode={isEditMode}
           onRemoveItem={onRemoveItem}
+          onEditItem={activeView === "status" ? onEditEntry : undefined}
           showStatus={isCustomList}
-          forceShowStatus={isCustomList && showStatusBadges}
         />
       ) : (
         <ListRowView

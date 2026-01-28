@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faCheck, faPlus, faTag } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faCheck, faPlus, faTag, faPen } from "@fortawesome/free-solid-svg-icons";
 import ViewToggle from "./ViewToggle";
 import type { ViewMode, ListsSortOption } from "../../../types/lists.view";
 import { LISTS_SORT_OPTIONS } from "../../../hooks/lists/useListsSorting";
@@ -21,6 +21,9 @@ type ListHeaderProps = {
   showStatusToggle?: boolean;
   statusBadgesVisible?: boolean;
   onStatusToggle?: () => void;
+  // Edit mode toggle
+  isEditMode?: boolean;
+  onEditToggle?: () => void;
 };
 
 export default function ListHeader({
@@ -36,6 +39,8 @@ export default function ListHeader({
   showStatusToggle = false,
   statusBadgesVisible = false,
   onStatusToggle,
+  isEditMode = false,
+  onEditToggle,
 }: ListHeaderProps) {
   const selectedSortLabel =
     LISTS_SORT_OPTIONS.find((opt) => opt.value === sortOption)?.label || "Sort";
@@ -53,15 +58,32 @@ export default function ListHeader({
           )}
         </div>
 
-        {showAddButton && onAddMedia && (
-          <button
-            onClick={onAddMedia}
-            className="flex items-center gap-2 px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 text-white text-sm font-medium rounded-lg transition-colors flex-shrink-0"
-          >
-            <FontAwesomeIcon icon={faPlus} className="text-xs" />
-            Add Media
-          </button>
-        )}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Edit mode toggle button */}
+          {onEditToggle && (
+            <button
+              onClick={onEditToggle}
+              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                isEditMode
+                  ? "bg-accent-primary text-white hover:bg-accent-primary/80"
+                  : "bg-gray-800 border border-gray-700 text-gray-300 hover:text-white hover:border-gray-600"
+              }`}
+            >
+              <FontAwesomeIcon icon={faPen} className="text-xs" />
+              {isEditMode ? "Done" : "Edit"}
+            </button>
+          )}
+
+          {showAddButton && onAddMedia && (
+            <button
+              onClick={onAddMedia}
+              className="flex items-center gap-2 px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              <FontAwesomeIcon icon={faPlus} className="text-xs" />
+              Add Media
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Controls row */}
