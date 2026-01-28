@@ -9,6 +9,7 @@ import CreditsDetailPage from "./pages/creditsPage/creditsDetailPage";
 import GenreDetailPage from "./pages/genreDetailPage/GenreDetailPage";
 import CollectionPage from "./pages/collectionPage/collectionPage";
 import ScrollToTop from "./components/layout/ScrollToTop";
+import MyListsPage from "./pages/myLists";
 
 function App() {
   // theme select (for development purposes, might add user selection later)
@@ -37,17 +38,7 @@ function App() {
           />
           <Route path="/person/:id/:name" element={<CreditsDetailPage />} />
 
-          <Route
-            path="/lists"
-            element={
-              <>
-                <span className="fi fi-us"></span> United States
-                <div className="text-white text-center py-10 text-xl">
-                  My List Page Coming Soon
-                </div>
-              </>
-            }
-          />
+          <Route path="/lists" element={<MyListsPage />} />
           <Route
             path="/movies"
             element={
