@@ -15,9 +15,8 @@ type ListsSidebarProps = {
     Watching: number;
     Watched: number;
   };
-  onViewChange: (view: ActiveView) => void;
-  onStatusChange: (status: WatchStatus) => void;
-  onListSelect: (listId: number) => void;
+  onStatusChange: (status: WatchStatus) => void; // Also switches to status view
+  onListSelect: (listId: number) => void; // Also switches to list view
   onCreateList: () => void;
   onEditList: (list: List) => void;
   onDeleteList: (list: List) => void;
@@ -30,7 +29,6 @@ export default function ListsSidebar({
   selectedStatus,
   selectedListId,
   statusCounts,
-  onViewChange,
   onStatusChange,
   onListSelect,
   onCreateList,
@@ -43,7 +41,7 @@ export default function ListsSidebar({
       {/* Watch Status Section */}
       <div className="px-4 py-4 border-b border-gray-700/50">
         <button
-          onClick={() => onViewChange("status")}
+          onClick={() => onStatusChange(selectedStatus)}
           className={`text-sm font-semibold mb-3 text-left w-full transition-colors ${
             activeView === "status"
               ? "text-white"
@@ -54,27 +52,24 @@ export default function ListsSidebar({
         </button>
         <WatchStatusTabs
           selectedStatus={selectedStatus}
-          onStatusChange={(status) => {
-            onViewChange("status");
-            onStatusChange(status);
-          }}
+          onStatusChange={onStatusChange}
           counts={statusCounts}
+          isActive={activeView === "status"}
         />
       </div>
 
       {/* Custom Lists Section */}
       <div className="flex-1 overflow-y-auto px-4 py-4">
         <div className="flex items-center justify-between mb-3">
-          <button
-            onClick={() => activeView === "list" || lists.length > 0 ? undefined : onViewChange("list")}
+          <span
             className={`text-sm font-semibold text-left transition-colors ${
               activeView === "list"
                 ? "text-white"
-                : "text-gray-400 hover:text-white"
+                : "text-gray-400"
             }`}
           >
             My Lists
-          </button>
+          </span>
           <button
             onClick={onCreateList}
             className="p-1.5 text-gray-400 hover:text-accent-primary hover:bg-gray-800 rounded-lg transition-colors"
@@ -104,10 +99,7 @@ export default function ListsSidebar({
                 key={list.id}
                 list={list}
                 isSelected={activeView === "list" && selectedListId === list.id}
-                onSelect={() => {
-                  onViewChange("list");
-                  onListSelect(list.id);
-                }}
+                onSelect={() => onListSelect(list.id)}
                 onEdit={() => onEditList(list)}
                 onDelete={() => onDeleteList(list)}
               />

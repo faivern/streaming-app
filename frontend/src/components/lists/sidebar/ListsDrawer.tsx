@@ -18,9 +18,8 @@ type ListsDrawerProps = {
     Watching: number;
     Watched: number;
   };
-  onViewChange: (view: ActiveView) => void;
-  onStatusChange: (status: WatchStatus) => void;
-  onListSelect: (listId: number) => void;
+  onStatusChange: (status: WatchStatus) => void; // Also switches to status view
+  onListSelect: (listId: number) => void; // Also switches to list view
   onCreateList: () => void;
   onEditList: (list: List) => void;
   onDeleteList: (list: List) => void;
@@ -35,7 +34,6 @@ export default function ListsDrawer({
   selectedStatus,
   selectedListId,
   statusCounts,
-  onViewChange,
   onStatusChange,
   onListSelect,
   onCreateList,
@@ -43,10 +41,6 @@ export default function ListsDrawer({
   onDeleteList,
   isLoading,
 }: ListsDrawerProps) {
-  const handleSelect = (callback: () => void) => {
-    callback();
-    onClose();
-  };
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -102,15 +96,14 @@ export default function ListsDrawer({
                         selectedStatus={selectedStatus}
                         selectedListId={selectedListId}
                         statusCounts={statusCounts}
-                        onViewChange={(view) =>
-                          handleSelect(() => onViewChange(view))
-                        }
-                        onStatusChange={(status) =>
-                          handleSelect(() => onStatusChange(status))
-                        }
-                        onListSelect={(id) =>
-                          handleSelect(() => onListSelect(id))
-                        }
+                        onStatusChange={(status) => {
+                          onStatusChange(status);
+                          onClose();
+                        }}
+                        onListSelect={(id) => {
+                          onListSelect(id);
+                          onClose();
+                        }}
                         onCreateList={() => {
                           onClose();
                           onCreateList();
