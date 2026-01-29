@@ -302,6 +302,83 @@ namespace backend.Services
             return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
         }
 
+        /// <summary>
+        /// Advanced discover with multiple filter parameters.
+        /// Builds a dynamic TMDB discover URL based on provided filters.
+        /// </summary>
+        public async Task<string> AdvancedDiscoverAsync(
+            string mediaType,
+            int[]? genreIds = null,
+            int? primaryReleaseYearGte = null,
+            int? primaryReleaseYearLte = null,
+            decimal? voteAverageGte = null,
+            int? runtimeGte = null,
+            int? runtimeLte = null,
+            string? language = null,
+            string sortBy = "popularity.desc",
+            int page = 1)
+        {
+            // Build query parameters dynamically
+            var queryParams = new List<string>
+            {
+                $"api_key={_apiKey}",
+                $"sort_by={sortBy}",
+                $"page={page}",
+                "include_adult=false",
+                "vote_count.gte=50" // Ensure results have meaningful vote counts
+            };
+
+            // Genres (comma-separated)
+            if (genreIds != null && genreIds.Length > 0)
+            {
+                queryParams.Add($"with_genres={string.Join(",", genreIds)}");
+            }
+
+            // Year range - use appropriate date fields based on media type
+            var dateField = mediaType == "movie" ? "primary_release_date" : "first_air_date";
+            if (primaryReleaseYearGte.HasValue)
+            {
+                queryParams.Add($"{dateField}.gte={primaryReleaseYearGte.Value}-01-01");
+            }
+            if (primaryReleaseYearLte.HasValue)
+            {
+                queryParams.Add($"{dateField}.lte={primaryReleaseYearLte.Value}-12-31");
+            }
+
+            // Vote average (rating)
+            if (voteAverageGte.HasValue)
+            {
+                queryParams.Add($"vote_average.gte={voteAverageGte.Value}");
+            }
+
+            // Runtime (movies only - TV uses episode runtime which is different)
+            if (mediaType == "movie")
+            {
+                if (runtimeGte.HasValue)
+                {
+                    queryParams.Add($"with_runtime.gte={runtimeGte.Value}");
+                }
+                if (runtimeLte.HasValue)
+                {
+                    queryParams.Add($"with_runtime.lte={runtimeLte.Value}");
+                }
+            }
+
+            // Original language
+            if (!string.IsNullOrEmpty(language))
+            {
+                queryParams.Add($"with_original_language={language}");
+            }
+
+            var queryString = string.Join("&", queryParams);
+            var url = $"https://api.themoviedb.org/3/discover/{mediaType}?{queryString}";
+
+            // Build cache key from all parameters for unique caching
+            var cacheKey = $"advanced_discover_{mediaType}_g{string.Join("-", genreIds ?? Array.Empty<int>())}_y{primaryReleaseYearGte}-{primaryReleaseYearLte}_r{voteAverageGte}_rt{runtimeGte}-{runtimeLte}_l{language}_s{sortBy}_p{page}";
+
+            return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
+        }
+
         //------------------------------COLLECTION--------------------------------------------
 
         // SEARCH collections (by name like "Star Wars")

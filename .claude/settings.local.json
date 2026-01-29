@@ -1,8 +1,8 @@
 {
-  "outputStyle": "Learning",
   "permissions": {
     "allow": [
       "Bash(npm run lint:*)"
     ]
-  }
+  },
+  "outputStyle": "Learning"
 }

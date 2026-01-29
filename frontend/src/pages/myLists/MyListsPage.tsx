@@ -30,7 +30,7 @@ import ListContent from "../../components/lists/content/ListContent";
 import CreateListModal from "../../components/lists/modals/CreateListModal";
 import EditListModal from "../../components/lists/modals/EditListModal";
 import DeleteConfirmModal from "../../components/lists/modals/DeleteConfirmModal";
-import AddMediaModal from "../../components/lists/modals/AddMediaModal";
+import DiscoverModal from "../../components/discover/DiscoverModal";
 import MediaEntryModal from "../../components/lists/modals/MediaEntryModal";
 
 export default function MyListsPage() {
@@ -363,12 +363,12 @@ export default function MyListsPage() {
         isLoading={deleteListMutation.isPending}
       />
 
-      <AddMediaModal
+      <DiscoverModal
         isOpen={addMediaModalOpen}
         onClose={() => setAddMediaModalOpen(false)}
         onAdd={handleAddMediaToList}
         existingTmdbIds={existingTmdbIds}
-        title={currentList ? `Add to ${currentList.name}` : "Add Media"}
+        title={currentList ? `Add to ${currentList.name}` : "Discover"}
       />
 
       <MediaEntryModal
