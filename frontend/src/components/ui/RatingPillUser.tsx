@@ -16,7 +16,7 @@ export default function RatingPillUser({
   showOutOfTen = true,
   imdbId,
 }: Props) {
-  const pillClass = `font-medium ${imdbId ? "hover:bg-amber-500/20 transition-colors cursor-pointer" : ""} ${!rating ? "invisible" : ""} ${className}`;
+  const pillClass = `font-medium ${imdbId ? "cursor-pointer" : ""} ${!rating ? "invisible" : ""} ${className}`;
   return (
     <Pill
       className={pillClass}

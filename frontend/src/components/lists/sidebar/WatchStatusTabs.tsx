@@ -41,7 +41,7 @@ export default function WatchStatusTabs({
             key={tab.status}
             className={({ selected }) =>
               `flex items-center justify-between w-full px-3 py-2.5 rounded-lg text-left text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary/50 ${
-                selected
+                selected && isActive
                   ? "bg-accent-primary/20 text-accent-primary"
                   : "text-gray-300 hover:bg-gray-800 hover:text-white"
               }`
