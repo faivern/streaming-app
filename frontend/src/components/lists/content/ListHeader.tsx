@@ -6,6 +6,7 @@ import ViewToggle from "./ViewToggle";
 import type { ViewMode, ListsSortOption } from "../../../types/lists.view";
 import { LISTS_SORT_OPTIONS } from "../../../hooks/lists/useListsSorting";
 import TitleMid from "../../media/title/TitleMid";
+import { Film, Tv } from "lucide-react";
 
 type ListHeaderProps = {
   title: string;
@@ -94,8 +95,14 @@ export default function ListHeader({
         {/* TODO(human): Display media counts - movieCount and tvCount are available as props */}
         <div className="flex items-center gap-3 text-sm text-gray-400">
           {/* Implement count display here */}
-          <span>{movieCount} Movies</span>
-          <span>{tvCount} TV Shows</span>
+          <span className="flex items-center gap-1">
+            <Film className="w-4 h-4 text-accent-primary" />
+            {movieCount} Movies
+          </span>
+          <span className="flex items-center gap-1">
+            <Tv className="w-4 h-4 text-accent-primary" />
+            {tvCount} TV Shows
+            </span>
           <span>•</span>
           <span>{totalMediaCount} Total</span>
         </div>
