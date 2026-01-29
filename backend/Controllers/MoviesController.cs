@@ -410,6 +410,54 @@ namespace backend.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
+
+        /// <summary>
+        /// Advanced discover endpoint with multiple filter parameters.
+        /// Supports filtering by genres, year range, rating, runtime, language, and sort order.
+        /// </summary>
+        [HttpGet("discover/advanced")]
+        public async Task<IActionResult> AdvancedDiscover(
+            [FromQuery] string mediaType = "movie",
+            [FromQuery] int[]? genreIds = null,
+            [FromQuery] int? primaryReleaseYearGte = null,
+            [FromQuery] int? primaryReleaseYearLte = null,
+            [FromQuery] decimal? voteAverageGte = null,
+            [FromQuery] int? runtimeGte = null,
+            [FromQuery] int? runtimeLte = null,
+            [FromQuery] string? language = null,
+            [FromQuery] string sortBy = "popularity.desc",
+            [FromQuery] int page = 1)
+        {
+            try
+            {
+                if (mediaType != "movie" && mediaType != "tv")
+                    return BadRequest("Invalid mediaType. Use 'movie' or 'tv'.");
+
+                if (page < 1 || page > 500)
+                    return BadRequest("Page must be between 1 and 500.");
+
+                if (voteAverageGte.HasValue && (voteAverageGte < 0 || voteAverageGte > 10))
+                    return BadRequest("voteAverageGte must be between 0 and 10.");
+
+                var data = await _tmdbService.AdvancedDiscoverAsync(
+                    mediaType,
+                    genreIds,
+                    primaryReleaseYearGte,
+                    primaryReleaseYearLte,
+                    voteAverageGte,
+                    runtimeGte,
+                    runtimeLte,
+                    language,
+                    sortBy,
+                    page);
+
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
         // search/collection?q=star wars&page=1
         [HttpGet("search/collection")]
         public async Task<IActionResult> SearchCollections([FromQuery] string q, [FromQuery] int page = 1,

@@ -1,7 +1,13 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faCheck, faPlus, faTag, faPen } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronDown,
+  faCheck,
+  faPlus,
+  faTag,
+  faPen,
+} from "@fortawesome/free-solid-svg-icons";
 import ViewToggle from "./ViewToggle";
 import type { ViewMode, ListsSortOption } from "../../../types/lists.view";
 import { LISTS_SORT_OPTIONS } from "../../../hooks/lists/useListsSorting";
@@ -92,17 +98,22 @@ export default function ListHeader({
 
       {/* Controls row */}
       <div className="flex items-center justify-between gap-4 mt-4">
-        {/* TODO(human): Display media counts - movieCount and tvCount are available as props */}
-        <div className="flex items-center gap-3 text-sm text-gray-400">
-          {/* Implement count display here */}
-          <span className="flex items-center gap-1">
+        <div className="flex items-center gap-3 text-sm text-gray-400 isolation-auto">
+          {/* count display */}
+          <span
+            className="flex items-center gap-1 isolate"
+            style={{ contain: "paint", willChange: "transform" }}
+          >
             <Film className="w-4 h-4 text-accent-primary" />
             {movieCount} Movies
           </span>
-          <span className="flex items-center gap-1">
+          <span
+            className="flex items-center gap-1 isolate"
+            style={{ contain: "paint", willChange: "transform" }}
+          >
             <Tv className="w-4 h-4 text-accent-primary" />
             {tvCount} TV Shows
-            </span>
+          </span>
           <span>•</span>
           <span>{totalMediaCount} Total</span>
         </div>
