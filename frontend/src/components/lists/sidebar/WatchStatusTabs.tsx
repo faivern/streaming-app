@@ -51,9 +51,6 @@ export default function WatchStatusTabs({
               <span className="text-xs">{tab.icon}</span>
               {tab.label}
             </span>
-            <span className="text-xs bg-gray-700/50 px-2 py-0.5 rounded-full">
-              {counts[tab.status]}
-            </span>
           </Tab>
         ))}
       </Tab.List>

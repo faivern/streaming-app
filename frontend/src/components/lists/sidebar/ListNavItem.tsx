@@ -39,9 +39,6 @@ export default function ListNavItem({
       </span>
 
       <div className="flex items-center gap-2">
-        <span className="text-xs bg-gray-700/50 px-2 py-0.5 rounded-full">
-          {list.items.length}
-        </span>
 
         <div className="relative">
           <button
