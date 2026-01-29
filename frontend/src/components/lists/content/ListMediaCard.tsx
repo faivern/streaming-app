@@ -96,9 +96,9 @@ const avgRating = calculateAverageRating(item);
           </div>
         )}
 
-        {/* Status badge - shown on hover in bottom-right */}
+        {/* Status badge - always visible in top-left */}
         {shouldShowStatusBadge && (
-          <div className="absolute bottom-16 right-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="absolute top-1 left-1 z-20">
             <WatchStatusBadge status={item.status!} size="sm" />
           </div>
         )}

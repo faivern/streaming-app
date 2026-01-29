@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect, useMemo } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
-import { FaTimes, FaFilm, FaTv, FaPlus, FaCheck } from "react-icons/fa";
+import { FaTimes, FaFilm, FaTv, FaPlus, FaCheck, FaClock, FaEye } from "react-icons/fa";
 import toast from "react-hot-toast";
 import Poster from "../../media/shared/Poster";
 import StarRating from "../shared/StarRating";
@@ -97,7 +97,7 @@ export default function AddToListModal({
       setSelectedListIds(new Set());
       // Don't reset status/ratings if we have an existing entry - they'll be re-initialized
       if (!existingEntry) {
-        setStatus(null);
+        setStatus("WantToWatch"); // Pre-select to encourage tracking
         setRatingActing(null);
         setRatingStory(null);
         setRatingVisuals(null);
@@ -334,6 +334,61 @@ export default function AddToListModal({
 
                   {step === "select" ? (
                     <>
+                      {/* Status section - FIRST to encourage tracking */}
+                      <div className="p-4 border-b border-gray-700 bg-gray-800/30">
+                        <h3 className="text-sm font-medium text-gray-300 mb-1">
+                          Track in My Library
+                          {existingEntry && (
+                            <span className="ml-2 text-xs text-accent-primary">
+                              (Already tracking)
+                            </span>
+                          )}
+                        </h3>
+                        <p className="text-xs text-gray-500 mb-3">
+                          Keep track of what you've watched
+                        </p>
+                        <div className="grid grid-cols-3 gap-2">
+                          {WATCH_STATUSES.map((s) => {
+                            const isSelected = status === s.value;
+                            const Icon =
+                              s.value === "WantToWatch"
+                                ? FaClock
+                                : s.value === "Watching"
+                                ? FaEye
+                                : FaCheck;
+                            return (
+                              <button
+                                key={s.value}
+                                type="button"
+                                onClick={() =>
+                                  setStatus(isSelected ? null : s.value)
+                                }
+                                className={`p-3 rounded-lg border-2 transition-all ${
+                                  isSelected
+                                    ? "border-accent-primary bg-accent-primary/20"
+                                    : "border-gray-700 hover:border-gray-600 bg-gray-800/50"
+                                }`}
+                              >
+                                <Icon
+                                  className={`text-lg mx-auto mb-1 ${
+                                    isSelected
+                                      ? "text-accent-primary"
+                                      : "text-gray-400"
+                                  }`}
+                                />
+                                <span
+                                  className={`text-xs font-medium block ${
+                                    isSelected ? "text-white" : "text-gray-400"
+                                  }`}
+                                >
+                                  {s.label}
+                                </span>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+
                       {/* Lists section */}
                       <div className="p-4 border-b border-gray-700">
                         <div className="flex items-center justify-between mb-3">
@@ -421,43 +476,6 @@ export default function AddToListModal({
                             })}
                           </div>
                         )}
-                      </div>
-
-                      {/* Status section */}
-                      <div className="p-4 border-b border-gray-700">
-                        <h3 className="text-sm font-medium text-gray-300 mb-3">
-                          Track in Library
-                          {existingEntry && (
-                            <span className="ml-2 text-xs text-accent-primary">
-                              (Already tracking)
-                            </span>
-                          )}
-                        </h3>
-                        <Tab.Group
-                          selectedIndex={selectedStatusIndex}
-                          onChange={(index) => {
-                            if (index >= 0) {
-                              setStatus(WATCH_STATUSES[index].value);
-                            }
-                          }}
-                        >
-                          <Tab.List className="flex gap-1 p-1 bg-gray-800 rounded-lg">
-                            {WATCH_STATUSES.map((s) => (
-                              <Tab
-                                key={s.value}
-                                className={({ selected }) =>
-                                  `flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors focus:outline-none ${
-                                    selected
-                                      ? "bg-accent-primary text-white"
-                                      : "text-gray-400 hover:text-white hover:bg-gray-700"
-                                  }`
-                                }
-                              >
-                                {s.label}
-                              </Tab>
-                            ))}
-                          </Tab.List>
-                        </Tab.Group>
                       </div>
 
                       {/* Actions */}

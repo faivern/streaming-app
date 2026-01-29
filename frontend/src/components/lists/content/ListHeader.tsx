@@ -9,7 +9,8 @@ import TitleMid from "../../media/title/TitleMid";
 
 type ListHeaderProps = {
   title: string;
-  itemCount: number;
+  movieCount: number;
+  tvCount: number;
   description?: string | null;
   viewMode: ViewMode;
   sortOption: ListsSortOption;
@@ -28,7 +29,8 @@ type ListHeaderProps = {
 
 export default function ListHeader({
   title,
-  itemCount,
+  movieCount,
+  tvCount,
   description,
   viewMode,
   sortOption,
@@ -44,6 +46,7 @@ export default function ListHeader({
 }: ListHeaderProps) {
   const selectedSortLabel =
     LISTS_SORT_OPTIONS.find((opt) => opt.value === sortOption)?.label || "Sort";
+  const totalMediaCount = movieCount + tvCount;
 
   return (
     <div className="mb-6">
@@ -51,7 +54,7 @@ export default function ListHeader({
       <div className="flex items-start justify-between gap-4 mb-2">
         <div>
           <TitleMid>
-          <h1 className="text-2xl font-bold text-white">{title}</h1>
+            <h1 className="text-2xl font-bold text-white">{title}</h1>
           </TitleMid>
           {description && (
             <p className="text-gray-400 text-sm mt-1">{description}</p>
@@ -88,9 +91,14 @@ export default function ListHeader({
 
       {/* Controls row */}
       <div className="flex items-center justify-between gap-4 mt-4">
-        <span className="text-sm text-gray-400">
-          {itemCount} {itemCount === 1 ? "item" : "items"}
-        </span>
+        {/* TODO(human): Display media counts - movieCount and tvCount are available as props */}
+        <div className="flex items-center gap-3 text-sm text-gray-400">
+          {/* Implement count display here */}
+          <span>{movieCount} Movies</span>
+          <span>{tvCount} TV Shows</span>
+          <span>•</span>
+          <span>{totalMediaCount} Total</span>
+        </div>
 
         <div className="flex items-center gap-3">
           {/* Status badge toggle (for custom lists) */}
@@ -102,8 +110,16 @@ export default function ListHeader({
                   ? "bg-accent-primary/20 text-accent-primary"
                   : "bg-gray-800 text-gray-400 hover:text-white"
               }`}
-              aria-label={statusBadgesVisible ? "Hide status badges" : "Show status badges"}
-              title={statusBadgesVisible ? "Hide status badges" : "Show status badges"}
+              aria-label={
+                statusBadgesVisible
+                  ? "Hide status badges"
+                  : "Show status badges"
+              }
+              title={
+                statusBadgesVisible
+                  ? "Hide status badges"
+                  : "Show status badges"
+              }
             >
               <FontAwesomeIcon icon={faTag} className="text-sm" />
             </button>
@@ -144,7 +160,9 @@ export default function ListHeader({
                         <>
                           <span
                             className={`block truncate ${
-                              selected ? "font-medium text-white" : "font-normal"
+                              selected
+                                ? "font-medium text-white"
+                                : "font-normal"
                             }`}
                           >
                             {option.label}

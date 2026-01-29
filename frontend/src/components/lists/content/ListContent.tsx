@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import type { List } from "../../../types/list";
 import type { MediaEntry, WatchStatus } from "../../../types/mediaEntry";
 import type {
@@ -53,13 +53,41 @@ export default function ListContent({
   onRemoveItem,
   isLoading,
 }: ListContentProps) {
-  // Mobile toggle for showing status badges in custom lists
-  const [showStatusBadges, setShowStatusBadges] = useState(false);
+  // Toggle for showing status badges in custom lists (default ON for better sync visibility)
+  const [showStatusBadges, setShowStatusBadges] = useState(true);
   // Edit mode toggle for grid view delete buttons
   const [isEditMode, setIsEditMode] = useState(false);
 
   // Only show status in custom lists (not in status tabs - that would be redundant)
   const isCustomList = activeView === "list";
+
+  // Enrich list items with MediaEntry status data for custom lists
+  const enrichedListItems = useMemo(() => {
+    if (!selectedList || activeView !== "list") return [];
+
+    // Create lookup map: "tmdbId-mediaType" → MediaEntry
+    const entryMap = new Map<string, MediaEntry>();
+    mediaEntries.forEach((entry) => {
+      entryMap.set(`${entry.tmdbId}-${entry.mediaType}`, entry);
+    });
+
+    return selectedList.items.map((item) => {
+      const matchingEntry = entryMap.get(`${item.tmdbId}-${item.mediaType}`);
+      const displayItem = listItemToDisplayItem(item);
+
+      if (matchingEntry) {
+        return {
+          ...displayItem,
+          status: matchingEntry.status,
+          ratingActing: matchingEntry.ratingActing,
+          ratingStory: matchingEntry.ratingStory,
+          ratingVisuals: matchingEntry.ratingVisuals,
+          ratingSoundtrack: matchingEntry.ratingSoundtrack,
+        };
+      }
+      return displayItem;
+    });
+  }, [selectedList, mediaEntries, activeView]);
 
   // Convert to display items based on active view
   const displayItems: DisplayItem[] =
@@ -67,10 +95,14 @@ export default function ListContent({
       ? mediaEntries
           .filter((entry) => entry.status === selectedStatus)
           .map(mediaEntryToDisplayItem)
-      : selectedList?.items.map(listItemToDisplayItem) || [];
+      : enrichedListItems;
 
   // Apply sorting
   const sortedItems = useListsSorting(displayItems, sortOption);
+
+  // Calculate movie and TV counts
+  const movieCount = sortedItems.filter((item) => item.mediaType === "movie").length;
+  const tvCount = sortedItems.filter((item) => item.mediaType === "tv").length;
 
   // Determine title and description
   const title =
@@ -104,7 +136,8 @@ export default function ListContent({
       <div>
         <ListHeader
           title={title}
-          itemCount={0}
+          movieCount={0}
+          tvCount={0}
           description={description}
           viewMode={viewMode}
           sortOption={sortOption}
@@ -131,7 +164,8 @@ export default function ListContent({
     <div>
       <ListHeader
         title={title}
-        itemCount={sortedItems.length}
+        movieCount={movieCount}
+        tvCount={tvCount}
         description={description}
         viewMode={viewMode}
         sortOption={sortOption}
