@@ -373,6 +373,9 @@ namespace backend.Services
             var queryString = string.Join("&", queryParams);
             var url = $"https://api.themoviedb.org/3/discover/{mediaType}?{queryString}";
 
+            // Debug: log the URL being generated
+            _logger.LogInformation($"[AdvancedDiscover] TMDB URL: {url.Replace(_apiKey, "***")}");
+
             // Build cache key from all parameters for unique caching
             var cacheKey = $"advanced_discover_{mediaType}_g{string.Join("-", genreIds ?? Array.Empty<int>())}_y{primaryReleaseYearGte}-{primaryReleaseYearLte}_r{voteAverageGte}_rt{runtimeGte}-{runtimeLte}_l{language}_s{sortBy}_p{page}";
 

@@ -18,21 +18,43 @@ export type AdvancedDiscoverParams = {
 export async function getAdvancedDiscover(
   params: AdvancedDiscoverParams
 ): Promise<Paged<DetailMedia>> {
+  // Build params object, filtering out undefined values explicitly
+  const queryParams: Record<string, unknown> = {
+    mediaType: params.mediaType,
+    sortBy: params.sortBy || "vote_average.desc",
+    page: params.page || 1,
+  };
+
+  // Only include optional params if they have values
+  if (params.genreIds && params.genreIds.length > 0) {
+    queryParams.genreIds = params.genreIds;
+  }
+  if (params.primaryReleaseYearGte !== undefined) {
+    queryParams.primaryReleaseYearGte = params.primaryReleaseYearGte;
+  }
+  if (params.primaryReleaseYearLte !== undefined) {
+    queryParams.primaryReleaseYearLte = params.primaryReleaseYearLte;
+  }
+  if (params.voteAverageGte !== undefined) {
+    queryParams.voteAverageGte = params.voteAverageGte;
+  }
+  if (params.runtimeGte !== undefined) {
+    queryParams.runtimeGte = params.runtimeGte;
+  }
+  if (params.runtimeLte !== undefined) {
+    queryParams.runtimeLte = params.runtimeLte;
+  }
+  if (params.language) {
+    queryParams.language = params.language;
+  }
+
+  // Debug: log params to verify runtime filter is being sent
+  console.log("[AdvancedDiscover] Request params:", queryParams);
+
   const { data } = await api.get<Paged<DetailMedia>>(
     "/api/Movies/discover/advanced",
     {
-      params: {
-        mediaType: params.mediaType,
-        genreIds: params.genreIds,
-        primaryReleaseYearGte: params.primaryReleaseYearGte,
-        primaryReleaseYearLte: params.primaryReleaseYearLte,
-        voteAverageGte: params.voteAverageGte,
-        runtimeGte: params.runtimeGte,
-        runtimeLte: params.runtimeLte,
-        language: params.language,
-        sortBy: params.sortBy || "popularity.desc",
-        page: params.page || 1,
-      },
+      params: queryParams,
       paramsSerializer: {
         indexes: null, // Serialize arrays as genreIds=1&genreIds=2
       },

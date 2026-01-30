@@ -19,7 +19,7 @@ const defaultFilters: DiscoverFilters = {
   minRating: 0,
   runtimeRange: {},
   language: "",
-  sortBy: "popularity.desc",
+  sortBy: "vote_average.desc",
 };
 
 export function useDiscoverFilters(initialFilters?: Partial<DiscoverFilters>) {
@@ -92,7 +92,7 @@ export function useDiscoverFilters(initialFilters?: Partial<DiscoverFilters>) {
       filters.runtimeRange.min !== undefined ||
       filters.runtimeRange.max !== undefined ||
       filters.language !== "" ||
-      filters.sortBy !== "popularity.desc"
+      filters.sortBy !== "vote_average.desc"
     );
   }, [filters]);
 
