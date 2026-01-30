@@ -105,15 +105,17 @@ export default function ListHeader({
             style={{ contain: "paint", willChange: "transform" }}
           >
             <Film className="w-4 h-4 text-accent-primary" />
-            {movieCount} Movies
+            {movieCount} {movieCount === 1 ? "Movie" : "Movies"}
           </span>
+
           <span
             className="flex items-center gap-1 isolate"
             style={{ contain: "paint", willChange: "transform" }}
           >
             <Tv className="w-4 h-4 text-accent-primary" />
-            {tvCount} TV Shows
+            {tvCount} {tvCount === 1 ? "TV Show" : "TV Shows"}
           </span>
+
           <span>•</span>
           <span>{totalMediaCount} Total</span>
         </div>
