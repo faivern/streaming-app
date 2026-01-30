@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo } from "react";
 
-export type DiscoverMediaType = "movie" | "tv" | "both";
+export type DiscoverMediaType = "movie" | "tv";
 
 export type DiscoverFilters = {
   mediaType: DiscoverMediaType;
@@ -33,9 +33,8 @@ export function useDiscoverFilters(initialFilters?: Partial<DiscoverFilters>) {
       ...prev,
       mediaType,
       // Reset genres when switching media type since they differ between movie/tv
-      // For "both", we also reset to avoid invalid genre combinations
       genreIds: [],
-      // Reset runtime when switching to/from "both" or "tv" (runtime filter is movie-only)
+      // Reset runtime when switching to tv (runtime filter is movie-only)
       runtimeRange: mediaType === "movie" ? prev.runtimeRange : {},
     }));
   }, []);

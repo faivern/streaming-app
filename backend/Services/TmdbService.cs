@@ -324,8 +324,7 @@ namespace backend.Services
                 $"api_key={_apiKey}",
                 $"sort_by={sortBy}",
                 $"page={page}",
-                "include_adult=false",
-                "vote_count.gte=50" // Ensure results have meaningful vote counts
+                "include_adult=false"
             };
 
             // Genres (comma-separated)
