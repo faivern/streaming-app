@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useMemo } from "react";
+import { Fragment, useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   FaTimes,
@@ -8,7 +8,7 @@ import {
   FaFilter,
 } from "react-icons/fa";
 import { useSearch } from "../../hooks/useSearch";
-import { useAdvancedDiscover } from "../../hooks/discover/useAdvancedDiscover";
+import { useInfiniteAdvancedDiscover } from "../../hooks/discover/useInfiniteAdvancedDiscover";
 import { useDiscoverFilters } from "../../hooks/discover/useDiscoverFilters";
 import type { AdvancedDiscoverParams } from "../../api/advancedDiscover.api";
 import Poster from "../media/shared/Poster";
@@ -48,6 +48,10 @@ export default function DiscoverModal({
   const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
+  // Ref for infinite scroll sentinel element
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
   const {
     filters,
     setMediaType,
@@ -70,52 +74,62 @@ export default function DiscoverModal({
     hasSearched,
   } = useSearch();
 
-  // Build discover params from filters (for movie and tv separately when "both")
-  const movieParams: AdvancedDiscoverParams = useMemo(
+  // Build discover params from current filter state
+  const discoverParams: Omit<AdvancedDiscoverParams, "page"> = useMemo(
     () => ({
-      mediaType: "movie",
+      mediaType: filters.mediaType,
       genreIds: filters.genreIds.length > 0 ? filters.genreIds : undefined,
       primaryReleaseYearGte: filters.releaseYearRange.min,
       primaryReleaseYearLte: filters.releaseYearRange.max,
       voteAverageGte: filters.minRating > 0 ? filters.minRating : undefined,
-      runtimeGte: filters.runtimeRange.min,
-      runtimeLte: filters.runtimeRange.max,
+      runtimeGte: filters.mediaType === "movie" ? filters.runtimeRange.min : undefined,
+      runtimeLte: filters.mediaType === "movie" ? filters.runtimeRange.max : undefined,
       language: filters.language || undefined,
       sortBy: filters.sortBy,
-      page: 1,
     }),
     [filters]
   );
 
-  const tvParams: AdvancedDiscoverParams = useMemo(
-    () => ({
-      mediaType: "tv",
-      genreIds: filters.genreIds.length > 0 ? filters.genreIds : undefined,
-      primaryReleaseYearGte: filters.releaseYearRange.min,
-      primaryReleaseYearLte: filters.releaseYearRange.max,
-      voteAverageGte: filters.minRating > 0 ? filters.minRating : undefined,
-      language: filters.language || undefined,
-      sortBy: filters.sortBy,
-      page: 1,
-    }),
-    [filters]
-  );
-
-  // Discover queries - run both when "both" is selected
-  const isBothMode = filters.mediaType === "both";
-
-  const { data: movieData, isLoading: movieLoading } = useAdvancedDiscover(
-    movieParams,
-    {
-      enabled:
-        isOpen && !isSearchMode && (filters.mediaType === "movie" || isBothMode),
-    }
-  );
-
-  const { data: tvData, isLoading: tvLoading } = useAdvancedDiscover(tvParams, {
-    enabled:
-      isOpen && !isSearchMode && (filters.mediaType === "tv" || isBothMode),
+  // Single infinite query for the selected media type
+  const {
+    data: discoverData,
+    isLoading: discoverLoading,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteAdvancedDiscover(discoverParams, {
+    enabled: isOpen && !isSearchMode,
   });
+
+  // Load more when scrolling near the bottom
+  const handleLoadMore = useCallback(() => {
+    if (!isFetchingNextPage && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, isFetchingNextPage, hasNextPage]);
+
+  // Intersection Observer for infinite scroll
+  useEffect(() => {
+    const sentinel = loadMoreRef.current;
+    if (!sentinel || isSearchMode) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+          handleLoadMore();
+        }
+      },
+      {
+        root: scrollContainerRef.current,
+        rootMargin: "200px", // Load more when within 200px of sentinel
+        threshold: 0,
+      }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, handleLoadMore, isSearchMode]);
 
   // Debounced search
   useEffect(() => {
@@ -179,73 +193,28 @@ export default function DiscoverModal({
         }));
     }
 
-    // Handle "both" mode by merging and interleaving results
-    if (isBothMode) {
-      const movies = (movieData?.results || []).map((r) => ({
+    // Flatten all pages from the infinite query
+    if (!discoverData?.pages) return [];
+    return discoverData.pages.flatMap((page) =>
+      page.results.map((r) => ({
         id: r.id,
         title: r.title,
         name: r.name,
         poster_path: r.poster_path,
-        media_type: "movie" as const,
+        media_type: filters.mediaType,
         vote_average: r.vote_average,
         release_date: r.release_date,
         first_air_date: r.first_air_date,
-      }));
-      const tvShows = (tvData?.results || []).map((r) => ({
-        id: r.id,
-        title: r.title,
-        name: r.name,
-        poster_path: r.poster_path,
-        media_type: "tv" as const,
-        vote_average: r.vote_average,
-        release_date: r.release_date,
-        first_air_date: r.first_air_date,
-      }));
-
-      // Interleave results for variety
-      type ResultItem = (typeof movies)[number] | (typeof tvShows)[number];
-      const merged: ResultItem[] = [];
-      const maxLen = Math.max(movies.length, tvShows.length);
-      for (let i = 0; i < maxLen; i++) {
-        if (i < movies.length) merged.push(movies[i]);
-        if (i < tvShows.length) merged.push(tvShows[i]);
-      }
-      return merged;
-    }
-
-    // Single media type mode
-    const data = filters.mediaType === "movie" ? movieData : tvData;
-    return (
-      data?.results.map((r) => ({
-        id: r.id,
-        title: r.title,
-        name: r.name,
-        poster_path: r.poster_path,
-        media_type: filters.mediaType as "movie" | "tv",
-        vote_average: r.vote_average,
-        release_date: r.release_date,
-        first_air_date: r.first_air_date,
-      })) || []
+      }))
     );
-  }, [isSearchMode, searchResults, movieData, tvData, filters.mediaType, isBothMode]);
-
-  const discoverLoading = isBothMode
-    ? movieLoading || tvLoading
-    : filters.mediaType === "movie"
-      ? movieLoading
-      : tvLoading;
+  }, [isSearchMode, searchResults, discoverData, filters.mediaType]);
 
   const isLoading = isSearchMode ? searchLoading : discoverLoading;
 
   const totalResults = useMemo(() => {
     if (isSearchMode) return searchResults.length;
-    if (isBothMode) {
-      return (movieData?.total_results || 0) + (tvData?.total_results || 0);
-    }
-    return filters.mediaType === "movie"
-      ? movieData?.total_results || 0
-      : tvData?.total_results || 0;
-  }, [isSearchMode, searchResults.length, movieData, tvData, filters.mediaType, isBothMode]);
+    return discoverData?.pages?.[0]?.total_results || 0;
+  }, [isSearchMode, searchResults.length, discoverData]);
 
   // Filter sidebar content (shared between desktop and mobile)
   const filterContent = (
@@ -278,10 +247,10 @@ export default function DiscoverModal({
         <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
           Media Type
         </h3>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex gap-2">
           <button
             onClick={() => setMediaType("movie")}
-            className={`flex-1 min-w-[70px] px-3 py-2 text-sm rounded-lg transition-colors ${
+            className={`flex-1 px-3 py-2 text-sm rounded-lg transition-colors ${
               filters.mediaType === "movie"
                 ? "bg-accent-primary text-white"
                 : "bg-gray-700/50 text-gray-300 hover:bg-gray-600/50"
@@ -291,23 +260,13 @@ export default function DiscoverModal({
           </button>
           <button
             onClick={() => setMediaType("tv")}
-            className={`flex-1 min-w-[70px] px-3 py-2 text-sm rounded-lg transition-colors ${
+            className={`flex-1 px-3 py-2 text-sm rounded-lg transition-colors ${
               filters.mediaType === "tv"
                 ? "bg-accent-primary text-white"
                 : "bg-gray-700/50 text-gray-300 hover:bg-gray-600/50"
             }`}
           >
             TV Series
-          </button>
-          <button
-            onClick={() => setMediaType("both")}
-            className={`flex-1 min-w-[70px] px-3 py-2 text-sm rounded-lg transition-colors ${
-              filters.mediaType === "both"
-                ? "bg-accent-primary text-white"
-                : "bg-gray-700/50 text-gray-300 hover:bg-gray-600/50"
-            }`}
-          >
-            Both
           </button>
         </div>
       </div>
@@ -418,7 +377,7 @@ export default function DiscoverModal({
                     {/* Main Area */}
                     <div className="flex-1 flex flex-col overflow-hidden">
                       {/* Search Bar */}
-                      <div className="p-4 border-b border-gray-700">
+                      <div className="p-4">
                         <div className="relative">
                           <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                           <input
@@ -432,7 +391,7 @@ export default function DiscoverModal({
                       </div>
 
                       {/* Action Bar */}
-                      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700 bg-gray-800/50">
+                      <div className="flex pl-4 border-b border-gray-700">
                         <div className="flex items-center gap-3">
                           {/* Mobile filter button */}
                           <button
@@ -453,7 +412,7 @@ export default function DiscoverModal({
                       </div>
 
                       {/* Results Grid */}
-                      <div className="flex-1 p-4 overflow-y-auto">
+                      <div ref={scrollContainerRef} className="flex-1 p-4 overflow-y-auto">
                         {isLoading ? (
                           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                             {Array.from({ length: 12 }).map((_, i) => (
@@ -477,85 +436,107 @@ export default function DiscoverModal({
                             </p>
                           </div>
                         ) : (
-                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                            {displayResults.map((result) => {
-                              const isAlreadyAdded =
-                                existingTmdbIds.has(result.id) ||
-                                addedIds.has(result.id);
-                              const mediaTitle =
-                                result.title || result.name || "Untitled";
-                              const year =
-                                result.release_date?.slice(0, 4) ||
-                                result.first_air_date?.slice(0, 4);
+                          <>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                              {displayResults.map((result) => {
+                                const isAlreadyAdded =
+                                  existingTmdbIds.has(result.id) ||
+                                  addedIds.has(result.id);
+                                const mediaTitle =
+                                  result.title || result.name || "Untitled";
+                                const year =
+                                  result.release_date?.slice(0, 4) ||
+                                  result.first_air_date?.slice(0, 4);
 
-                              return (
-                                <div
-                                  key={result.id}
-                                  className="group relative rounded-lg overflow-hidden bg-gray-800"
-                                >
-                                  <Poster
-                                    path={result.poster_path || undefined}
-                                    alt={mediaTitle}
-                                    className="w-full aspect-[2/3]"
-                                    useCustomSize
-                                  />
+                                return (
+                                  <div
+                                    key={result.id}
+                                    className="group relative rounded-lg overflow-hidden bg-gray-800"
+                                  >
+                                    <Poster
+                                      path={result.poster_path || undefined}
+                                      alt={mediaTitle}
+                                      className="w-full aspect-[2/3]"
+                                      useCustomSize
+                                    />
 
-                                  {/* Hover Overlay */}
-                                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3">
-                                    {/* Top badges */}
-                                    <div className="flex items-start justify-between">
-                                      <span className="px-2 py-0.5 text-xs font-medium bg-gray-900/80 text-gray-300 rounded">
-                                        {result.media_type === "movie"
-                                          ? "Movie"
-                                          : "TV"}
-                                      </span>
-                                      {result.vote_average !== undefined &&
-                                        result.vote_average > 0 && (
-                                          <RatingPill
-                                            rating={result.vote_average}
-                                            showOutOfTen={false}
-                                            className="text-xs"
-                                          />
-                                        )}
-                                    </div>
+                                    {/* Hover Overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3">
+                                      {/* Top badges */}
+                                      <div className="flex items-start justify-between">
+                                        <span className="px-2 py-0.5 text-xs font-medium bg-gray-900/80 text-gray-300 rounded">
+                                          {result.media_type === "movie"
+                                            ? "Movie"
+                                            : "TV"}
+                                        </span>
+                                        {result.vote_average !== undefined &&
+                                          result.vote_average > 0 && (
+                                            <RatingPill
+                                              rating={result.vote_average}
+                                              showOutOfTen={false}
+                                              className="text-xs"
+                                            />
+                                          )}
+                                      </div>
 
-                                    {/* Bottom info */}
-                                    <div>
-                                      <p className="text-white text-sm font-medium line-clamp-2 mb-1">
-                                        {mediaTitle}
-                                      </p>
-                                      {year && (
-                                        <p className="text-gray-400 text-xs mb-2">
-                                          {year}
+                                      {/* Bottom info */}
+                                      <div>
+                                        <p className="text-white text-sm font-medium line-clamp-2 mb-1">
+                                          {mediaTitle}
                                         </p>
-                                      )}
-                                      <button
-                                        onClick={() => handleAdd(result)}
-                                        disabled={isAlreadyAdded}
-                                        className={`w-full flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                          isAlreadyAdded
-                                            ? "bg-green-600/50 text-green-200 cursor-default"
-                                            : "bg-accent-primary hover:bg-accent-primary/80 text-white"
-                                        }`}
-                                      >
-                                        {isAlreadyAdded ? (
-                                          <>
-                                            <FaCheck className="text-xs" />
-                                            Added
-                                          </>
-                                        ) : (
-                                          <>
-                                            <FaPlus className="text-xs" />
-                                            Add
-                                          </>
+                                        {year && (
+                                          <p className="text-gray-400 text-xs mb-2">
+                                            {year}
+                                          </p>
                                         )}
-                                      </button>
+                                        <button
+                                          onClick={() => handleAdd(result)}
+                                          disabled={isAlreadyAdded}
+                                          className={`w-full flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                            isAlreadyAdded
+                                              ? "bg-green-600/50 text-green-200 cursor-default"
+                                              : "bg-accent-primary hover:bg-accent-primary/80 text-white"
+                                          }`}
+                                        >
+                                          {isAlreadyAdded ? (
+                                            <>
+                                              <FaCheck className="text-xs" />
+                                              Added
+                                            </>
+                                          ) : (
+                                            <>
+                                              <FaPlus className="text-xs" />
+                                              Add
+                                            </>
+                                          )}
+                                        </button>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              );
-                            })}
-                          </div>
+                                );
+                              })}
+                            </div>
+
+                            {/* Infinite scroll sentinel and loading indicator */}
+                            {!isSearchMode && (
+                              <div
+                                ref={loadMoreRef}
+                                className="py-8 flex justify-center"
+                              >
+                                {isFetchingNextPage && (
+                                  <div className="flex items-center gap-2 text-gray-400">
+                                    <div className="w-5 h-5 border-2 border-gray-600 border-t-accent-primary rounded-full animate-spin" />
+                                    <span className="text-sm">Loading more...</span>
+                                  </div>
+                                )}
+                                {!hasNextPage && displayResults.length > 0 && (
+                                  <span className="text-sm text-gray-500">
+                                    No more results
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </>
                         )}
                       </div>
                     </div>
