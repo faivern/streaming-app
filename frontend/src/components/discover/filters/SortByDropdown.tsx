@@ -9,13 +9,10 @@ type Props = {
 };
 
 const SORT_OPTIONS: { value: string; label: string }[] = [
-  { value: "popularity.desc", label: "Most Popular" },
-  { value: "popularity.asc", label: "Least Popular" },
   { value: "vote_average.desc", label: "Highest Rated" },
   { value: "vote_average.asc", label: "Lowest Rated" },
   { value: "primary_release_date.desc", label: "Newest First" },
   { value: "primary_release_date.asc", label: "Oldest First" },
-  { value: "revenue.desc", label: "Highest Revenue" },
 ];
 
 export default function SortByDropdown({ value, onChange }: Props) {
