@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import type { List } from "../../../types/list";
 import type { MediaEntry, WatchStatus } from "../../../types/mediaEntry";
 import type {
@@ -57,6 +57,11 @@ export default function ListContent({
   const [showStatusBadges, setShowStatusBadges] = useState(true);
   // Edit mode toggle for grid view delete buttons
   const [isEditMode, setIsEditMode] = useState(false);
+
+  // Reset edit mode when navigating to a different list or switching views
+  useEffect(() => {
+    setIsEditMode(false);
+  }, [selectedList?.id, activeView]);
 
   // Only show status in custom lists (not in status tabs - that would be redundant)
   const isCustomList = activeView === "list";
