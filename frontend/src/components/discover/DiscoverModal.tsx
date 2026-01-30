@@ -5,12 +5,10 @@ import {
   FaSearch,
   FaPlus,
   FaCheck,
-  FaDice,
   FaFilter,
 } from "react-icons/fa";
-import { useQueryClient } from "@tanstack/react-query";
 import { useSearch } from "../../hooks/useSearch";
-import { useAdvancedDiscover, advancedDiscoverKeys } from "../../hooks/discover/useAdvancedDiscover";
+import { useAdvancedDiscover } from "../../hooks/discover/useAdvancedDiscover";
 import { useDiscoverFilters } from "../../hooks/discover/useDiscoverFilters";
 import type { AdvancedDiscoverParams } from "../../api/advancedDiscover.api";
 import Poster from "../media/shared/Poster";
@@ -45,7 +43,6 @@ export default function DiscoverModal({
   existingTmdbIds = new Set(),
   title = "Discover",
 }: DiscoverModalProps) {
-  const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
@@ -107,20 +104,17 @@ export default function DiscoverModal({
   // Discover queries - run both when "both" is selected
   const isBothMode = filters.mediaType === "both";
 
-  const {
-    data: movieData,
-    isLoading: movieLoading,
-    refetch: refetchMovies,
-  } = useAdvancedDiscover(movieParams, {
-    enabled: isOpen && !isSearchMode && (filters.mediaType === "movie" || isBothMode)
-  });
+  const { data: movieData, isLoading: movieLoading } = useAdvancedDiscover(
+    movieParams,
+    {
+      enabled:
+        isOpen && !isSearchMode && (filters.mediaType === "movie" || isBothMode),
+    }
+  );
 
-  const {
-    data: tvData,
-    isLoading: tvLoading,
-    refetch: refetchTv,
-  } = useAdvancedDiscover(tvParams, {
-    enabled: isOpen && !isSearchMode && (filters.mediaType === "tv" || isBothMode)
+  const { data: tvData, isLoading: tvLoading } = useAdvancedDiscover(tvParams, {
+    enabled:
+      isOpen && !isSearchMode && (filters.mediaType === "tv" || isBothMode),
   });
 
   // Debounced search
@@ -166,31 +160,6 @@ export default function DiscoverModal({
     });
 
     setAddedIds((prev) => new Set(prev).add(item.id));
-  };
-
-  const handleAddAll = () => {
-    if (!displayResults) return;
-    displayResults.forEach((item) => {
-      if (!existingTmdbIds.has(item.id) && !addedIds.has(item.id)) {
-        handleAdd(item);
-      }
-    });
-  };
-
-  const handleReroll = () => {
-    // Invalidate cache and refetch to get fresh results
-    if (filters.mediaType === "movie" || isBothMode) {
-      queryClient.invalidateQueries({
-        queryKey: advancedDiscoverKeys.filters(movieParams),
-      });
-      refetchMovies();
-    }
-    if (filters.mediaType === "tv" || isBothMode) {
-      queryClient.invalidateQueries({
-        queryKey: advancedDiscoverKeys.filters(tvParams),
-      });
-      refetchTv();
-    }
   };
 
   // Combine results based on mode
@@ -477,28 +446,10 @@ export default function DiscoverModal({
                             )}
                           </button>
 
-                          {!isSearchMode && (
-                            <button
-                              onClick={handleReroll}
-                              className="flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-600/50 transition-colors"
-                            >
-                              <FaDice />
-                              Re-roll
-                            </button>
-                          )}
                           <span className="text-sm text-gray-400">
                             {totalResults.toLocaleString()} results
                           </span>
                         </div>
-
-                        <button
-                          onClick={handleAddAll}
-                          disabled={displayResults.length === 0}
-                          className="flex items-center gap-2 px-3 py-1.5 text-sm bg-accent-primary hover:bg-accent-primary/80 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <FaPlus className="text-xs" />
-                          Add All to List
-                        </button>
                       </div>
 
                       {/* Results Grid */}
