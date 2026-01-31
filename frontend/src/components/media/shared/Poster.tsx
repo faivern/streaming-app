@@ -1,5 +1,5 @@
 import { useState } from "react";
-import mediaPlaceholder from "../../../images/media-placeholder.png";
+import { Film } from "lucide-react";
 
 type PosterProps = {
   path?: string;
@@ -21,16 +21,15 @@ export default function Poster({
   // If no path or image failed to load, show placeholder
   if (!path || imageError) {
     return (
-      <img
-        loading={priority ? "eager" : "lazy"}
-        decoding="async"
-        className={`${
-          useCustomSize ? "" : "aspect-[2/3] rounded-lg"
-        } object-cover bg-white/5 ${className}`}
-        src={mediaPlaceholder}
-        alt={alt}
-        onError={() => setImageError(true)}
-      />
+      <div
+        className={`flex items-center justify-center bg-white/5 text-accent-primary ${
+          useCustomSize ? "" : "aspect-[2/3] rounded-t-lg"
+        } ${className}`}
+        aria-label={alt}
+        role="img"
+      >
+        <Film className="w-2/3 h-2/3" />
+      </div>
     );
   }
 

@@ -77,11 +77,6 @@ export default function MediaCard(props: MediaCardProps) {
             {/* Shine layer */}
             <div className="shine-overlay" />
 
-            {/* Bookmark button
-          <div className="absolute top-2 left-2">
-          <FontAwesomeIcon icon={faBookmark} />
-          </div>
-          */}
             <RatingPill
               rating={vote_average}
               className="absolute top-1 right-1 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"

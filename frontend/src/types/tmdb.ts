@@ -11,6 +11,7 @@ export type EnrichedGenre = {
   id: number;
   name: string;
   supportedMediaTypes: MediaType[];
+  backdropPath?: string | null;
 };
 
 export type DetailMediaGenre = {
