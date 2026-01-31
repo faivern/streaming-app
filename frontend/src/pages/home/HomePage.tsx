@@ -16,7 +16,7 @@ import {
   useDiscoverMovies,
   useDiscoverTv,
 } from "../../hooks/discover/useDiscover";
-import { useGenres } from "../../hooks/genres/useGenres";
+import { useGenresWithBackdrops } from "../../hooks/genres/useGenresWithBackdrops";
 import { useFeaturedCollections } from "../../hooks/collections/useCollections";
 import { useUpcomingMedia } from "../../hooks/upcoming/useUpcomingMedia";
 import { useTopRatedMedia } from "../../hooks/toprated/useTopRatedMedia";
@@ -35,7 +35,7 @@ export default function HomePage() {
   );
   const { data: movies, isLoading: moviesLoading } = useDiscoverMovies();
   const { data: tv, isLoading: tvLoading } = useDiscoverTv();
-  const { data: genres = [], isLoading: genresLoading } = useGenres();
+  const { data: genres = [], isLoading: genresLoading } = useGenresWithBackdrops();
   const { data: upcoming = [], isLoading: upcomingLoading } =
     useUpcomingMedia(mediaType);
 const { data: topRatedRaw = [], isLoading: topRatedLoading } =

@@ -3,8 +3,6 @@ import { Dialog, Transition } from "@headlessui/react";
 import {
   FaTimes,
   FaSearch,
-  FaPlus,
-  FaCheck,
   FaFilter,
 } from "react-icons/fa";
 import { useSearch } from "../../hooks/useSearch";
@@ -22,16 +20,19 @@ import {
   SortByDropdown,
 } from "./filters";
 import MobileFilterDrawer from "./MobileFilterDrawer";
+import AddToListModal from "../lists/modals/AddToListModal";
+
+type SelectedMedia = {
+  tmdbId: number;
+  mediaType: string;
+  title: string;
+  posterPath: string | null;
+  voteAverage?: number | null;
+};
 
 type DiscoverModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onAdd: (media: {
-    tmdbId: number;
-    mediaType: string;
-    title: string;
-    posterPath: string | null;
-  }) => void;
   existingTmdbIds?: Set<number>;
   title?: string;
 };
@@ -39,14 +40,13 @@ type DiscoverModalProps = {
 export default function DiscoverModal({
   isOpen,
   onClose,
-  onAdd,
   existingTmdbIds = new Set(),
   title = "Discover",
 }: DiscoverModalProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchMode, setIsSearchMode] = useState(false);
-  const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [selectedMedia, setSelectedMedia] = useState<SelectedMedia | null>(null);
 
   // Ref for infinite scroll sentinel element
   const loadMoreRef = useRef<HTMLDivElement>(null);
@@ -149,31 +149,31 @@ export default function DiscoverModal({
   const handleClose = () => {
     setSearchQuery("");
     clearSearch();
-    setAddedIds(new Set());
     setIsSearchMode(false);
+    setSelectedMedia(null);
     onClose();
   };
 
-  const handleAdd = (item: {
+  const handleCardClick = (item: {
     id: number;
     title?: string;
     name?: string;
     poster_path?: string | null;
     media_type?: string;
+    vote_average?: number;
   }) => {
     const mediaTitle = item.title || item.name || "Untitled";
     const posterPath = item.poster_path || null;
     // In discover mode, media_type comes from filter; in search mode, from result
     const mediaType = item.media_type || filters.mediaType;
 
-    onAdd({
+    setSelectedMedia({
       tmdbId: item.id,
       mediaType,
       title: mediaTitle,
       posterPath,
+      voteAverage: item.vote_average,
     });
-
-    setAddedIds((prev) => new Set(prev).add(item.id));
   };
 
   // Combine results based on mode
@@ -439,9 +439,7 @@ export default function DiscoverModal({
                           <>
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                               {displayResults.map((result) => {
-                                const isAlreadyAdded =
-                                  existingTmdbIds.has(result.id) ||
-                                  addedIds.has(result.id);
+                                const isAlreadyAdded = existingTmdbIds.has(result.id);
                                 const mediaTitle =
                                   result.title || result.name || "Untitled";
                                 const year =
@@ -449,9 +447,11 @@ export default function DiscoverModal({
                                   result.first_air_date?.slice(0, 4);
 
                                 return (
-                                  <div
+                                  <button
                                     key={result.id}
-                                    className="group relative rounded-lg overflow-hidden bg-gray-800"
+                                    type="button"
+                                    onClick={() => handleCardClick(result)}
+                                    className="group relative rounded-lg overflow-hidden bg-gray-800 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-primary/50"
                                   >
                                     <Poster
                                       path={result.poster_path || undefined}
@@ -460,15 +460,17 @@ export default function DiscoverModal({
                                       useCustomSize
                                     />
 
+                                    {/* Already added indicator */}
+                                    {isAlreadyAdded && (
+                                      <div className="absolute top-2 right-2 px-2 py-0.5 text-xs font-medium bg-green-600/90 text-white rounded">
+                                        In List
+                                      </div>
+                                    )}
+
                                     {/* Hover Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3">
-                                      {/* Top badges */}
-                                      <div className="flex items-start justify-between">
-                                        <span className="px-2 py-0.5 text-xs font-medium bg-gray-900/80 text-gray-300 rounded">
-                                          {result.media_type === "movie"
-                                            ? "Movie"
-                                            : "TV"}
-                                        </span>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3">
+                                      {/* Top badge - rating only */}
+                                      <div className="flex justify-end">
                                         {result.vote_average !== undefined &&
                                           result.vote_average > 0 && (
                                             <RatingPill
@@ -485,34 +487,13 @@ export default function DiscoverModal({
                                           {mediaTitle}
                                         </p>
                                         {year && (
-                                          <p className="text-gray-400 text-xs mb-2">
+                                          <p className="text-gray-400 text-xs">
                                             {year}
                                           </p>
                                         )}
-                                        <button
-                                          onClick={() => handleAdd(result)}
-                                          disabled={isAlreadyAdded}
-                                          className={`w-full flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                            isAlreadyAdded
-                                              ? "bg-green-600/50 text-green-200 cursor-default"
-                                              : "bg-accent-primary hover:bg-accent-primary/80 text-white"
-                                          }`}
-                                        >
-                                          {isAlreadyAdded ? (
-                                            <>
-                                              <FaCheck className="text-xs" />
-                                              Added
-                                            </>
-                                          ) : (
-                                            <>
-                                              <FaPlus className="text-xs" />
-                                              Add
-                                            </>
-                                          )}
-                                        </button>
                                       </div>
                                     </div>
-                                  </div>
+                                  </button>
                                 );
                               })}
                             </div>
@@ -566,6 +547,15 @@ export default function DiscoverModal({
       >
         {filterContent}
       </MobileFilterDrawer>
+
+      {/* Add to List Modal */}
+      {selectedMedia && (
+        <AddToListModal
+          isOpen={selectedMedia !== null}
+          onClose={() => setSelectedMedia(null)}
+          media={selectedMedia}
+        />
+      )}
     </>
   );
 }

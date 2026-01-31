@@ -8,7 +8,6 @@ import {
   useCreateList,
   useUpdateList,
   useDeleteList,
-  useAddListItem,
   useRemoveListItem,
 } from "../../hooks/lists/useLists";
 import {
@@ -45,7 +44,6 @@ export default function MyListsPage() {
   const createListMutation = useCreateList();
   const updateListMutation = useUpdateList();
   const deleteListMutation = useDeleteList();
-  const addListItemMutation = useAddListItem();
   const removeListItemMutation = useRemoveListItem();
   const updateMediaEntryMutation = useUpdateMediaEntry();
   const upsertReviewMutation = useUpsertReview();
@@ -141,31 +139,7 @@ export default function MyListsPage() {
     }
   };
 
-  // Handle adding media to list
-  const handleAddMediaToList = async (media: {
-    tmdbId: number;
-    mediaType: string;
-    title: string;
-    posterPath: string | null;
-  }) => {
-    if (!currentList) return;
-    try {
-      await addListItemMutation.mutateAsync({
-        listId: currentList.id,
-        item: {
-          tmdbId: media.tmdbId,
-          mediaType: media.mediaType,
-          title: media.title,
-          posterPath: media.posterPath || undefined,
-        },
-      });
-      toast.success(`Added "${media.title}" to ${currentList.name}`);
-    } catch {
-      toast.error("Failed to add media");
-    }
-  };
-
-  // Handle removing item from list
+// Handle removing item from list
   const handleRemoveItem = async (item: DisplayItem) => {
     if (item.source === "list" && currentList) {
       try {
@@ -366,9 +340,7 @@ export default function MyListsPage() {
       <DiscoverModal
         isOpen={addMediaModalOpen}
         onClose={() => setAddMediaModalOpen(false)}
-        onAdd={handleAddMediaToList}
         existingTmdbIds={existingTmdbIds}
-        title={currentList ? `Add to ${currentList.name}` : "Discover"}
       />
 
       <MediaEntryModal

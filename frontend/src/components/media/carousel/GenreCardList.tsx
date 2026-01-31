@@ -97,6 +97,7 @@ export default function GenreCardList({ genres, loading = false }: Props) {
                     id={genre.id}
                     name={genre.name}
                     supportedMediaTypes={genre.supportedMediaTypes}
+                    backdropPath={genre.backdropPath}
                   />
                 )}
               </div>
