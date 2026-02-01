@@ -7,6 +7,7 @@ import {
 } from "react-icons/fa";
 import { useSearch } from "../../hooks/useSearch";
 import { useInfiniteAdvancedDiscover } from "../../hooks/discover/useInfiniteAdvancedDiscover";
+import { useInfiniteTrending } from "../../hooks/discover/useInfiniteTrending";
 import { useDiscoverFilters } from "../../hooks/discover/useDiscoverFilters";
 import type { AdvancedDiscoverParams } from "../../api/advancedDiscover.api";
 import Poster from "../media/shared/Poster";
@@ -74,7 +75,10 @@ export default function DiscoverModal({
     hasSearched,
   } = useSearch();
 
-  // Build discover params from current filter state
+  // Check if we're using the trending API
+  const isTrendingMode = filters.sortBy === "trending";
+
+  // Build discover params from current filter state (used when not in trending mode)
   const discoverParams: Omit<AdvancedDiscoverParams, "page"> = useMemo(
     () => ({
       mediaType: filters.mediaType,
@@ -90,16 +94,33 @@ export default function DiscoverModal({
     [filters]
   );
 
-  // Single infinite query for the selected media type
+  // Infinite query for discover mode (non-trending)
   const {
     data: discoverData,
     isLoading: discoverLoading,
-    isFetchingNextPage,
-    hasNextPage,
-    fetchNextPage,
+    isFetchingNextPage: discoverFetchingNext,
+    hasNextPage: discoverHasNext,
+    fetchNextPage: discoverFetchNext,
   } = useInfiniteAdvancedDiscover(discoverParams, {
-    enabled: isOpen && !isSearchMode,
+    enabled: isOpen && !isSearchMode && !isTrendingMode,
   });
+
+  // Infinite query for trending mode
+  const {
+    data: trendingData,
+    isLoading: trendingLoading,
+    isFetchingNextPage: trendingFetchingNext,
+    hasNextPage: trendingHasNext,
+    fetchNextPage: trendingFetchNext,
+  } = useInfiniteTrending(
+    { mediaType: filters.mediaType },
+    { enabled: isOpen && !isSearchMode && isTrendingMode }
+  );
+
+  // Unified pagination state based on mode
+  const isFetchingNextPage = isTrendingMode ? trendingFetchingNext : discoverFetchingNext;
+  const hasNextPage = isTrendingMode ? trendingHasNext : discoverHasNext;
+  const fetchNextPage = isTrendingMode ? trendingFetchNext : discoverFetchNext;
 
   // Load more when scrolling near the bottom
   const handleLoadMore = useCallback(() => {
@@ -129,7 +150,7 @@ export default function DiscoverModal({
 
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, handleLoadMore, isSearchMode]);
+  }, [hasNextPage, isFetchingNextPage, handleLoadMore, isSearchMode, isOpen]);
 
   // Debounced search
   useEffect(() => {
@@ -193,7 +214,24 @@ export default function DiscoverModal({
         }));
     }
 
-    // Flatten all pages from the infinite query
+    // Handle trending mode
+    if (isTrendingMode) {
+      if (!trendingData?.pages) return [];
+      return trendingData.pages.flatMap((page) =>
+        page.results.map((r) => ({
+          id: r.id,
+          title: r.title,
+          name: r.name,
+          poster_path: r.poster_path,
+          media_type: filters.mediaType,
+          vote_average: r.vote_average,
+          release_date: r.release_date,
+          first_air_date: r.first_air_date,
+        }))
+      );
+    }
+
+    // Flatten all pages from the discover infinite query
     if (!discoverData?.pages) return [];
     return discoverData.pages.flatMap((page) =>
       page.results.map((r) => ({
@@ -207,14 +245,15 @@ export default function DiscoverModal({
         first_air_date: r.first_air_date,
       }))
     );
-  }, [isSearchMode, searchResults, discoverData, filters.mediaType]);
+  }, [isSearchMode, searchResults, isTrendingMode, trendingData, discoverData, filters.mediaType]);
 
-  const isLoading = isSearchMode ? searchLoading : discoverLoading;
+  const isLoading = isSearchMode ? searchLoading : (isTrendingMode ? trendingLoading : discoverLoading);
 
   const totalResults = useMemo(() => {
     if (isSearchMode) return searchResults.length;
+    if (isTrendingMode) return trendingData?.pages?.[0]?.total_results || 0;
     return discoverData?.pages?.[0]?.total_results || 0;
-  }, [isSearchMode, searchResults.length, discoverData]);
+  }, [isSearchMode, searchResults.length, isTrendingMode, trendingData, discoverData]);
 
   // Filter sidebar content (shared between desktop and mobile)
   const filterContent = (
