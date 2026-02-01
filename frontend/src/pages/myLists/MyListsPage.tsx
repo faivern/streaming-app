@@ -170,12 +170,33 @@ export default function MyListsPage() {
     ratingSoundtrack: number | null;
     notes: string;
   }) => {
-    if (!selectedEntry || selectedEntry.source !== "entry") return;
+    if (!selectedEntry) return;
+
+    // Find the entry ID - for "entry" source use sourceId directly,
+    // for "list" source look up by tmdbId and mediaType
+    let entryId: number | undefined;
+
+    if (selectedEntry.source === "entry") {
+      entryId = selectedEntry.sourceId;
+    } else {
+      // Find matching MediaEntry for this list item
+      const matchingEntry = mediaEntries.find(
+        (e) =>
+          e.tmdbId === selectedEntry.tmdbId &&
+          e.mediaType === selectedEntry.mediaType
+      );
+      entryId = matchingEntry?.id;
+    }
+
+    if (!entryId) {
+      toast.error("No tracking entry found for this item");
+      return;
+    }
 
     try {
       // Update the entry
       await updateMediaEntryMutation.mutateAsync({
-        id: selectedEntry.sourceId,
+        id: entryId,
         data: {
           status: data.status,
           ratingActing: data.ratingActing ?? undefined,
@@ -188,7 +209,7 @@ export default function MyListsPage() {
       // Update review if notes changed
       if (data.notes) {
         await upsertReviewMutation.mutateAsync({
-          entryId: selectedEntry.sourceId,
+          entryId: entryId,
           data: { content: data.notes },
         });
       }

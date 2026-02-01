@@ -66,7 +66,7 @@ const avgRating = calculateAverageRating(item);
 
         {/* Edit mode buttons - delete and optionally edit */}
         {isEditMode && (onRemove || onEdit) && (
-          <div className="absolute top-2 right-2 z-20 flex gap-1">
+          <div className="flex flex-row justify-center items-center w-full z-20 gap-4 pb-4">
             {onEdit && (
               <button
                 onClick={(e) => {
@@ -74,10 +74,10 @@ const avgRating = calculateAverageRating(item);
                   e.stopPropagation();
                   onEdit();
                 }}
-                className="p-2 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
+                className="p-4 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
                 aria-label="Edit entry"
               >
-                <FaEdit className="text-sm" />
+                <FaEdit className="text-md" />
               </button>
             )}
             {onRemove && (
@@ -87,10 +87,10 @@ const avgRating = calculateAverageRating(item);
                   e.stopPropagation();
                   onRemove();
                 }}
-                className="p-2 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
+                className="p-4 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
                 aria-label="Remove from list"
               >
-                <FaTrash className="text-sm" />
+                <FaTrash className="text-md" />
               </button>
             )}
           </div>

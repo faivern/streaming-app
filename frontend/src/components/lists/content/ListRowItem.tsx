@@ -7,6 +7,7 @@ import { calculateAverageRating } from "../../../types/lists.view";
 
 type ListRowItemProps = {
   item: DisplayItem;
+  isEditMode?: boolean;
   onEdit?: () => void;
   onRemove?: () => void;
   showStatus?: boolean;
@@ -14,6 +15,7 @@ type ListRowItemProps = {
 
 export default function ListRowItem({
   item,
+  isEditMode = false,
   onEdit,
   onRemove,
   showStatus = true,
@@ -76,27 +78,38 @@ export default function ListRowItem({
         </div>
       </div>
 
-      {/* Actions */}
-      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-        {onEdit && (
-          <button
-            onClick={onEdit}
-            className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors"
-            aria-label="Edit entry"
-          >
-            <FaEdit className="text-sm" />
-          </button>
+        {/* Edit mode buttons - delete and optionally edit */}
+        {isEditMode && (onRemove || onEdit) && (
+          <div className="flex flex-row justify-end w-full z-20 gap-4 pb-4">
+            {onEdit && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onEdit();
+                }}
+                className="p-4 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
+                aria-label="Edit entry"
+              >
+                <FaEdit className="text-md" />
+              </button>
+            )}
+            {onRemove && (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  onRemove();
+                }}
+                className="p-4 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
+                aria-label="Remove from list"
+              >
+                <FaTrash className="text-md" />
+              </button>
+            )}
+          </div>
+    
         )}
-        {onRemove && (
-          <button
-            onClick={onRemove}
-            className="p-2 text-gray-400 hover:text-red-400 hover:bg-gray-700 rounded-lg transition-colors"
-            aria-label="Remove from list"
-          >
-            <FaTrash className="text-sm" />
-          </button>
-        )}
-      </div>
     </div>
   );
 }

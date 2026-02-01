@@ -189,16 +189,17 @@ export default function ListContent({
         <ListGridView
           items={sortedItems}
           isEditMode={isEditMode}
-          onRemoveItem={onRemoveItem}
-          onEditItem={activeView === "status" ? onEditEntry : undefined}
+          onRemoveItem={isCustomList ? onRemoveItem : undefined}
+          onEditItem={onEditEntry}
           showStatus={isCustomList}
         />
       ) : (
         <ListRowView
           items={sortedItems}
-          onEditItem={activeView === "status" ? onEditEntry : undefined}
-          onRemoveItem={onRemoveItem}
-          showStatus={isCustomList && showStatusBadges}
+          isEditMode={isEditMode}
+          onRemoveItem={isCustomList ? onRemoveItem : undefined}
+          onEditItem={onEditEntry}
+          showStatus={isCustomList}
         />
       )}
     </div>

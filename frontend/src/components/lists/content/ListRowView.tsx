@@ -3,6 +3,7 @@ import ListRowItem from "./ListRowItem";
 
 type ListRowViewProps = {
   items: DisplayItem[];
+  isEditMode?: boolean;
   onEditItem?: (item: DisplayItem) => void;
   onRemoveItem?: (item: DisplayItem) => void;
   showStatus?: boolean;
@@ -10,8 +11,9 @@ type ListRowViewProps = {
 
 export default function ListRowView({
   items,
-  onEditItem,
+  isEditMode = false,
   onRemoveItem,
+  onEditItem,
   showStatus = true,
 }: ListRowViewProps) {
   return (
@@ -20,8 +22,9 @@ export default function ListRowView({
         <ListRowItem
           key={`${item.source}-${item.id}`}
           item={item}
-          onEdit={onEditItem ? () => onEditItem(item) : undefined}
+          isEditMode={isEditMode}
           onRemove={onRemoveItem ? () => onRemoveItem(item) : undefined}
+          onEdit={onEditItem ? () => onEditItem(item) : undefined}
           showStatus={showStatus}
         />
       ))}
