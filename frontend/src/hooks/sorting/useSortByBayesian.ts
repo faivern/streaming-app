@@ -10,17 +10,19 @@ export function useSortByBayesian<T extends SortableMedia>(items: T[]): T[] {
       (item) =>
         typeof item.vote_average === "number" &&
         typeof item.vote_count === "number" &&
-        item.vote_count > 0
+        item.vote_count > 0,
     );
 
     if (itemsWithRatings.length === 0) return [...items];
 
     const C =
-      itemsWithRatings.reduce((sum, item) => sum + (item.vote_average || 0), 0) /
-      itemsWithRatings.length;
+      itemsWithRatings.reduce(
+        (sum, item) => sum + (item.vote_average || 0),
+        0,
+      ) / itemsWithRatings.length;
 
     // Minimum votes threshold (m)
-    const m = 10;
+    const m = 5000;
 
     // Calculate weighted rating for each item
     const withWeightedRating = items.map((item) => {

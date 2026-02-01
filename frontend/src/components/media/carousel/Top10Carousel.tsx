@@ -105,7 +105,6 @@ export default function Top10Carousel({
               const itemTitle = item.title || item.name || "Untitled";
               const backdropPath = item.backdrop_path || "";
               const rank = index + 1;
-              const shouldPrioritize = index < 4; // Eager-load first 4 items
 
               return (
                 <div key={item.id} className="shrink-0">

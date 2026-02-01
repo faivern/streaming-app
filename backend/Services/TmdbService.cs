@@ -95,15 +95,17 @@ namespace backend.Services
 
 
         //--------------------------------TOP_RATED--------------------------------
+        private const int MinVoteCountForTopRated = 5000;
+
         public async Task<string> GetTopRatedMoviesAsync()
         {
-            var url = $"https://api.themoviedb.org/3/movie/top_rated?api_key={_apiKey}";
+            var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&sort_by=vote_average.desc&vote_count.gte={MinVoteCountForTopRated}";
             return await FetchWithCacheAsync("top_rated_movies", url, TimeSpan.FromHours(6));
         }
 
         public async Task<string> GetTopRatedTvAsync()
         {
-            var url = $"https://api.themoviedb.org/3/tv/top_rated?api_key={_apiKey}";
+            var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&sort_by=vote_average.desc&vote_count.gte={MinVoteCountForTopRated}";
             return await FetchWithCacheAsync("top_rated_tv", url, TimeSpan.FromHours(6));
         }
         //--------------------------------------------------------------------------
