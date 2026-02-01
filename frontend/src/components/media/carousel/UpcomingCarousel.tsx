@@ -140,7 +140,7 @@ export default function UpcomingCarousel({
                           alt={itemTitle}
                           className="w-full aspect-video object-cover"
                           sizes="780px"
-                          priority={shouldPrioritize}
+                          priority={false}
                         />
 
                         <div className="p-3 flex flex-wrap items-center justify-between">

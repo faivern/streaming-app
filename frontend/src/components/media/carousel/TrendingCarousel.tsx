@@ -123,11 +123,11 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                   <Link to={`/media/${m.media_type}/${m.id}`}>
                     <div className="absolute bottom-0 left-0 w-full h-15 bg-gradient-to-b from-transparent to-background z-10"></div>
                     <Backdrop
-                      path={m.backdrop_path}
+                      path={m.backdrop_path || undefined}
                       alt={m.title || m.name || "Backdrop"}
                       className="w-full h-full object-cover object-top transition-opacity duration-1000 ease-in-out"
                       sizes="100vw"
-                      priority={idx === currentIndex}
+                      priority={false}
                     />
                     <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/60 via-black/30 to-transparent z-0 pointer-events-none" />
                   </Link>
@@ -154,7 +154,8 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                             path={logoPath}
                             alt={m.title || m.name || "Title logo"}
                             className="max-h-16 w-auto max-w-xs"
-                            sizes="(max-width: 768px) 200px, 300px"
+                            sizes="100vw"
+                            priority={false}
                           />
                         ) : (
                           <h2 className="text-white text-3xl font-bold">
