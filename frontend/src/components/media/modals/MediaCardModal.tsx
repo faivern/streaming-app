@@ -95,7 +95,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
               src={`https://image.tmdb.org/t/p/w780${poster}`}
               srcSet={`https://image.tmdb.org/t/p/w300${poster} 300w, https://image.tmdb.org/t/p/w780${poster} 780w`}
               sizes="384px"
-              loading="eager"
+              loading="lazy"
               decoding="async"
               alt={title}
               className={`w-full h-48 object-cover object-center rounded transition-opacity duration-300 ${

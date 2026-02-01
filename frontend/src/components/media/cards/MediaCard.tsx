@@ -52,7 +52,7 @@ export default function MediaCard(props: MediaCardProps) {
 
   const { refs, floatingStyles } = useFloating({
     placement: "right",
-    middleware: [offset(8), flip(), shift()],
+    middleware: [offset(6), flip(), shift()],
     whileElementsMounted: autoUpdate,
   });
 
