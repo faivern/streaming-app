@@ -34,7 +34,7 @@ export default function CollectionCard({
         showOutOfTen={false}
       />
       <span className="shine-overlay" />
-      <Backdrop path={backdrop_path} alt={title} className="w-full" />
+      <Backdrop path={backdrop_path ?? undefined} alt={title} className="w-full" sizes="780px" priority={true}  />
       <div className="p-3">
         <h3 className="text-base font-semibold">{title}</h3>
       </div>

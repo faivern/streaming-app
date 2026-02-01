@@ -78,14 +78,16 @@ namespace backend.Services
         //----------------------------UPCOMING------------------------------------
         public async Task<string> GetUpcomingMoviesAsync()
         {
-            var url = $"https://api.themoviedb.org/3/movie/upcoming?api_key={_apiKey}";
-            return await FetchWithCacheAsync("upcoming_movies", url, TimeSpan.FromHours(6));
+            var today = DateTime.UtcNow.ToString("yyyy-MM-dd");
+            var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&primary_release_date.gte={today}&sort_by=popularity.desc";
+            return await FetchWithCacheAsync($"upcoming_movies_{today}", url, TimeSpan.FromHours(6));
         }
 
         public async Task<string> GetUpcomingTvAsync()
         {
-            var url = $"https://api.themoviedb.org/3/tv/on_the_air?api_key={_apiKey}";
-            return await FetchWithCacheAsync("upcoming_tv", url, TimeSpan.FromHours(6));
+            var today = DateTime.UtcNow.ToString("yyyy-MM-dd");
+            var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&first_air_date.gte={today}&sort_by=popularity.desc";
+            return await FetchWithCacheAsync($"upcoming_tv_{today}", url, TimeSpan.FromHours(6));
         }
         //----------------------------------------------------------------------------
 
