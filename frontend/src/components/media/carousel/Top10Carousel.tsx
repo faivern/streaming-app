@@ -149,7 +149,7 @@ export default function Top10Carousel({
                             path={backdropPath}
                             alt={itemTitle}
                             className="w-full aspect-video object-cover"
-                            sizes="300px"
+                            sizes="780px"
                             priority={shouldPrioritize}
                           />
 

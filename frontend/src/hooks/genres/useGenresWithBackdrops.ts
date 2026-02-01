@@ -17,14 +17,14 @@ function sortByBayesian(items: DetailMedia[]): DetailMedia[] {
       typeof item.vote_average === "number" &&
       typeof item.vote_count === "number" &&
       item.vote_count >= 100 && // Minimum vote threshold for quality
-      item.backdrop_path
+      item.backdrop_path,
   );
 
   if (validItems.length === 0) return [];
 
   // Use TMDB's typical mean rating (~6.5) for more stable results
-  const C = 6.5;
-  const m = 500; // High threshold favors well-known titles
+  const C = 7.5;
+  const m = 15000; // High threshold favors well-known titles
 
   return validItems
     .map((item) => {
@@ -42,7 +42,7 @@ function sortByBayesian(items: DetailMedia[]): DetailMedia[] {
  */
 function findBestUnusedBackdrop(
   sortedItems: DetailMedia[],
-  usedBackdrops: Set<string>
+  usedBackdrops: Set<string>,
 ): string | null {
   for (const item of sortedItems) {
     if (item.backdrop_path && !usedBackdrops.has(item.backdrop_path)) {
@@ -55,7 +55,7 @@ function findBestUnusedBackdrop(
 
 async function fetchDiscoverResults(
   genreId: number,
-  mediaType: "movie" | "tv"
+  mediaType: "movie" | "tv",
 ): Promise<DetailMedia[]> {
   try {
     const result = await getDiscoverGenre({
@@ -88,7 +88,7 @@ export function useGenresWithBackdrops() {
             genre,
             sortedItems: sortByBayesian(results),
           };
-        })
+        }),
       );
 
       // Step 2: Assign unique backdrops sequentially

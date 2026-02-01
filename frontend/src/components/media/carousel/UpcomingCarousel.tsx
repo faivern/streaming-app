@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TitleMid from "../title/TitleMid.tsx";
 import Backdrop from "../shared/Backdrop";
 import RatingPill from "../../ui/RatingPill";
+import { useSortChronological } from "../../../hooks/sorting/useSortChronological.ts";
 import {
   faChevronLeft,
   faChevronRight,
@@ -32,6 +33,7 @@ export default function UpcomingCarousel({
   loading = false,
   mediaType,
 }: Props) {
+  const releaseDateSort = useSortChronological(items);
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const [pageSize, setPageSize] = useState(3);
@@ -108,7 +110,7 @@ export default function UpcomingCarousel({
             className="flex gap-6 transition-transform duration-300 will-change-transform"
             style={{ transform: "translateX(0)" }}
           >
-            {renderItems.map((item, index) => {
+            {releaseDateSort.map((item, index) => {
               const itemTitle = item.title || item.name || "Untitled";
               const releaseDate =
                 mediaType === "movie" ? item.release_date : item.first_air_date;
@@ -137,7 +139,7 @@ export default function UpcomingCarousel({
                           path={backdropPath}
                           alt={itemTitle}
                           className="w-full aspect-video object-cover"
-                          sizes="300px"
+                          sizes="780px"
                           priority={shouldPrioritize}
                         />
 

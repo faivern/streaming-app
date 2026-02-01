@@ -84,7 +84,12 @@ export default function MediaCard(props: MediaCardProps) {
             />
 
             {/* Poster */}
-            <Poster path={posterPath} alt={title} className="w-full" />
+            <Poster 
+              path={posterPath} 
+              alt={title} 
+              className="w-full" 
+              priority={true} 
+            />
 
             {/* Content */}
             <div className="p-4 flex flex-wrap gap-4 items-center justify-between">

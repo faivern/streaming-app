@@ -4,7 +4,7 @@ import type { TrendingMedia } from "../types/tmdb";
 
 export async function getUpcomingMedia(mediaType: "movie" | "tv" = "movie") {
   const { data } = await api.get<Paged<TrendingMedia>>(
-    `/api/Movies/upcoming/${mediaType}`
+    `/api/Movies/upcoming/${mediaType}`,
   );
   return data.results ?? [];
 }
