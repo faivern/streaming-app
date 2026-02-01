@@ -96,10 +96,10 @@ const avgRating = calculateAverageRating(item);
           </div>
         )}
 
-        {/* Status badge */}
+        {/* Status badge - icon only, top-left corner */}
         {shouldShowStatusBadge && (
-          <div className="flex justify-center absolute top-2 right-0 left-0 z-20 hidden group-hover:flex">
-            <WatchStatusBadge status={item.status!} size="md" />
+          <div className="absolute top-2 left-2 z-20 hidden group-hover:flex">
+            <WatchStatusBadge status={item.status!} variant="icon" />
           </div>
         )}
       </div>

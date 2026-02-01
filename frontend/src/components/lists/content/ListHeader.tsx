@@ -121,29 +121,7 @@ export default function ListHeader({
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Status badge toggle (for custom lists) */}
-          {showStatusToggle && onStatusToggle && (
-            <button
-              onClick={onStatusToggle}
-              className={`p-2 rounded-lg transition-colors ${
-                statusBadgesVisible
-                  ? "bg-accent-primary/20 text-accent-primary"
-                  : "bg-gray-800 text-gray-400 hover:text-white"
-              }`}
-              aria-label={
-                statusBadgesVisible
-                  ? "Hide status badges"
-                  : "Show status badges"
-              }
-              title={
-                statusBadgesVisible
-                  ? "Hide status badges"
-                  : "Show status badges"
-              }
-            >
-              <FontAwesomeIcon icon={faTag} className="text-sm" />
-            </button>
-          )}
+
 
           {/* Sort dropdown */}
           <Listbox value={sortOption} onChange={onSortChange}>
