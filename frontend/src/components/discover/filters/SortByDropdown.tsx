@@ -9,6 +9,8 @@ type Props = {
 };
 
 const SORT_OPTIONS: { value: string; label: string }[] = [
+  { value: "trending", label: "Trending" },
+  { value: "popularity.desc", label: "Most Popular" },
   { value: "vote_average.desc", label: "Highest Rated" },
   { value: "vote_average.asc", label: "Lowest Rated" },
   { value: "primary_release_date.desc", label: "Newest First" },

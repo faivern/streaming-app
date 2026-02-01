@@ -125,7 +125,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
           </div>
 
           <div>
-            <strong>IMDb</strong>
+            <strong>Rating</strong>
             <div>
               {voteAvg?.toFixed?.(1) ?? "No rating"}/10
               {voteCount ? ` by ${voteCount.toLocaleString()} reviews` : ""}

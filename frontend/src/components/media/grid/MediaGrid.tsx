@@ -20,7 +20,7 @@ export default function MediaGrid({
 }: MediaGridProps) {
   const displayTitle = 
     title || `Trending ${media_type === "movie" ? "Movies" : "TV Shows"}`;
-  const skeletonCount = 10;
+  const skeletonCount = 12;
 
   // Error state
   if (error) {
