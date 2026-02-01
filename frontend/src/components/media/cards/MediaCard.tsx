@@ -16,18 +16,18 @@ import {
 
 type MediaCardProps = {
   id: number;
-  media_type: MediaType; 
+  media_type: MediaType;
   title: string;
   posterPath: string;
   overview?: string;
   releaseDate?: string;
   vote_average?: number;
   genre_ids?: number[];
-  vote_count?: number; 
-  original_language?: string; 
-  runtime?: number; 
+  vote_count?: number;
+  original_language?: string;
+  runtime?: number;
   number_of_seasons?: number;
-  number_of_episodes?: number; 
+  number_of_episodes?: number;
 };
 
 export default function MediaCard(props: MediaCardProps) {
@@ -62,7 +62,7 @@ export default function MediaCard(props: MediaCardProps) {
       className="relative w-full mx-auto"
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
-      onFocus={() => setHovered(true)}   // keep instant for keyboard a11y
+      onFocus={() => setHovered(true)} // keep instant for keyboard a11y
       onBlur={() => setHovered(false)}
     >
       <div className="group relative z-10 hover:z-30 transition-transform duration-300 cursor-pointer"></div>
@@ -84,11 +84,11 @@ export default function MediaCard(props: MediaCardProps) {
             />
 
             {/* Poster */}
-            <Poster 
-              path={posterPath} 
-              alt={title} 
-              className="w-full" 
-              priority={true} 
+            <Poster
+              path={posterPath}
+              alt={title}
+              className="w-full"
+              priority={false} // Use lazy loading
             />
 
             {/* Content */}
@@ -102,7 +102,6 @@ export default function MediaCard(props: MediaCardProps) {
         {/* 🟡 Simple test modal */}
         {hovered && (
           <div ref={refs.setFloating} style={floatingStyles} className="z-50">
-            
             <MediaCardModal
               id={id}
               title={title}
