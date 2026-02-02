@@ -40,7 +40,7 @@ A full-stack movie and TV show discovery app built with React and .NET.
 
 ## Screenshots
 
-| Homepage | Homepage Carousels |
+| Homepage Grid | Homepage Carousels |
 |:--------:|:------------------:|
 | ![Homepage](./screenshots/homepage.png) | ![Carousels](./screenshots/carouselles-homepage.png) |
 
