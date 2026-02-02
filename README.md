@@ -24,6 +24,10 @@ A full-stack movie and TV show discovery app built with React and .NET.
 -  **Search** - Movies, TV shows, and people with real-time results
 -  **Browse by Genre** - Filter content with infinite scroll pagination
 -  **Detailed Info** - Cast, crew, trailers, and watch providers
+-  **Custom Lists** - Create and manage personal movie/TV collections with grid and list views
+-  **Watch Tracking** - Track your watchlist status (Want to Watch, Watching, Watched)
+-  **Reviews & Ratings** - Rate media across categories (Acting, Story, Visuals, Soundtrack)
+-  **Discover Modal** - Find new content with advanced filters to add to your lists
 -  **Google OAuth** - Secure authentication with cookie sessions
 -  **Responsive** - Works on desktop and mobile
 
@@ -59,6 +63,20 @@ A full-stack movie and TV show discovery app built with React and .NET.
 | Collections |
 |:-----------:|
 | ![Collection](./screenshots/collectionpage.png) |
+
+### My Lists & Tracking
+
+| My Tracking | Custom List (Grid View) |
+|:-----------:|:-----------------------:|
+| ![My Tracking](./screenshots/my-tracking.png) | ![List Grid View](./screenshots/my-list-gridview.png) |
+
+| Custom List (List View) | Discover Modal |
+|:-----------------------:|:--------------:|
+| ![List List View](./screenshots/my-list-listview.png) | ![Discover Modal](./screenshots/my-list-discover-modal.png) |
+
+| Review & Ratings |
+|:----------------:|
+| ![Review Modal](./screenshots/my-list-review.png) |
 
 ## Architecture
 
