@@ -14,6 +14,7 @@ import {
   useMediaEntries,
   useWatchStatusCounts,
   useUpdateMediaEntry,
+  useDeleteMediaEntry,
   useUpsertReview,
 } from "../../hooks/lists/useMediaEntries";
 
@@ -46,6 +47,7 @@ export default function MyListsPage() {
   const deleteListMutation = useDeleteList();
   const removeListItemMutation = useRemoveListItem();
   const updateMediaEntryMutation = useUpdateMediaEntry();
+  const deleteMediaEntryMutation = useDeleteMediaEntry();
   const upsertReviewMutation = useUpsertReview();
 
   // View state - unified selection (only one can be active at a time)
@@ -139,7 +141,7 @@ export default function MyListsPage() {
     }
   };
 
-// Handle removing item from list
+// Handle removing item from list or deleting media entry
   const handleRemoveItem = async (item: DisplayItem) => {
     if (item.source === "list" && currentList) {
       try {
@@ -151,8 +153,15 @@ export default function MyListsPage() {
       } catch {
         toast.error("Failed to remove item");
       }
+    } else if (item.source === "entry") {
+      // Delete media entry (from MyTracking status views)
+      try {
+        await deleteMediaEntryMutation.mutateAsync(item.sourceId);
+        toast.success(`Removed "${item.title}" from tracking`);
+      } catch {
+        toast.error("Failed to remove from tracking");
+      }
     }
-    // For media entries, we would handle differently
   };
 
   // Handle editing media entry
