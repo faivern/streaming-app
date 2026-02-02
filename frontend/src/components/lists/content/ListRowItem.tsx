@@ -40,22 +40,21 @@ export default function ListRowItem({
 
       {/* Info */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
-            <Link
-              to={`/media/${item.mediaType}/${item.tmdbId}`}
-              className="font-medium text-white hover:text-accent-primary transition-colors line-clamp-1"
-            >
-              {item.title}
-            </Link>
-            <p className="text-sm text-gray-400 mt-0.5">{mediaTypeLabel}</p>
-          </div>
-
-          {/* Status badge */}
+        <div className="flex items-center gap-2 min-w-0">
+          <Link
+            to={`/media/${item.mediaType}/${item.tmdbId}`}
+            className="font-medium text-white hover:text-accent-primary transition-colors line-clamp-1"
+          >
+            {item.title}
+          </Link>
+          {/* Status badge - icon only, shown on hover (always in layout to prevent jump) */}
           {showStatus && item.status && (
-            <WatchStatusBadge status={item.status} size="sm" />
+            <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+              <WatchStatusBadge status={item.status} variant="icon" />
+            </div>
           )}
         </div>
+        <p className="text-sm text-gray-400 mt-0.5">{mediaTypeLabel}</p>
 
         {/* Ratings row */}
         <div className="flex items-center gap-4 mt-2">
@@ -78,38 +77,37 @@ export default function ListRowItem({
         </div>
       </div>
 
-        {/* Edit mode buttons - delete and optionally edit */}
-        {isEditMode && (onRemove || onEdit) && (
-          <div className="flex flex-row justify-end w-full z-20 gap-4 pb-4">
-            {onEdit && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onEdit();
-                }}
-                className="p-4 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
-                aria-label="Edit entry"
-              >
-                <FaEdit className="text-md" />
-              </button>
-            )}
-            {onRemove && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onRemove();
-                }}
-                className="p-4 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
-                aria-label="Remove from list"
-              >
-                <FaTrash className="text-md" />
-              </button>
-            )}
-          </div>
-    
-        )}
+      {/* Edit mode buttons - positioned on far right */}
+      {isEditMode && (onRemove || onEdit) && (
+        <div className="flex-shrink-0 flex items-center gap-2">
+          {onEdit && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onEdit();
+              }}
+              className="p-3 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
+              aria-label="Edit entry"
+            >
+              <FaEdit className="text-sm" />
+            </button>
+          )}
+          {onRemove && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onRemove();
+              }}
+              className="p-3 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
+              aria-label="Remove from list"
+            >
+              <FaTrash className="text-sm" />
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

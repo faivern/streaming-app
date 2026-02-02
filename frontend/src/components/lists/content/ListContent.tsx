@@ -189,7 +189,7 @@ export default function ListContent({
         <ListGridView
           items={sortedItems}
           isEditMode={isEditMode}
-          onRemoveItem={isCustomList ? onRemoveItem : undefined}
+          onRemoveItem={onRemoveItem}
           onEditItem={onEditEntry}
           showStatus={isCustomList}
         />
@@ -197,7 +197,7 @@ export default function ListContent({
         <ListRowView
           items={sortedItems}
           isEditMode={isEditMode}
-          onRemoveItem={isCustomList ? onRemoveItem : undefined}
+          onRemoveItem={onRemoveItem}
           onEditItem={onEditEntry}
           showStatus={isCustomList}
         />
