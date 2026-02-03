@@ -7,6 +7,7 @@ type UseInfiniteDiscoverByProviderParams = {
   providerId?: number;
   mediaType?: MediaType;
   watchRegion?: string;
+  sortBy?: string;
 };
 
 /**
@@ -16,7 +17,7 @@ type UseInfiniteDiscoverByProviderParams = {
 export function useInfiniteDiscoverByProvider(
   params: UseInfiniteDiscoverByProviderParams
 ) {
-  const { providerId, mediaType, watchRegion = "US" } = params;
+  const { providerId, mediaType, watchRegion = "US", sortBy = "popularity.desc" } = params;
 
   return useInfiniteQuery<Paged<DetailMedia>, Error>({
     queryKey: [
@@ -26,6 +27,7 @@ export function useInfiniteDiscoverByProvider(
       providerId,
       mediaType,
       watchRegion,
+      sortBy,
     ],
     queryFn: ({ pageParam }) =>
       getAdvancedDiscover({
@@ -33,7 +35,7 @@ export function useInfiniteDiscoverByProvider(
         withWatchProviders: providerId!,
         watchRegion,
         page: pageParam as number,
-        sortBy: "popularity.desc",
+        sortBy,
       }),
     enabled: Boolean(providerId && mediaType),
     staleTime: 5 * 60 * 1000,

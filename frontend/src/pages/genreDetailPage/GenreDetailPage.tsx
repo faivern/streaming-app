@@ -1,6 +1,8 @@
 // pages/genres/GenreDetailPage.tsx
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Film, Tv } from "lucide-react";
 
 import BackLink from "../../components/media/breadcrumbs/BackLink";
 import MediaTypeToggle from "../../components/media/grid/MediaTypeToggle";
@@ -13,7 +15,9 @@ import TitleMid from "../../components/media/title/TitleMid";
 
 import { useInfiniteDiscoverGenre } from "../../hooks/genres/useInfiniteDiscoverGenre";
 import { useGenreById } from "../../hooks/genres/useGenreById";
+import { getDiscoverGenre } from "../../api/genres.api";
 import InfiniteScrollWrapper from "../../components/ui/InfiniteScrollWrapper";
+import SortByDropdown from "../../components/discover/filters/SortByDropdown";
 import type { MediaType } from "../../types/tmdb";
 
 export default function GenreDetailPage() {
@@ -40,6 +44,7 @@ export default function GenreDetailPage() {
   // Get media type from URL, fallback to defaultMediaType
   const urlMediaType = searchParams.get("mediaType") as MediaType | null;
   const [mediaType, setMediaType] = useState<MediaType>("movie");
+  const [sortBy, setSortBy] = useState<string>("popularity.desc");
 
   // Sync media type with URL and validate against supported types
   useEffect(() => {
@@ -98,9 +103,39 @@ export default function GenreDetailPage() {
   } = useInfiniteDiscoverGenre({
     mediaType,
     genreId: genreIdNum,
+    sortBy,
   });
 
   const items = data?.pages.flatMap((p) => p.results) ?? [];
+
+  // Fetch counts for both media types (just first page to get total_results)
+  const { data: movieCountData } = useQuery({
+    queryKey: ["genre", "count", "movie", genreIdNum],
+    queryFn: () =>
+      getDiscoverGenre({
+        mediaType: "movie",
+        genreId: genreIdNum!,
+        page: 1,
+      }),
+    enabled: Boolean(genreIdNum),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: tvCountData } = useQuery({
+    queryKey: ["genre", "count", "tv", genreIdNum],
+    queryFn: () =>
+      getDiscoverGenre({
+        mediaType: "tv",
+        genreId: genreIdNum!,
+        page: 1,
+      }),
+    enabled: Boolean(genreIdNum),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const movieCount = movieCountData?.total_results ?? 0;
+  const tvCount = tvCountData?.total_results ?? 0;
+  const totalMediaCount = movieCount + tvCount;
 
   if (!genreIdNum) {
     return <Error message="Invalid or missing genre id." />;
@@ -119,19 +154,47 @@ export default function GenreDetailPage() {
   return (
     <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32 max-w-7xl mx-auto px-4 py-8">
       <BackLink />
-      <TitleMid className="text-3xl">{genreName}</TitleMid>
 
-      <p className="text-lg text-gray-300 italic">
-        Explore the best {genreName.toLowerCase()}{" "}
-        {mediaType === "tv" ? "shows" : "movies"}
-      </p>
+      <div className="mb-4">
+        <TitleMid className="text-3xl">{genreName}</TitleMid>
+        <p className="text-lg text-gray-300 italic">
+          Explore the best {genreName.toLowerCase()}{" "}
+          {mediaType === "tv" ? "shows" : "movies"}
+        </p>
+      </div>
 
-      {/* Only show toggle when genre supports both media types */}
-      {supportsBoth && (
-        <div className="mt-4">
+      <div className="flex items-center gap-3 text-sm text-gray-400 isolation-auto mb-4">
+        {/* count display */}
+        <span
+          className="flex items-center gap-1 isolate"
+          style={{ contain: "paint", willChange: "transform" }}
+        >
+          <Film className="w-4 h-4 text-accent-primary" />
+          {movieCount.toLocaleString()} {movieCount === 1 ? "Movie" : "Movies"}
+        </span>
+
+        <span
+          className="flex items-center gap-1 isolate"
+          style={{ contain: "paint", willChange: "transform" }}
+        >
+          <Tv className="w-4 h-4 text-accent-primary" />
+          {tvCount.toLocaleString()} {tvCount === 1 ? "TV Show" : "TV Shows"}
+        </span>
+
+        <span>•</span>
+        <span>{totalMediaCount.toLocaleString()} Total</span>
+      </div>
+
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        {/* Only show toggle when genre supports both media types */}
+        {supportsBoth ? (
           <MediaTypeToggle selectedType={mediaType} onToggle={handleToggle} />
-        </div>
-      )}
+        ) : (
+          <div /> // Spacer to keep sort dropdown on the right
+        )}
+
+        <SortByDropdown value={sortBy} onChange={setSortBy} />
+      </div>
 
       <InfiniteScrollWrapper
         dataLength={items.length}
