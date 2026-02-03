@@ -116,17 +116,23 @@ export default function Top10Carousel({
                       className="block group group/card"
                     >
                       <div className="relative flex items-center">
-                        {/* Large ranking number */}
+                        {/* Large ranking number - hollow by default, fills on hover */}
                         <span
                           className="absolute bottom-0 right-0 pb-4 pr-4 z-10 text-[8rem] font-black leading-none select-none
                             transition-all duration-300 ease-out
-                            [-webkit-text-stroke:3px_var(--accent-primary)] text-transparent
-                            group-hover/card:group-hover/card:text-transparent
+                            text-transparent
+                            [--stroke-color:var(--accent-primary)]
+                            drop-shadow-[0_0_8px_rgba(0,0,0,0.6)]
                             group-hover/card:text-[9rem]
-                            group-hover/card:bg-clip-text group-hover/card:bg-gradient-to-r
-                            group-hover/card:from-accent-primary group-hover/card:to-accent-secondary
-                            group-hover/card:[-webkit-text-stroke:0px]"
-                          style={{ fontFamily: "system-ui, sans-serif" }}
+                            group-hover/card:bg-gradient-to-br group-hover/card:from-accent-primary group-hover/card:to-accent-secondary
+                            group-hover/card:bg-clip-text
+                            group-hover/card:[--stroke-color:rgba(0,40,60,0.7)]
+                            group-hover/card:drop-shadow-[0_4px_12px_rgba(0,200,255,0.3)]"
+                          style={{
+                            fontFamily: "system-ui, sans-serif",
+                            WebkitTextStroke: "3px var(--stroke-color)",
+                            paintOrder: "stroke fill",
+                          }}
                         >
                           {rank}
                         </span>

@@ -47,8 +47,7 @@ export default function MediaCard(props: MediaCardProps) {
     number_of_episodes,
   } = props;
 
-  const hoverDelay = 600;
-  const { hovered, onEnter, onLeave, setHovered } = useDelayHover(hoverDelay);
+  const { hovered, onEnter, onLeave, setHovered } = useDelayHover();
 
   const { refs, floatingStyles } = useFloating({
     placement: "right",

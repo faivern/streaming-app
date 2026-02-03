@@ -10,7 +10,7 @@ type Props = {
   showOutOfTen?: boolean;
   imdbId?: string;
 };
- 
+
 export default function RatingPill({
   rating,
   count,
@@ -22,7 +22,7 @@ export default function RatingPill({
     <Pill
       className={`font-medium ${imdbId ? "hover:bg-amber-500/20 transition-colors cursor-pointer" : ""} ${!rating ? "invisible" : ""} ${className}`}
       icon={<FontAwesomeIcon icon={faStar} className="text-amber-400 mr-1" />}
-      title={imdbId ? "View on IMDB" : "Average rating"}
+      title={imdbId ? "View on IMDB" : "Average TMDB rating"}
     >
       {rating ? (
         <>

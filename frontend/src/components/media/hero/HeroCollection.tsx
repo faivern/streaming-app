@@ -39,42 +39,51 @@ const HeroCollection = ({ collection }: Props) => {
         path={collection.backdrop_path || collection.poster_path || ""}
         alt={collection.name}
         className="w-full h-64 md:h-80 lg:h-96 object-cover"
-      sizes="100vw"
-      priority
-    />
-    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        sizes="100vw"
+        priority
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-    <div className="gap-4 absolute bottom-4 left-4 max-w-xl bg-gray-700/5 p-6 rounded-xl backdrop-blur-sm shadow-lg">
-      <h1 className="text-3xl md:text-4xl font-bold">{collection.name}</h1>
+      <div className="gap-4 absolute bottom-4 left-4 max-w-xl bg-gray-700/5 p-6 rounded-xl backdrop-blur-sm shadow-lg">
+        <h1 className="text-3xl md:text-4xl font-bold">{collection.name}</h1>
 
-      <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mt-3">
-        <p className="font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm flex items-center " title="Average Rating">
-          <FontAwesomeIcon icon={faStar} className="text-amber-400 mr-1" />
-          {avgRating ? (
-            <>
-              <span className="font-bold">{avgRating}</span>
-              <span>/10</span>
-            </>
-          ) : (
-            "No rating"
-          )}
-        </p>
+        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mt-3">
+          <p
+            className="font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm flex items-center "
+            title="Average TMDB Rating"
+          >
+            <FontAwesomeIcon icon={faStar} className="text-amber-400 mr-1" />
+            {avgRating ? (
+              <>
+                <span className="font-bold">{avgRating}</span>
+                <span>/10</span>
+              </>
+            ) : (
+              "No rating"
+            )}
+          </p>
 
-        <p title="Release Dates" className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
-          <Calendar className="h-4 w-4" />
-          {firstRelease}
-          {" - "}
-          {lastRelease}
-        </p>
+          <p
+            title="Release Dates"
+            className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm"
+          >
+            <Calendar className="h-4 w-4" />
+            {firstRelease}
+            {" - "}
+            {lastRelease}
+          </p>
 
-        <p title="Total Movies" className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm">
-          <Clapperboard className="h-4 w-4" />
-          Movies: {movieCount}
-        </p>
+          <p
+            title="Total Movies"
+            className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm"
+          >
+            <Clapperboard className="h-4 w-4" />
+            Movies: {movieCount}
+          </p>
+        </div>
+        <p className="mt-2 text-gray-300 max-w-3xl">{collectionOverview}</p>
       </div>
-      <p className="mt-2 text-gray-300 max-w-3xl">{collectionOverview}</p>
-    </div>
-  </section>
-);
-}
+    </section>
+  );
+};
 export default HeroCollection;

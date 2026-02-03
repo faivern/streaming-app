@@ -5,7 +5,7 @@ type Props = {
 };
 
 const HeroSection = ({ total_results }: Props) => {
-  const durationTime = 2.5;
+  const durationTimeSeconds = 4;
   const separatorSymbol = " ";
 
   return (
@@ -13,7 +13,7 @@ const HeroSection = ({ total_results }: Props) => {
       <h1 className="sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-text-h1">
         Explore{" "}
         <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">
-          <CountUp end={total_results} duration={durationTime} separator={separatorSymbol} />
+          <CountUp end={total_results} duration={durationTimeSeconds} separator={separatorSymbol} />
         </span>{" "}
         Movies & TV Shows
       </h1>
