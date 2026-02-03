@@ -57,10 +57,15 @@ export default function DiscoverModal({
     filters,
     setMediaType,
     toggleGenre,
+    clearGenres,
     setReleaseYearRange,
+    clearReleaseYearRange,
     setMinRating,
+    clearMinRating,
     setRuntimeRange,
+    clearRuntimeRange,
     setLanguage,
+    clearLanguage,
     setSortBy,
     resetFilters,
     hasActiveFilters,
@@ -258,11 +263,33 @@ export default function DiscoverModal({
   // Filter sidebar content (shared between desktop and mobile)
   const filterContent = (
     <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h3 className="text-lg font-semibold text-white">Filters</h3>
+        {hasActiveFilters && (
+          <button
+            onClick={resetFilters}
+            className="px-3 py-1 text-sm text-gray-400 hover:text-white bg-gray-700/50 hover:bg-gray-600/50 rounded-lg transition-colors"
+          >
+            Reset
+          </button>
+        )}
+      </div>
+
       {/* Genres */}
       <div>
-        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-          Genres
-        </h3>
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Genres
+          </h3>
+          {filters.genreIds.length > 0 && (
+            <button
+              onClick={() => clearGenres()}
+              className="text-xs text-gray-400 hover:text-white transition-colors"
+            >
+              Clear
+            </button>
+          )}
+        </div>
         <GenreCheckboxList
           mediaType={filters.mediaType}
           selectedGenreIds={filters.genreIds}
@@ -272,9 +299,19 @@ export default function DiscoverModal({
 
       {/* Year Range */}
       <div>
-        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-          Year
-        </h3>
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Year
+          </h3>
+          {(filters.releaseYearRange.min || filters.releaseYearRange.max) && (
+            <button
+              onClick={() => clearReleaseYearRange()}
+              className="text-xs text-gray-400 hover:text-white transition-colors"
+            >
+              Clear
+            </button>
+          )}
+        </div>
         <YearRangeSelector
           value={filters.releaseYearRange}
           onChange={setReleaseYearRange}
@@ -312,9 +349,19 @@ export default function DiscoverModal({
 
       {/* Rating Slider */}
       <div>
-        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-          Minimum Rating
-        </h3>
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Minimum Rating
+          </h3>
+          {filters.minRating > 0 && (
+            <button
+              onClick={() => clearMinRating()}
+              className="text-xs text-gray-400 hover:text-white transition-colors"
+            >
+              Clear
+            </button>
+          )}
+        </div>
         <RatingSlider value={filters.minRating} onChange={setMinRating} />
       </div>
 
@@ -329,9 +376,19 @@ export default function DiscoverModal({
       {/* Runtime (Movies only - not available for TV or Both) */}
       {filters.mediaType === "movie" && (
         <div>
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-            Runtime
-          </h3>
+          <div className="flex justify-between items-center mb-3">
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              Runtime
+            </h3>
+            {(filters.runtimeRange.min || filters.runtimeRange.max) && (
+              <button
+                onClick={() => clearRuntimeRange()}
+                className="text-xs text-gray-400 hover:text-white transition-colors"
+              >
+                Clear
+              </button>
+            )}
+          </div>
           <RuntimeSelector
             value={filters.runtimeRange}
             onChange={setRuntimeRange}
@@ -341,21 +398,24 @@ export default function DiscoverModal({
 
       {/* Language */}
       <div>
-        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-          Language
-        </h3>
+        <div className="flex justify-between items-center mb-3">
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Language
+          </h3>
+          {filters.language && (
+            <button
+              onClick={() => clearLanguage()}
+              className="text-xs text-gray-400 hover:text-white transition-colors"
+            >
+              Clear
+            </button>
+          )}
+        </div>
         <LanguageDropdown value={filters.language} onChange={setLanguage} />
       </div>
 
       {/* Reset Filters */}
-      {hasActiveFilters && (
-        <button
-          onClick={resetFilters}
-          className="w-full py-2 text-sm text-gray-400 hover:text-white transition-colors"
-        >
-          Reset all filters
-        </button>
-      )}
+      
     </div>
   );
 
@@ -563,15 +623,7 @@ export default function DiscoverModal({
                   </div>
 
                   {/* Footer */}
-                  <div className="flex items-center justify-end gap-3 p-4 border-t border-gray-700">
-                    <button
-                      type="button"
-                      onClick={handleClose}
-                      className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
-                    >
-                      Done
-                    </button>
-                  </div>
+                  
                 </Dialog.Panel>
               </Transition.Child>
             </div>

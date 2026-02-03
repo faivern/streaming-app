@@ -81,12 +81,13 @@ export function useDeleteList() {
 
 /**
  * Add an item to a list
+ * @param silent - If true, suppresses success/error toasts (caller handles feedback)
  */
 export function useAddListItem() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ listId, item }: { listId: number; item: AddListItemRequest }) =>
+    mutationFn: ({ listId, item }: { listId: number; item: AddListItemRequest; silent?: boolean }) =>
       listsApi.addItem(listId, item),
     onSuccess: (updatedList) => {
       queryClient.setQueryData<List[]>(listKeys.all, (old) =>
