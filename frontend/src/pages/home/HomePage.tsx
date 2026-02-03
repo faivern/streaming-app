@@ -7,6 +7,7 @@ import CollectionCarousel from "../../components/media/carousel/CollectionCarous
 import TrendingCarousel from "../../components/media/carousel/TrendingCarousel";
 import UpcomingCarousel from "../../components/media/carousel/UpcomingCarousel";
 import Top10Carousel from "../../components/media/carousel/Top10Carousel";
+import WatchProviderCarousel from "../../components/media/carousel/WatchProviderCarousel";
 
 import Loading from "../../components/feedback/Loading";
 
@@ -23,6 +24,8 @@ import { useTopRatedMedia } from "../../hooks/toprated/useTopRatedMedia";
 import { useSortByBayesian } from "../../hooks/sorting/useSortByBayesian";
 import { featuredCollections } from "../../utils/featuredCollections";
 import useMediaGrid from "../../hooks/media/useMediaGrid";
+import { useWatchProvidersList } from "../../hooks/media/useWatchProvidersList";
+import { getDefaultCountry } from "../../components/media/RegionSelector";
 
 export default function HomePage() {
   const [mediaType, setMediaType] = useState<"movie" | "tv">("movie");
@@ -41,6 +44,11 @@ export default function HomePage() {
 const { data: topRatedRaw = [], isLoading: topRatedLoading } =
   useTopRatedMedia(mediaType);
 const topRated = useSortByBayesian(topRatedRaw);
+
+  // Watch providers for the carousel
+  const providerRegion = getDefaultCountry();
+  const { data: watchProviders = [], isLoading: providersLoading } =
+    useWatchProvidersList(providerRegion);
 
   // Use the new MediaGrid hook
   const {
@@ -82,6 +90,11 @@ const topRated = useSortByBayesian(topRatedRaw);
         mediaType={mediaType}
       />
       <GenreCardList genres={genres} />
+      <WatchProviderCarousel
+        providers={watchProviders}
+        loading={providersLoading}
+        region={providerRegion}
+      />
       <CollectionCarousel items={featured} loading={isLoading} />
       <UpcomingCarousel
         items={upcoming}

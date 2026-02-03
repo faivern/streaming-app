@@ -177,3 +177,16 @@ export type WatchProviderRegion = {
 export type WatchProviderRegionsResponse = {
   results: WatchProviderRegion[];
 };
+
+// Watch Provider List Types (for browsing all providers in a region)
+export type WatchProviderListItem = {
+  display_priorities: Record<string, number>;
+  display_priority: number;
+  logo_path: string;
+  provider_name: string;
+  provider_id: number;
+};
+
+export type WatchProviderListResponse = {
+  results: WatchProviderListItem[];
+};

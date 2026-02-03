@@ -10,6 +10,8 @@ import GenreDetailPage from "./pages/genreDetailPage/GenreDetailPage";
 import CollectionPage from "./pages/collectionPage/collectionPage";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import MyListsPage from "./pages/myLists";
+import ProviderPage from "./pages/providerPage/ProviderPage";
+import ProvidersPage from "./pages/providersPage/ProvidersPage";
 
 function App() {
   // theme select (for development purposes, might add user selection later)
@@ -52,6 +54,8 @@ function App() {
             path="/collections/:collectionId"
             element={<CollectionPage />}
           />
+          <Route path="/provider/:providerId" element={<ProviderPage />} />
+          <Route path="/providers" element={<ProvidersPage />} />
         </Routes>
       </main>
       <Footer />

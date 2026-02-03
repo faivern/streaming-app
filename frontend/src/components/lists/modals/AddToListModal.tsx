@@ -255,7 +255,7 @@ export default function AddToListModal({
             `${listCount} lists`
           );
         toast.success(
-          <span>Added to {listPart} and <strong>{status === "WantToWatch" ? "as Want to Watch" : status === "Watching" ? "asWatching" : "as Watched"}</strong></span>,
+          <span>Added to {listPart} and as <strong>{status === "WantToWatch" ? "Want to Watch" : status === "Watching" ? "Watching" : "Watched"}</strong></span>,
         );
       } else if (hasSelectedLists) {
         const listPart =
@@ -267,7 +267,7 @@ export default function AddToListModal({
         toast.success(`Added to ${listPart}`);
       } else if (hasSelectedStatus) {
         toast.success(
-          <span>Added to {' '}<strong>${status === "WantToWatch" ? "as Want to Watch" : status === "Watching" ? "as Watching" : "as Watched"}</strong></span>,
+          <span>Added as {' '}<strong>{status === "WantToWatch" ? "Want to Watch" : status === "Watching" ? "Watching" : "Watched"}</strong></span>,
         );
       }
 

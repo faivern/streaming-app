@@ -13,6 +13,8 @@ export type AdvancedDiscoverParams = {
   language?: string;
   sortBy?: string;
   page?: number;
+  withWatchProviders?: number;
+  watchRegion?: string;
 };
 
 export async function getAdvancedDiscover(
@@ -46,6 +48,12 @@ export async function getAdvancedDiscover(
   }
   if (params.language) {
     queryParams.language = params.language;
+  }
+  if (params.withWatchProviders !== undefined) {
+    queryParams.withWatchProviders = params.withWatchProviders;
+  }
+  if (params.watchRegion) {
+    queryParams.watchRegion = params.watchRegion;
   }
 
   // Debug: log params to verify runtime filter is being sent

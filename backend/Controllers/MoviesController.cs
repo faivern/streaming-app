@@ -413,7 +413,7 @@ namespace backend.Controllers
 
         /// <summary>
         /// Advanced discover endpoint with multiple filter parameters.
-        /// Supports filtering by genres, year range, rating, runtime, language, and sort order.
+        /// Supports filtering by genres, year range, rating, runtime, language, watch providers, and sort order.
         /// </summary>
         [HttpGet("discover/advanced")]
         public async Task<IActionResult> AdvancedDiscover(
@@ -426,7 +426,9 @@ namespace backend.Controllers
             [FromQuery] int? runtimeLte = null,
             [FromQuery] string? language = null,
             [FromQuery] string sortBy = "popularity.desc",
-            [FromQuery] int page = 1)
+            [FromQuery] int page = 1,
+            [FromQuery] int? withWatchProviders = null,
+            [FromQuery] string? watchRegion = null)
         {
             try
             {
@@ -449,7 +451,9 @@ namespace backend.Controllers
                     runtimeLte,
                     language,
                     sortBy,
-                    page);
+                    page,
+                    withWatchProviders,
+                    watchRegion);
 
                 return Content(data, "application/json");
             }
@@ -554,6 +558,34 @@ namespace backend.Controllers
             try
             {
                 var data = await _tmdbService.GetWatchProviderRegionsAsync();
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("watch/providers/movie")]
+        public async Task<IActionResult> GetMovieWatchProvidersList([FromQuery] string watchRegion = "US")
+        {
+            try
+            {
+                var data = await _tmdbService.GetMovieWatchProvidersListAsync(watchRegion);
+                return Content(data, "application/json");
+            }
+            catch (HttpRequestException ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("watch/providers/tv")]
+        public async Task<IActionResult> GetTvWatchProvidersList([FromQuery] string watchRegion = "US")
+        {
+            try
+            {
+                var data = await _tmdbService.GetTvWatchProvidersListAsync(watchRegion);
                 return Content(data, "application/json");
             }
             catch (HttpRequestException ex)

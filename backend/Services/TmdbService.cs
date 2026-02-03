@@ -321,7 +321,9 @@ namespace backend.Services
             int? runtimeLte = null,
             string? language = null,
             string sortBy = "popularity.desc",
-            int page = 1)
+            int page = 1,
+            int? withWatchProviders = null,
+            string? watchRegion = null)
         {
             // Build query parameters dynamically
             var queryParams = new List<string>
@@ -374,6 +376,14 @@ namespace backend.Services
                 queryParams.Add($"with_original_language={language}");
             }
 
+            // Watch providers filter
+            if (withWatchProviders.HasValue)
+            {
+                queryParams.Add($"with_watch_providers={withWatchProviders.Value}");
+                // watch_region is required when filtering by watch providers
+                queryParams.Add($"watch_region={watchRegion ?? "US"}");
+            }
+
             var queryString = string.Join("&", queryParams);
             var url = $"https://api.themoviedb.org/3/discover/{mediaType}?{queryString}";
 
@@ -381,7 +391,7 @@ namespace backend.Services
             _logger.LogInformation($"[AdvancedDiscover] TMDB URL: {url.Replace(_apiKey, "***")}");
 
             // Build cache key from all parameters for unique caching
-            var cacheKey = $"advanced_discover_{mediaType}_g{string.Join("-", genreIds ?? Array.Empty<int>())}_y{primaryReleaseYearGte}-{primaryReleaseYearLte}_r{voteAverageGte}_rt{runtimeGte}-{runtimeLte}_l{language}_s{sortBy}_p{page}";
+            var cacheKey = $"advanced_discover_{mediaType}_g{string.Join("-", genreIds ?? Array.Empty<int>())}_y{primaryReleaseYearGte}-{primaryReleaseYearLte}_r{voteAverageGte}_rt{runtimeGte}-{runtimeLte}_l{language}_s{sortBy}_p{page}_wp{withWatchProviders}_wr{watchRegion}";
 
             return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
         }
@@ -445,6 +455,20 @@ namespace backend.Services
         {
             var url = $"https://api.themoviedb.org/3/watch/providers/regions?api_key={_apiKey}";
             return await FetchWithCacheAsync("watch_provider_regions", url, TimeSpan.FromHours(24));
+        }
+
+        // Get list of all movie watch providers for a region
+        public async Task<string> GetMovieWatchProvidersListAsync(string watchRegion = "US")
+        {
+            var url = $"https://api.themoviedb.org/3/watch/providers/movie?api_key={_apiKey}&watch_region={watchRegion}";
+            return await FetchWithCacheAsync($"movie_watch_providers_list_{watchRegion}", url, TimeSpan.FromHours(24));
+        }
+
+        // Get list of all TV watch providers for a region
+        public async Task<string> GetTvWatchProvidersListAsync(string watchRegion = "US")
+        {
+            var url = $"https://api.themoviedb.org/3/watch/providers/tv?api_key={_apiKey}&watch_region={watchRegion}";
+            return await FetchWithCacheAsync($"tv_watch_providers_list_{watchRegion}", url, TimeSpan.FromHours(24));
         }
         //-----------------------------------------------------------------------------------
 
