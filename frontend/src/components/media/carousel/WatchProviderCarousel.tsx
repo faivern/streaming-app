@@ -16,7 +16,7 @@ type Props = {
   region: string;
 };
 
-const MAX_PROVIDERS = 12;
+const MAX_PROVIDERS = 17;
 
 export default function WatchProviderCarousel({
   providers,
@@ -83,7 +83,7 @@ export default function WatchProviderCarousel({
   const next = () => setPage((p) => clampPage(p + 1));
 
   const renderItems = loading
-    ? Array.from({ length: 8 }).map((_, i) => ({
+    ? Array.from({ length: 17 }).map((_, i) => ({
         provider_id: i,
         provider_name: "",
         logo_path: "",

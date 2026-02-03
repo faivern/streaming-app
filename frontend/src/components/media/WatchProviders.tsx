@@ -41,7 +41,7 @@ function ProviderGroup({
           >
             <div className="relative">
               <img
-                src={`https://image.tmdb.org/t/p/w92${provider.logo_path}`}
+                src={`https://image.tmdb.org/t/p/w154${provider.logo_path}`}
                 alt={provider.provider_name}
                 className="w-12 h-12 rounded-xl object-cover border-2 border-gray-700 group-hover:border-sky-500 transition-all group-hover:scale-105 shadow-md"
               />

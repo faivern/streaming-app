@@ -395,14 +395,18 @@ namespace backend.Controllers
         }
 
         [HttpGet("discover/by-genre")]
-        public async Task<IActionResult> DiscoverByGenre([FromQuery] string mediaType, [FromQuery] int genreId, [FromQuery] int page = 1)
+        public async Task<IActionResult> DiscoverByGenre(
+            [FromQuery] string mediaType,
+            [FromQuery] int genreId,
+            [FromQuery] int page = 1,
+            [FromQuery] string sortBy = "popularity.desc")
         {
             try
             {
                 if (mediaType != "movie" && mediaType != "tv")
                     return BadRequest("Invalid mediaType. Use 'movie' or 'tv'.");
 
-                var data = await _tmdbService.DiscoverByGenreAsync(mediaType, genreId, page);
+                var data = await _tmdbService.DiscoverByGenreAsync(mediaType, genreId, page, sortBy);
                 return Content(data, "application/json");
             }
             catch (HttpRequestException ex)

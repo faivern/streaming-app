@@ -58,7 +58,7 @@ export default function MediaDetailHeader({
           />
 {/*
                {logo_path && (              <div className="absolute top-2 left-2 bg-white/80 px-2 py-1 rounded">           <img
-                     loading="lazy"                  src={`https://image.tmdb.org/t/p/w92${logo_path}`}
+                     loading="lazy"                  src={`https://image.tmdb.org/t/p/w154${logo_path}`}
                 alt={`${title} logo`}
                 className="object-contain h-5"
               />

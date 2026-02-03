@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "../../../style/MediaCard.css";
 
-const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w154";
+const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 type WatchProviderCardProps = {
   providerId: number;
@@ -27,7 +27,7 @@ export default function WatchProviderCard({
                      border border-gray-400/30 shadow-lg
                      transition-all duration-300
                      group-hover:scale-105 group-hover:border-accent-primary/75
-                     group-hover:shadow-xl group-hover:shadow-accent-primary/20"
+                     "
         >
           <img
             src={`${TMDB_IMAGE_BASE}${logoPath}`}
@@ -41,9 +41,9 @@ export default function WatchProviderCard({
         </div>
 
         <p
-          className="mt-2 text-center text-sm text-gray-300
+          className="mt-2 text-center text-sm text-gray-300/0
                     group-hover:text-white transition-colors
-                    truncate max-w-28"
+                    truncate max-w-28 text-opacity-100"
         >
           {providerName}
         </p>

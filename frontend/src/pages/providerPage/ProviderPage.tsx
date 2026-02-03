@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Film, Tv } from "lucide-react";
 
 import BackLink from "../../components/media/breadcrumbs/BackLink";
 import MediaTypeToggle from "../../components/media/grid/MediaTypeToggle";
@@ -16,10 +18,12 @@ import TitleMid from "../../components/media/title/TitleMid";
 
 import { useInfiniteDiscoverByProvider } from "../../hooks/discover/useInfiniteDiscoverByProvider";
 import { useWatchProviderRegions } from "../../hooks/media/useWatchProviders";
+import { getAdvancedDiscover } from "../../api/advancedDiscover.api";
 import InfiniteScrollWrapper from "../../components/ui/InfiniteScrollWrapper";
+import SortByDropdown from "../../components/discover/filters/SortByDropdown";
 import type { MediaType } from "../../types/tmdb";
 
-const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w154";
+const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 export default function ProviderPage() {
   const { providerId } = useParams();
@@ -41,24 +45,32 @@ export default function ProviderPage() {
   const [selectedRegion, setSelectedRegion] = useState<string>(
     urlRegion || getDefaultCountry()
   );
+  const [sortBy, setSortBy] = useState<string>("popularity.desc");
 
   // Fetch regions for selector
   const { data: regionsData, isLoading: regionsLoading } =
     useWatchProviderRegions();
   const regions = regionsData?.results ?? [];
 
+  // Get logo from URL params (stable reference, doesn't need to be in effect deps)
+  const providerLogo = searchParams.get("logo");
+
   // Sync URL with state changes
   useEffect(() => {
     if (!providerIdNum) return;
 
-    const newParams = new URLSearchParams(searchParams);
+    // Build params from state directly, not from searchParams (avoids circular dependency)
+    const newParams = new URLSearchParams();
     newParams.set("name", providerName);
     newParams.set("region", selectedRegion);
     newParams.set("mediaType", mediaType);
+    if (providerLogo) {
+      newParams.set("logo", providerLogo);
+    }
 
     const newUrl = `/provider/${providerIdNum}?${newParams.toString()}`;
     navigate(newUrl, { replace: true });
-  }, [selectedRegion, mediaType, providerIdNum, providerName, navigate, searchParams]);
+  }, [selectedRegion, mediaType, providerIdNum, providerName, providerLogo, navigate]);
 
   // Persist region to localStorage
   useEffect(() => {
@@ -85,9 +97,43 @@ export default function ProviderPage() {
     providerId: providerIdNum,
     mediaType,
     watchRegion: selectedRegion,
+    sortBy,
   });
 
   const items = data?.pages.flatMap((p) => p.results) ?? [];
+
+  // Fetch counts for both media types (just first page to get total_results)
+  const { data: movieCountData } = useQuery({
+    queryKey: ["provider", "count", "movie", providerIdNum, selectedRegion],
+    queryFn: () =>
+      getAdvancedDiscover({
+        mediaType: "movie",
+        withWatchProviders: providerIdNum!,
+        watchRegion: selectedRegion,
+        page: 1,
+        sortBy: "popularity.desc",
+      }),
+    enabled: Boolean(providerIdNum),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const { data: tvCountData } = useQuery({
+    queryKey: ["provider", "count", "tv", providerIdNum, selectedRegion],
+    queryFn: () =>
+      getAdvancedDiscover({
+        mediaType: "tv",
+        withWatchProviders: providerIdNum!,
+        watchRegion: selectedRegion,
+        page: 1,
+        sortBy: "popularity.desc",
+      }),
+    enabled: Boolean(providerIdNum),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const movieCount = movieCountData?.total_results ?? 0;
+  const tvCount = tvCountData?.total_results ?? 0;
+  const totalMediaCount = movieCount + tvCount;
 
   if (!providerIdNum) {
     return <Error message="Invalid or missing provider id." />;
@@ -100,9 +146,6 @@ export default function ProviderPage() {
   if (isError) {
     return <Error message={`Error loading ${providerName}`} />;
   }
-
-  // Try to get logo from first result's backdrop or use placeholder
-  const providerLogo = searchParams.get("logo");
 
   return (
     <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32 max-w-7xl mx-auto px-4 py-8">
@@ -125,15 +168,40 @@ export default function ProviderPage() {
         </div>
       </div>
 
+      <div className="flex items-center gap-3 text-sm text-gray-400 isolation-auto mb-4">
+        {/* count display */}
+        <span
+          className="flex items-center gap-1 isolate"
+          style={{ contain: "paint", willChange: "transform" }}
+        >
+          <Film className="w-4 h-4 text-accent-primary" />
+          {movieCount} {movieCount === 1 ? "Movie" : "Movies"}
+        </span>
+
+        <span
+          className="flex items-center gap-1 isolate"
+          style={{ contain: "paint", willChange: "transform" }}
+        >
+          <Tv className="w-4 h-4 text-accent-primary" />
+          {tvCount} {tvCount === 1 ? "TV Show" : "TV Shows"}
+        </span>
+
+        <span>•</span>
+        <span>{totalMediaCount} Total</span>
+      </div>
+
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <MediaTypeToggle selectedType={mediaType} onToggle={handleToggle} />
 
-        <RegionSelector
-          regions={regions}
-          selectedCountry={selectedRegion}
-          onCountryChange={handleRegionChange}
-          loading={regionsLoading}
-        />
+        <div className="flex items-center gap-3">
+          <SortByDropdown value={sortBy} onChange={setSortBy} />
+          <RegionSelector
+            regions={regions}
+            selectedCountry={selectedRegion}
+            onCountryChange={handleRegionChange}
+            loading={regionsLoading}
+          />
+        </div>
       </div>
 
       {items.length === 0 ? (

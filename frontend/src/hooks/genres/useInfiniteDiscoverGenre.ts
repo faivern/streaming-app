@@ -6,13 +6,14 @@ import type { Paged } from "../../types/common";
 export function useInfiniteDiscoverGenre(params: {
   mediaType?: MediaType;
   genreId?: number;
+  sortBy?: string;
 }) {
-  const { mediaType, genreId } = params;
+  const { mediaType, genreId, sortBy = "popularity.desc" } = params;
 
   return useInfiniteQuery<Paged<DetailMedia>, Error>({
-    queryKey: ["discover", "genre", "infinite", mediaType, genreId],
+    queryKey: ["discover", "genre", "infinite", mediaType, genreId, sortBy],
     queryFn: ({ pageParam }) =>
-      getDiscoverGenre({ mediaType: mediaType!, genreId: genreId!, page: pageParam as number }),
+      getDiscoverGenre({ mediaType: mediaType!, genreId: genreId!, page: pageParam as number, sortBy }),
     enabled: Boolean(mediaType && genreId),
     staleTime: 5 * 60 * 1000,
     initialPageParam: 1,
