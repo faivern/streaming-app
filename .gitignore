@@ -33,9 +33,55 @@ Thumbs.db
 *.csproj.user
 
 docs/designs/
-claude
-planning/todos
 
-GEMINI.md
-AGENTS.md
+# AI Assistant Configuration Files
+# ─────────────────────────────────
+# These are personal AI prompting configs - not shared in repo
+
+# Claude Code
 CLAUDE.md
+.claude/
+claude
+
+# Gemini CLI
+GEMINI.md
+
+# GitHub Copilot
+COPILOT.md
+.github/copilot-instructions.md
+
+# Cursor AI
+.cursorrules
+.cursorignore
+cursor.md
+CURSOR.md
+
+# Aider
+.aider*
+aider.md
+AIDER.md
+
+# Codeium / Windsurf
+.codeium/
+codeium.md
+CODEIUM.md
+WINDSURF.md
+windsurf.md
+
+# Generic AI agent files
+AGENTS.md
+agents.md
+AI.md
+ai.md
+LLM.md
+llm.md
+ASSISTANT.md
+assistant.md
+PROMPT.md
+prompt.md
+
+# GSD Workflow (Claude Code planning state)
+.planning/
+
+# Legacy paths
+planning/todos

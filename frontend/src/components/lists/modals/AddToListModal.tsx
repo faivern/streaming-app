@@ -1,6 +1,14 @@
 import { Fragment, useState, useEffect, useMemo } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
-import { FaTimes, FaFilm, FaTv, FaPlus, FaCheck, FaClock, FaEye } from "react-icons/fa";
+import {
+  FaTimes,
+  FaFilm,
+  FaTv,
+  FaPlus,
+  FaCheck,
+  FaClock,
+  FaEye,
+} from "react-icons/fa";
 import toast from "react-hot-toast";
 import Poster from "../../media/shared/Poster";
 import StarRating from "../shared/StarRating";
@@ -44,7 +52,9 @@ export default function AddToListModal({
 }: AddToListModalProps) {
   // State
   const [step, setStep] = useState<ModalStep>("select");
-  const [selectedListIds, setSelectedListIds] = useState<Set<number>>(new Set());
+  const [selectedListIds, setSelectedListIds] = useState<Set<number>>(
+    new Set(),
+  );
   const [status, setStatus] = useState<WatchStatus | null>(null);
   const [ratingActing, setRatingActing] = useState<number | null>(null);
   const [ratingStory, setRatingStory] = useState<number | null>(null);
@@ -55,10 +65,8 @@ export default function AddToListModal({
 
   // Queries
   const { data: lists = [], isLoading: listsLoading } = useUserLists();
-  const { data: existingEntry, isLoading: entryLoading } = useMediaEntryByTmdbId(
-    media.tmdbId,
-    media.mediaType
-  );
+  const { data: existingEntry, isLoading: entryLoading } =
+    useMediaEntryByTmdbId(media.tmdbId, media.mediaType);
 
   // Mutations
   const addListItem = useAddListItem();
@@ -151,7 +159,7 @@ export default function AddToListModal({
     const hasSelectedStatus = status !== null;
 
     try {
-      // Add to selected lists
+      // Add to selected lists (silent - we'll show one toast at the end)
       if (hasSelectedLists) {
         const promises = Array.from(selectedListIds).map((listId) =>
           addListItem.mutateAsync({
@@ -162,12 +170,13 @@ export default function AddToListModal({
               title: media.title,
               posterPath: media.posterPath || undefined,
             },
-          })
+            silent: true,
+          }),
         );
         await Promise.all(promises);
       }
 
-      // Create or update media entry
+      // Create or update media entry (silent)
       if (hasSelectedStatus && status) {
         if (existingEntry) {
           // Update existing entry
@@ -180,6 +189,7 @@ export default function AddToListModal({
               ratingVisuals: ratingVisuals ?? undefined,
               ratingSoundtrack: ratingSoundtrack ?? undefined,
             },
+            silent: true,
           });
 
           // Update review if notes provided
@@ -187,6 +197,7 @@ export default function AddToListModal({
             await upsertReview.mutateAsync({
               entryId: existingEntry.id,
               data: { content: notes.trim() },
+              silent: true,
             });
           }
         } else {
@@ -200,10 +211,12 @@ export default function AddToListModal({
             overview: media.overview || undefined,
             voteAverage: media.voteAverage || undefined,
             status,
+            silent: true,
           });
 
           // Add ratings and review if provided
-          const hasRatings = ratingActing || ratingStory || ratingVisuals || ratingSoundtrack;
+          const hasRatings =
+            ratingActing || ratingStory || ratingVisuals || ratingSoundtrack;
           if (hasRatings || notes.trim()) {
             if (hasRatings) {
               await updateMediaEntry.mutateAsync({
@@ -214,29 +227,53 @@ export default function AddToListModal({
                   ratingVisuals: ratingVisuals ?? undefined,
                   ratingSoundtrack: ratingSoundtrack ?? undefined,
                 },
+                silent: true,
               });
             }
             if (notes.trim()) {
               await upsertReview.mutateAsync({
                 entryId: newEntry.id,
                 data: { content: notes.trim() },
+                silent: true,
               });
             }
           }
         }
       }
 
-      // Success message
+      // Show ONE clear success message
+      const listCount = selectedListIds.size;
+      const listNames = lists
+        .filter((l) => selectedListIds.has(l.id))
+        .map((l) => l.name);
+
       if (hasSelectedLists && hasSelectedStatus) {
-        toast.success("Added to lists and library!");
+        const listPart =
+          listCount === 1 ? (
+            <span> {' '} <strong>{listNames[0]}</strong> </span>
+          ) : (
+            `${listCount} lists`
+          );
+        toast.success(
+          <span>Added to {listPart} and <strong>{status === "WantToWatch" ? "as Want to Watch" : status === "Watching" ? "asWatching" : "as Watched"}</strong></span>,
+        );
       } else if (hasSelectedLists) {
-        toast.success(`Added to ${selectedListIds.size} list${selectedListIds.size > 1 ? "s" : ""}!`);
+        const listPart =
+          listCount === 1 ? (
+            <span> {' '} <strong>{listNames[0]}</strong> </span>
+          ) : (
+            `${listCount} lists`
+          );
+        toast.success(`Added to ${listPart}`);
+      } else if (hasSelectedStatus) {
+        toast.success(
+          <span>Added to {' '}<strong>${status === "WantToWatch" ? "as Want to Watch" : status === "Watching" ? "as Watching" : "as Watched"}</strong></span>,
+        );
       }
-      // Note: createMediaEntry already shows a toast
 
       handleClose();
     } catch {
-      // Error toasts are handled by mutation hooks
+      toast.error("Something went wrong");
     }
   };
 
@@ -354,8 +391,8 @@ export default function AddToListModal({
                               s.value === "WantToWatch"
                                 ? FaClock
                                 : s.value === "Watching"
-                                ? FaEye
-                                : FaCheck;
+                                  ? FaEye
+                                  : FaCheck;
                             return (
                               <button
                                 key={s.value}
@@ -443,8 +480,8 @@ export default function AddToListModal({
                                     isInList
                                       ? "bg-green-500/10 border border-green-500/30 cursor-default"
                                       : isSelected
-                                      ? "bg-accent-primary/20 border border-accent-primary/50"
-                                      : "bg-gray-800 border border-gray-700 hover:border-gray-600"
+                                        ? "bg-accent-primary/20 border border-accent-primary/50"
+                                        : "bg-gray-800 border border-gray-700 hover:border-gray-600"
                                   }`}
                                 >
                                   <div className="text-left">
@@ -499,8 +536,8 @@ export default function AddToListModal({
                           {isSaving
                             ? "Adding..."
                             : status === "Watching" || status === "Watched"
-                            ? "Next"
-                            : "Add"}
+                              ? "Next"
+                              : "Add"}
                         </button>
                       </div>
                     </>
@@ -513,7 +550,9 @@ export default function AddToListModal({
                         </h3>
                         <div className="space-y-4">
                           <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-400">Acting</span>
+                            <span className="text-sm text-gray-400">
+                              Acting
+                            </span>
                             <StarRating
                               value={ratingActing}
                               onChange={setRatingActing}
@@ -529,7 +568,9 @@ export default function AddToListModal({
                             />
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-400">Visuals</span>
+                            <span className="text-sm text-gray-400">
+                              Visuals
+                            </span>
                             <StarRating
                               value={ratingVisuals}
                               onChange={setRatingVisuals}

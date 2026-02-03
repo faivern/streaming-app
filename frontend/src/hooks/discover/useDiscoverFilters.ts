@@ -52,6 +52,10 @@ export function useDiscoverFilters(initialFilters?: Partial<DiscoverFilters>) {
     setFilters((prev) => ({ ...prev, genreIds }));
   }, []);
 
+  const clearGenres = useCallback(() => {
+    setFilters(prev => ({ ...prev, genreIds: [] }));
+  }, []);
+
   const setReleaseYearRange = useCallback(
     (range: { min?: number; max?: number }) => {
       setFilters((prev) => ({ ...prev, releaseYearRange: range }));
@@ -59,8 +63,16 @@ export function useDiscoverFilters(initialFilters?: Partial<DiscoverFilters>) {
     []
   );
 
+  const clearReleaseYearRange = useCallback(() => {
+    setFilters(prev => ({ ...prev, releaseYearRange: {} }));
+  }, []);
+
   const setMinRating = useCallback((minRating: number) => {
     setFilters((prev) => ({ ...prev, minRating }));
+  }, []);
+
+  const clearMinRating = useCallback(() => {
+    setFilters(prev => ({ ...prev, minRating: 0 }));
   }, []);
 
   const setRuntimeRange = useCallback(
@@ -70,8 +82,16 @@ export function useDiscoverFilters(initialFilters?: Partial<DiscoverFilters>) {
     []
   );
 
+  const clearRuntimeRange = useCallback(() => {
+    setFilters(prev => ({ ...prev, runtimeRange: {} }));
+  }, []);
+
   const setLanguage = useCallback((language: string) => {
     setFilters((prev) => ({ ...prev, language }));
+  }, []);
+
+  const clearLanguage = useCallback(() => {
+    setFilters(prev => ({ ...prev, language: "" }));
   }, []);
 
   const setSortBy = useCallback((sortBy: string) => {
@@ -101,10 +121,15 @@ export function useDiscoverFilters(initialFilters?: Partial<DiscoverFilters>) {
     setMediaType,
     toggleGenre,
     setGenres,
+    clearGenres,
     setReleaseYearRange,
+    clearReleaseYearRange,
     setMinRating,
+    clearMinRating,
     setRuntimeRange,
+    clearRuntimeRange,
     setLanguage,
+    clearLanguage,
     setSortBy,
     resetFilters,
     hasActiveFilters,

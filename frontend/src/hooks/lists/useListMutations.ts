@@ -71,18 +71,21 @@ export function useAddListItem() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ listId, item }: { listId: number; item: AddListItemRequest }) =>
+    mutationFn: ({ listId, item }: { listId: number; item: AddListItemRequest; silent?: boolean }) =>
       listsApi.addItem(listId, item),
-    onSuccess: (_data, { listId }) => {
-      toast.success("Added to list!");
+    onSuccess: (_data, { listId, silent }) => {
+      if (!silent) {
+        toast.success("Added to list!");
+      }
       queryClient.invalidateQueries({ queryKey: ["lists"] });
       queryClient.invalidateQueries({ queryKey: ["lists", listId] });
     },
-    onError: (error: ApiError) => {
+    onError: (error: ApiError, { silent }) => {
+      if (silent) return; // Errors handled by caller when silent
       if (error.response?.status === 401) {
         toast.error("Please sign in");
       } else if (error.response?.status === 409) {
-        toast.error("Item already exists in this list");
+        toast.error("Already in this list");
       } else if (error.response?.status === 404) {
         toast.error("List not found");
       } else {

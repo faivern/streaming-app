@@ -13,40 +13,46 @@ export function useCreateMediaEntry() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: CreateMediaEntryRequest) => mediaEntriesApi.create(data),
-    onSuccess: () => {
-      toast.success("Entry created!");
+    mutationFn: (data: CreateMediaEntryRequest & { silent?: boolean }) => mediaEntriesApi.create(data),
+    onSuccess: (_data, { silent }) => {
+      if (!silent) {
+        toast.success("Added to library!");
+      }
       queryClient.invalidateQueries({ queryKey: ["mediaEntries"] });
     },
-    onError: (error: ApiError) => {
+    onError: (error: ApiError, { silent }) => {
+      if (silent) return;
       if (error.response?.status === 401) {
         toast.error("Please sign in");
       } else if (error.response?.status === 409) {
-        toast.error("Entry already exists");
+        toast.error("Already in your library");
       } else {
-        toast.error("Failed to create entry");
+        toast.error("Failed to add to library");
       }
     },
-  }); 
+  });
 }
 
 export function useUpdateMediaEntry() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: number; data: UpdateMediaEntryRequest }) =>
+    mutationFn: ({ id, data }: { id: number; data: UpdateMediaEntryRequest; silent?: boolean }) =>
       mediaEntriesApi.update(id, data),
-    onSuccess: () => {
-      toast.success("Entry updated!");
+    onSuccess: (_data, { silent }) => {
+      if (!silent) {
+        toast.success("Library updated!");
+      }
       queryClient.invalidateQueries({ queryKey: ["mediaEntries"] });
     },
-    onError: (error: ApiError) => {
+    onError: (error: ApiError, { silent }) => {
+      if (silent) return;
       if (error.response?.status === 401) {
         toast.error("Please sign in");
       } else if (error.response?.status === 404) {
         toast.error("Entry not found");
       } else {
-        toast.error("Failed to update entry");
+        toast.error("Failed to update");
       }
     },
   });
@@ -83,12 +89,16 @@ export function useUpsertReview() {
     }: {
       entryId: number;
       data: UpsertReviewRequest;
+      silent?: boolean;
     }) => mediaEntriesApi.upsertReview(entryId, data),
-    onSuccess: () => {
-      toast.success("Review saved!");
+    onSuccess: (_data, { silent }) => {
+      if (!silent) {
+        toast.success("Review saved!");
+      }
       queryClient.invalidateQueries({ queryKey: ["mediaEntries"] });
     },
-    onError: (error: ApiError) => {
+    onError: (error: ApiError, { silent }) => {
+      if (silent) return;
       if (error.response?.status === 401) {
         toast.error("Please sign in");
       } else if (error.response?.status === 404) {
