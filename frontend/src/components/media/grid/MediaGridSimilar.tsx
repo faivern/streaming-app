@@ -3,6 +3,7 @@ import MediaSimilarCard from "../cards/MediaSimilarCard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import type { DetailMedia, MediaType } from "../../../types/tmdb";
+import TitleMid from "../title/TitleMid";
 
 type Props = {
   similarMedia: DetailMedia[];
@@ -20,10 +21,9 @@ const MediaGridSimilar = ({ similarMedia, parentType }: Props) => {
   return (
     <aside className="mt-8 shadow-lg w-md:max-w-6xl inline-block">
       <div className="bg-component-primary rounded-xl p-4 border border-accent-foreground/60 overflow-visible">
-        <h2 className="text-xl font-semibold text-white mb-4">
-          <FontAwesomeIcon icon={faPlay} className="text-md pr-2 text-accent-primary" />
+        <TitleMid className="">
           You may also like
-        </h2>
+        </TitleMid>
 
         <div className="grid grid-cols-1 gap-2">
           {similarMedia.slice(start, end).map((m, index) => {
