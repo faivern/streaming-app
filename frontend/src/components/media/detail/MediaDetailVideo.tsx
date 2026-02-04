@@ -31,7 +31,7 @@ export default function MediaDetailVideo({
 
   // Debug logging
   useEffect(() => {
-    console.log("🔍 MediaDetailVideo Props:", {
+    console.log("MediaDetailVideo Props:", {
       media_type,
       id,
       title,
@@ -44,7 +44,7 @@ export default function MediaDetailVideo({
   const { videoUrl, loading: trailerLoading } = useVideo(
     media_type,
     id,
-    shouldFetchVideo
+    shouldFetchVideo,
   );
 
   // Debug video fetch results
@@ -68,11 +68,11 @@ export default function MediaDetailVideo({
 
   const mediaTitle = useMemo(
     () => (title?.trim() ? title : "Trailer"),
-    [title]
+    [title],
   );
 
   const handlePlayClick = () => {
-    console.log("🎬 Play button clicked - fetching video...", {
+    console.log("Play button clicked - fetching video...", {
       media_type,
       id,
     });
