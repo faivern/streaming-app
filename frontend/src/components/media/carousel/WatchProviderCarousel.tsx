@@ -102,12 +102,25 @@ export default function WatchProviderCarousel({
           to={`/providers?region=${region}`}
           className="text-sm text-gray-400 hover:text-white transition-colors"
         >
+          <span className="underline-hover">
           View all providers
+          <span className="underline-bar"></span>
+          </span>
         </Link>
       </div>
 
       <div className="relative -my-3 -mx-3">
-        <div ref={viewportRef} className="overflow-hidden py-3 px-3">
+        <div
+          ref={viewportRef}
+          className="overflow-hidden py-3 px-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/50 rounded-lg"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft") prev();
+            if (e.key === "ArrowRight") next();
+          }}
+          role="region"
+          aria-label="Streaming services carousel"
+        >
           <div
             ref={trackRef}
             className="flex gap-6 transition-transform duration-300 will-change-transform"

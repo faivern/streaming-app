@@ -80,7 +80,17 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
       <TitleMid>Collections</TitleMid>
 
       <div className="relative -my-3 -mx-3">
-        <div ref={viewportRef} className="overflow-hidden py-3 px-3">
+        <div
+          ref={viewportRef}
+          className="overflow-hidden py-3 px-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/50 rounded-lg"
+          tabIndex={0}
+          onKeyDown={(e) => {
+            if (e.key === "ArrowLeft") prev();
+            if (e.key === "ArrowRight") next();
+          }}
+          role="region"
+          aria-label="Collections carousel"
+        >
           <div
             ref={trackRef}
             className="flex gap-6 transition-transform duration-300 will-change-transform"

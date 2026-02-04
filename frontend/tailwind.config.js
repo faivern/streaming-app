@@ -7,9 +7,12 @@ export default {
         '3xl': '1920px',
         '4xl': '2560px',
       },
+      maxWidth: {
+        'screen-4xl': '2560px',
+      },
     },
   },
   plugins: [
-    require("tailwind-scrollbar"), 
+    require("tailwind-scrollbar"),
   ],
 };
