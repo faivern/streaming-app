@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import logo from "../../assets/react.svg";
+
 const Footer = () => {
   return (
     <footer className="bg-primary mt-16 border-t border-accent-foreground/70">
@@ -82,14 +84,14 @@ const Footer = () => {
               </h2>
               <ul className="text-gray-400 font-medium">
                 <li className="mb-4">
-                  <a href="#" className="hover:underline">
+                  <Link to="/privacy-policy" className="hover:underline hover:text-white transition-colors">
                     Privacy Policy
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="#" className="hover:underline">
-                    Terms &amp; Conditions
-                  </a>
+                  <Link to="/terms-of-service" className="hover:underline hover:text-white transition-colors">
+                    Terms of Service
+                  </Link>
                 </li>
               </ul>
             </div>

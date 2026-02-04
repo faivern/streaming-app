@@ -12,6 +12,8 @@ import ScrollToTop from "./components/layout/ScrollToTop";
 import MyListsPage from "./pages/myLists";
 import ProviderPage from "./pages/providerPage/ProviderPage";
 import ProvidersPage from "./pages/providersPage/ProvidersPage";
+import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
+import TermsOfService from "./pages/legal/TermsOfService";
 import { useTheme } from "./hooks/useTheme";
 
 function App() {
@@ -56,6 +58,8 @@ function App() {
           />
           <Route path="/provider/:providerId" element={<ProviderPage />} />
           <Route path="/providers" element={<ProvidersPage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
         </Routes>
       </main>
       <Footer />
