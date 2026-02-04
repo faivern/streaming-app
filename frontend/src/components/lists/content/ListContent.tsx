@@ -88,6 +88,7 @@ export default function ListContent({
           ratingStory: matchingEntry.ratingStory,
           ratingVisuals: matchingEntry.ratingVisuals,
           ratingSoundtrack: matchingEntry.ratingSoundtrack,
+          review: matchingEntry.review,
         };
       }
       return displayItem;

@@ -140,7 +140,7 @@ export default function Top10Carousel({
                             group-hover/card:drop-shadow-[0_4px_12px_rgba(0,200,255,0.3)]"
                           style={{
                             fontFamily: "system-ui, sans-serif",
-                            WebkitTextStroke: "3px var(--stroke-color)",
+                            WebkitTextStroke: "1px var(--stroke-color)",
                             paintOrder: "stroke fill",
                           }}
                         >
