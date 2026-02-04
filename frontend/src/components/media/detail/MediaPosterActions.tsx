@@ -31,6 +31,8 @@ export default function MediaPosterActions({
   return (
     <div className="mt-6 space-y-3">
       <button
+        aria-label="Watch Now"
+        title="Watch Now"
         onClick={onWatchNow}
         className="w-full bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-thirdary
                    hover:from-accent-primary hover:to-accent-secondary
@@ -44,6 +46,8 @@ export default function MediaPosterActions({
 
       <div className="grid grid-cols-2 gap-3">
         <button
+          aria-label="Add to List"
+          title="Add to List"
           onClick={() => setAddToListModalOpen(true)}
           className="bg-action-primary hover:bg-action-hover text-white py-3 px-4 rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 border border-slate-600/50 hover:cursor-pointer"
         >
@@ -53,6 +57,8 @@ export default function MediaPosterActions({
 
         <button
           onClick={handleShare}
+          aria-label="Share"
+          title="Share"
           className="bg-action-primary hover:bg-action-hover text-white py-3 px-4 rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 border border-accent-foreground hover:cursor-pointer"
         >
           <FontAwesomeIcon icon={faShare} />
