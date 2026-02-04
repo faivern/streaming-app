@@ -74,33 +74,38 @@ const topRated = useSortByBayesian(topRatedRaw);
 
   return (
     <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32">
+      {/* Hero carousel - full bleed for cinematic effect */}
       <TrendingCarousel items={trending} loading={trendingLoading} />
-      <HeroSection total_results={totalMedia} />
-      <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
-      <MediaGrid
-        key={mediaType}
-        media_type={mediaType}
-        items={mediaItems}
-        loading={mediaLoading}
-        error={mediaError}
-      />
-      <Top10Carousel
-        items={topRated}
-        loading={topRatedLoading}
-        mediaType={mediaType}
-      />
-      <GenreCardList genres={genres} />
-      <WatchProviderCarousel
-        providers={watchProviders}
-        loading={providersLoading}
-        region={providerRegion}
-      />
-      <CollectionCarousel items={featured} loading={isLoading} />
-      <UpcomingCarousel
-        items={upcoming}
-        loading={upcomingLoading}
-        mediaType={mediaType}
-      />
+
+      {/* Main content container - caps width at 2560px for ultra-wide monitors */}
+      <div className="mx-auto w-full max-w-screen-4xl">
+        <HeroSection total_results={totalMedia} />
+        <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
+        <MediaGrid
+          key={mediaType}
+          media_type={mediaType}
+          items={mediaItems}
+          loading={mediaLoading}
+          error={mediaError}
+        />
+        <Top10Carousel
+          items={topRated}
+          loading={topRatedLoading}
+          mediaType={mediaType}
+        />
+        <GenreCardList genres={genres} />
+        <WatchProviderCarousel
+          providers={watchProviders}
+          loading={providersLoading}
+          region={providerRegion}
+        />
+        <CollectionCarousel items={featured} loading={isLoading} />
+        <UpcomingCarousel
+          items={upcoming}
+          loading={upcomingLoading}
+          mediaType={mediaType}
+        />
+      </div>
     </main>
   );
 }

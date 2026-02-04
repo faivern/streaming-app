@@ -40,7 +40,7 @@ export default function MediaGrid({
     <div className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36">
       <TitleMid>{displayTitle}</TitleMid>
 
-      <div className="max-w-[2000px] mx-auto">
+      <div className="max-w-screen-4xl mx-auto">
       <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 3xl:grid-cols-8 4xl:grid-cols-9 justify-items-center">
         {loading
           ? Array.from({ length: skeletonCount }).map((_, i) => (

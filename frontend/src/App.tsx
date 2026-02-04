@@ -12,11 +12,11 @@ import ScrollToTop from "./components/layout/ScrollToTop";
 import MyListsPage from "./pages/myLists";
 import ProviderPage from "./pages/providerPage/ProviderPage";
 import ProvidersPage from "./pages/providersPage/ProvidersPage";
+import { useTheme } from "./hooks/useTheme";
 
 function App() {
-  // theme select (for development purposes, might add user selection later)
-  const theme = "blizzard";
-  document.documentElement.setAttribute("data-preset", theme);
+  // Theme is managed by useTheme hook (persisted to localStorage)
+  useTheme();
 
   return (
     <div className="min-h-screen flex flex-col bg-background text-white scrollbar">
