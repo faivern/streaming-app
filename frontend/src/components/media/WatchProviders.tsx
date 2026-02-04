@@ -114,7 +114,7 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
   return (
     <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-700/50 shadow-lg">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h3 className="text-lg font-semibold text-white">Where to Watch</h3>
+        <h3 className="text-2xl font-bold text-text-h1">Where to Watch</h3>
 
         {regionsLoading ? (
           <div className="w-48 h-10 bg-gray-700 rounded-lg animate-pulse" />

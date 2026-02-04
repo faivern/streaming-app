@@ -100,7 +100,12 @@ export default function MediaDetailHeader({
           imdb_id={details.imdb_id ?? details.external_ids?.imdb_id}
         />
 
-        {details.overview && <p className="text-gray-300">{details.overview}</p>}
+        {details.overview && (
+          <div className="mt-2">
+            <h2 className="text-2xl font-bold text-text-h1 mb-3">Overview</h2>
+            <p className="text-gray-300 leading-relaxed">{details.overview}</p>
+          </div>
+        )}
 
         <MediaDetails
           cast={cast}
