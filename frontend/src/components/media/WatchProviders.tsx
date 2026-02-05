@@ -8,6 +8,7 @@ import type { MediaType, WatchProvider, WatchProviderRegion } from "../../types/
 type Props = {
   mediaType: MediaType;
   mediaId: number;
+  title?: string;
 };
 
 const STORAGE_KEY = "watchProviders_selectedCountry";
@@ -24,9 +25,11 @@ function getDefaultCountry(): string {
 function ProviderGroup({
   title,
   providers,
+  justWatchLink,
 }: {
   title: string;
   providers?: WatchProvider[];
+  justWatchLink?: string;
 }) {
   if (!providers || providers.length === 0) return null;
 
@@ -34,23 +37,42 @@ function ProviderGroup({
     <div className="mb-5">
       <h4 className="text-sm text-gray-400 mb-3 font-medium">{title}</h4>
       <div className="flex flex-wrap gap-4">
-        {providers.map((provider) => (
-          <div
-            key={provider.provider_id}
-            className="group flex flex-col items-center gap-1.5"
-          >
-            <div className="relative">
-              <img
-                src={`https://image.tmdb.org/t/p/w154${provider.logo_path}`}
-                alt={provider.provider_name}
-                className="w-12 h-12 rounded-xl object-cover border-2 border-gray-700 group-hover:border-sky-500 transition-all group-hover:scale-105 shadow-md"
-              />
+        {providers.map((provider) => {
+          const content = (
+            <>
+              <div className="relative">
+                <img
+                  src={`https://image.tmdb.org/t/p/w154${provider.logo_path}`}
+                  alt={provider.provider_name}
+                  className="w-12 h-12 rounded-xl object-cover border-2 border-gray-700 group-hover:border-sky-500 transition-all group-hover:scale-105 shadow-md"
+                />
+              </div>
+              <span className="text-xs text-gray-400 group-hover:text-white transition-colors text-center">
+                {provider.provider_name}
+              </span>
+            </>
+          );
+
+          return justWatchLink ? (
+            <a
+              key={provider.provider_id}
+              href={justWatchLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`View ${provider.provider_name} options on JustWatch`}
+              className="group flex flex-col items-center gap-1.5 no-underline"
+            >
+              {content}
+            </a>
+          ) : (
+            <div
+              key={provider.provider_id}
+              className="group flex flex-col items-center gap-1.5"
+            >
+              {content}
             </div>
-            <span className="text-xs text-gray-400 group-hover:text-white transition-colors text-center">
-              {provider.provider_name}
-            </span>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -75,7 +97,7 @@ function ProvidersSkeleton() {
   );
 }
 
-export default function WatchProviders({ mediaType, mediaId }: Props) {
+export default function WatchProviders({ mediaType, mediaId, title }: Props) {
   const [selectedCountry, setSelectedCountry] = useState(getDefaultCountry);
   const [countrySearch, setCountrySearch] = useState("");
 
@@ -110,6 +132,10 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
       countryProviders.rent?.length ||
       countryProviders.buy?.length ||
       countryProviders.ads?.length);
+
+  const justWatchUrl = title
+    ? `https://www.justwatch.com/${selectedCountry.toLowerCase()}/search?q=${encodeURIComponent(title)}`
+    : countryProviders?.link;
 
   return (
     <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-700/50 shadow-lg">
@@ -209,23 +235,27 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
           <ProviderGroup
             title="Stream"
             providers={countryProviders?.flatrate}
+            justWatchLink={justWatchUrl}
           />
           <ProviderGroup
             title="Rent"
             providers={countryProviders?.rent}
+            justWatchLink={justWatchUrl}
           />
           <ProviderGroup
             title="Buy"
             providers={countryProviders?.buy}
+            justWatchLink={justWatchUrl}
           />
           <ProviderGroup
             title="Free with Ads"
             providers={countryProviders?.ads}
+            justWatchLink={justWatchUrl}
           />
 
-          {countryProviders?.link && (
+          {justWatchUrl && (
             <a
-              href={countryProviders.link}
+              href={justWatchUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-sky-400 transition-colors mt-2"
