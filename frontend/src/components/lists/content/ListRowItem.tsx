@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaTrash, FaEdit, FaStar } from "react-icons/fa";
-import { IoChevronDown, IoChevronUp } from "react-icons/io5";
+import { IoChevronDown } from "react-icons/io5";
 import Poster from "../../media/shared/Poster";
 import Backdrop from "../../media/shared/Backdrop";
 import WatchStatusBadge from "../shared/WatchStatusBadge";
@@ -47,9 +47,22 @@ export default function ListRowItem({
   // Review handling
   const reviewContent = item.review?.content;
 
+  // Only allow expand when there's something to show
+  const hasExpandableContent = !!(
+    item.voteAverage || avgRating !== null || hasRatings || reviewContent
+  );
+
+  const handleRowClick = () => {
+    if (hasExpandableContent) setIsExpanded((prev) => !prev);
+  };
+
   return (
     <div
-      className={`group relative flex flex-col gap-2 p-3 rounded-xl overflow-hidden border border-gray-400/10 ${!item.backdropPath ? "bg-gray-800/50 hover:bg-gray-800" : ""} transition-colors hover:shadow-xl hover:scale-102 hover:border-accent-primary/75 transition-all duration-300 relative group transition-transform duration-300 cursor-pointer`}
+      onClick={handleRowClick}
+      className={`group relative flex flex-col gap-2 p-3 rounded-xl overflow-hidden border border-gray-400/10
+        ${!item.backdropPath ? "bg-gray-800/50 hover:bg-gray-800" : ""}
+        hover:shadow-xl hover:scale-102 hover:border-accent-primary/75 transition-all duration-300
+        ${hasExpandableContent ? "cursor-pointer" : ""}`}
     >
       {/* Blurred backdrop background */}
       {item.backdropPath && (
@@ -71,6 +84,7 @@ export default function ListRowItem({
           {/* Poster */}
           <Link
             to={`/media/${item.mediaType}/${item.tmdbId}`}
+            onClick={(e) => e.stopPropagation()}
             className="flex-shrink-0"
           >
             <Poster
@@ -86,6 +100,7 @@ export default function ListRowItem({
             <div className="flex items-center gap-2 min-w-0">
               <Link
                 to={`/media/${item.mediaType}/${item.tmdbId}`}
+                onClick={(e) => e.stopPropagation()}
                 className="font-medium text-white hover:text-accent-primary transition-colors line-clamp-1"
               >
                 {item.title}
@@ -102,41 +117,17 @@ export default function ListRowItem({
                 .filter(Boolean)
                 .join(" · ")}
             </p>
-
-            {/* Ratings row - TMDB and Your average */}
-            <div className="flex items-center gap-4 mt-2">
-              {item.voteAverage && (
-                <div className="flex items-center gap-1 text-sm">
-                  <FaStar className="text-yellow-400 text-xs" />
-                  <span className="text-gray-300">
-                    {item.voteAverage.toFixed(1)}
-                  </span>
-                  <span className="text-gray-500 text-xs">TMDB</span>
-                </div>
-              )}
-              {avgRating !== null && (
-                <div className="flex items-center gap-1 text-sm">
-                  <FaStar className="text-accent-primary text-xs" />
-                  <span className="text-gray-300">{avgRating.toFixed(1)}</span>
-                  <span className="text-gray-500 text-xs">
-                    Your average rating
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* Criteria ratings breakdown */}
-            {hasRatings && (
-              <div className="mt-2">
-                <CriteriaRatings
-                  ratingActing={item.ratingActing}
-                  ratingStory={item.ratingStory}
-                  ratingSoundtrack={item.ratingSoundtrack}
-                  ratingVisuals={item.ratingVisuals}
-                />
-              </div>
-            )}
           </div>
+
+          {/* Chevron expand indicator */}
+          {hasExpandableContent && (
+            <div
+              className="flex-shrink-0 text-gray-500 transition-transform duration-200"
+              style={{ transform: isExpanded ? "rotate(180deg)" : undefined }}
+            >
+              <IoChevronDown className="text-sm" />
+            </div>
+          )}
 
           {/* Edit mode buttons - positioned on far right */}
           {isEditMode && (onRemove || onEdit) && (
@@ -171,32 +162,61 @@ export default function ListRowItem({
           )}
         </div>
 
-        {/* Review section - collapsed by default */}
-        {reviewContent && (
-          <div className="ml-20">
-            <button
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center gap-1 text-xs text-gray-500 hover:text-gray-300 transition-colors"
-            >
-              {isExpanded ? (
-                <>
-                  <IoChevronUp className="text-sm" />
-                  Collapse review
-                </>
-              ) : (
-                <>
-                  <IoChevronDown className="text-sm" />
-                  Expand review
-                </>
-              )}
-            </button>
-            {isExpanded && (
-              <div className="mt-2 pl-4 border-l-2 border-gray-700/50">
-                <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
-                  "{reviewContent}"
-                </p>
+        {/* Expandable content section - animated via CSS Grid */}
+        {hasExpandableContent && (
+          <div
+            className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+              isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div className="ml-20 pt-2 pb-1 space-y-3">
+                {/* TMDB + user average ratings */}
+                <div className="flex items-center gap-4">
+                  {item.voteAverage && (
+                    <div className="flex items-center gap-1 text-sm">
+                      <FaStar className="text-yellow-400 text-xs" />
+                      <span className="text-gray-300">
+                        {item.voteAverage.toFixed(1)}
+                      </span>
+                      <span className="text-gray-500 text-xs">TMDB</span>
+                    </div>
+                  )}
+                  {avgRating !== null && (
+                    <div className="flex items-center gap-1 text-sm">
+                      <FaStar className="text-accent-primary text-xs" />
+                      <span className="text-gray-300">
+                        {avgRating.toFixed(1)}
+                      </span>
+                      <span className="text-gray-500 text-xs">
+                        Your average rating
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Criteria ratings breakdown */}
+                {hasRatings && (
+                  <div>
+                    <CriteriaRatings
+                      ratingActing={item.ratingActing}
+                      ratingStory={item.ratingStory}
+                      ratingSoundtrack={item.ratingSoundtrack}
+                      ratingVisuals={item.ratingVisuals}
+                    />
+                  </div>
+                )}
+
+                {/* Review text */}
+                {reviewContent && (
+                  <div className="pl-4 border-l-2 border-gray-700/50">
+                    <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
+                      "{reviewContent}"
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         )}
       </div>
