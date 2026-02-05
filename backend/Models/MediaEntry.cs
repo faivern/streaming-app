@@ -35,6 +35,20 @@ namespace backend.Models
 
         public double? VoteAverage { get; set; }
 
+        public int? Runtime { get; set; }
+
+        [MaxLength(10)]
+        public string? ReleaseDate { get; set; }
+
+        [MaxLength(10)]
+        public string? FirstAirDate { get; set; }
+
+        public int? NumberOfSeasons { get; set; }
+
+        public int? NumberOfEpisodes { get; set; }
+
+        public DateTime? LastTmdbSync { get; set; }
+
         [Required]
         public WatchStatus Status { get; set; } = WatchStatus.WantToWatch;
 

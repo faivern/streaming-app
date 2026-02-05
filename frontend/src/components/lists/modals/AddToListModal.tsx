@@ -167,8 +167,6 @@ export default function AddToListModal({
             item: {
               tmdbId: media.tmdbId,
               mediaType: media.mediaType,
-              title: media.title,
-              posterPath: media.posterPath || undefined,
             },
             silent: true,
           }),
@@ -205,11 +203,6 @@ export default function AddToListModal({
           const newEntry = await createMediaEntry.mutateAsync({
             tmdbId: media.tmdbId,
             mediaType: media.mediaType,
-            title: media.title,
-            posterPath: media.posterPath || undefined,
-            backdropPath: media.backdropPath || undefined,
-            overview: media.overview || undefined,
-            voteAverage: media.voteAverage || undefined,
             status,
             silent: true,
           });

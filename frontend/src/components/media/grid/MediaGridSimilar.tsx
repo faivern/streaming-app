@@ -22,7 +22,7 @@ const MediaGridSimilar = ({ similarMedia, parentType }: Props) => {
     <aside className="mt-8 shadow-lg w-md:max-w-6xl inline-block">
       <div className="bg-component-primary rounded-xl p-4 border border-accent-foreground/60 overflow-visible">
         <TitleMid className="">
-          You may also like
+          You may like
         </TitleMid>
 
         <div className="grid grid-cols-1 gap-2">

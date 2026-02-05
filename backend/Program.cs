@@ -64,6 +64,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddHttpClient<TmdbService>();
 builder.Services.AddScoped<ListService>();
 builder.Services.AddScoped<MediaEntryService>();
+builder.Services.AddHostedService<TmdbRefreshBackgroundService>();
 
 builder.Services.AddDbContext<AppDbContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

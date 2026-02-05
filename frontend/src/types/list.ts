@@ -5,6 +5,14 @@ export type ListItem = {
   mediaType: string;
   title: string | null;
   posterPath: string | null;
+  backdropPath: string | null;
+  overview: string | null;
+  voteAverage: number | null;
+  runtime: number | undefined;
+  releaseDate: string | undefined;
+  firstAirDate: string | undefined;
+  numberOfSeasons: number | undefined;
+  numberOfEpisodes: number | undefined;
   addedAt: string;
 };
 

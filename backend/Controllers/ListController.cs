@@ -13,10 +13,12 @@ namespace backend.Controllers
     public class ListController : ControllerBase
     {
         private readonly ListService _listService;
+        private readonly TmdbService _tmdbService;
 
-        public ListController(ListService listService)
+        public ListController(ListService listService, TmdbService tmdbService)
         {
             _listService = listService;
+            _tmdbService = tmdbService;
         }
 
         private string GetUserId() => User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
@@ -133,10 +135,20 @@ namespace backend.Controllers
                 var item = new ListItem
                 {
                     MediaType = request.MediaType,
-                    TmdbId = request.TmdbId,
-                    Title = request.Title,
-                    PosterPath = request.PosterPath
+                    TmdbId = request.TmdbId
                 };
+
+                // Server-side TMDB fetch
+                if (request.MediaType == "movie")
+                {
+                    var details = await _tmdbService.GetMovieDetailsTypedAsync(request.TmdbId);
+                    if (details is not null) TmdbFieldMapper.ApplyMovieDetails(item, details);
+                }
+                else
+                {
+                    var details = await _tmdbService.GetTvDetailsTypedAsync(request.TmdbId);
+                    if (details is not null) TmdbFieldMapper.ApplyTvDetails(item, details);
+                }
 
                 list.Items.Add(item);
                 await _listService.UpdateAsync(list);

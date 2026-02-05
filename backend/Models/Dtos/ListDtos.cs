@@ -18,7 +18,5 @@ namespace backend.Models.Dtos
     {
         public int TmdbId { get; set; }
         public string MediaType { get; set; } = null!;
-        public string? Title { get; set; }
-        public string? PosterPath { get; set; }
     }
 }

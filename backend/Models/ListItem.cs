@@ -27,6 +27,28 @@ namespace backend.Models
         [MaxLength(500)]
         public string? PosterPath { get; set; }
 
+        [MaxLength(500)]
+        public string? BackdropPath { get; set; }
+
+        [MaxLength(2000)]
+        public string? Overview { get; set; }
+
+        public double? VoteAverage { get; set; }
+
+        public int? Runtime { get; set; }
+
+        [MaxLength(10)]
+        public string? ReleaseDate { get; set; }
+
+        [MaxLength(10)]
+        public string? FirstAirDate { get; set; }
+
+        public int? NumberOfSeasons { get; set; }
+
+        public int? NumberOfEpisodes { get; set; }
+
+        public DateTime? LastTmdbSync { get; set; }
+
         public DateTime AddedAt { get; set; } = DateTime.UtcNow;
     }
 }

@@ -8,7 +8,9 @@
       "Bash(git commit:*)",
       "Bash(npx get-shit-done-cc:*)",
       "Bash(dotnet build:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(dotnet tool list:*)",
+      "Bash(dotnet ef database:*)"
     ]
   },
   "outputStyle": "Explanatory"
