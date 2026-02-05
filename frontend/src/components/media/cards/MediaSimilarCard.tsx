@@ -7,6 +7,7 @@ import type { MediaType, DetailMedia } from "../../../types/tmdb";
 import { truncateText } from "../../../utils/truncateText";
 import { useDelayHover } from "../../../hooks/useDelayHover";
 import Poster from "../shared/Poster";
+import useMediaRuntime from "../../../hooks/media/useMediaRuntime";
 
 type MediaSimilarCardProps = {
   id: number;
@@ -54,6 +55,12 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
   const posterForCard = poster_path ?? backdrop_path ?? "";
   const displayTitle = title ?? name ?? "Untitled";
   const titleshort = truncateText(displayTitle);
+  const runtimeDisplay = useMediaRuntime({
+    mediaType: media_type,
+    runtimeMin: runtime,
+    seasons: number_of_seasons,
+    episodes: number_of_episodes,
+  });
 
   const initial = useMemo<Partial<DetailMedia>>(
     () => ({
@@ -113,15 +120,9 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
               {titleshort}
             </h3>
             <p className="text-xs text-gray-400 mt-1 truncate">
-              {(release_date ?? first_air_date ?? "Unknown").slice(0, 4)}
-              {media_type === "tv" && number_of_seasons
-                ? ` • ${number_of_seasons} Season${
-                    number_of_seasons > 1 ? "s" : ""
-                  }`
-                : ""}
-              {media_type === "movie" && typeof runtime === "number"
-                ? ` • ${Math.floor(runtime / 60)}h ${runtime % 60}min`
-                : ""}
+              {[(release_date ?? first_air_date ?? "Unknown").slice(0, 4), runtimeDisplay]
+                .filter(Boolean)
+                .join(" • ")}
             </p>
           </div>
         </div>

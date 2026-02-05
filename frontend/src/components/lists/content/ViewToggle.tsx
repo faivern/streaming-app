@@ -21,20 +21,6 @@ export default function ViewToggle({
       <button
         type="button"
         role="radio"
-        aria-checked={viewMode === "grid"}
-        onClick={() => onChange("grid")}
-        className={`p-2 rounded-md transition-colors ${
-          viewMode === "grid"
-            ? "bg-gray-700 text-white"
-            : "text-gray-400 hover:text-white"
-        }`}
-        aria-label="Grid view"
-      >
-        <FaThLarge className="text-sm" />
-      </button>
-      <button
-        type="button"
-        role="radio"
         aria-checked={viewMode === "list"}
         onClick={() => onChange("list")}
         className={`p-2 rounded-md transition-colors ${
@@ -45,6 +31,20 @@ export default function ViewToggle({
         aria-label="List view"
       >
         <FaList className="text-sm" />
+      </button>
+      <button
+        type="button"
+        role="radio"
+        aria-checked={viewMode === "grid"}
+        onClick={() => onChange("grid")}
+        className={`p-2 rounded-md transition-colors ${
+          viewMode === "grid"
+            ? "bg-gray-700 text-white"
+            : "text-gray-400 hover:text-white"
+        }`}
+        aria-label="Grid view"
+      >
+        <FaThLarge className="text-sm" />
       </button>
     </div>
   );
