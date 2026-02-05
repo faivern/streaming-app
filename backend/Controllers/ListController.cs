@@ -117,13 +117,6 @@ namespace backend.Controllers
             }
         }
 
-        // TODO(human): Implement the AddItem endpoint logic below.
-        // This method should:
-        // 1. Validate that MediaType is "movie" or "tv"
-        // 2. Verify the list exists and belongs to the current user
-        // 3. Create a new ListItem from the request and add it to the DB
-        // 4. Return the updated list
-        // Handle errors with try-catch returning StatusCode(500).
         [HttpPost("{id}/items")]
         public async Task<IActionResult> AddItem(int id, [FromBody] AddListItemRequest request)
         {

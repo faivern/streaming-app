@@ -16,7 +16,7 @@ type ListRowItemProps = {
   showStatus?: boolean;
 };
 
-const MAX_REVIEW_LENGTH = 150;
+const MAX_REVIEW_LENGTH = 8000;
 
 export default function ListRowItem({
   item,
@@ -95,7 +95,9 @@ export default function ListRowItem({
               <div className="flex items-center gap-1 text-sm">
                 <FaStar className="text-accent-primary text-xs" />
                 <span className="text-gray-300">{avgRating.toFixed(1)}</span>
-                <span className="text-gray-500 text-xs">Your Rating</span>
+                <span className="text-gray-500 text-xs">
+                  Your average rating
+                </span>
               </div>
             )}
           </div>
@@ -149,7 +151,7 @@ export default function ListRowItem({
       {/* Review section - expandable */}
       {reviewContent && (
         <div className="ml-20 pl-4 border-l-2 border-gray-700/50">
-          <p className="text-sm text-gray-300 leading-relaxed italic">
+          <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
             "{displayReview}"
           </p>
           {hasLongReview && (

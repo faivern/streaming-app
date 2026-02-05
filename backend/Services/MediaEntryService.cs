@@ -22,6 +22,7 @@ namespace backend.Services
         public async Task<List<MediaEntry>> GetUserEntriesAsync(string userId)
         {
             return await _db.MediaEntries
+                .Include(e => e.Review)
                 .Where(e => e.UserId == userId)
                 .OrderByDescending(e => e.UpdatedAt)
                 .ToListAsync();
