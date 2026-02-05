@@ -54,7 +54,7 @@ export default function MyListsPage() {
   const [activeView, setActiveView] = useState<ActiveView>("status");
   const [selectedStatus, setSelectedStatus] = useState<WatchStatus>("WantToWatch");
   const [selectedListId, setSelectedListId] = useState<number | null>(null);
-  const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [sortOption, setSortOption] = useState<ListsSortOption>("date-added");
 
   // Unified handlers to ensure mutual exclusivity

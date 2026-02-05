@@ -9,7 +9,7 @@ import CriteriaRatings from "./CriteriaRatings";
 import type { DisplayItem } from "../../../types/lists.view";
 import { calculateAverageRating } from "../../../types/lists.view";
 import { dateFormatYear } from "../../../utils/dateFormatYear";
-
+import  useMediaRuntime  from "../../../hooks/media/useMediaRuntime";
 
 type ListRowItemProps = {
   item: DisplayItem;
@@ -31,12 +31,12 @@ export default function ListRowItem({
   const avgRating = calculateAverageRating(item);
   const mediaTypeLabel = item.mediaType === "movie" ? "Movie" : "TV Show";
   const releaseYear = dateFormatYear(item.releaseDate || item.firstAirDate);
-  const runTime = item.runtime
-    ? `${item.runtime} min`
-    : item.numberOfSeasons
-    ? `${item.numberOfSeasons} season${item.numberOfSeasons > 1 ? "s" : ""}`
-    : null;
-
+  const runTime = useMediaRuntime({
+    mediaType: item.mediaType,
+    runtimeMin: item.runtime,
+    seasons: item.numberOfSeasons,
+    episodes: item.numberOfEpisodes,
+  });
   // Check if any individual ratings exist
   const hasRatings =
     item.ratingActing !== null && item.ratingActing !== undefined ||
@@ -59,10 +59,10 @@ export default function ListRowItem({
   return (
     <div
       onClick={handleRowClick}
-      className={`group relative flex flex-col gap-2 p-3 rounded-xl overflow-hidden border border-gray-400/10
+      className={`group relative flex flex-col gap-2 p-3 rounded-xl overflow-hidden shadow-lg border border-gray-400/10 transition-all duration-300
         ${!item.backdropPath ? "bg-gray-800/50 hover:bg-gray-800" : ""}
-        hover:shadow-xl hover:scale-102 hover:border-accent-primary/75 transition-all duration-300
-        ${hasExpandableContent ? "cursor-pointer" : ""}`}
+        ${isEditMode ? "" : "hover:shadow-xl hover:scale-102 hover:border-accent-primary/85"}
+        ${hasExpandableContent && !isEditMode ? "cursor-pointer" : ""}`}
     >
       {/* Blurred backdrop background */}
       {item.backdropPath && (

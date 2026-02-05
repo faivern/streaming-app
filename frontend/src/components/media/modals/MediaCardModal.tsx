@@ -7,6 +7,7 @@ import languageMap from "../../../utils/languageMap";
 import { dateFormat } from "../../../utils/dateFormat";
 import type { DetailMedia, MediaType } from "../../../types/tmdb";
 import { useVideo } from "../../../hooks/useVideo";
+import useMediaRuntime from "../../../hooks/media/useMediaRuntime";
 
 type InitialBits = Pick<
   DetailMedia,
@@ -78,6 +79,13 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
 
   const seasons = (data as any)?.number_of_seasons;
   const episodes = (data as any)?.number_of_episodes;
+
+  const runtimeDisplay = useMediaRuntime({
+    mediaType: media_type,
+    runtimeMin,
+    seasons,
+    episodes,
+  });
 
   return (
     <Link to={`/media/${media_type}/${id}`}>
@@ -153,13 +161,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
           <div className="col-span-2">
             <strong>Runtime</strong>
             <div className="mt-1">
-              {media_type === "movie" && typeof runtimeMin === "number"
-                ? `${Math.floor(runtimeMin / 60)}h ${runtimeMin % 60}min`
-                : media_type === "tv"
-                ? `${seasons ?? "?"} Season${seasons === 1 ? "" : "s"} • ${
-                    episodes ?? "?"
-                  } Episode${episodes === 1 ? "" : "s"}`
-                : "Unknown"}
+              {runtimeDisplay ?? "Unknown"}
             </div>
           </div>
         </div>

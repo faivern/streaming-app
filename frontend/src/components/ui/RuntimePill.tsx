@@ -1,17 +1,33 @@
 // components/ui/RuntimePill.tsx
 import Pill from "./Pill";
 import { Clock } from "lucide-react";
+import useMediaRuntime from "../../hooks/media/useMediaRuntime";
+
+type RuntimePillProps = {
+  mediaType: string;
+  runtimeMin?: number | null;
+  seasons?: number | null;
+  episodes?: number | null;
+  className?: string;
+};
 
 export default function RuntimePill({
-  minutes,
+  mediaType,
+  runtimeMin,
+  seasons,
+  episodes,
   className = "",
-}: { minutes?: number; className?: string }) {
-  const text =
-    minutes != null
-      ? `${Math.floor(minutes / 60)}h ${minutes % 60}min`
-      : "No runtime";
+}: RuntimePillProps) {
+  const text = useMediaRuntime({ mediaType, runtimeMin, seasons, episodes });
+
+  if (!text) return null;
+
   return (
-    <Pill className={className} icon={<Clock className="h-4 w-4" />} title="Runtime">
+    <Pill
+      className={className}
+      icon={<Clock className="h-4 w-4" />}
+      title={mediaType === "movie" ? "Runtime" : "TV info"}
+    >
       {text}
     </Pill>
   );
