@@ -1,0 +1,10 @@
+# ============================================================
+# security.txt — RFC 9116
+# Replace all YOURDOMAIN.com / placeholder values before
+# deploying to production.
+# ============================================================
+
+Contact: mailto:security@YOURDOMAIN.com
+Expires: 2027-02-05T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://YOURDOMAIN.com/.well-known/security.txt
