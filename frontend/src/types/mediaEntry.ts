@@ -18,6 +18,11 @@ export type MediaEntry = {
   backdropPath: string | null;
   overview: string | null;
   voteAverage: number | null;
+  runtime: number | undefined;
+  releaseDate: string | undefined;
+  firstAirDate: string | undefined;
+  numberOfSeasons: number | undefined;
+  numberOfEpisodes: number | undefined;
   status: WatchStatus;
   ratingActing: number | null;
   ratingStory: number | null;

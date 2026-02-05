@@ -13,10 +13,12 @@ namespace backend.Controllers
     public class MediaEntryController : ControllerBase
     {
         private readonly MediaEntryService _mediaEntryService;
+        private readonly TmdbService _tmdbService;
 
-        public MediaEntryController(MediaEntryService mediaEntryService)
+        public MediaEntryController(MediaEntryService mediaEntryService, TmdbService tmdbService)
         {
             _mediaEntryService = mediaEntryService;
+            _tmdbService = tmdbService;
         }
 
         private string GetUserId() => User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
@@ -83,13 +85,20 @@ namespace backend.Controllers
                     UserId = GetUserId(),
                     TmdbId = request.TmdbId,
                     MediaType = request.MediaType,
-                    Title = request.Title,
-                    PosterPath = request.PosterPath,
-                    BackdropPath = request.BackdropPath,
-                    Overview = request.Overview,
-                    VoteAverage = request.VoteAverage,
                     Status = request.Status
                 };
+
+                // Server-side TMDB fetch
+                if (request.MediaType == "movie")
+                {
+                    var details = await _tmdbService.GetMovieDetailsTypedAsync(request.TmdbId);
+                    if (details is not null) TmdbFieldMapper.ApplyMovieDetails(entry, details);
+                }
+                else
+                {
+                    var details = await _tmdbService.GetTvDetailsTypedAsync(request.TmdbId);
+                    if (details is not null) TmdbFieldMapper.ApplyTvDetails(entry, details);
+                }
 
                 var created = await _mediaEntryService.CreateAsync(entry);
                 return Ok(created);

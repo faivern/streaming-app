@@ -438,6 +438,20 @@ namespace backend.Services
             return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
         }
 
+        //------------------------------TYPED DETAIL FETCHERS--------------------------------------
+        public async Task<TmdbMovieDetails?> GetMovieDetailsTypedAsync(int movieId)
+        {
+            var json = await GetMovieDetailsAsync(movieId);
+            return JsonSerializer.Deserialize<TmdbMovieDetails>(json);
+        }
+
+        public async Task<TmdbTvDetails?> GetTvDetailsTypedAsync(int seriesId)
+        {
+            var json = await GetShowDetailsAsync(seriesId);
+            return JsonSerializer.Deserialize<TmdbTvDetails>(json);
+        }
+        //-----------------------------------------------------------------------------------
+
         //------------------------------WATCH PROVIDERS--------------------------------------------
         public async Task<string> GetMovieWatchProvidersAsync(int movieId)
         {

@@ -4,11 +4,6 @@ import type { MediaEntry, Review, WatchStatus } from "../types/mediaEntry";
 export type CreateMediaEntryRequest = {
   tmdbId: number;
   mediaType: string;
-  title?: string;
-  posterPath?: string;
-  backdropPath?: string;
-  overview?: string;
-  voteAverage?: number;
   status: WatchStatus;
 };
 

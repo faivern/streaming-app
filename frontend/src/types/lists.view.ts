@@ -9,10 +9,14 @@ export type DisplayItem = {
   id: number;
   tmdbId: number;
   mediaType: string;
+  runtime?: number;
+  numberOfSeasons?: number;
+  numberOfEpisodes?: number;
+  releaseDate?: string;
+  firstAirDate?: string;
   title: string;
   posterPath: string | null;
   addedAt: string;
-  // MediaEntry specific fields (optional for ListItems)
   status?: WatchStatus;
   voteAverage?: number | null;
   ratingActing?: number | null;
@@ -22,9 +26,8 @@ export type DisplayItem = {
   overview?: string | null;
   backdropPath?: string | null;
   review?: { content: string } | null;
-  // Source tracking
   source: "list" | "entry";
-  sourceId: number; // listId for ListItem, entryId for MediaEntry
+  sourceId: number;
 };
 
 /**
@@ -37,9 +40,17 @@ export function listItemToDisplayItem(item: ListItem): DisplayItem {
     mediaType: item.mediaType,
     title: item.title || "Untitled",
     posterPath: item.posterPath,
+    backdropPath: item.backdropPath,
+    overview: item.overview,
+    voteAverage: item.voteAverage,
     addedAt: item.addedAt,
     source: "list",
     sourceId: item.listId,
+    runtime: item.runtime,
+    numberOfSeasons: item.numberOfSeasons,
+    numberOfEpisodes: item.numberOfEpisodes,
+    releaseDate: item.releaseDate,
+    firstAirDate: item.firstAirDate,
   };
 }
 
@@ -65,6 +76,11 @@ export function mediaEntryToDisplayItem(entry: MediaEntry): DisplayItem {
     review: entry.review,
     source: "entry",
     sourceId: entry.id,
+    runtime: entry.runtime,
+    numberOfSeasons: entry.numberOfSeasons,
+    numberOfEpisodes: entry.numberOfEpisodes,
+    releaseDate: entry.releaseDate,
+    firstAirDate: entry.firstAirDate,
   };
 }
 

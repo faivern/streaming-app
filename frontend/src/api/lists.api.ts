@@ -16,8 +16,6 @@ export type UpdateListRequest = {
 export type AddListItemRequest = {
   tmdbId: number;
   mediaType: string;
-  title?: string;
-  posterPath?: string;
 };
 
 export const listsApi = {
