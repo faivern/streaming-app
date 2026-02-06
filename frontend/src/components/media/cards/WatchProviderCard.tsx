@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import "../../../style/MediaCard.css";
-
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
 type WatchProviderCardProps = {
@@ -36,8 +34,6 @@ export default function WatchProviderCard({
             loading="lazy"
           />
 
-          {/* Shine overlay */}
-          <span className="shine-overlay" />
         </div>
 
         <p

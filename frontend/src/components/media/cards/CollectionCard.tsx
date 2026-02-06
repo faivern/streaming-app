@@ -3,8 +3,6 @@ import Backdrop from "../shared/Backdrop";
 import RatingPill from "../../ui/RatingPill";
 import { useCollectionById } from "../../../hooks/collections/useCollections";
 import { avgCollectionRating } from "../../../utils/avgCollectionRating";
-import "../../../style/MediaCard.css";
-
 type Props = {
   id: number;
   title: string;
@@ -33,7 +31,6 @@ export default function CollectionCard({
         className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
         showOutOfTen={false}
       />
-      <span className="shine-overlay" />
       <Backdrop path={backdrop_path ?? undefined} alt={title} className="w-full" sizes="780px" priority={true}  />
       <div className="p-3">
         <h3 className="text-base font-semibold">{title}</h3>

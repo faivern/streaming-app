@@ -1,5 +1,3 @@
-import "../../../style/MediaCard.css";
-
 import MediaCardModal from "../modals/MediaCardModal";
 import { Link } from "react-router-dom";
 import Poster from "../../media/shared/Poster";
@@ -73,9 +71,6 @@ export default function MediaCard(props: MediaCardProps) {
   hover:shadow-xl hover:scale-105 hover:border-accent-primary/75 transition-all duration-300 relative group"
         >
           <Link to={`/media/${media_type}/${id}`}>
-            {/* Shine layer */}
-            <div className="shine-overlay" />
-
             <RatingPill
               rating={vote_average}
               className="absolute top-1 right-1 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"

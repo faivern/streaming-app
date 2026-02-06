@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import "../../../style/MediaCard.css";
 import { getGenreColor } from "../../../theme/genreColors";
 import type { MediaType } from "../../../types/tmdb";
 
@@ -42,9 +41,6 @@ const GenreCard = ({ id, name, supportedMediaTypes, backdropPath }: GenreCardPro
 
         {/* Tint overlay - darker for backdrop images to ensure text readability */}
         <div className={`absolute inset-0 ${hasBackdrop ? "bg-black/50" : "bg-black/10"}`} />
-
-        {/* Shine overlay (uses .group:hover .shine-overlay from MediaCard.css) */}
-        <span className="shine-overlay" />
 
         {/* Content */}
         <div className="relative z-10 h-full w-full flex items-center justify-center text-center px-4">
