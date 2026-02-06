@@ -11,7 +11,7 @@ type Props = {
 };
 
 const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: "bayesian", label: "Top Rated" },
+  { value: "bayesian", label: "Highest Rated" },
   { value: "newest", label: "Newest" },
   { value: "oldest", label: "Oldest" },
   { value: "a-z", label: "A-Z" },

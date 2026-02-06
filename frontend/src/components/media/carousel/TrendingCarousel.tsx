@@ -71,10 +71,10 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
           <button
             onClick={goToPrev}
             aria-label="Previous"
-            className="absolute left-4 top-1/2 z-20 -translate-y-1/2
+            className="absolute left-2 sm:left-4 top-1/2 z-20 -translate-y-1/2
                        bg-black/40 backdrop-blur-sm text-white/70
                        hover:bg-black/60 hover:text-white
-                       rounded-full p-4 transition-all duration-300
+                       rounded-full p-3 sm:p-4 transition-all duration-300
                        shadow-[0_0_20px_rgba(0,0,0,0.5)]
                        hover:shadow-[0_0_30px_rgba(0,0,0,0.7)]
                        hover:scale-110 focus:outline-none cursor-pointer"
@@ -87,11 +87,11 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
           onClick={goToNext}
           aria-label="Next"
           disabled={loading || filtered.length === 0}
-          className="absolute right-4 top-1/2 z-20 -translate-y-1/2
+          className="absolute right-2 sm:right-4 top-1/2 z-20 -translate-y-1/2
                      bg-black/40 backdrop-blur-sm text-white/70
                      hover:bg-black/60 hover:text-white
                      disabled:opacity-0 disabled:cursor-not-allowed
-                     rounded-full p-4 transition-all duration-300
+                     rounded-full p-3 sm:p-4 transition-all duration-300
                      shadow-[0_0_20px_rgba(0,0,0,0.5)]
                      hover:shadow-[0_0_30px_rgba(0,0,0,0.7)]
                      hover:scale-110 cursor-pointer focus:outline-none"
@@ -198,7 +198,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                     </div>
 
                     {/* Overview */}
-                    <p className="text-gray-300 line-clamp-3 text-lg leading-snug">
+                    <p className="text-gray-300 line-clamp-2 sm:line-clamp-3 text-sm sm:text-base md:text-lg leading-snug">
                       {m.overview || "No overview available."}
                     </p>
                   </div>

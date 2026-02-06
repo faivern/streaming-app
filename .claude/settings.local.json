@@ -10,7 +10,8 @@
       "Bash(dotnet build:*)",
       "Bash(npx tsc:*)",
       "Bash(dotnet tool list:*)",
-      "Bash(dotnet ef database:*)"
+      "Bash(dotnet ef database:*)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   },
   "outputStyle": "Explanatory"

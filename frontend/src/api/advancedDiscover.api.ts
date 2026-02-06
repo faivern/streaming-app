@@ -56,9 +56,6 @@ export async function getAdvancedDiscover(
     queryParams.watchRegion = params.watchRegion;
   }
 
-  // Debug: log params to verify runtime filter is being sent
-  console.log("[AdvancedDiscover] Request params:", queryParams);
-
   const { data } = await api.get<Paged<DetailMedia>>(
     "/api/Movies/discover/advanced",
     {

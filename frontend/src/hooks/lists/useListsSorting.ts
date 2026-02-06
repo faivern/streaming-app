@@ -81,7 +81,7 @@ export function useListsSorting(
 
 export const LISTS_SORT_OPTIONS: { value: ListsSortOption; label: string }[] = [
   { value: "date-added", label: "Date Added" },
-  { value: "your-rating", label: "Your average rating" },
-  { value: "title-asc", label: "Title A-Z" },
-  { value: "title-desc", label: "Title Z-A" },
+  { value: "your-rating", label: "Your Rating" },
+  { value: "title-asc", label: "A-Z" },
+  { value: "title-desc", label: "Z-A" },
 ];

@@ -91,7 +91,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
     <Link to={`/media/${media_type}/${id}`}>
       <div
         ref={refs.setFloating}
-        className="backdrop-blur-md bg-gray-900/80 min-w-96 p-4 shadow-2xl rounded-lg border border-gray-600/70 text-white"
+        className="backdrop-blur-md bg-gray-900/80 w-full max-w-96 p-4 shadow-2xl rounded-lg border border-gray-600/70 text-white"
       >
         <h2 className="text-xl font-bold mb-2 text-gray-100">{title}</h2>
 
