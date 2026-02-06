@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TitleMid from "../title/TitleMid.tsx";
 import Backdrop from "../shared/Backdrop";
 import RatingPill from "../../ui/RatingPill";
-import "../../../style/MediaCard.css";
 import {
   faChevronLeft,
   faChevronRight,
@@ -150,10 +149,9 @@ export default function Top10Carousel({
                         <div
                           className="w-lg bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
                             rounded-2xl border border-gray-400/30 overflow-hidden shadow-lg
-                            hover:shadow-xl hover:scale-105 hover:border-accent-primary/75
+                            hover:shadow-xl hover:scale-103 hover:border-accent-primary/75
                             transition-all duration-300 relative cursor-pointer"
                         >
-                          <span className="shine-overlay" />
                           <RatingPill
                             rating={item.vote_average}
                             className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"

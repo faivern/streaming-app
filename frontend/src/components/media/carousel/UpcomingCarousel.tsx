@@ -144,7 +144,6 @@ export default function UpcomingCarousel({
                           className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
                           showOutOfTen={false}
                         />
-                        <span className="shine-overlay" />
                         <Backdrop
                           path={backdropPath}
                           alt={itemTitle}

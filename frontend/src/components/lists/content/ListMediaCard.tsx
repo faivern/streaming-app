@@ -1,5 +1,3 @@
-import "../../../style/MediaCard.css";
-
 import { Link } from "react-router-dom";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import Poster from "../../media/shared/Poster";
@@ -38,9 +36,6 @@ const avgRating = calculateAverageRating(item);
     <div className={containerClass}>
       <div className={cardClass}>
         <Link to={`/media/${item.mediaType}/${item.tmdbId}`}>
-          {/* Shine overlay effect */}
-          <div className="shine-overlay" />
-
           <RatingPillUser
             rating={avgRating || 0}
             className="absolute top-1 right-1 text-accent-primary bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
