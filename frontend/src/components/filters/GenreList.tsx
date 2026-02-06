@@ -24,7 +24,7 @@ export default function GenreList({ genres }: Props) {
     return (
         <div className="max-h-80 overflow-y-auto">
             <h3 className="text-white font-semibold mb-3 text-sm uppercase tracking-wide">
-                Browse Genres ({genres.length})
+                Browse Genres
             </h3>
             <ul className="grid grid-cols-3 gap-1">
                 {genres.map((genre) => (

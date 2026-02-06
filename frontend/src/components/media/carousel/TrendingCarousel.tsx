@@ -99,7 +99,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
           <FontAwesomeIcon icon={faChevronRight} className="text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
         </button>
 
-        <div className="relative w-full h-[60vh] md:h-[65vh] lg:h-[75vh] xl:h-[78vh] mb-6 transition-all duration-300 ease-in-out shadow-lg overflow-hidden">
+        <div className="relative w-full h-[60vh] md:h-[65vh] lg:h-[75vh] xl:h-[78vh] transition-all duration-300 ease-in-out overflow-hidden">
           {loading
             ? slides.map((i) => (
                 <div
@@ -121,7 +121,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                   }`}
                 >
                   <Link to={`/media/${m.media_type}/${m.id}`}>
-                    <div className="absolute bottom-0 left-0 w-full h-15 bg-gradient-to-b from-transparent to-background z-10"></div>
+                    <div className="absolute bottom-0 left-0 w-full h-52 bg-gradient-to-t from-background via-background/70 to-transparent z-10"></div>
                     <Backdrop
                       path={m.backdrop_path || undefined}
                       alt={m.title || m.name || "Backdrop"}
@@ -129,11 +129,11 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                       sizes="100vw"
                       priority={false}
                     />
-                    <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-black/60 via-black/30 to-transparent z-0 pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-background/80 via-black/30 to-transparent z-0 pointer-events-none" />
                   </Link>
 
                     <div
-                    className="absolute bottom-6 sm:bottom-10 md:bottom-14 left-4 sm:left-8 md:left-12 z-20
+                    className="absolute bottom-6 sm:bottom-10 md:bottom-14 left-4 sm:left-8 md:left-12 z-50
                            flex flex-col gap-3
                            w-[calc(100%-2rem)] sm:w-[min(75%,36rem)] max-w-2xl
                            px-4 sm:px-6 py-4 sm:py-6
@@ -145,8 +145,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                     {/* Title / Logo */}
                     <div
                       className="flex items-start flex-wrap gap-2
-                           min-h-10 sm:min-h-12 md:min-h-14
-                           transition-all duration-300"
+                           min-h-10 sm:min-h-12 md:min-h-14"
                     >
                       {idx === currentIndex &&
                         (logoPath ? (
