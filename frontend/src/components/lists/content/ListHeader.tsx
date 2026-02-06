@@ -125,7 +125,7 @@ export default function ListHeader({
 
           {/* Sort dropdown */}
           <Listbox value={sortOption} onChange={onSortChange}>
-            <div className="relative w-36">
+            <div className="relative w-44">
               <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-gray-800 border border-gray-700 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
                 <span className="block truncate">{selectedSortLabel}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">

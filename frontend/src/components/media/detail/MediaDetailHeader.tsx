@@ -43,7 +43,7 @@ export default function MediaDetailHeader({
   const revenue = details.revenue;
 
   return (
-    <main className="relative flex flex-col md:flex-row gap-8 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto">
+    <main className="relative flex flex-col md:flex-row gap-6 md:gap-8 py-8 px-4 md:px-12 max-w-7xl mx-auto">
       {/* Poster and Actions */}
       <div className="flex-shrink-0 w-full md:w-1/3 max-w-[360px] mx-auto">
         <div className="relative">
@@ -80,10 +80,10 @@ export default function MediaDetailHeader({
       </div>
 
       {/* Details */}
-      <div className="mx-4 flex flex-col gap-6">
+      <div className="flex flex-col gap-6">
         <div>
-          <div className="flex flex-row items-center gap-32">
-            <h1 className="text-4xl font-bold text-white">{title}</h1>
+          <div className="flex flex-row items-center">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{title}</h1>
           </div>
           {tagline && <p className="text-gray-400 italic mt-2">{tagline}</p>}
         </div>

@@ -19,10 +19,6 @@ export default function GenreCheckboxList({
   const { data: genres = [], isLoading } = useGenres();
 
   const filteredGenres = useMemo(() => {
-    // For "both", show all genres; otherwise filter by media type
-    if (mediaType === "both") {
-      return genres.slice().sort((a, b) => a.name.localeCompare(b.name));
-    }
     return genres
       .filter((genre) => genre.supportedMediaTypes.includes(mediaType))
       .sort((a, b) => a.name.localeCompare(b.name));

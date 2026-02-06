@@ -52,7 +52,7 @@ export default function MobileFilterDrawer({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
+                  className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
                 >
                   <FaTimes />
                 </button>

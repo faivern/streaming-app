@@ -72,7 +72,7 @@ export default function MediaDetailPage() {
             onWatchNow={handleWatchNow}
             logo_path={logoPath}
           />
-          <div className="mt-12 m-4 py-8 px-4 md:px-12 max-w-7xl mx-auto">
+          <div className="mt-12 py-8 px-4 md:px-12 max-w-7xl mx-auto">
             <WatchProviders mediaType={media_type} mediaId={numericId} title={details.title ?? details.name} />
           </div>
           <div className="mt-16">

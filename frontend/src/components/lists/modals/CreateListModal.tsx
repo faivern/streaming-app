@@ -48,7 +48,7 @@ export default function CreateListModal({
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
+          <div className="flex min-h-full items-end sm:items-center justify-center sm:p-4">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -58,7 +58,7 @@ export default function CreateListModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-gray-900 border border-gray-700 p-6 shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 p-6 shadow-xl transition-all">
                 <div className="flex items-center justify-between mb-6">
                   <Dialog.Title className="text-lg font-semibold text-white">
                     Create New List
@@ -66,7 +66,7 @@ export default function CreateListModal({
                   <button
                     type="button"
                     onClick={handleClose}
-                    className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
+                    className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
                   >
                     <FaTimes />
                   </button>

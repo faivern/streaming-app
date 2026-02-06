@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { api } from "../api/http/axios";
 
@@ -29,6 +29,8 @@ interface UseSearchState {
   loading: boolean;
   error: string | null;
   totalResults: number;
+  totalPages: number;
+  currentPage: number;
   hasSearched: boolean;
 }
 
@@ -38,8 +40,17 @@ export function useSearch() {
     loading: false,
     error: null,
     totalResults: 0,
+    totalPages: 0,
+    currentPage: 0,
     hasSearched: false,
   });
+
+  // AbortController ref to cancel in-flight requests on new search
+  const abortControllerRef = useRef<AbortController | null>(null);
+  // Track current query for fetchNextPage
+  const currentQueryRef = useRef<string>("");
+  // Track if a "next page" load is in progress (separate from initial loading)
+  const [loadingNextPage, setLoadingNextPage] = useState(false);
 
   const search = useCallback(async (query: string, page: number = 1) => {
     // Early return for empty queries
@@ -53,10 +64,22 @@ export function useSearch() {
       return;
     }
 
-    setState((prev) => ({ ...prev, loading: true, error: null }));
+    // Cancel any in-flight request before starting a new one
+    abortControllerRef.current?.abort();
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
+    // Track query for fetchNextPage
+    if (page === 1) currentQueryRef.current = query.trim();
+
+    const isNextPage = page > 1;
+    if (isNextPage) {
+      setLoadingNextPage(true);
+    } else {
+      setState((prev) => ({ ...prev, loading: true, error: null }));
+    }
 
     try {
-      // Use your backend API endpoint
       const response = await api.get<SearchResponse>(
         "/api/Movies/search/multi",
         {
@@ -64,20 +87,31 @@ export function useSearch() {
             query: query.trim(),
             page,
           },
+          signal: controller.signal,
         }
       );
 
       const data = response.data;
 
+      // If this request was aborted while in-flight, don't apply results
+      if (controller.signal.aborted) return;
+
+      setLoadingNextPage(false);
       setState((prev) => ({
         ...prev,
-        results: data.results || [],
+        // Append results for page > 1 (infinite scroll), replace for page 1
+        results: isNextPage ? [...prev.results, ...(data.results || [])] : (data.results || []),
         totalResults: data.total_results || 0,
+        totalPages: data.total_pages || 0,
+        currentPage: data.page || page,
         loading: false,
         hasSearched: true,
         error: null,
       }));
     } catch (err) {
+      // Don't update state if the request was intentionally cancelled
+      if (axios.isCancel(err)) return;
+
       console.error("Search error:", err);
 
       let errorMessage = "Something went wrong with the search.";
@@ -91,28 +125,43 @@ export function useSearch() {
           err.response.status >= 500
         ) {
           errorMessage = "Server error. Please try again later.";
-        } else if (err.code === "NETWORK_ERROR") {
+        } else if (err.code === "ERR_NETWORK") {
           errorMessage = "Network error. Please check your connection.";
         }
       }
 
+      setLoadingNextPage(false);
       setState((prev) => ({
         ...prev,
         loading: false,
         error: errorMessage,
-        results: [],
-        totalResults: 0,
+        // Only clear results on page 1 error; keep existing results if next-page fails
+        results: isNextPage ? prev.results : [],
+        totalResults: isNextPage ? prev.totalResults : 0,
+        totalPages: isNextPage ? prev.totalPages : 0,
+        currentPage: isNextPage ? prev.currentPage : 0,
         hasSearched: true,
       }));
     }
   }, []);
 
+  const hasNextPage = state.currentPage > 0 && state.currentPage < state.totalPages;
+
+  const fetchNextPage = useCallback(() => {
+    if (!currentQueryRef.current || loadingNextPage) return;
+    search(currentQueryRef.current, state.currentPage + 1);
+  }, [search, state.currentPage, loadingNextPage]);
+
   const clearSearch = useCallback(() => {
+    // Cancel any pending request when clearing
+    abortControllerRef.current?.abort();
     setState({
       results: [],
       loading: false,
       error: null,
       totalResults: 0,
+      totalPages: 0,
+      currentPage: 0,
       hasSearched: false,
     });
   }, []);
@@ -126,5 +175,8 @@ export function useSearch() {
     search,
     clearSearch,
     clearError,
+    hasNextPage,
+    fetchNextPage,
+    loadingNextPage,
   };
 }

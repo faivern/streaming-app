@@ -90,7 +90,7 @@ export default function MediaEntryModal({
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4">
+          <div className="flex min-h-full items-end sm:items-center justify-center sm:p-4">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -100,7 +100,7 @@ export default function MediaEntryModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[90vh] sm:max-h-[85vh] overflow-y-auto">
                 <form onSubmit={handleSubmit}>
                   {/* Header with media info */}
                   <div className="flex items-start gap-4 p-4 border-b border-gray-700">
@@ -122,7 +122,7 @@ export default function MediaEntryModal({
                     <button
                       type="button"
                       onClick={onClose}
-                      className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors flex-shrink-0"
+                      className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors flex-shrink-0"
                     >
                       <FaTimes />
                     </button>

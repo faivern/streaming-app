@@ -117,7 +117,7 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
           <button
             type="button"
             onClick={prev}
-            className="absolute left-0 inset-y-0 z-10 w-20 flex items-center justify-start pl-2
+            className="absolute left-0 inset-y-0 z-10 w-10 sm:w-20 flex items-center justify-start pl-2
                        bg-gradient-to-r from-background via-background/60 to-transparent
                        text-white/60 hover:text-white
                        transition-all duration-300 cursor-pointer"
@@ -132,7 +132,7 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
           type="button"
           onClick={next}
           disabled={page >= pageCount - 1}
-          className="absolute right-0 inset-y-0 z-10 w-20 flex items-center justify-end pr-2
+          className="absolute right-0 inset-y-0 z-10 w-10 sm:w-20 flex items-center justify-end pr-2
                      bg-gradient-to-l from-background via-background/60 to-transparent
                      text-white/60 hover:text-white
                      disabled:opacity-0 disabled:pointer-events-none

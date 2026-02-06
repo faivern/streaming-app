@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using backend.Services;
 using System.Net.Http;
+using System.Text.Json.Nodes;
 
 
 namespace backend.Controllers
@@ -458,6 +459,60 @@ namespace backend.Controllers
                     page,
                     withWatchProviders,
                     watchRegion);
+
+                // Post-filter by runtime: TMDB's with_runtime filter can be unreliable,
+                // so we verify each movie's actual runtime from its detail endpoint.
+                if (mediaType == "movie" && (runtimeGte.HasValue || runtimeLte.HasValue))
+                {
+                    var jsonNode = JsonNode.Parse(data);
+                    var results = jsonNode?["results"]?.AsArray();
+
+                    if (results != null && results.Count > 0)
+                    {
+                        var movieIds = results
+                            .Select(r => r?["id"]?.GetValue<int>() ?? 0)
+                            .Where(id => id > 0)
+                            .ToList();
+
+                        // Fetch all movie details in parallel (6hr cache per movie)
+                        var detailTasks = movieIds.Select(id => _tmdbService.GetMovieDetailsTypedAsync(id));
+                        var detailsArray = await Task.WhenAll(detailTasks);
+
+                        var runtimeMap = new Dictionary<int, int?>();
+                        for (int i = 0; i < movieIds.Count; i++)
+                            runtimeMap[movieIds[i]] = detailsArray[i]?.Runtime;
+
+                        for (int i = results.Count - 1; i >= 0; i--)
+                        {
+                            var movieId = results[i]?["id"]?.GetValue<int>() ?? 0;
+                            runtimeMap.TryGetValue(movieId, out var runtime);
+
+                            // Exclude movies with unknown runtime when filter is active
+                            if (runtime == null || runtime <= 0)
+                            {
+                                results.RemoveAt(i);
+                                continue;
+                            }
+
+                            if (runtimeGte.HasValue && runtime < runtimeGte.Value)
+                            {
+                                results.RemoveAt(i);
+                                continue;
+                            }
+
+                            if (runtimeLte.HasValue && runtime > runtimeLte.Value)
+                            {
+                                results.RemoveAt(i);
+                                continue;
+                            }
+
+                            // Inject verified runtime (in minutes) into the result
+                            results[i]!["runtime"] = runtime;
+                        }
+
+                        data = jsonNode!.ToJsonString();
+                    }
+                }
 
                 return Content(data, "application/json");
             }

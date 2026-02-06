@@ -46,6 +46,20 @@ export default function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Close mobile menu on Escape key & lock body scroll
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    document.body.style.overflow = "hidden";
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileMenuOpen(false);
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMobileMenuOpen]);
+
   const handleLogout = () => {
     logout();
     setIsUserModalOpen(false);
@@ -232,13 +246,13 @@ export default function Header() {
         <>
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[140]"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[140] animate-[fadeIn_.2s_ease]"
             onClick={() => setIsMobileMenuOpen(false)}
             aria-hidden="true"
           />
           {/* Drawer */}
           <aside
-            className="fixed inset-y-0 left-0 w-72 bg-gray-900/95 backdrop-blur-lg border-r border-gray-700 z-[150] flex flex-col shadow-2xl animate-[slideIn_.25s_ease]"
+            className="fixed inset-y-0 left-0 w-72 max-w-[calc(100vw-3rem)] bg-gray-900/95 backdrop-blur-lg border-r border-gray-700 z-[150] flex flex-col shadow-2xl animate-[slideIn_.25s_ease]"
             role="dialog"
             aria-label="Mobile navigation"
           >
@@ -246,6 +260,7 @@ export default function Header() {
               <h2 className="text-lg font-semibold text-white">Menu</h2>
               <button
                 aria-label="Close menu"
+                autoFocus
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="p-2 text-gray-300 hover:text-white transition"
               >

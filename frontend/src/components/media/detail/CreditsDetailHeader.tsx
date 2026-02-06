@@ -35,8 +35,8 @@ const CreditsDetailHeader = ({
       <div className="flex flex-col md:flex-row gap-6">
         {/* LEFT COLUMN - IMAGE + BASIC INFO */}
         <div className="w-full md:w-1/3 flex flex-col items-center p-4 rounded">
-          <div className="text-center md:text-left mb-4 flex items-center gap-4">
-            <h2 className="text-3xl font-bold text-white">
+          <div className="text-center md:text-left mb-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">
               {name || `Person #${id}`}
             </h2>
             <p className="text-sky-400 text-sm">{knownFor}</p>

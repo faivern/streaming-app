@@ -7,7 +7,6 @@ import {
 } from "react-icons/fa";
 import { useSearch } from "../../hooks/useSearch";
 import { useInfiniteAdvancedDiscover } from "../../hooks/discover/useInfiniteAdvancedDiscover";
-import { useInfiniteTrending } from "../../hooks/discover/useInfiniteTrending";
 import { useDiscoverFilters } from "../../hooks/discover/useDiscoverFilters";
 import type { AdvancedDiscoverParams } from "../../api/advancedDiscover.api";
 import Poster from "../media/shared/Poster";
@@ -75,15 +74,17 @@ export default function DiscoverModal({
   const {
     results: searchResults,
     loading: searchLoading,
+    error: searchError,
+    totalResults: searchTotalResults,
     search,
     clearSearch,
     hasSearched,
+    hasNextPage: searchHasNext,
+    fetchNextPage: searchFetchNext,
+    loadingNextPage: searchFetchingNext,
   } = useSearch();
 
-  // Check if we're using the trending API
-  const isTrendingMode = filters.sortBy === "trending";
-
-  // Build discover params from current filter state (used when not in trending mode)
+  // Build discover params from current filter state
   const discoverParams: Omit<AdvancedDiscoverParams, "page"> = useMemo(
     () => ({
       mediaType: filters.mediaType,
@@ -99,7 +100,7 @@ export default function DiscoverModal({
     [filters]
   );
 
-  // Infinite query for discover mode (non-trending)
+  // Infinite query for discover mode
   const {
     data: discoverData,
     isLoading: discoverLoading,
@@ -107,25 +108,19 @@ export default function DiscoverModal({
     hasNextPage: discoverHasNext,
     fetchNextPage: discoverFetchNext,
   } = useInfiniteAdvancedDiscover(discoverParams, {
-    enabled: isOpen && !isSearchMode && !isTrendingMode,
+    enabled: isOpen && !isSearchMode,
   });
 
-  // Infinite query for trending mode
-  const {
-    data: trendingData,
-    isLoading: trendingLoading,
-    isFetchingNextPage: trendingFetchingNext,
-    hasNextPage: trendingHasNext,
-    fetchNextPage: trendingFetchNext,
-  } = useInfiniteTrending(
-    { mediaType: filters.mediaType },
-    { enabled: isOpen && !isSearchMode && isTrendingMode }
-  );
-
   // Unified pagination state based on mode
-  const isFetchingNextPage = isTrendingMode ? trendingFetchingNext : discoverFetchingNext;
-  const hasNextPage = isTrendingMode ? trendingHasNext : discoverHasNext;
-  const fetchNextPage = isTrendingMode ? trendingFetchNext : discoverFetchNext;
+  const isFetchingNextPage = isSearchMode
+    ? searchFetchingNext
+    : discoverFetchingNext;
+  const hasNextPage = isSearchMode
+    ? searchHasNext
+    : discoverHasNext;
+  const fetchNextPage = isSearchMode
+    ? searchFetchNext
+    : discoverFetchNext;
 
   // Load more when scrolling near the bottom
   const handleLoadMore = useCallback(() => {
@@ -134,10 +129,10 @@ export default function DiscoverModal({
     }
   }, [fetchNextPage, isFetchingNextPage, hasNextPage]);
 
-  // Intersection Observer for infinite scroll
+  // Intersection Observer for infinite scroll (works for all modes including search)
   useEffect(() => {
     const sentinel = loadMoreRef.current;
-    if (!sentinel || isSearchMode) return;
+    if (!sentinel) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -148,14 +143,14 @@ export default function DiscoverModal({
       },
       {
         root: scrollContainerRef.current,
-        rootMargin: "200px", // Load more when within 200px of sentinel
+        rootMargin: "200px",
         threshold: 0,
       }
     );
 
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, handleLoadMore, isSearchMode, isOpen]);
+  }, [hasNextPage, isFetchingNextPage, handleLoadMore, isOpen]);
 
   // Debounced search
   useEffect(() => {
@@ -177,6 +172,7 @@ export default function DiscoverModal({
     clearSearch();
     setIsSearchMode(false);
     setSelectedMedia(null);
+    resetFilters();
     onClose();
   };
 
@@ -206,7 +202,7 @@ export default function DiscoverModal({
   const displayResults = useMemo(() => {
     if (isSearchMode) {
       return searchResults
-        .filter((r) => r.media_type === "movie" || r.media_type === "tv")
+        .filter((r) => r.media_type === filters.mediaType)
         .map((r) => ({
           id: r.id,
           title: r.title,
@@ -217,23 +213,6 @@ export default function DiscoverModal({
           release_date: r.release_date,
           first_air_date: r.first_air_date,
         }));
-    }
-
-    // Handle trending mode
-    if (isTrendingMode) {
-      if (!trendingData?.pages) return [];
-      return trendingData.pages.flatMap((page) =>
-        page.results.map((r) => ({
-          id: r.id,
-          title: r.title,
-          name: r.name,
-          poster_path: r.poster_path,
-          media_type: filters.mediaType,
-          vote_average: r.vote_average,
-          release_date: r.release_date,
-          first_air_date: r.first_air_date,
-        }))
-      );
     }
 
     // Flatten all pages from the discover infinite query
@@ -250,22 +229,24 @@ export default function DiscoverModal({
         first_air_date: r.first_air_date,
       }))
     );
-  }, [isSearchMode, searchResults, isTrendingMode, trendingData, discoverData, filters.mediaType]);
+  }, [isSearchMode, searchResults, discoverData, filters.mediaType]);
 
-  const isLoading = isSearchMode ? searchLoading : (isTrendingMode ? trendingLoading : discoverLoading);
+  const isLoading = isSearchMode ? searchLoading : discoverLoading;
 
   const totalResults = useMemo(() => {
-    if (isSearchMode) return searchResults.length;
-    if (isTrendingMode) return trendingData?.pages?.[0]?.total_results || 0;
+    if (isSearchMode) return searchTotalResults;
     return discoverData?.pages?.[0]?.total_results || 0;
-  }, [isSearchMode, searchResults.length, isTrendingMode, trendingData, discoverData]);
+  }, [isSearchMode, searchTotalResults, discoverData]);
+
+  // Whether advanced filters (beyond media type) are applicable in current mode
+  const filtersDisabled = isSearchMode;
 
   // Filter sidebar content (shared between desktop and mobile)
   const filterContent = (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h3 className="text-lg font-semibold text-white">Filters</h3>
-        {hasActiveFilters && (
+        {hasActiveFilters && !isSearchMode && (
           <button
             onClick={resetFilters}
             className="px-3 py-1 text-sm text-gray-400 hover:text-white bg-gray-700/50 hover:bg-gray-600/50 rounded-lg transition-colors"
@@ -275,50 +256,7 @@ export default function DiscoverModal({
         )}
       </div>
 
-      {/* Genres */}
-      <div>
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-            Genres
-          </h3>
-          {filters.genreIds.length > 0 && (
-            <button
-              onClick={() => clearGenres()}
-              className="text-xs text-gray-400 hover:text-white transition-colors"
-            >
-              Clear
-            </button>
-          )}
-        </div>
-        <GenreCheckboxList
-          mediaType={filters.mediaType}
-          selectedGenreIds={filters.genreIds}
-          onToggleGenre={toggleGenre}
-        />
-      </div>
-
-      {/* Year Range */}
-      <div>
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-            Year
-          </h3>
-          {(filters.releaseYearRange.min || filters.releaseYearRange.max) && (
-            <button
-              onClick={() => clearReleaseYearRange()}
-              className="text-xs text-gray-400 hover:text-white transition-colors"
-            >
-              Clear
-            </button>
-          )}
-        </div>
-        <YearRangeSelector
-          value={filters.releaseYearRange}
-          onChange={setReleaseYearRange}
-        />
-      </div>
-
-      {/* Media Type Toggle */}
+      {/* Media Type Toggle - always available, applies to all modes */}
       <div>
         <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
           Media Type
@@ -347,75 +285,131 @@ export default function DiscoverModal({
         </div>
       </div>
 
-      {/* Rating Slider */}
-      <div>
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-            Minimum Rating
-          </h3>
-          {filters.minRating > 0 && (
-            <button
-              onClick={() => clearMinRating()}
-              className="text-xs text-gray-400 hover:text-white transition-colors"
-            >
-              Clear
-            </button>
-          )}
-        </div>
-        <RatingSlider value={filters.minRating} onChange={setMinRating} />
-      </div>
-
-      {/* Sort By */}
-      <div>
-        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
-          Sort By
-        </h3>
-        <SortByDropdown value={filters.sortBy} onChange={setSortBy} />
-      </div>
-
-      {/* Runtime (Movies only - not available for TV or Both) */}
-      {filters.mediaType === "movie" && (
-        <div>
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-              Runtime
-            </h3>
-            {(filters.runtimeRange.min || filters.runtimeRange.max) && (
-              <button
-                onClick={() => clearRuntimeRange()}
-                className="text-xs text-gray-400 hover:text-white transition-colors"
-              >
-                Clear
-              </button>
-            )}
-          </div>
-          <RuntimeSelector
-            value={filters.runtimeRange}
-            onChange={setRuntimeRange}
-          />
+      {/* Search mode hint */}
+      {isSearchMode && (
+        <div className="rounded-lg bg-gray-800/60 border border-gray-700 px-3 py-2.5">
+          <p className="text-xs text-gray-400">
+            Clear the search to use advanced filters.
+          </p>
         </div>
       )}
 
-      {/* Language */}
-      <div>
-        <div className="flex justify-between items-center mb-3">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-            Language
+      {/* Sort By */}
+      {!isSearchMode && (
+        <div>
+          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+            Sort By
           </h3>
-          {filters.language && (
-            <button
-              onClick={() => clearLanguage()}
-              className="text-xs text-gray-400 hover:text-white transition-colors"
-            >
-              Clear
-            </button>
-          )}
+          <SortByDropdown value={filters.sortBy} onChange={setSortBy} />
         </div>
-        <LanguageDropdown value={filters.language} onChange={setLanguage} />
-      </div>
+      )}
 
-      {/* Reset Filters */}
-      
+      {/* Advanced filters - only shown when not in search mode */}
+      {!filtersDisabled && (
+        <>
+          {/* Genres */}
+          <div>
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Genres
+              </h3>
+              {filters.genreIds.length > 0 && (
+                <button
+                  onClick={() => clearGenres()}
+                  className="text-xs text-gray-400 hover:text-white transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            <GenreCheckboxList
+              mediaType={filters.mediaType}
+              selectedGenreIds={filters.genreIds}
+              onToggleGenre={toggleGenre}
+            />
+          </div>
+
+          {/* Year Range */}
+          <div>
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Year
+              </h3>
+              {(filters.releaseYearRange.min || filters.releaseYearRange.max) && (
+                <button
+                  onClick={() => clearReleaseYearRange()}
+                  className="text-xs text-gray-400 hover:text-white transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            <YearRangeSelector
+              value={filters.releaseYearRange}
+              onChange={setReleaseYearRange}
+            />
+          </div>
+
+          {/* Rating Slider */}
+          <div>
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Minimum Rating
+              </h3>
+              {filters.minRating > 0 && (
+                <button
+                  onClick={() => clearMinRating()}
+                  className="text-xs text-gray-400 hover:text-white transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            <RatingSlider value={filters.minRating} onChange={setMinRating} />
+          </div>
+
+          {/* Runtime (Movies only) */}
+          {filters.mediaType === "movie" && (
+            <div>
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                  Runtime
+                </h3>
+                {(filters.runtimeRange.min || filters.runtimeRange.max) && (
+                  <button
+                    onClick={() => clearRuntimeRange()}
+                    className="text-xs text-gray-400 hover:text-white transition-colors"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+              <RuntimeSelector
+                value={filters.runtimeRange}
+                onChange={setRuntimeRange}
+              />
+            </div>
+          )}
+
+          {/* Language */}
+          <div>
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                Language
+              </h3>
+              {filters.language && (
+                <button
+                  onClick={() => clearLanguage()}
+                  className="text-xs text-gray-400 hover:text-white transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+            <LanguageDropdown value={filters.language} onChange={setLanguage} />
+          </div>
+        </>
+      )}
     </div>
   );
 
@@ -436,7 +430,7 @@ export default function DiscoverModal({
           </Transition.Child>
 
           <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4">
+            <div className="flex min-h-full items-end sm:items-center justify-center sm:p-4">
               <Transition.Child
                 as={Fragment}
                 enter="ease-out duration-300"
@@ -446,7 +440,7 @@ export default function DiscoverModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[90vh] flex flex-col">
+                <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[95vh] sm:max-h-[90vh] flex flex-col">
                   {/* Header */}
                   <div className="flex items-center justify-between p-4 border-b border-gray-700">
                     <div>
@@ -460,7 +454,7 @@ export default function DiscoverModal({
                     <button
                       type="button"
                       onClick={handleClose}
-                      className="p-2 text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
+                      className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
                     >
                       <FaTimes />
                     </button>
@@ -492,17 +486,19 @@ export default function DiscoverModal({
                       {/* Action Bar */}
                       <div className="flex pl-4 border-b border-gray-700">
                         <div className="flex items-center gap-3">
-                          {/* Mobile filter button */}
-                          <button
-                            onClick={() => setMobileFiltersOpen(true)}
-                            className="lg:hidden flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-600/50 transition-colors"
-                          >
-                            <FaFilter className="text-xs" />
-                            Filters
-                            {hasActiveFilters && (
-                              <span className="w-2 h-2 bg-accent-primary rounded-full" />
-                            )}
-                          </button>
+                          {/* Mobile filter button - hidden during search mode */}
+                          {!isSearchMode && (
+                            <button
+                              onClick={() => setMobileFiltersOpen(true)}
+                              className="lg:hidden flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-600/50 transition-colors"
+                            >
+                              <FaFilter className="text-xs" />
+                              Filters
+                              {hasActiveFilters && (
+                                <span className="w-2 h-2 bg-accent-primary rounded-full" />
+                              )}
+                            </button>
+                          )}
 
                           <span className="text-sm text-gray-400">
                             {totalResults.toLocaleString()} results
@@ -520,6 +516,13 @@ export default function DiscoverModal({
                                 className="aspect-[2/3] bg-gray-800 rounded-lg animate-pulse"
                               />
                             ))}
+                          </div>
+                        ) : searchError ? (
+                          <div className="text-center py-12">
+                            <p className="text-red-400">{searchError}</p>
+                            <p className="text-sm text-gray-500 mt-1">
+                              Please try again or use a different search term.
+                            </p>
                           </div>
                         ) : displayResults.length === 0 ? (
                           <div className="text-center py-12">
@@ -547,7 +550,7 @@ export default function DiscoverModal({
 
                                 return (
                                   <button
-                                    key={result.id}
+                                    key={`${result.media_type}-${result.id}`}
                                     type="button"
                                     onClick={() => handleCardClick(result)}
                                     className="group relative rounded-lg overflow-hidden bg-gray-800 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-primary/50"
@@ -598,24 +601,22 @@ export default function DiscoverModal({
                             </div>
 
                             {/* Infinite scroll sentinel and loading indicator */}
-                            {!isSearchMode && (
-                              <div
-                                ref={loadMoreRef}
-                                className="py-8 flex justify-center"
-                              >
-                                {isFetchingNextPage && (
-                                  <div className="flex items-center gap-2 text-gray-400">
-                                    <div className="w-5 h-5 border-2 border-gray-600 border-t-accent-primary rounded-full animate-spin" />
-                                    <span className="text-sm">Loading more...</span>
-                                  </div>
-                                )}
-                                {!hasNextPage && displayResults.length > 0 && (
-                                  <span className="text-sm text-gray-500">
-                                    No more results
-                                  </span>
-                                )}
-                              </div>
-                            )}
+                            <div
+                              ref={loadMoreRef}
+                              className="py-8 flex justify-center"
+                            >
+                              {isFetchingNextPage && (
+                                <div className="flex items-center gap-2 text-gray-400">
+                                  <div className="w-5 h-5 border-2 border-gray-600 border-t-accent-primary rounded-full animate-spin" />
+                                  <span className="text-sm">Loading more...</span>
+                                </div>
+                              )}
+                              {!hasNextPage && displayResults.length > 0 && (
+                                <span className="text-sm text-gray-500">
+                                  No more results
+                                </span>
+                              )}
+                            </div>
                           </>
                         )}
                       </div>
