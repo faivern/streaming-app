@@ -40,8 +40,9 @@ export default function MediaEntryModal({
   const [ratingVisuals, setRatingVisuals] = useState<number | null>(null);
   const [ratingSoundtrack, setRatingSoundtrack] = useState<number | null>(null);
   const [notes, setNotes] = useState("");
-
-  // Initialize state when item changes
+  const maxReviewLength = 5000;
+  const maxRowsForNotes = 10;
+    // Initialize state when item changes
   useEffect(() => {
     if (item) {
       setStatus(item.status || "WantToWatch");
@@ -207,9 +208,11 @@ export default function MediaEntryModal({
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       placeholder="Write your thoughts..."
-                      rows={4}
+                      rows={maxRowsForNotes}
+                      maxLength={maxReviewLength}
                       className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 resize-none"
                     />
+                    <div className="text-xs text-gray-500 mt-1">{notes.length}/{maxReviewLength}</div>
                   </div>
 
                   {/* Actions */}

@@ -5,13 +5,12 @@ import type { Collection } from "../types/tmdb";
 export async function searchCollections(
   q: string,
   page = 1,
-  language = "en-US",
-  includeAdult = false
+  language = "en-US"
 ) {
   const { data } = await api.get<Paged<Collection>>(
     "/api/Movies/search/collection",
     {
-      params: { q, page, language, includeAdult },
+      params: { q, page, language },
     }
   );
   return data;

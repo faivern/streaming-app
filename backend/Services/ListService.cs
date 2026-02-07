@@ -13,10 +13,18 @@ namespace backend.Services
         // Max thumbnail file size: 2 MB
         public const int MaxThumbnailBytes = 2 * 1024 * 1024;
 
+        public const int MaxListsPerUser = 20;
+        public const int MaxItemsPerList = 10_000;
+
         public ListService(AppDbContext db, ILogger<ListService> logger)
         {
             _db = db;
             _logger = logger;
+        }
+
+        public async Task<int> GetUserListCountAsync(string userId)
+        {
+            return await _db.Lists.CountAsync(l => l.UserId == userId);
         }
 
         public async Task<List<Models.List>> GetUserListsAsync(string userId)

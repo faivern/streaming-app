@@ -60,9 +60,14 @@ namespace backend.Controllers
 
             try
             {
+                var userId = GetUserId();
+                var listCount = await _listService.GetUserListCountAsync(userId);
+                if (listCount >= ListService.MaxListsPerUser)
+                    return Conflict($"You've reached the maximum of {ListService.MaxListsPerUser} lists.");
+
                 var list = new Models.List
                 {
-                    UserId = GetUserId(),
+                    UserId = userId,
                     Name = request.Name,
                     Description = request.Description,
                     IsPublic = request.IsPublic
@@ -131,6 +136,9 @@ namespace backend.Controllers
             {
                 var list = await _listService.GetByIdAsync(id, GetUserId());
                 if (list is null) return NotFound();
+
+                if (list.Items.Count >= ListService.MaxItemsPerList)
+                    return Conflict($"This list has reached the maximum of {ListService.MaxItemsPerList:N0} items.");
 
                 var item = new ListItem
                 {

@@ -10,6 +10,8 @@ import { useUser } from "../../hooks/user/useUser";
 import { useLogout } from "../../hooks/user/useLogout";
 import { UserModal } from "./UserModal";
 import { useGenres } from "../../hooks/genres/useGenres";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHouse, faBars, faMasksTheater } from "@fortawesome/free-solid-svg-icons";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -108,13 +110,15 @@ export default function Header() {
               {/* Desktop Nav Links */}
               <div className="hidden xl:flex items-center gap-6">
                 <Link to="/">
-                  <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center">
+                  <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center gap-2">
+                    <FontAwesomeIcon icon={faHouse} className="text-sm" />
                     Home
                     <span className="underline-bar"></span>
                   </span>
                 </Link>
                 <Link to="/lists">
-                  <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center">
+                  <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center gap-2">
+                    <FontAwesomeIcon icon={faBars} className="text-sm" />
                     Lists
                     <span className="underline-bar"></span>
                   </span>
@@ -125,7 +129,8 @@ export default function Header() {
                   onMouseEnter={() => setShowGenres(true)}
                   onMouseLeave={() => setShowGenres(false)}
                 >
-                  <div className="underline-hover !text-base !font-semibold !mb-0 cursor-pointer flex items-center">
+                  <div className="underline-hover !text-base !font-semibold !mb-0 cursor-pointer flex items-center gap-2">
+                    <FontAwesomeIcon icon={faMasksTheater} className="text-sm" />
                     Genres
                     <span className="underline-bar"></span>
                   </div>
@@ -285,16 +290,18 @@ export default function Header() {
               <Link
                 to="/"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+                className="flex items-center gap-3 w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
               >
-                 Home
+                <FontAwesomeIcon icon={faHouse} className="text-sm w-5" />
+                Home
               </Link>
               <Link
                 to="/lists"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+                className="flex items-center gap-3 w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
               >
-                 My Lists
+                <FontAwesomeIcon icon={faBars} className="text-sm w-5" />
+                My Lists
               </Link>
 
               <div>
@@ -304,8 +311,9 @@ export default function Header() {
                   aria-expanded={showMobileGenres}
                   aria-controls="mobile-genres-panel"
                 >
-                  <span className="flex items-center">
-                     Genres
+                  <span className="flex items-center gap-3">
+                    <FontAwesomeIcon icon={faMasksTheater} className="text-sm w-5" />
+                    Genres
                   </span>
                   <svg
                     className={`w-5 h-5 transform transition ${

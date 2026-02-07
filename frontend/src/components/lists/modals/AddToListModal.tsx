@@ -13,6 +13,8 @@ import toast from "react-hot-toast";
 import Poster from "../../media/shared/Poster";
 import StarRating from "../shared/StarRating";
 import CreateListModal from "./CreateListModal";
+import LimitReachedModal from "./LimitReachedModal";
+import { LIST_LIMITS } from "../../../lib/constants";
 import { useUserLists, useAddListItem } from "../../../hooks/lists/useLists";
 import { useCreateList } from "../../../hooks/lists/useListMutations";
 import { useMediaEntryByTmdbId } from "../../../hooks/mediaEntries/useMediaEntries";
@@ -62,6 +64,13 @@ export default function AddToListModal({
   const [ratingSoundtrack, setRatingSoundtrack] = useState<number | null>(null);
   const [notes, setNotes] = useState("");
   const [showCreateListModal, setShowCreateListModal] = useState(false);
+  const [showLimitModal, setShowLimitModal] = useState(false);
+  const [limitModalConfig, setLimitModalConfig] = useState({
+    title: "",
+    message: "",
+    currentCount: 0,
+    maxCount: 0,
+  });
 
   // Queries
   const { data: lists = [], isLoading: listsLoading } = useUserLists();
@@ -103,6 +112,7 @@ export default function AddToListModal({
     if (!isOpen) {
       setStep("select");
       setSelectedListIds(new Set());
+      setShowLimitModal(false);
       // Don't reset status/ratings if we have an existing entry - they'll be re-initialized
       if (!existingEntry) {
         setStatus("WantToWatch"); // Pre-select to encourage tracking
@@ -159,6 +169,25 @@ export default function AddToListModal({
     const hasSelectedStatus = status !== null;
 
     try {
+      // Check item limits before adding
+      if (hasSelectedLists) {
+        const fullList = lists.find(
+          (l) =>
+            selectedListIds.has(l.id) &&
+            l.items.length >= LIST_LIMITS.MAX_ITEMS_PER_LIST,
+        );
+        if (fullList) {
+          setLimitModalConfig({
+            title: "Item Limit Reached",
+            message: `"${fullList.name}" has reached the maximum number of items. Remove some items to add more.`,
+            currentCount: fullList.items.length,
+            maxCount: LIST_LIMITS.MAX_ITEMS_PER_LIST,
+          });
+          setShowLimitModal(true);
+          return;
+        }
+      }
+
       // Add to selected lists (silent - we'll show one toast at the end)
       if (hasSelectedLists) {
         const promises = Array.from(selectedListIds).map((listId) =>
@@ -427,7 +456,19 @@ export default function AddToListModal({
                           </h3>
                           <button
                             type="button"
-                            onClick={() => setShowCreateListModal(true)}
+                            onClick={() => {
+                              if (lists.length >= LIST_LIMITS.MAX_LISTS_PER_USER) {
+                                setLimitModalConfig({
+                                  title: "List Limit Reached",
+                                  message: "You've reached the maximum number of lists. Delete an existing list to create a new one.",
+                                  currentCount: lists.length,
+                                  maxCount: LIST_LIMITS.MAX_LISTS_PER_USER,
+                                });
+                                setShowLimitModal(true);
+                              } else {
+                                setShowCreateListModal(true);
+                              }
+                            }}
                             className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-accent-primary hover:text-white hover:bg-accent-primary/20 rounded-lg transition-colors"
                           >
                             <FaPlus className="text-xs" />
@@ -451,7 +492,19 @@ export default function AddToListModal({
                             </p>
                             <button
                               type="button"
-                              onClick={() => setShowCreateListModal(true)}
+                              onClick={() => {
+                                if (lists.length >= LIST_LIMITS.MAX_LISTS_PER_USER) {
+                                  setLimitModalConfig({
+                                    title: "List Limit Reached",
+                                    message: "You've reached the maximum number of lists. Delete an existing list to create a new one.",
+                                    currentCount: lists.length,
+                                    maxCount: LIST_LIMITS.MAX_LISTS_PER_USER,
+                                  });
+                                  setShowLimitModal(true);
+                                } else {
+                                  setShowCreateListModal(true);
+                                }
+                              }}
                               className="mt-3 px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 text-white text-sm font-medium rounded-lg transition-colors"
                             >
                               Create Your First List
@@ -644,6 +697,16 @@ export default function AddToListModal({
         onClose={() => setShowCreateListModal(false)}
         onCreate={handleCreateList}
         isLoading={createList.isPending}
+      />
+
+      {/* Limit Reached Modal */}
+      <LimitReachedModal
+        isOpen={showLimitModal}
+        onClose={() => setShowLimitModal(false)}
+        title={limitModalConfig.title}
+        message={limitModalConfig.message}
+        currentCount={limitModalConfig.currentCount}
+        maxCount={limitModalConfig.maxCount}
       />
     </>
   );

@@ -524,10 +524,10 @@ namespace backend.Controllers
         // search/collection?q=star wars&page=1
         [HttpGet("search/collection")]
         public async Task<IActionResult> SearchCollections([FromQuery] string q, [FromQuery] int page = 1,
-            [FromQuery] string language = "en-US", [FromQuery] bool includeAdult = false)
+            [FromQuery] string language = "en-US")
         {
             if (string.IsNullOrWhiteSpace(q)) return BadRequest("query (q) is required");
-            var data = await _tmdbService.SearchCollectionsAsync(q, page, language, includeAdult);
+            var data = await _tmdbService.SearchCollectionsAsync(q, page, language);
             return Content(data, "application/json");
         }
 

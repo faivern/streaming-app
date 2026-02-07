@@ -51,7 +51,7 @@ namespace backend.Services
         //-----------------------------SEARCH MULTI---------------------------------------
         public async Task<string> SearchMultiAsync(string query)
         {
-            var url = $"https://api.themoviedb.org/3/search/multi?api_key={_apiKey}&query={Uri.EscapeDataString(query)}";
+            var url = $"https://api.themoviedb.org/3/search/multi?api_key={_apiKey}&query={Uri.EscapeDataString(query)}&include_adult=false";
             return await FetchWithCacheAsync($"search_multi_{query}", url, TimeSpan.FromHours(6));
         }
         //----------------------------------------------------------------------------
@@ -79,14 +79,14 @@ namespace backend.Services
         public async Task<string> GetUpcomingMoviesAsync()
         {
             var today = DateTime.UtcNow.ToString("yyyy-MM-dd");
-            var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&primary_release_date.gte={today}&sort_by=popularity.desc";
+            var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&primary_release_date.gte={today}&sort_by=popularity.desc&include_adult=false";
             return await FetchWithCacheAsync($"upcoming_movies_{today}", url, TimeSpan.FromHours(6));
         }
 
         public async Task<string> GetUpcomingTvAsync()
         {
             var today = DateTime.UtcNow.ToString("yyyy-MM-dd");
-            var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&first_air_date.gte={today}&sort_by=popularity.desc";
+            var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&first_air_date.gte={today}&sort_by=popularity.desc&include_adult=false";
             return await FetchWithCacheAsync($"upcoming_tv_{today}", url, TimeSpan.FromHours(6));
         }
         //----------------------------------------------------------------------------
@@ -100,13 +100,13 @@ namespace backend.Services
 
         public async Task<string> GetTopRatedMoviesAsync()
         {
-            var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&sort_by=vote_average.desc&vote_count.gte={MinVoteCountForTopRatedMovies}";
+            var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&sort_by=vote_average.desc&vote_count.gte={MinVoteCountForTopRatedMovies}&include_adult=false";
             return await FetchWithCacheAsync("top_rated_movies", url, TimeSpan.FromHours(6));
         }
 
         public async Task<string> GetTopRatedTvAsync()
         {
-            var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&sort_by=vote_average.desc&vote_count.gte={MinVoteCountForTopRatedShows}";
+            var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&sort_by=vote_average.desc&vote_count.gte={MinVoteCountForTopRatedShows}&include_adult=false";
             return await FetchWithCacheAsync("top_rated_tv", url, TimeSpan.FromHours(6));
         }
         //--------------------------------------------------------------------------
@@ -267,13 +267,13 @@ namespace backend.Services
         //Movie
         public async Task<string> GetDiscoverMovie()
         {
-            var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}";
+            var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&include_adult=false";
             return await FetchWithCacheAsync("discover_movies", url, TimeSpan.FromHours(6));
         }
         //Show
         public async Task<string> GetDiscoverTv()
         {
-            var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}";
+            var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&include_adult=false";
             return await FetchWithCacheAsync("discover_tv", url, TimeSpan.FromHours(6));
         }
         //-----------------------------------------------------------------------------------
@@ -303,7 +303,7 @@ namespace backend.Services
         public async Task<string> DiscoverByGenreAsync(string mediaType, int genreId, int page, string sortBy = "popularity.desc")
         {
             var cacheKey = $"discover_{mediaType}_genre_{genreId}_sort_{sortBy}_page_{page}";
-            var url = $"https://api.themoviedb.org/3/discover/{mediaType}?api_key={_apiKey}&with_genres={genreId}&sort_by={sortBy}&page={page}";
+            var url = $"https://api.themoviedb.org/3/discover/{mediaType}?api_key={_apiKey}&with_genres={genreId}&sort_by={sortBy}&page={page}&include_adult=false";
             return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
         }
 
@@ -399,12 +399,12 @@ namespace backend.Services
         //------------------------------COLLECTION--------------------------------------------
 
         // SEARCH collections (by name like "Star Wars")
-        public Task<string> SearchCollectionsAsync(string query, int page = 1, string lang = "en-US", bool includeAdult = false)
+        public Task<string> SearchCollectionsAsync(string query, int page = 1, string lang = "en-US")
         {
             var q = Uri.EscapeDataString(query ?? string.Empty);
             var url =
-                $"https://api.themoviedb.org/3/search/collection?api_key={_apiKey}&query={q}&page={page}&include_adult={includeAdult.ToString().ToLower()}&language={lang}";
-            var cacheKey = $"search_collection::{lang}::{includeAdult}::p{page}::{query?.ToLowerInvariant()}";
+                $"https://api.themoviedb.org/3/search/collection?api_key={_apiKey}&query={q}&page={page}&include_adult=false&language={lang}";
+            var cacheKey = $"search_collection::{lang}::p{page}::{query?.ToLowerInvariant()}";
             return FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(12));
         }
 

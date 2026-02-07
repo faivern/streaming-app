@@ -22,6 +22,7 @@ import type { List } from "../../types/list";
 import type { WatchStatus } from "../../types/mediaEntry";
 import type { ActiveView, ViewMode, ListsSortOption, DisplayItem } from "../../types/lists.view";
 import { GOOGLE_LOGIN_URL } from "../../lib/config";
+import { LIST_LIMITS } from "../../lib/constants";
 
 // Components
 import ListsSidebar from "../../components/lists/sidebar/ListsSidebar";
@@ -30,6 +31,7 @@ import ListContent from "../../components/lists/content/ListContent";
 import CreateListModal from "../../components/lists/modals/CreateListModal";
 import EditListModal from "../../components/lists/modals/EditListModal";
 import DeleteConfirmModal from "../../components/lists/modals/DeleteConfirmModal";
+import LimitReachedModal from "../../components/lists/modals/LimitReachedModal";
 import DiscoverModal from "../../components/discover/DiscoverModal";
 import MediaEntryModal from "../../components/lists/modals/MediaEntryModal";
 
@@ -74,6 +76,7 @@ export default function MyListsPage() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Modal state
+  const [limitModalOpen, setLimitModalOpen] = useState(false);
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -84,6 +87,15 @@ export default function MyListsPage() {
 
   // Get the currently selected list
   const currentList = lists.find((l) => l.id === selectedListId) || null;
+
+  // Guard: check list limit before opening create modal
+  const handleOpenCreateModal = () => {
+    if (lists.length >= LIST_LIMITS.MAX_LISTS_PER_USER) {
+      setLimitModalOpen(true);
+    } else {
+      setCreateModalOpen(true);
+    }
+  };
 
   // Handle list creation
   const handleCreateList = async (data: {
@@ -271,7 +283,7 @@ export default function MyListsPage() {
           statusCounts={statusCounts}
           onStatusChange={handleSelectStatus}
           onListSelect={handleSelectList}
-          onCreateList={() => setCreateModalOpen(true)}
+          onCreateList={handleOpenCreateModal}
           onEditList={(list) => {
             setSelectedList(list);
             setEditModalOpen(true);
@@ -306,7 +318,7 @@ export default function MyListsPage() {
         statusCounts={statusCounts}
         onStatusChange={handleSelectStatus}
         onListSelect={handleSelectList}
-        onCreateList={() => setCreateModalOpen(true)}
+        onCreateList={handleOpenCreateModal}
         onEditList={(list) => {
           setSelectedList(list);
           setEditModalOpen(true);
@@ -382,6 +394,15 @@ export default function MyListsPage() {
         onSave={handleSaveEntry}
         item={selectedEntry}
         isLoading={updateMediaEntryMutation.isPending}
+      />
+
+      <LimitReachedModal
+        isOpen={limitModalOpen}
+        onClose={() => setLimitModalOpen(false)}
+        title="List Limit Reached"
+        message="You've reached the maximum number of lists. Delete an existing list to create a new one."
+        currentCount={lists.length}
+        maxCount={LIST_LIMITS.MAX_LISTS_PER_USER}
       />
     </div>
   );
