@@ -10,10 +10,11 @@ import type { ThemePreset } from "../../hooks/useTheme";
 interface UserModalProps {
   userName: string;
   onLogout: () => void;
+  onClose: () => void;
   show: boolean;
 }
 
-export const UserModal = ({ userName, onLogout, show }: UserModalProps) => {
+export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps) => {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -33,6 +34,7 @@ export const UserModal = ({ userName, onLogout, show }: UserModalProps) => {
       {/* Lists link */}
       <Link
         to="/lists"
+        onClick={onClose}
         className="block px-4 py-2 text-sm text-gray-200 hover:bg-sky-500/20 hover:text-white transition-colors"
       >
         Lists

@@ -217,6 +217,7 @@ export default function Header() {
                     show={isUserModalOpen}
                     userName={user.name}
                     onLogout={handleLogout}
+                    onClose={() => setIsUserModalOpen(false)}
                   />
                 </div>
               ) : (
