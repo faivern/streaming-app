@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition, Switch } from "@headlessui/react";
 import { FaTimes } from "react-icons/fa";
 
@@ -18,6 +18,15 @@ export default function CreateListModal({
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+
+  // Reset form when modal closes (covers programmatic close, not just user-initiated)
+  useEffect(() => {
+    if (!isOpen) {
+      setName("");
+      setDescription("");
+      setIsPublic(false);
+    }
+  }, [isOpen]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

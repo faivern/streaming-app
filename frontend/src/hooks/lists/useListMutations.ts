@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { listsApi } from "../../api/lists.api";
 import type { CreateListRequest, UpdateListRequest, AddListItemRequest } from "../../api/lists.api";
 
-type ApiError = Error & { response?: { status?: number } };
+type ApiError = Error & { response?: { status?: number; data?: string } };
 
 export function useCreateList() {
   const queryClient = useQueryClient();
@@ -17,6 +17,8 @@ export function useCreateList() {
     onError: (error: ApiError) => {
       if (error.response?.status === 401) {
         toast.error("Please sign in to create lists");
+      } else if (error.response?.status === 409) {
+        toast.error("You've reached the maximum of 20 lists");
       } else {
         toast.error("Failed to create list");
       }
@@ -85,7 +87,8 @@ export function useAddListItem() {
       if (error.response?.status === 401) {
         toast.error("Please sign in");
       } else if (error.response?.status === 409) {
-        toast.error("Already in this list");
+        const msg = error.response?.data;
+        toast.error(msg && msg.includes("maximum") ? msg : "Already in this list");
       } else if (error.response?.status === 404) {
         toast.error("List not found");
       } else {

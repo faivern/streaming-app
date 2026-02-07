@@ -9,12 +9,11 @@ import type { Collection } from '../../types/tmdb';
 export function useSearchCollections(
     q: string,
     page = 1,
-    language = "en-US",
-    includeAdult = false
+    language = "en-US"
 ) {
     return useQuery<Paged<Collection>>({
-        queryKey: ["collections", "search", q, page, language, includeAdult],
-        queryFn: () => searchCollections(q, page, language, includeAdult),
+        queryKey: ["collections", "search", q, page, language],
+        queryFn: () => searchCollections(q, page, language),
         enabled: !!q,
     });
 }
@@ -31,20 +30,19 @@ export function useCollectionById(id?: number, language = "en-US") {
     });
 }
 
-/* 
+/*
  * Fetch a small curated set of collections (by name) for the homepage carousel.
  * Returns the top match for each name, in order.
 */
 export function useFeaturedCollections(
     names: string[],
-    language = "en-US",
-    includeAdult = false
+    language = "en-US"
 ) {
   return useQuery<Collection[]>({
-    queryKey: ["collections", "featured", names, language, includeAdult],
+    queryKey: ["collections", "featured", names, language],
     queryFn: async () => {
       const pages = await Promise.all(
-        names.map((n) => searchCollections(n, 1, language, includeAdult))
+        names.map((n) => searchCollections(n, 1, language))
       );
       // pick the first result from each page (if any)
       return pages
