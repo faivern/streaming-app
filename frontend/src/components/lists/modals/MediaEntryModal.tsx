@@ -27,6 +27,12 @@ const WATCH_STATUSES: { value: WatchStatus; label: string }[] = [
   { value: "Watched", label: "Watched" },
 ];
 
+const STATUS_COLORS: Record<WatchStatus, { bg: string; text: string }> = {
+  WantToWatch: { bg: "bg-blue-500/20", text: "text-blue-400" },
+  Watching: { bg: "bg-yellow-500/20", text: "text-yellow-400" },
+  Watched: { bg: "bg-green-500/20", text: "text-green-400" },
+};
+
 export default function MediaEntryModal({
   isOpen,
   onClose,
@@ -136,20 +142,23 @@ export default function MediaEntryModal({
                       onChange={(index) => setStatus(WATCH_STATUSES[index].value)}
                     >
                       <Tab.List className="flex gap-1 p-1 bg-gray-800 rounded-lg">
-                        {WATCH_STATUSES.map((s) => (
-                          <Tab
-                            key={s.value}
-                            className={({ selected }) =>
-                              `flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors focus:outline-none ${
-                                selected
-                                  ? "bg-accent-primary text-white"
-                                  : "text-gray-400 hover:text-white hover:bg-gray-700"
-                              }`
-                            }
-                          >
-                            {s.label}
-                          </Tab>
-                        ))}
+                        {WATCH_STATUSES.map((s) => {
+                          const colors = STATUS_COLORS[s.value];
+                          return (
+                            <Tab
+                              key={s.value}
+                              className={({ selected }) =>
+                                `flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors focus:outline-none ${
+                                  selected
+                                    ? `${colors.bg} ${colors.text}`
+                                    : "text-gray-400 hover:text-white hover:bg-gray-700"
+                                }`
+                              }
+                            >
+                              {s.label}
+                            </Tab>
+                          );
+                        })}
                       </Tab.List>
                     </Tab.Group>
                   </div>
