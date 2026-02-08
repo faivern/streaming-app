@@ -9,8 +9,8 @@ import { useSearch } from "../../hooks/useSearch";
 import { useInfiniteAdvancedDiscover } from "../../hooks/discover/useInfiniteAdvancedDiscover";
 import { useDiscoverFilters } from "../../hooks/discover/useDiscoverFilters";
 import type { AdvancedDiscoverParams } from "../../api/advancedDiscover.api";
-import Poster from "../media/shared/Poster";
-import RatingPill from "../ui/RatingPill";
+import MediaCard from "../media/cards/MediaCard";
+import MediaCardSkeleton from "../media/skeleton/MediaCardSkeleton";
 import {
   GenreCheckboxList,
   YearRangeSelector,
@@ -186,7 +186,6 @@ export default function DiscoverModal({
   }) => {
     const mediaTitle = item.title || item.name || "Untitled";
     const posterPath = item.poster_path || null;
-    // In discover mode, media_type comes from filter; in search mode, from result
     const mediaType = item.media_type || filters.mediaType;
 
     setSelectedMedia({
@@ -511,10 +510,7 @@ export default function DiscoverModal({
                         {isLoading ? (
                           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                             {Array.from({ length: 12 }).map((_, i) => (
-                              <div
-                                key={i}
-                                className="aspect-[2/3] bg-gray-800 rounded-lg animate-pulse"
-                              />
+                              <MediaCardSkeleton key={i} />
                             ))}
                           </div>
                         ) : searchError ? (
@@ -542,60 +538,28 @@ export default function DiscoverModal({
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                               {displayResults.map((result) => {
                                 const isAlreadyAdded = existingTmdbIds.has(result.id);
-                                const mediaTitle =
-                                  result.title || result.name || "Untitled";
-                                const year =
-                                  result.release_date?.slice(0, 4) ||
-                                  result.first_air_date?.slice(0, 4);
 
                                 return (
-                                  <button
+                                  <div
                                     key={`${result.media_type}-${result.id}`}
-                                    type="button"
-                                    onClick={() => handleCardClick(result)}
-                                    className="group relative rounded-lg overflow-hidden bg-gray-800 text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent-primary/50"
+                                    className="relative"
                                   >
-                                    <Poster
-                                      path={result.poster_path || undefined}
-                                      alt={mediaTitle}
-                                      className="w-full aspect-[2/3]"
-                                      useCustomSize
-                                    />
-
-                                    {/* Already added indicator */}
                                     {isAlreadyAdded && (
-                                      <div className="absolute top-2 right-2 px-2 py-0.5 text-xs font-medium bg-green-600/90 text-white rounded">
+                                      <div className="absolute top-2 right-2 z-20 px-2 py-0.5 text-xs font-medium bg-green-600/90 text-white rounded">
                                         In List
                                       </div>
                                     )}
-
-                                    {/* Hover Overlay */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3">
-                                      {/* Top badge - rating only */}
-                                      <div className="flex justify-end">
-                                        {result.vote_average !== undefined &&
-                                          result.vote_average > 0 && (
-                                            <RatingPill
-                                              rating={result.vote_average}
-                                              showOutOfTen={false}
-                                              className="text-xs"
-                                            />
-                                          )}
-                                      </div>
-
-                                      {/* Bottom info */}
-                                      <div>
-                                        <p className="text-white text-sm font-medium line-clamp-2 mb-1">
-                                          {mediaTitle}
-                                        </p>
-                                        {year && (
-                                          <p className="text-gray-400 text-xs">
-                                            {year}
-                                          </p>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </button>
+                                    <MediaCard
+                                      id={result.id}
+                                      media_type={result.media_type}
+                                      title={result.title || result.name || "Untitled"}
+                                      posterPath={result.poster_path || ""}
+                                      vote_average={result.vote_average}
+                                      releaseDate={result.release_date || result.first_air_date}
+                                      disableHoverModal
+                                      onClick={() => handleCardClick(result)}
+                                    />
+                                  </div>
                                 );
                               })}
                             </div>
@@ -640,14 +604,12 @@ export default function DiscoverModal({
         {filterContent}
       </MobileFilterDrawer>
 
-      {/* Add to List Modal */}
-      {selectedMedia && (
-        <AddToListModal
-          isOpen={selectedMedia !== null}
-          onClose={() => setSelectedMedia(null)}
-          media={selectedMedia}
-        />
-      )}
+      {/* Add to List Modal – always mounted to avoid expensive remount delay */}
+      <AddToListModal
+        isOpen={selectedMedia !== null}
+        onClose={() => setSelectedMedia(null)}
+        media={selectedMedia ?? { tmdbId: 0, mediaType: "movie", title: "", posterPath: null }}
+      />
     </>
   );
 }

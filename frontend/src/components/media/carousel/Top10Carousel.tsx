@@ -154,7 +154,7 @@ export default function Top10Carousel({
                         >
                           <RatingPill
                             rating={item.vote_average}
-                            className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"
+                            className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                             showOutOfTen={false}
                           />
 
@@ -166,11 +166,10 @@ export default function Top10Carousel({
                             priority={false}
                           />
 
-                          <div className="p-3 flex flex-wrap items-center justify-between">
-                            <h3 className="text-md font-semibold text-white truncate mb-2">
-                              {itemTitle.length > 35
-                                ? `${itemTitle.slice(0, 35)}...`
-                                : itemTitle}
+                          {/* Hover gradient overlay with title */}
+                          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-3 pt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <h3 className="text-sm font-semibold text-white truncate">
+                              {itemTitle}
                             </h3>
                           </div>
                         </div>

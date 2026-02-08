@@ -47,6 +47,12 @@ const WATCH_STATUSES: { value: WatchStatus; label: string }[] = [
   { value: "Watched", label: "Watched" },
 ];
 
+const STATUS_COLORS: Record<WatchStatus, { border: string; bg: string; text: string }> = {
+  WantToWatch: { border: "border-blue-400", bg: "bg-blue-500/20", text: "text-blue-400" },
+  Watching: { border: "border-yellow-400", bg: "bg-yellow-500/20", text: "text-yellow-400" },
+  Watched: { border: "border-green-400", bg: "bg-green-500/20", text: "text-green-400" },
+};
+
 export default function AddToListModal({
   isOpen,
   onClose,
@@ -409,6 +415,7 @@ export default function AddToListModal({
                         <div className="grid grid-cols-3 gap-2">
                           {WATCH_STATUSES.map((s) => {
                             const isSelected = status === s.value;
+                            const colors = STATUS_COLORS[s.value];
                             const Icon =
                               s.value === "WantToWatch"
                                 ? FaClock
@@ -424,14 +431,14 @@ export default function AddToListModal({
                                 }
                                 className={`p-3 rounded-lg border-2 transition-all ${
                                   isSelected
-                                    ? "border-accent-primary bg-accent-primary/20"
+                                    ? `${colors.border} ${colors.bg}`
                                     : "border-gray-700 hover:border-gray-600 bg-gray-800/50"
                                 }`}
                               >
                                 <Icon
                                   className={`text-lg mx-auto mb-1 ${
                                     isSelected
-                                      ? "text-accent-primary"
+                                      ? colors.text
                                       : "text-gray-400"
                                   }`}
                                 />
