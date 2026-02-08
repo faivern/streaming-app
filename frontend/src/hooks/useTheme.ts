@@ -9,9 +9,9 @@ export interface ThemeOption {
 }
 
 export const THEME_OPTIONS: ThemeOption[] = [
-  { value: "blizzard", label: "Blizzard", description: "Sky blue accents" },
-  { value: "netflix", label: "Netflix", description: "Classic red" },
-  { value: "sleek", label: "Sleek", description: "Teal & purple" },
+  { value: "blizzard", label: "Arctic", description: "Sky blue accents" },
+  { value: "netflix", label: "Volcanic", description: "Classic red" },
+  { value: "sleek", label: "Astro", description: "Teal & purple" },
 ];
 
 const STORAGE_KEY = "moviebucket-theme";

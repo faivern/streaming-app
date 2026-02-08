@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 import { Listbox, Transition } from "@headlessui/react";
 import { FaSignOutAlt, FaPalette } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faChevronDown, faListUl } from "@fortawesome/free-solid-svg-icons";
 import { useTheme, THEME_OPTIONS } from "../../hooks/useTheme";
 import type { ThemePreset } from "../../hooks/useTheme";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-
+import { FaRegUser } from "react-icons/fa";
 interface UserModalProps {
   userName: string;
   onLogout: () => void;
@@ -29,7 +28,8 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
         }`}
     >
       {/* User name header */}
-      <div className="px-4 py-2 text-sm text-gray-400 border-b border-gray-700/50 mb-1">
+      <div className="px-4 py-2 text-sm text-gray-400 border-b border-gray-700/50 mb-1 flex items-center gap-2">
+        <FaRegUser className="text-gray-200" />
         {userName}
       </div>
 
@@ -40,7 +40,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
         className="block px-4 py-2 text-sm text-gray-200 hover:bg-sky-500/20 hover:text-white transition-colors"
       >
         <div className="flex items-center gap-2 text-sm">
-          <FontAwesomeIcon icon={faBars} className="text-sm" />
+          <FontAwesomeIcon icon={faListUl} className="text-sm" />
           <span>Lists</span>
         </div>
       </Link>
