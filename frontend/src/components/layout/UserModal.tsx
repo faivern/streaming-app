@@ -126,7 +126,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
         className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-sky-500/20 hover:text-white transition-colors cursor-pointer border-t border-gray-700/50 mt-1"
       >
         <FaSignOutAlt className="mr-2" />
-        Log Out
+        Log out
       </button>
     </div>
   );

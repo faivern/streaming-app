@@ -9,7 +9,7 @@ import CriteriaRatings from "./CriteriaRatings";
 import type { DisplayItem } from "../../../types/lists.view";
 import { calculateAverageRating } from "../../../types/lists.view";
 import { dateFormatYear } from "../../../utils/dateFormatYear";
-import  useMediaRuntime  from "../../../hooks/media/useMediaRuntime";
+import useMediaRuntime from "../../../hooks/media/useMediaRuntime";
 
 type ListRowItemProps = {
   item: DisplayItem;
@@ -39,17 +39,20 @@ export default function ListRowItem({
   });
   // Check if any individual ratings exist
   const hasRatings =
-    item.ratingActing !== null && item.ratingActing !== undefined ||
-    item.ratingStory !== null && item.ratingStory !== undefined ||
-    item.ratingSoundtrack !== null && item.ratingSoundtrack !== undefined ||
-    item.ratingVisuals !== null && item.ratingVisuals !== undefined;
+    (item.ratingActing !== null && item.ratingActing !== undefined) ||
+    (item.ratingStory !== null && item.ratingStory !== undefined) ||
+    (item.ratingSoundtrack !== null && item.ratingSoundtrack !== undefined) ||
+    (item.ratingVisuals !== null && item.ratingVisuals !== undefined);
 
   // Review handling
   const reviewContent = item.review?.content;
 
   // Only allow expand when there's something to show
   const hasExpandableContent = !!(
-    item.voteAverage || avgRating !== null || hasRatings || reviewContent
+    item.voteAverage ||
+    avgRating !== null ||
+    hasRatings ||
+    reviewContent
   );
 
   const handleRowClick = () => {
@@ -61,7 +64,7 @@ export default function ListRowItem({
       onClick={handleRowClick}
       className={`group relative flex flex-col gap-2 p-3 rounded-xl overflow-hidden shadow-lg border border-gray-400/10 transition-all duration-300
         ${!item.backdropPath ? "bg-gray-800/50 hover:bg-gray-800" : ""}
-        ${isEditMode ? "" : "hover:shadow-xl hover:scale-102 hover:border-accent-primary/85"}
+        ${isEditMode ? "" : "hover:shadow-xl hover:scale-101 hover:border-accent-primary/85"}
         ${hasExpandableContent && !isEditMode ? "cursor-pointer" : ""}`}
     >
       {/* Blurred backdrop background */}

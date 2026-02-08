@@ -136,7 +136,7 @@ export default function UpcomingCarousel({
                       <div
                         className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
                           rounded-2xl border border-gray-400/30 overflow-hidden shadow-lg
-                          hover:shadow-xl hover:scale-105 hover:border-accent-primary/75
+                          hover:shadow-xl hover:scale-103 hover:border-accent-primary/75
                           transition-all duration-300 relative group cursor-pointer"
                       >
                         <RatingPill

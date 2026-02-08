@@ -13,6 +13,8 @@ import type { ViewMode, ListsSortOption } from "../../../types/lists.view";
 import { LISTS_SORT_OPTIONS } from "../../../hooks/lists/useListsSorting";
 import TitleMid from "../../media/title/TitleMid";
 import { Film, Tv } from "lucide-react";
+import { FaEye, FaClock, FaCheck } from "react-icons/fa";
+import type { WatchStatus } from "../../../types/mediaEntry";
 
 type ListHeaderProps = {
   title: string;
@@ -55,14 +57,34 @@ export default function ListHeader({
     LISTS_SORT_OPTIONS.find((opt) => opt.value === sortOption)?.label || "Sort";
   const totalMediaCount = movieCount + tvCount;
 
+  const TABS: { status: WatchStatus; label: string; icon: React.ReactNode }[] =
+    [
+      { status: "WantToWatch", label: "Want to Watch", icon: <FaClock /> },
+      { status: "Watching", label: "Watching", icon: <FaEye /> },
+      { status: "Watched", label: "Watched", icon: <FaCheck /> },
+    ];
+
   return (
     <div className="mb-6">
       {/* Title row */}
       <div className="flex items-start justify-between gap-4 mb-2">
+        
         <div>
-          <TitleMid>
-            <h1 className="text-2xl font-bold text-white">{title}</h1>
-          </TitleMid>
+          {(() => {
+            const activeTab = TABS.find(
+              (tab) => tab.label === title || tab.status === title,
+            );
+            return activeTab ? (
+              <TitleMid>
+                <span className="inline-flex items-center gap-2">
+                  {activeTab.icon}
+                  {activeTab.label}
+                </span>
+              </TitleMid>
+            ) : (
+              <TitleMid>{title}</TitleMid>
+            );
+          })()}
           {description && (
             <p className="text-gray-400 text-sm mt-1">{description}</p>
           )}
@@ -121,8 +143,6 @@ export default function ListHeader({
         </div>
 
         <div className="flex items-center gap-3">
-
-
           {/* Sort dropdown */}
           <Listbox value={sortOption} onChange={onSortChange}>
             <div className="relative w-44">

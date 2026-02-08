@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&display=swap");
 @import "tailwindcss";
 @plugin "tailwind-scrollbar";
 @import "./style/tokens.css";
@@ -13,7 +14,6 @@
   --color-ring: hsl(var(--ring));
   --color-primary-foreground: hsl(var(--primary-foreground));
   --color-accent-foreground: hsl(var(--accent-foreground));
-
 
   --color-primary: var(--primary);
   --color-secondary: var(--secondary);

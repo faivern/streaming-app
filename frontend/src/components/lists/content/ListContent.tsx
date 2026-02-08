@@ -35,7 +35,7 @@ type ListContentProps = {
 
 const STATUS_TITLES: Record<WatchStatus, string> = {
   WantToWatch: "Want to Watch",
-  Watching: "Currently Watching",
+  Watching: "Watching",
   Watched: "Watched",
 };
 
