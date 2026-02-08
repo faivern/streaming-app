@@ -11,7 +11,7 @@ import { useLogout } from "../../hooks/user/useLogout";
 import { UserModal } from "./UserModal";
 import { useGenres } from "../../hooks/genres/useGenres";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faBars, faMasksTheater } from "@fortawesome/free-solid-svg-icons";
+import { faHouse, faListUl, faMasksTheater } from "@fortawesome/free-solid-svg-icons";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -118,7 +118,7 @@ export default function Header() {
                 </Link>
                 <Link to="/lists">
                   <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center gap-2">
-                    <FontAwesomeIcon icon={faBars} className="text-sm" />
+                    <FontAwesomeIcon icon={faListUl} className="text-sm" />
                     Lists
                     <span className="underline-bar"></span>
                   </span>
@@ -300,7 +300,7 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="flex items-center gap-3 w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
               >
-                <FontAwesomeIcon icon={faBars} className="text-sm w-5" />
+                <FontAwesomeIcon icon={faListUl} className="text-sm w-5" />
                 My Lists
               </Link>
 
