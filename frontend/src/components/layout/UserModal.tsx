@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { useTheme, THEME_OPTIONS } from "../../hooks/useTheme";
 import type { ThemePreset } from "../../hooks/useTheme";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 interface UserModalProps {
   userName: string;
@@ -21,9 +22,10 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
     <div
       className={`absolute right-0 mt-2 w-56 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl py-3 z-50 border border-gray-700
         transition-all duration-300 ease-out origin-top-right
-        ${show
-          ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
-          : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
+        ${
+          show
+            ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+            : "opacity-0 scale-95 -translate-y-2 pointer-events-none"
         }`}
     >
       {/* User name header */}
@@ -37,7 +39,10 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
         onClick={onClose}
         className="block px-4 py-2 text-sm text-gray-200 hover:bg-sky-500/20 hover:text-white transition-colors"
       >
-        Lists
+        <div className="flex items-center gap-2 text-sm">
+          <FontAwesomeIcon icon={faBars} className="text-sm" />
+          <span>Lists</span>
+        </div>
       </Link>
 
       {/* Theme selector */}
@@ -46,7 +51,10 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
           <FaPalette className="text-accent-primary" />
           <span>Theme</span>
         </div>
-        <Listbox value={theme} onChange={(value: ThemePreset) => setTheme(value)}>
+        <Listbox
+          value={theme}
+          onChange={(value: ThemePreset) => setTheme(value)}
+        >
           <div className="relative">
             <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-gray-800 border border-gray-600 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
               <span className="block truncate">
@@ -71,7 +79,9 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
                     key={option.value}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-2 pl-9 pr-4 ${
-                        active ? "bg-accent-primary/20 text-white" : "text-gray-300"
+                        active
+                          ? "bg-accent-primary/20 text-white"
+                          : "text-gray-300"
                       }`
                     }
                     value={option.value}
@@ -81,7 +91,9 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
                         <div className="flex flex-col">
                           <span
                             className={`block truncate ${
-                              selected ? "font-medium text-white" : "font-normal"
+                              selected
+                                ? "font-medium text-white"
+                                : "font-normal"
                             }`}
                           >
                             {option.label}
@@ -92,7 +104,10 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
                         </div>
                         {selected && (
                           <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-accent-primary">
-                            <FontAwesomeIcon icon={faCheck} className="h-3 w-3" />
+                            <FontAwesomeIcon
+                              icon={faCheck}
+                              className="h-3 w-3"
+                            />
                           </span>
                         )}
                       </>
@@ -111,7 +126,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
         className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-200 hover:bg-sky-500/20 hover:text-white transition-colors cursor-pointer border-t border-gray-700/50 mt-1"
       >
         <FaSignOutAlt className="mr-2" />
-        Sign Out
+        Log Out
       </button>
     </div>
   );

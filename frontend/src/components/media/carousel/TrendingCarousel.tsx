@@ -133,7 +133,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                   </Link>
 
                     <div
-                    className="absolute bottom-6 sm:bottom-10 md:bottom-14 left-4 sm:left-8 md:left-12 z-50
+                    className="absolute bottom-4 sm:bottom-10 md:bottom-14 left-4 sm:left-8 md:left-12 z-50
                            flex flex-col gap-3
                            w-[calc(100%-2rem)] sm:w-[min(75%,36rem)] max-w-2xl
                            px-4 sm:px-6 py-4 sm:py-6
