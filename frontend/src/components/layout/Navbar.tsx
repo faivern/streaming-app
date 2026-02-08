@@ -11,7 +11,12 @@ import { useLogout } from "../../hooks/user/useLogout";
 import { UserModal } from "./UserModal";
 import { useGenres } from "../../hooks/genres/useGenres";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faListUl, faMasksTheater } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHouse,
+  faListUl,
+  faMasksTheater,
+} from "@fortawesome/free-solid-svg-icons";
+import BrandLogo from "../common/BrandLogo";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -84,6 +89,7 @@ export default function Header() {
             {/* LEFT: Logo + Nav Links */}
             <div className="flex items-center gap-6">
               <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+                {/*
                 <span
                   aria-label="logo"
                   role="img"
@@ -99,12 +105,8 @@ export default function Header() {
                     maskPosition: "center",
                   }}
                 />
-                <h1 className="text-xl lg:text-2xl font-bold whitespace-nowrap">
-                  <span className="text-white">Movie</span>
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">
-                    Bucket
-                  </span>
-                </h1>
+                    */}
+                <BrandLogo />
               </Link>
 
               {/* Desktop Nav Links */}
@@ -130,7 +132,10 @@ export default function Header() {
                   onMouseLeave={() => setShowGenres(false)}
                 >
                   <div className="underline-hover !text-base !font-semibold !mb-0 cursor-pointer flex items-center gap-2">
-                    <FontAwesomeIcon icon={faMasksTheater} className="text-sm" />
+                    <FontAwesomeIcon
+                      icon={faMasksTheater}
+                      className="text-sm"
+                    />
                     Genres
                     <span className="underline-bar"></span>
                   </div>
@@ -229,7 +234,7 @@ export default function Header() {
                 <a href={GOOGLE_LOGIN_URL}>
                   <button className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
                     <FaRegUser className="mr-1 lg:mr-2" />
-                    <span className="hidden sm:inline">Login</span>
+                    <span className="hidden sm:inline">Log in</span>
                   </button>
                 </a>
               )}
@@ -312,7 +317,10 @@ export default function Header() {
                   aria-controls="mobile-genres-panel"
                 >
                   <span className="flex items-center gap-3">
-                    <FontAwesomeIcon icon={faMasksTheater} className="text-sm w-5" />
+                    <FontAwesomeIcon
+                      icon={faMasksTheater}
+                      className="text-sm w-5"
+                    />
                     Genres
                   </span>
                   <svg
