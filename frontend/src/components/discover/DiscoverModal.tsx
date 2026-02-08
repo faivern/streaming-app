@@ -48,8 +48,13 @@ export default function DiscoverModal({
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState<SelectedMedia | null>(null);
 
-  // Ref for infinite scroll sentinel element
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+  // Callback ref for infinite scroll sentinel — using state ensures a re-render
+  // (and thus a fresh effect run) whenever the sentinel mounts/unmounts,
+  // which fixes the stale-observer bug when reopening the modal.
+  const [sentinelNode, setSentinelNode] = useState<HTMLDivElement | null>(null);
+  const sentinelRef = useCallback((node: HTMLDivElement | null) => {
+    setSentinelNode(node);
+  }, []);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const {
@@ -130,14 +135,14 @@ export default function DiscoverModal({
   }, [fetchNextPage, isFetchingNextPage, hasNextPage]);
 
   // Intersection Observer for infinite scroll (works for all modes including search)
+  // Depends on sentinelNode (set via callback ref) so it re-runs reliably
+  // whenever the sentinel DOM element mounts after the Transition opens.
   useEffect(() => {
-    const sentinel = loadMoreRef.current;
-    if (!sentinel) return;
+    if (!sentinelNode) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        const entry = entries[0];
-        if (entry.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
           handleLoadMore();
         }
       },
@@ -148,9 +153,9 @@ export default function DiscoverModal({
       }
     );
 
-    observer.observe(sentinel);
+    observer.observe(sentinelNode);
     return () => observer.disconnect();
-  }, [hasNextPage, isFetchingNextPage, handleLoadMore, isOpen]);
+  }, [sentinelNode, hasNextPage, isFetchingNextPage, handleLoadMore]);
 
   // Debounced search
   useEffect(() => {
@@ -566,7 +571,7 @@ export default function DiscoverModal({
 
                             {/* Infinite scroll sentinel and loading indicator */}
                             <div
-                              ref={loadMoreRef}
+                              ref={sentinelRef}
                               className="py-8 flex justify-center"
                             >
                               {isFetchingNextPage && (
