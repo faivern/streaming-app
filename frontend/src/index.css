@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&display=swap");
 @import "tailwindcss";
+
+@font-face {
+  font-family: "International";
+  src: url("./assets/fonts/international/International.ttf") format("truetype");
+  font-display: swap;
+}
 @plugin "tailwind-scrollbar";
 @import "./style/tokens.css";
 @import "flag-icons/css/flag-icons.min.css";

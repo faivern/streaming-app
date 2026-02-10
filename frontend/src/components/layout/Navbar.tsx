@@ -88,24 +88,7 @@ export default function Header() {
           <nav className="grid grid-cols-[1fr_auto_1fr] items-center py-4 gap-4 xl:gap-8">
             {/* LEFT: Logo + Nav Links */}
             <div className="flex items-center gap-6">
-              <Link to="/" className="flex items-center gap-2 flex-shrink-0">
-                {/*
-                <span
-                  aria-label="logo"
-                  role="img"
-                  className="h-8 w-8 inline-block bg-gradient-to-r from-accent-primary to-accent-secondary hover:rotate-210 transition duration-450"
-                  style={{
-                    WebkitMaskImage: `url(${logo})`,
-                    maskImage: `url(${logo})`,
-                    WebkitMaskRepeat: "no-repeat",
-                    maskRepeat: "no-repeat",
-                    WebkitMaskSize: "contain",
-                    maskSize: "contain",
-                    WebkitMaskPosition: "center",
-                    maskPosition: "center",
-                  }}
-                />
-                    */}
+              <Link to="/" className="flex-shrink-0 mr-4">
                 <BrandLogo />
               </Link>
 
