@@ -1,4 +1,5 @@
 // src/pages/media/MediaDetailPage.tsx
+import { useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useMediaDetail } from "../../hooks/media/useMediaDetail";
 import type { MediaType } from "../../types/tmdb";
@@ -11,6 +12,7 @@ import MediaDetailHeader from "../../components/media/detail/MediaDetailHeader";
 import MediaCastCarousel from "../../components/media/carousel/MediaCastCarousel";
 import MediaGridSimilar from "../../components/media/grid/MediaGridSimilar";
 import WatchProviders from "../../components/media/WatchProviders";
+import AddToListModal from "../../components/lists/modals/AddToListModal";
 import useToWatch from "../../hooks/useToWatch";
 import { useSimilarMedia } from "../../hooks/media/useSimilarMedia";
 import { useMediaKeywords } from "../../hooks/media/useMediaKeywords";
@@ -19,6 +21,11 @@ export default function MediaDetailPage() {
   const { media_type, id } = useParams<{ media_type: MediaType; id: string }>();
   const numericId = Number(id); // important: route param -> number
   const { isPlaying, handleWatchNow } = useToWatch();
+  const [addToListModalOpen, setAddToListModalOpen] = useState(false);
+
+  const scrollToWatchProviders = useCallback(() => {
+    document.getElementById("watch-providers")?.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   if (!media_type || !id) {
     return <div>Invalid media type or ID.</div>;
@@ -56,6 +63,8 @@ export default function MediaDetailPage() {
           isPlaying={isPlaying}
           media_type={media_type}
           id={numericId}
+          onScrollToWatchProviders={scrollToWatchProviders}
+          onAddToList={() => setAddToListModalOpen(true)}
         />
       </div>
 
@@ -84,6 +93,20 @@ export default function MediaDetailPage() {
           <MediaGridSimilar similarMedia={similarMedia} parentType={media_type} />
         </div>
       </div>
+
+      <AddToListModal
+        isOpen={addToListModalOpen}
+        onClose={() => setAddToListModalOpen(false)}
+        media={{
+          tmdbId: numericId,
+          mediaType: media_type,
+          title: details.title ?? details.name ?? "",
+          posterPath: details.poster_path ?? null,
+          backdropPath: details.backdrop_path ?? null,
+          overview: details.overview ?? null,
+          voteAverage: details.vote_average ?? null,
+        }}
+      />
     </main>
   );
 }

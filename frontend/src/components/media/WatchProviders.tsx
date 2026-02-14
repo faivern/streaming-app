@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown, faCheck, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useWatchProviders, useWatchProviderRegions } from "../../hooks/media/useWatchProviders";
 import type { MediaType, WatchProvider, WatchProviderRegion } from "../../types/tmdb";
+import TitleMid from "./title/TitleMid";
 
 type Props = {
   mediaType: MediaType;
@@ -44,7 +45,7 @@ function ProviderGroup({
                 <img
                   src={`https://image.tmdb.org/t/p/w154${provider.logo_path}`}
                   alt={provider.provider_name}
-                  className="w-12 h-12 rounded-xl object-cover border-2 border-gray-700 group-hover:border-sky-500 transition-all group-hover:scale-105 shadow-md"
+                  className="w-12 h-12 rounded-xl object-cover border-2 border-badge-foreground group-hover:border-accent-primary transition-all group-hover:scale-105 shadow-md"
                 />
               </div>
               <span className="text-xs text-gray-400 group-hover:text-white transition-colors text-center">
@@ -138,16 +139,16 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
     : countryProviders?.link;
 
   return (
-    <div className="bg-gray-900/50 rounded-xl p-6 border border-gray-700/50 shadow-lg">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <h3 className="text-2xl font-bold text-text-h1">Where to Watch</h3>
+    <div id="watch-providers" className="bg-component-primary rounded-xl p-6 border border-accent-foreground/60 shadow-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <TitleMid>Where to Watch</TitleMid>
 
         {regionsLoading ? (
-          <div className="w-48 h-10 bg-gray-700 rounded-lg animate-pulse" />
+          <div className="w-48 h-10 bg-badge-primary rounded-lg animate-pulse" />
         ) : (
           <Listbox value={selectedCountry} onChange={setSelectedCountry}>
             <div className="relative w-full sm:w-48">
-              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-gray-800 border border-gray-600 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all text-sm">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-badge-primary border border-badge-foreground py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
                 <span className="flex items-center gap-2">
                   <span
                     className={`fi fi-${selectedCountry.toLowerCase()}`}
@@ -167,8 +168,8 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute z-20 mt-1 max-h-72 w-full overflow-hidden rounded-lg bg-gray-800 border border-gray-600 text-sm shadow-lg focus:outline-none">
-                  <div className="sticky top-0 bg-gray-800 p-2 border-b border-gray-700">
+                <Listbox.Options className="absolute z-20 mt-1 max-h-72 w-full overflow-hidden rounded-lg bg-badge-primary border border-badge-foreground text-sm shadow-lg focus:outline-none">
+                  <div className="sticky top-0 bg-badge-primary p-2 border-b border-badge-foreground">
                     <div className="relative">
                       <FontAwesomeIcon
                         icon={faSearch}
@@ -179,7 +180,7 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
                         placeholder="Search countries..."
                         value={countrySearch}
                         onChange={(e) => setCountrySearch(e.target.value)}
-                        className="w-full bg-gray-700 border border-gray-600 rounded-md py-1.5 pl-8 pr-3 text-white placeholder-gray-400 focus:outline-none focus:border-sky-500 text-sm"
+                        className="w-full bg-component-primary border border-badge-foreground rounded-md py-1.5 pl-8 pr-3 text-white placeholder-gray-400 focus:outline-none focus:border-accent-primary text-sm"
                         onClick={(e) => e.stopPropagation()}
                       />
                     </div>
@@ -193,7 +194,7 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
                           key={region.iso_3166_1}
                           className={({ active }) =>
                             `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                              active ? "bg-sky-500/20 text-white" : "text-gray-300"
+                              active ? "bg-accent-primary/20 text-white" : "text-gray-300"
                             }`
                           }
                           value={region.iso_3166_1}
@@ -208,7 +209,7 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
                                 {region.english_name}
                               </span>
                               {selected && (
-                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-400">
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-accent-primary">
                                   <FontAwesomeIcon
                                     icon={faCheck}
                                     className="h-4 w-4"
@@ -258,7 +259,7 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
               href={justWatchUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-sky-400 transition-colors mt-2"
+              className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-accent-primary transition-colors mt-2"
             >
               <span>View on JustWatch</span>
               <svg
@@ -290,7 +291,7 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
           href="https://www.justwatch.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sky-500 hover:underline"
+          className="text-accent-primary hover:underline"
         >
           JustWatch
         </a>
