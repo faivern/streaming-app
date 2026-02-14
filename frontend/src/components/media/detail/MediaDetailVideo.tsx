@@ -1,8 +1,9 @@
 import { FaPlay } from "react-icons/fa";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Backdrop from "../shared/Backdrop";
 import type { MediaType } from "../../../types/tmdb";
 import { useVideo } from "../../../hooks/useVideo";
+import MediaVideoCTA from "./MediaVideoCTA";
 
 type Props = {
   backdrop_path: string;
@@ -12,10 +13,13 @@ type Props = {
   onPlay?: () => void;
   media_type: MediaType;
   id: number;
+  onScrollToWatchProviders?: () => void;
+  onAddToList?: () => void;
 };
 
 const IFRAME_ALLOW = "autoplay; encrypted-media; picture-in-picture";
 const WRAPPER_MAX_W = "max-w-6xl";
+const CTA_DELAY_MS = 5000;
 
 export default function MediaDetailVideo({
   backdrop_path,
@@ -25,20 +29,13 @@ export default function MediaDetailVideo({
   onPlay,
   media_type,
   id,
+  onScrollToWatchProviders,
+  onAddToList,
 }: Props) {
   const [isPlaying, setIsPlaying] = useState<boolean>(!!externalIsPlaying);
   const [shouldFetchVideo, setShouldFetchVideo] = useState<boolean>(false);
-
-  // Debug logging
-  useEffect(() => {
-    console.log("MediaDetailVideo Props:", {
-      media_type,
-      id,
-      title,
-      shouldFetchVideo,
-      isPlaying,
-    });
-  }, [media_type, id, title, shouldFetchVideo, isPlaying]);
+  const [showCTA, setShowCTA] = useState(false);
+  const ctaTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Only fetch video when user clicks play
   const { videoUrl, loading: trailerLoading } = useVideo(
@@ -46,17 +43,6 @@ export default function MediaDetailVideo({
     id,
     shouldFetchVideo,
   );
-
-  // Debug video fetch results
-  useEffect(() => {
-    if (shouldFetchVideo) {
-      console.log("🎬 Video Fetch Result:", {
-        videoUrl,
-        trailerLoading,
-        fetchUrl: `/api/Movies/${media_type}/${id}/trailer`,
-      });
-    }
-  }, [videoUrl, trailerLoading, shouldFetchVideo, media_type, id]);
 
   // Keep internal state in sync with parent
   useEffect(() => {
@@ -66,17 +52,23 @@ export default function MediaDetailVideo({
     }
   }, [externalIsPlaying]);
 
+  // Start CTA timer when video is playing
+  useEffect(() => {
+    if (isPlaying && videoUrl) {
+      ctaTimerRef.current = setTimeout(() => setShowCTA(true), CTA_DELAY_MS);
+    }
+    return () => {
+      if (ctaTimerRef.current) clearTimeout(ctaTimerRef.current);
+    };
+  }, [isPlaying, videoUrl]);
+
   const mediaTitle = useMemo(
     () => (title?.trim() ? title : "Trailer"),
     [title],
   );
 
   const handlePlayClick = () => {
-    console.log("Play button clicked - fetching video...", {
-      media_type,
-      id,
-    });
-    setShouldFetchVideo(true); // Start fetching
+    setShouldFetchVideo(true);
     setIsPlaying(true);
     onPlay?.();
   };
@@ -94,6 +86,8 @@ export default function MediaDetailVideo({
   const showBackdrop = !shouldFetchVideo && !!backdrop_path;
   const showError = shouldFetchVideo && !trailerLoading && !videoUrl;
   const showPosterFallback = showError && !!poster_path;
+
+  const hasCTAHandlers = !!onScrollToWatchProviders || !!onAddToList;
 
   return (
     <div
@@ -136,13 +130,10 @@ export default function MediaDetailVideo({
           <div className="w-full h-full flex items-center justify-center bg-black/80">
             <div className="text-center px-6 py-4 bg-red-900/90 rounded-lg">
               <p className="text-white font-semibold">
-                ⚠️ No trailer available
+                No trailer available
               </p>
               <p className="text-gray-300 text-sm mt-1">
                 This content doesn't have a trailer
-              </p>
-              <p className="text-gray-400 text-xs mt-2">
-                Tried: /api/Movies/{media_type}/{id}/trailer
               </p>
             </div>
           </div>
@@ -158,6 +149,15 @@ export default function MediaDetailVideo({
           />
         )}
       </div>
+
+      {/* CTA overlay when trailer is playing */}
+      {showTrailer && hasCTAHandlers && (
+        <MediaVideoCTA
+          visible={showCTA}
+          onScrollToWatchProviders={onScrollToWatchProviders ?? (() => {})}
+          onAddToList={onAddToList ?? (() => {})}
+        />
+      )}
 
       {/* Overlay play button when not playing */}
       {!shouldFetchVideo && (

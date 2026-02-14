@@ -129,6 +129,13 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// Auto-apply EF Core migrations on startup (creates tables if they don't exist)
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    db.Database.Migrate();
+}
+
 // Configure forwarded headers for correct URL generation (fixes OAuth redirect_uri with port)
 // Must clear default limits to trust headers from any proxy (needed for Docker networking)
 var forwardedHeadersOptions = new ForwardedHeadersOptions
