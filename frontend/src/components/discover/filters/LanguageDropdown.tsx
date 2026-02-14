@@ -8,6 +8,13 @@ type Props = {
   onChange: (language: string) => void;
 };
 
+const LANG_TO_COUNTRY: Record<string, string> = {
+  en: "us", es: "es", fr: "fr", de: "de", it: "it", pt: "pt",
+  ja: "jp", ko: "kr", zh: "cn", hi: "in", ru: "ru", ar: "sa",
+  sv: "se", da: "dk", no: "no", fi: "fi", nl: "nl", pl: "pl",
+  tr: "tr", th: "th",
+};
+
 const LANGUAGE_OPTIONS: { code: string; label: string }[] = [
   { code: "", label: "Any Language" },
   { code: "en", label: "English" },
@@ -40,7 +47,12 @@ export default function LanguageDropdown({ value, onChange }: Props) {
     <Listbox value={selectedOption} onChange={(opt) => onChange(opt.code)}>
       <div className="relative">
         <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-gray-700/50 border border-gray-600 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
-          <span className="block truncate">{selectedOption.label}</span>
+          <span className="flex items-center gap-2 truncate">
+            {selectedOption.code && LANG_TO_COUNTRY[selectedOption.code] && (
+              <span className={`fi fi-${LANG_TO_COUNTRY[selectedOption.code]}`} />
+            )}
+            {selectedOption.label}
+          </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <FontAwesomeIcon
               icon={faChevronDown}
@@ -68,10 +80,13 @@ export default function LanguageDropdown({ value, onChange }: Props) {
                 {({ selected }) => (
                   <>
                     <span
-                      className={`block truncate ${
+                      className={`flex items-center gap-2 ${
                         selected ? "font-medium text-white" : "font-normal"
                       }`}
                     >
+                      {option.code && LANG_TO_COUNTRY[option.code] && (
+                        <span className={`fi fi-${LANG_TO_COUNTRY[option.code]}`} />
+                      )}
                       {option.label}
                     </span>
                     {selected && (
