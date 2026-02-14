@@ -1,8 +1,8 @@
-# MovieBucket
+# Cinelas
 
 A full-stack movie and TV show discovery app built with React and .NET.
 
-![MovieBucket Banner](./screenshots/banner.png)
+![Cinelas Banner](./screenshots/banner.png)
 
 ## Tech Stack
 

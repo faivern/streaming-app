@@ -8,23 +8,23 @@ services:
   # ============================================
   db:
     image: postgres:16-alpine
-    container_name: moviebucket-db
+    container_name: cinelas-db
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-moviebucket}
+      POSTGRES_USER: ${POSTGRES_USER:-cinelas}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devpassword}
-      POSTGRES_DB: ${POSTGRES_DB:-moviebucket}
+      POSTGRES_DB: ${POSTGRES_DB:-cinelas}
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U moviebucket -d moviebucket"]
+      test: ["CMD-SHELL", "pg_isready -U cinelas -d cinelas"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
-      - moviebucket-network
+      - cinelas-network
 
   # ============================================
   # BACKEND (.NET 8) - Dev with hot reload
@@ -37,7 +37,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:7123
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=moviebucket;Username=${POSTGRES_USER:-moviebucket};Password=${POSTGRES_PASSWORD:-devpassword}
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=cinelas;Username=${POSTGRES_USER:-cinelas};Password=${POSTGRES_PASSWORD:-devpassword}
       - TMDB__ApiKey=${TMDB_API_KEY}
       - Authentication__Google__ClientId=${GOOGLE_CLIENT_ID}
       - Authentication__Google__ClientSecret=${GOOGLE_CLIENT_SECRET}
@@ -59,7 +59,7 @@ services:
       retries: 3
       start_period: 40s
     networks:
-      - moviebucket-network
+      - cinelas-network
 
   # ============================================
   # FRONTEND (Vite + React) - Dev with hot reload
@@ -80,19 +80,19 @@ services:
     depends_on:
       - backend
     networks:
-      - moviebucket-network
+      - cinelas-network
 
   # ============================================
   # DEVELOPMENT TOOLS (optional)
   # ============================================
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: moviebucket-pgadmin
+    container_name: cinelas-pgadmin
     restart: unless-stopped
     profiles:
       - dev
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@moviebucket.com}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@cinelas.com}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
       PGADMIN_CONFIG_MAX_LOGIN_ATTEMPTS: "0"
     ports:
@@ -102,7 +102,7 @@ services:
     depends_on:
       - db
     networks:
-      - moviebucket-network
+      - cinelas-network
 
 # ============================================
 # VOLUMES
@@ -119,5 +119,5 @@ volumes:
 # NETWORKS
 # ============================================
 networks:
-  moviebucket-network:
+  cinelas-network:
     driver: bridge

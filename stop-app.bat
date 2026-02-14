@@ -1,7 +1,7 @@
 @echo off
-echo Stopping MovieBucket...
+echo Stopping Cinelas...
 cd /d "%~dp0"
 docker compose down
 echo.
-echo MovieBucket stopped.
+echo Cinelas stopped.
 pause

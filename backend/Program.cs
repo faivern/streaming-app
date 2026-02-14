@@ -16,7 +16,7 @@ var keysDir = Directory.Exists("/keys")
     : Path.Combine(builder.Environment.ContentRootPath, ".keys");
 builder.Services.AddDataProtection()
     .PersistKeysToFileSystem(new DirectoryInfo(keysDir))
-    .SetApplicationName("MovieBucket");
+    .SetApplicationName("Cinelas");
 
 // Determine cookie security based on environment and frontend URL
 // In Docker, frontend is HTTP (localhost:3000) proxying to HTTPS backend
@@ -80,7 +80,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o=>
 {
-    o.Cookie.Name ="MovieBucketAuth";
+    o.Cookie.Name ="CinelasAuth";
     o.Cookie.HttpOnly = true;
     o.Cookie.SecurePolicy = cookieSecurePolicy;
     o.Cookie.SameSite = cookieSameSite;
@@ -96,7 +96,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddCookie("External", o =>
 {
-    o.Cookie.Name = "MovieBucketExternalAuth";
+    o.Cookie.Name = "CinelasExternalAuth";
     o.Cookie.HttpOnly = true;
     o.Cookie.SecurePolicy = cookieSecurePolicy;
     o.Cookie.SameSite = cookieSameSite;

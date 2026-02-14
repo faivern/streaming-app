@@ -14,7 +14,7 @@ export const THEME_OPTIONS: ThemeOption[] = [
   { value: "sleek", label: "Astro", description: "Teal & purple" },
 ];
 
-const STORAGE_KEY = "moviebucket-theme";
+const STORAGE_KEY = "cinelas-theme";
 const DEFAULT_THEME: ThemePreset = "blizzard";
 
 function getStoredTheme(): ThemePreset {
