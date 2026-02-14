@@ -19,9 +19,9 @@ export default function PrivacyPolicy() {
         {/* Introduction */}
         <section className="mb-10">
           <p className="leading-relaxed">
-            Welcome to MovieBucket. This Privacy Policy explains how we collect, use, disclose,
+            Welcome to Cinelas. This Privacy Policy explains how we collect, use, disclose,
             and safeguard your information when you use our service. Please read this policy
-            carefully. By using MovieBucket, you agree to the collection and use of information
+            carefully. By using Cinelas, you agree to the collection and use of information
             in accordance with this policy.
           </p>
         </section>

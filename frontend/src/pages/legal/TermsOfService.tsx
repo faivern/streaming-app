@@ -19,8 +19,8 @@ export default function TermsOfService() {
         {/* Introduction */}
         <section className="mb-10">
           <p className="leading-relaxed">
-            Welcome to MovieBucket. These Terms of Service ("Terms") govern your use of the
-            MovieBucket application and services. By accessing or using MovieBucket, you agree
+            Welcome to Cinelas. These Terms of Service ("Terms") govern your use of the
+            Cinelas application and services. By accessing or using Cinelas, you agree
             to be bound by these Terms. If you do not agree to these Terms, please do not use
             the service.
           </p>
@@ -30,7 +30,7 @@ export default function TermsOfService() {
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-text-h1 mb-4">1. Acceptance of Terms</h2>
           <p className="leading-relaxed">
-            By creating an account or using MovieBucket, you acknowledge that you have read,
+            By creating an account or using Cinelas, you acknowledge that you have read,
             understood, and agree to be bound by these Terms of Service and our{" "}
             <Link to="/privacy-policy" className="text-accent-primary hover:underline">
               Privacy Policy
@@ -45,7 +45,7 @@ export default function TermsOfService() {
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-text-h1 mb-4">2. Description of Service</h2>
           <p className="leading-relaxed">
-            MovieBucket is a movie and TV show discovery application that allows users to:
+            Cinelas is a movie and TV show discovery application that allows users to:
           </p>
           <ul className="list-disc list-inside space-y-2 ml-4 mt-4">
             <li>Browse and discover movies and TV shows</li>
@@ -64,7 +64,7 @@ export default function TermsOfService() {
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-text-h1 mb-4">3. User Accounts</h2>
           <p className="leading-relaxed mb-4">
-            To access certain features of MovieBucket, you must create an account using Google
+            To access certain features of Cinelas, you must create an account using Google
             Authentication. You are responsible for:
           </p>
           <ul className="list-disc list-inside space-y-2 ml-4">
@@ -79,7 +79,7 @@ export default function TermsOfService() {
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-text-h1 mb-4">4. User Conduct</h2>
           <p className="leading-relaxed mb-4">
-            You agree not to use MovieBucket to:
+            You agree not to use Cinelas to:
           </p>
           <ul className="list-disc list-inside space-y-2 ml-4">
             <li>Violate any applicable laws or regulations</li>
@@ -97,8 +97,8 @@ export default function TermsOfService() {
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-text-h1 mb-4">5. Intellectual Property</h2>
           <p className="leading-relaxed">
-            The MovieBucket service, including its original content, features, and functionality,
-            is owned by MovieBucket and is protected by international copyright, trademark, and
+            The Cinelas service, including its original content, features, and functionality,
+            is owned by Cinelas and is protected by international copyright, trademark, and
             other intellectual property laws. Movie and TV show data, images, and metadata are
             provided by TMDB and are subject to their terms of use.
           </p>
@@ -142,7 +142,7 @@ export default function TermsOfService() {
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-text-h1 mb-4">8. Limitation of Liability</h2>
           <p className="leading-relaxed uppercase text-sm">
-            TO THE MAXIMUM EXTENT PERMITTED BY LAW, MOVIEBUCKET AND ITS OPERATORS SHALL NOT BE
+            TO THE MAXIMUM EXTENT PERMITTED BY LAW, CINELAS AND ITS OPERATORS SHALL NOT BE
             LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES,
             OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY
             LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES RESULTING FROM YOUR USE OF
@@ -155,7 +155,7 @@ export default function TermsOfService() {
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-text-h1 mb-4">9. Indemnification</h2>
           <p className="leading-relaxed">
-            You agree to indemnify and hold harmless MovieBucket and its operators from any
+            You agree to indemnify and hold harmless Cinelas and its operators from any
             claims, damages, losses, liabilities, and expenses (including legal fees) arising
             out of your use of the service or violation of these Terms.
           </p>

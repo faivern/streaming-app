@@ -1,11 +1,11 @@
 services:
   db:
     image: postgres:16
-    container_name: moviebucket-db
+    container_name: cinelas-db
     environment:
-      POSTGRES_USER: moviebucket
+      POSTGRES_USER: cinelas
       POSTGRES_PASSWORD: devpassword
-      POSTGRES_DB: moviebucket
+      POSTGRES_DB: cinelas
     ports:
       - "5432:5432"
     volumes:
@@ -13,9 +13,9 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: moviebucket-pgadmin
+    container_name: cinelas-pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@moviebucket.com
+      PGADMIN_DEFAULT_EMAIL: admin@cinelas.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
       - "5050:80"
