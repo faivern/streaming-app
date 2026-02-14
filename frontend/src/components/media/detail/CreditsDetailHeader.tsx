@@ -1,7 +1,8 @@
 import { dateFormatLong } from "../../../utils/dateFormatLong";
 import { calcAge } from "../../../utils/calcAge";
 import { knownForDepartment } from "../../../utils/knownForDepartment";
-import avatarPlaceholder from "../../../images/no-avatar-placeholder.png";
+import { User } from "lucide-react";
+
 type Props = {
   id: number;
   name: string;
@@ -41,23 +42,25 @@ const CreditsDetailHeader = ({
             </h2>
             <p className="text-sky-400 text-sm">{knownFor}</p>
           </div>
-          <img
-            src={
-              profile_path
-                ? `https://image.tmdb.org/t/p/w300${profile_path}`
-                : avatarPlaceholder
-            }
-            srcSet={
-              profile_path
-                ? `https://image.tmdb.org/t/p/w185${profile_path} 185w, https://image.tmdb.org/t/p/w300${profile_path} 300w, https://image.tmdb.org/t/p/w500${profile_path} 500w`
-                : undefined
-            }
-            sizes="256px"
-            loading="lazy"
-            decoding="async"
-            alt={name}
-            className="aspect-[2/3] w-64 h-auto rounded-2xl shadow-xl object-cover border border-slate-600/30"
-          />
+          {profile_path ? (
+            <img
+              src={`https://image.tmdb.org/t/p/w300${profile_path}`}
+              srcSet={`https://image.tmdb.org/t/p/w185${profile_path} 185w, https://image.tmdb.org/t/p/w300${profile_path} 300w, https://image.tmdb.org/t/p/w500${profile_path} 500w`}
+              sizes="256px"
+              loading="lazy"
+              decoding="async"
+              alt={name}
+              className="aspect-[2/3] w-64 h-auto rounded-2xl shadow-xl object-cover border border-slate-600/30"
+            />
+          ) : (
+            <div
+              className="aspect-[2/3] w-64 rounded-2xl shadow-xl border border-slate-600/30 flex items-center justify-center bg-white/5 text-accent-primary"
+              role="img"
+              aria-label={name}
+            >
+              <User className="w-1/3 h-1/3" />
+            </div>
+          )}
           <div className="mt-4 text-sm text-gray-400 space-y-1">
             <div className="flex text-sm text-gray-400">
               <div>

@@ -1,7 +1,15 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faCheck } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronDown,
+  faCheck,
+  faStar,
+  faCalendar,
+  faArrowDownAZ,
+  faArrowUpAZ,
+} from "@fortawesome/free-solid-svg-icons";
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import type { SortOption } from "../../hooks/sorting";
 
 type Props = {
@@ -10,12 +18,12 @@ type Props = {
   className?: string;
 };
 
-const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: "bayesian", label: "Highest Rated" },
-  { value: "newest", label: "Newest" },
-  { value: "oldest", label: "Oldest" },
-  { value: "a-z", label: "A-Z" },
-  { value: "z-a", label: "Z-A" },
+const SORT_OPTIONS: { value: SortOption; label: string; icon: IconDefinition }[] = [
+  { value: "bayesian", label: "Highest Rated", icon: faStar },
+  { value: "newest", label: "Newest", icon: faCalendar },
+  { value: "oldest", label: "Oldest", icon: faCalendar },
+  { value: "a-z", label: "A-Z", icon: faArrowDownAZ },
+  { value: "z-a", label: "Z-A", icon: faArrowUpAZ },
 ];
 
 export default function SortingDropdown({ value, onChange, className = "" }: Props) {
@@ -23,9 +31,12 @@ export default function SortingDropdown({ value, onChange, className = "" }: Pro
 
   return (
     <Listbox value={value} onChange={onChange}>
-      <div className={`relative w-36 ${className}`}>
+      <div className={`relative w-44 ${className}`}>
         <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-gray-800 border border-gray-600 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all text-sm">
-          <span className="block truncate">{selectedOption?.label || "Sort by"}</span>
+          <span className="flex items-center gap-2 truncate">
+            {selectedOption && <FontAwesomeIcon icon={selectedOption.icon} className="h-3 w-3 text-sky-400" />}
+            {selectedOption?.label || "Sort by"}
+          </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <FontAwesomeIcon
               icon={faChevronDown}
@@ -53,10 +64,11 @@ export default function SortingDropdown({ value, onChange, className = "" }: Pro
                 {({ selected }) => (
                   <>
                     <span
-                      className={`block truncate ${
+                      className={`flex items-center gap-2 ${
                         selected ? "font-medium text-white" : "font-normal"
                       }`}
                     >
+                      <FontAwesomeIcon icon={option.icon} className="h-3 w-3 opacity-60" />
                       {option.label}
                     </span>
                     {selected && (
