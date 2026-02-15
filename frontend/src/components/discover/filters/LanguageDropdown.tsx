@@ -12,7 +12,13 @@ const LANG_TO_COUNTRY: Record<string, string> = {
   en: "us", es: "es", fr: "fr", de: "de", it: "it", pt: "pt",
   ja: "jp", ko: "kr", zh: "cn", hi: "in", ru: "ru", ar: "sa",
   sv: "se", da: "dk", no: "no", fi: "fi", nl: "nl", pl: "pl",
-  tr: "tr", th: "th",
+  tr: "tr", th: "th", cs: "cz", el: "gr", he: "il", hu: "hu",
+  id: "id", ms: "my", ro: "ro", uk: "ua", vi: "vn", bn: "bd",
+  ta: "lk", te: "in", ml: "in", fa: "ir", tl: "ph", hr: "hr",
+  bg: "bg", sr: "rs", sk: "sk", sl: "si", et: "ee", lt: "lt",
+  lv: "lv", is: "is", ka: "ge", sq: "al", mk: "mk", bs: "ba",
+  sw: "ke", ur: "pk", pa: "in", gu: "in", mr: "in", kn: "in",
+  my: "mm", km: "kh", lo: "la", mn: "mn", ne: "np", si: "lk",
 };
 
 const LANGUAGE_OPTIONS: { code: string; label: string }[] = [
@@ -37,6 +43,27 @@ const LANGUAGE_OPTIONS: { code: string; label: string }[] = [
   { code: "pl", label: "Polish" },
   { code: "tr", label: "Turkish" },
   { code: "th", label: "Thai" },
+  { code: "cs", label: "Czech" },
+  { code: "el", label: "Greek" },
+  { code: "he", label: "Hebrew" },
+  { code: "hu", label: "Hungarian" },
+  { code: "id", label: "Indonesian" },
+  { code: "ms", label: "Malay" },
+  { code: "ro", label: "Romanian" },
+  { code: "uk", label: "Ukrainian" },
+  { code: "vi", label: "Vietnamese" },
+  { code: "bn", label: "Bengali" },
+  { code: "ta", label: "Tamil" },
+  { code: "te", label: "Telugu" },
+  { code: "ml", label: "Malayalam" },
+  { code: "tl", label: "Tagalog" },
+  { code: "fa", label: "Persian" },
+  { code: "hr", label: "Croatian" },
+  { code: "bg", label: "Bulgarian" },
+  { code: "sr", label: "Serbian" },
+  { code: "sk", label: "Slovak" },
+  { code: "is", label: "Icelandic" },
+  { code: "ka", label: "Georgian" },
 ];
 
 export default function LanguageDropdown({ value, onChange }: Props) {
