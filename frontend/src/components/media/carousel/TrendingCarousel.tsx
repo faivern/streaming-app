@@ -79,7 +79,10 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                        hover:shadow-[0_0_30px_rgba(0,0,0,0.7)]
                        hover:scale-110 focus:outline-none cursor-pointer"
           >
-            <FontAwesomeIcon icon={faChevronLeft} className="text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
+            <FontAwesomeIcon
+              icon={faChevronLeft}
+              className="text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+            />
           </button>
         )}
 
@@ -96,7 +99,10 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                      hover:shadow-[0_0_30px_rgba(0,0,0,0.7)]
                      hover:scale-110 cursor-pointer focus:outline-none"
         >
-          <FontAwesomeIcon icon={faChevronRight} className="text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" />
+          <FontAwesomeIcon
+            icon={faChevronRight}
+            className="text-2xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+          />
         </button>
 
         <div className="relative w-full h-[60vh] md:h-[65vh] lg:h-[75vh] xl:h-[78vh] transition-all duration-300 ease-in-out overflow-hidden">
@@ -121,7 +127,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                   }`}
                 >
                   <Link to={`/media/${m.media_type}/${m.id}`}>
-                    <div className="absolute bottom-0 left-0 w-full h-52 bg-gradient-to-t from-background via-background/70 to-transparent z-10"></div>
+                    <div className="absolute bottom-0 left-0 w-full h-38 bg-gradient-to-t from-background via-background/70 to-transparent z-10"></div>
                     <Backdrop
                       path={m.backdrop_path || undefined}
                       alt={m.title || m.name || "Backdrop"}
@@ -132,7 +138,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                     <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-background/80 via-black/30 to-transparent z-0 pointer-events-none" />
                   </Link>
 
-                    <div
+                  <div
                     className="absolute bottom-4 sm:bottom-10 md:bottom-14 left-4 sm:left-8 md:left-12 z-50
                            flex flex-col gap-3
                            w-[calc(100%-2rem)] sm:w-[min(75%,36rem)] max-w-2xl
@@ -141,7 +147,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                            backdrop-blur-sm
                            shadow-lg
                            "
-                    >
+                  >
                     {/* Title / Logo */}
                     <div
                       className="flex items-start flex-wrap gap-2
@@ -183,11 +189,12 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                       {m.genre_ids?.length ? (
                         <div className="flex flex-wrap gap-2">
                           {m.genre_ids.slice(0, 3).map((id) => (
-                            <GenrePill
-                              key={id}
-                              id={id}
-                              className="bg-badge-primary/70 border-badge-foreground/40 shadow-sm"
-                            />
+                              <GenrePill
+                                key={id}
+                                id={id}
+                                className="bg-badge-primary/70 border-badge-foreground/40 shadow-sm"
+                                interactive={false}
+                              />
                           ))}
                         </div>
                       ) : (
@@ -212,16 +219,17 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
             const isActive = !loading && idx === currentIndex;
             return (
               <button
-              key={idx}
-              type="button"
-              aria-label={`Go to slide ${idx + 1}`}
-              aria-current={isActive ? "true" : "false"}
-              disabled={loading}
-              onClick={() => !loading && setCurrentIndex(idx)}
-              className={`h-1 sm:h-0.5 md:h-1 lg:h-1.5 xl:h-2 w-4 sm:w-6 md:w-8 lg:w-10 xl:w-12 rounded-full transition-all
-                ${isActive
-                ? "bg-gradient-to-r from-accent-primary to-accent-secondary scale-110 shadow"
-                : "bg-gray-400/60 hover:bg-gradient-to-r hover:from-accent-primary/75 hover:to-accent-secondary/75"
+                key={idx}
+                type="button"
+                aria-label={`Go to slide ${idx + 1}`}
+                aria-current={isActive ? "true" : "false"}
+                disabled={loading}
+                onClick={() => !loading && setCurrentIndex(idx)}
+                className={`h-1 sm:h-0.5 md:h-1 lg:h-1.5 xl:h-2 w-4 sm:w-6 md:w-8 lg:w-10 xl:w-12 rounded-full transition-all
+                ${
+                  isActive
+                    ? "bg-gradient-to-r from-accent-primary to-accent-secondary scale-110 shadow"
+                    : "bg-gray-400/60 hover:bg-gradient-to-r hover:from-accent-primary/75 hover:to-accent-secondary/75"
                 } disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-accent-primary/40`}
               />
             );
