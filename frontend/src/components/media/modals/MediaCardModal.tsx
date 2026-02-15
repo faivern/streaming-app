@@ -4,6 +4,7 @@ import { useFloating } from "@floating-ui/react";
 import { useMediaDetail } from "../../../hooks/media/useMediaDetail";
 import genreMap from "../../../utils/genreMap";
 import languageMap from "../../../utils/languageMap";
+import { Calendar, Clock, Globe } from "lucide-react";
 import { dateFormat } from "../../../utils/dateFormat";
 import type { DetailMedia, MediaType } from "../../../types/tmdb";
 import { useVideo } from "../../../hooks/useVideo";
@@ -14,8 +15,6 @@ type InitialBits = Pick<
   | "poster_path"
   | "backdrop_path"
   | "overview"
-  | "vote_average"
-  | "vote_count"
   | "genre_ids"
   | "original_language"
   | "runtime"
@@ -33,9 +32,7 @@ type MediaCardModalProps = {
   backdrop?: string;
   overview?: string;
   releaseDate?: string;
-  vote_average?: number;
   genre_ids?: number[];
-  vote_count?: number;
   original_language?: string;
   runtime?: number;
   number_of_seasons?: number;
@@ -64,8 +61,6 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
     initial?.backdrop_path ??
     data?.poster_path ??
     initial?.poster_path;
-  const voteAvg = data?.vote_average ?? initial?.vote_average;
-  const voteCount = data?.vote_count ?? initial?.vote_count;
   const lang = data?.original_language ?? initial?.original_language ?? "en";
   const genres =
     data?.genre_ids ?? initial?.genre_ids ?? data?.genres?.map((g) => g.id);
@@ -91,7 +86,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
     <Link to={`/media/${media_type}/${id}`}>
       <div
         ref={refs.setFloating}
-        className="backdrop-blur-md bg-gray-900/80 w-full max-w-96 p-4 shadow-2xl rounded-lg border border-gray-600/70 text-white"
+        className="backdrop-blur-md bg-gray-900/80 w-full max-w-lg p-3 shadow-2xl rounded-lg border border-gray-600/70 text-white"
       >
         <h2 className="text-xl font-bold mb-2 text-gray-100">{title}</h2>
 
@@ -106,7 +101,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
               loading="lazy"
               decoding="async"
               alt={title}
-              className={`w-full h-48 object-cover object-center rounded transition-opacity duration-300 ${
+              className={`w-full object-cover object-center rounded transition-opacity duration-300 ${
                 videoUrl && !trailerLoading ? "opacity-0 absolute inset-0" : "opacity-100"
               }`}
             />
@@ -116,7 +111,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
             <iframe
               src={videoUrl}
               title={`${title} Trailer`}
-              className="w-full h-48 rounded absolute inset-0"
+              className="w-full h-full rounded absolute inset-0"
               allow="autoplay; encrypted-media"
               allowFullScreen
             />
@@ -126,45 +121,35 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
         <p className="text-sm text-gray-200 mb-2 line-clamp-3">{overview}</p>
         <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-700/70 to-transparent mb-2" />
 
-        <div className="grid grid-cols-2 gap-x-3 gap-y-2 text-sm text-gray-300">
-          <div>
-            <strong>Release Date</strong>
-            <div>{dateFormat(release) || "No date"}</div>
-          </div>
-
-          <div>
-            <strong>Rating</strong>
-            <div>
-              {voteAvg?.toFixed?.(1) ?? "No rating"}/10
-              {voteCount ? ` by ${voteCount.toLocaleString()} reviews` : ""}
-            </div>
-          </div>
-
-          <div>
-            <strong>Language</strong>
-            <div>{languageMap[lang] ?? lang.toUpperCase()}</div>
-          </div>
-
-          <div>
-            <strong>Genres</strong>
-            <div>
-              {Array.isArray(genres) &&
-                genres.map((gid: number, idx) => (
-                  <span key={gid}>
-                    {genreMap[gid] || "Genre Unknown"}
-                    {idx !== genres.length - 1 && ", "}
-                  </span>
-                ))}
-            </div>
-          </div>
-
-          <div className="col-span-2">
-            <strong>Runtime</strong>
-            <div className="mt-1">
-              {runtimeDisplay ?? "Unknown"}
-            </div>
-          </div>
+        <div className="flex flex-wrap items-center gap-x-2 text-xs text-gray-300">
+          <span className="flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            {dateFormat(release) || "No date"}
+          </span>
+          <span className="text-gray-600">|</span>
+          <span className="flex items-center gap-1">
+            <Clock className="h-3 w-3" />
+            {runtimeDisplay ?? "Unknown"}
+          </span>
+          <span className="text-gray-600">|</span>
+          <span className="flex items-center gap-1">
+            <Globe className="h-3 w-3" />
+            {languageMap[lang] ?? lang.toUpperCase()}
+          </span>
         </div>
+
+        {Array.isArray(genres) && genres.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {genres.slice(0, 4).map((gid: number) => (
+              <span
+                key={gid}
+                className="px-2 py-0.5 text-xs rounded-full bg-gray-700/60 text-gray-300 border border-gray-600/40"
+              >
+                {genreMap[gid] || "Unknown"}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
     </Link>
   );
