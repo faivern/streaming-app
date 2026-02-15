@@ -19,7 +19,7 @@ type Props = {
 
 const IFRAME_ALLOW = "autoplay; encrypted-media; picture-in-picture";
 const WRAPPER_MAX_W = "max-w-6xl";
-const CTA_DELAY_MS = 5000;
+const CTA_DELAY_MS = 3000;
 
 export default function MediaDetailVideo({
   backdrop_path,
@@ -78,7 +78,7 @@ export default function MediaDetailVideo({
     if (!videoUrl || !isPlaying) return videoUrl;
 
     const separator = videoUrl.includes("?") ? "&" : "?";
-    return `${videoUrl}${separator}autoplay=1`;
+    return `${videoUrl}${separator}autoplay=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=0`;
   }, [videoUrl, isPlaying]);
 
   const showTrailer = isPlaying && !!videoUrl;
