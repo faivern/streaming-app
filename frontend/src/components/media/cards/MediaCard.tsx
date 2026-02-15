@@ -1,9 +1,13 @@
+import { useState } from "react";
 import MediaCardModal from "../modals/MediaCardModal";
 import { Link } from "react-router-dom";
+import { Plus } from "lucide-react";
 import Poster from "../../media/shared/Poster";
 import RatingPill from "../../ui/RatingPill";
+import AddToListModal from "../../lists/modals/AddToListModal";
 import type { MediaType } from "../../../types/tmdb";
 import { useDelayHover } from "../../../hooks/useDelayHover";
+import { useUser } from "../../../hooks/user/useUser";
 import {
   useFloating,
   offset,
@@ -40,7 +44,6 @@ export default function MediaCard(props: MediaCardProps) {
     releaseDate,
     vote_average,
     genre_ids,
-    vote_count,
     original_language,
     runtime,
     number_of_seasons,
@@ -50,6 +53,14 @@ export default function MediaCard(props: MediaCardProps) {
   } = props;
 
   const { hovered, onEnter, onLeave, setHovered } = useDelayHover();
+  const [addToListOpen, setAddToListOpen] = useState(false);
+  const { data: user } = useUser();
+
+  const handleAddToList = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setAddToListOpen(true);
+  };
 
   const { refs, floatingStyles } = useFloating({
     placement: "right",
@@ -81,6 +92,16 @@ export default function MediaCard(props: MediaCardProps) {
                   showOutOfTen={false}
                 />
 
+                {user && (
+                  <button
+                    onClick={handleAddToList}
+                    aria-label="Add to list"
+                    className="absolute top-1 left-1 z-10 p-3 rounded-xl bg-primary/40 border border-badge-foreground/40 backdrop-blur-sm text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:bg-primary/70 hover:border-accent-primary/75 transition-all duration-300 hover:cursor-pointer"
+                  >
+                    <Plus className="w-6 h-6" />
+                  </button>
+                )}
+
                 {/* Poster */}
                 <Poster
                   path={posterPath}
@@ -99,28 +120,37 @@ export default function MediaCard(props: MediaCardProps) {
             );
 
             return onClick ? (
-              <div onClick={onClick} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onClick(); }}>
+              <div
+                onClick={onClick}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") onClick();
+                }}
+              >
                 {cardContent}
               </div>
             ) : (
-              <Link to={`/media/${media_type}/${id}`}>
-                {cardContent}
-              </Link>
+              <Link to={`/media/${media_type}/${id}`}>{cardContent}</Link>
             );
           })()}
         </div>
         {/* Floating hover modal (disabled inside constrained containers like modals) */}
         {!disableHoverModal && hovered && (
-          <div ref={refs.setFloating} style={floatingStyles} className="z-50">
+          <div
+            ref={refs.setFloating}
+            style={floatingStyles}
+            className="z-50"
+            onMouseEnter={onEnter}
+            onMouseLeave={onLeave}
+          >
             <MediaCardModal
               id={id}
               title={title}
               backdrop={posterPath}
               overview={overview}
               releaseDate={releaseDate}
-              vote_average={vote_average}
               genre_ids={genre_ids ?? []}
-              vote_count={vote_count}
               original_language={original_language}
               runtime={runtime}
               number_of_seasons={number_of_seasons}
@@ -130,6 +160,19 @@ export default function MediaCard(props: MediaCardProps) {
           </div>
         )}
       </div>
+
+      <AddToListModal
+        isOpen={addToListOpen}
+        onClose={() => setAddToListOpen(false)}
+        media={{
+          tmdbId: id,
+          mediaType: media_type,
+          title,
+          posterPath: posterPath ?? null,
+          overview: overview ?? null,
+          voteAverage: vote_average ?? null,
+        }}
+      />
     </div>
   );
 }

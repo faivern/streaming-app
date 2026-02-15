@@ -199,7 +199,7 @@ namespace backend.Services
             Console.WriteLine($"Found video: {firstYoutubeVideo.Name} ({firstYoutubeVideo.Key})");
             return (
                 firstYoutubeVideo.Name,
-                $"https://www.youtube.com/embed/{firstYoutubeVideo.Key}"
+                $"https://www.youtube.com/embed/{firstYoutubeVideo.Key}?modestbranding=1"
             );
         }
         //----------------------------------------------------------------------------

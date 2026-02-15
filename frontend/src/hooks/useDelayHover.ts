@@ -1,32 +1,48 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 
-export function useDelayHover(delay: number = 450) {
+export function useDelayHover(
+  enterDelay: number = 450,
+  leaveDelay: number = 150,
+) {
   const [hovered, setHovered] = useState(false);
-  const timerRef = useRef<number | null>(null);
+  const enterTimerRef = useRef<number | null>(null);
+  const leaveTimerRef = useRef<number | null>(null);
 
-  const clear = useCallback(() => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
+  const clearEnter = useCallback(() => {
+    if (enterTimerRef.current) {
+      clearTimeout(enterTimerRef.current);
+      enterTimerRef.current = null;
+    }
+  }, []);
+
+  const clearLeave = useCallback(() => {
+    if (leaveTimerRef.current) {
+      clearTimeout(leaveTimerRef.current);
+      leaveTimerRef.current = null;
     }
   }, []);
 
   const onEnter = useCallback(() => {
-    clear();
-    timerRef.current = window.setTimeout(() => {
+    clearEnter();
+    clearLeave();
+    enterTimerRef.current = window.setTimeout(() => {
       setHovered(true);
-      timerRef.current = null;
-    }, delay);
-  }, [clear, delay]);
+    }, enterDelay);
+  }, [clearEnter, clearLeave, enterDelay]);
 
   const onLeave = useCallback(() => {
-    clear();
-    setHovered(false);
-  }, [clear]);
+    clearEnter();
+    leaveTimerRef.current = window.setTimeout(() => {
+      setHovered(false);
+    }, leaveDelay);
+  }, [clearEnter, clearLeave, leaveDelay]);
 
   useEffect(() => {
-    return () => clear();
-  }, [clear]);
+    return () => {
+      clearEnter();
+      clearLeave();
+    };
+  }, [clearEnter, clearLeave]);
 
   return { hovered, onEnter, onLeave, setHovered };
 }
