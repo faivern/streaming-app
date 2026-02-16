@@ -132,9 +132,15 @@ export default function ListRowItem({
             </div>
           )}
 
-          {/* Edit mode buttons - positioned on far right */}
-          {isEditMode && (onRemove || onEdit) && (
-            <div className="flex-shrink-0 flex items-center gap-2">
+          {/* Edit mode buttons - always rendered, animated with opacity + width */}
+          {(onRemove || onEdit) && (
+            <div
+              className={`flex-shrink-0 flex items-center gap-2 transition-all duration-300 ease-in-out origin-right ${
+                isEditMode
+                  ? "opacity-100 max-w-32 scale-100"
+                  : "opacity-0 max-w-0 scale-90 overflow-hidden"
+              }`}
+            >
               {onEdit && (
                 <button
                   onClick={(e) => {

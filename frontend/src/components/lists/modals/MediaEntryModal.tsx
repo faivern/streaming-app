@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
-import { FaTimes, FaFilm, FaTv } from "react-icons/fa";
+import { FaTimes, FaFilm, FaTv, FaClock, FaEye, FaCheck } from "react-icons/fa";
 import Poster from "../../media/shared/Poster";
 import StarRating from "../shared/StarRating";
 import type { DisplayItem } from "../../../types/lists.view";
@@ -21,10 +21,10 @@ type MediaEntryModalProps = {
   isLoading?: boolean;
 };
 
-const WATCH_STATUSES: { value: WatchStatus; label: string }[] = [
-  { value: "WantToWatch", label: "Want to Watch" },
-  { value: "Watching", label: "Watching" },
-  { value: "Watched", label: "Watched" },
+const WATCH_STATUSES: { value: WatchStatus; label: string; icon: React.ReactNode }[] = [
+  { value: "WantToWatch", label: "Want to Watch", icon: <FaClock /> },
+  { value: "Watching", label: "Watching", icon: <FaEye /> },
+  { value: "Watched", label: "Watched", icon: <FaCheck /> },
 ];
 
 const STATUS_COLORS: Record<WatchStatus, { bg: string; text: string }> = {
@@ -155,7 +155,10 @@ export default function MediaEntryModal({
                                 }`
                               }
                             >
-                              {s.label}
+                              <span className="flex items-center justify-center gap-1.5">
+                                {s.icon}
+                                {s.label}
+                              </span>
                             </Tab>
                           );
                         })}
