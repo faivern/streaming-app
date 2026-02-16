@@ -59,35 +59,47 @@ const avgRating = calculateAverageRating(item);
           </div>
         </Link>
 
-        {/* Edit mode buttons - delete and optionally edit */}
-        {isEditMode && (onRemove || onEdit) && (
-          <div className="flex flex-row justify-center items-center w-full z-20 gap-4 pb-4">
-            {onEdit && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onEdit();
-                }}
-                className="p-4 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
-                aria-label="Edit entry"
+        {/* Edit mode buttons - always rendered, animated via CSS grid */}
+        {(onRemove || onEdit) && (
+          <div
+            className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+              isEditMode ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+            }`}
+          >
+            <div className="overflow-hidden">
+              <div
+                className={`flex flex-row justify-center items-center w-full z-20 gap-4 pb-4 transition-opacity duration-300 ease-in-out ${
+                  isEditMode ? "opacity-100" : "opacity-0"
+                }`}
               >
-                <FaEdit className="text-md" />
-              </button>
-            )}
-            {onRemove && (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  onRemove();
-                }}
-                className="p-4 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
-                aria-label="Remove from list"
-              >
-                <FaTrash className="text-md" />
-              </button>
-            )}
+                {onEdit && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onEdit();
+                    }}
+                    className="p-4 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
+                    aria-label="Edit entry"
+                  >
+                    <FaEdit className="text-md" />
+                  </button>
+                )}
+                {onRemove && (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      onRemove();
+                    }}
+                    className="p-4 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
+                    aria-label="Remove from list"
+                  >
+                    <FaTrash className="text-md" />
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         )}
 

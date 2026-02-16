@@ -21,5 +21,5 @@
       "Bash(flatpak-spawn --host npm run --prefix /home/gustaffaivre/Documents/streaming-app/frontend build:strict)"
     ]
   },
-  "outputStyle": "Learning"
+  "outputStyle": "Explanatory"
 }
