@@ -7,7 +7,6 @@ type ReleaseYearCardProps = {
 };
 
 export default function ReleaseYearCard({ data }: ReleaseYearCardProps) {
-  // Group by decade and aggregate counts
   const decadeMap = new Map<string, number>();
 
   data.forEach((item) => {
@@ -15,23 +14,28 @@ export default function ReleaseYearCard({ data }: ReleaseYearCardProps) {
     decadeMap.set(item.decade, current + item.count);
   });
 
-  // Convert to chart format and sort by decade
   const chartData = Array.from(decadeMap.entries())
-    .map(([decade, count]) => ({
-      label: decade,
-      value: count,
-    }))
-    .sort((a, b) => {
-      // Extract decade start year (e.g., "2020s" -> 2020)
-      const yearA = parseInt(a.label);
-      const yearB = parseInt(b.label);
-      return yearA - yearB;
-    });
+    .map(([decade, count]) => ({ label: decade, value: count }))
+    .sort((a, b) => parseInt(a.label) - parseInt(b.label));
+
+  const peakDecade = chartData.reduce<{ label: string; value: number } | null>(
+    (best, d) => (!best || d.value > best.value ? d : best),
+    null
+  );
 
   return (
-    <BaseInsightCard title="Release Decades" span="md:col-span-2 lg:col-span-3">
+    <BaseInsightCard title="Release Decades">
       {chartData.length > 0 ? (
-        <BarChart data={chartData} />
+        <>
+          {peakDecade && (
+            <p className="text-sm text-subtle mb-3">
+              You gravitate toward{" "}
+              <span className="font-semibold text-text-h1">{peakDecade.label}</span>{" "}
+              cinema
+            </p>
+          )}
+          <BarChart data={chartData} />
+        </>
       ) : (
         <div className="flex items-center justify-center h-64 text-subtle">
           No release data available

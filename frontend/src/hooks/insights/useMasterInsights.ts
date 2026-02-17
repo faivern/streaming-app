@@ -106,8 +106,14 @@ export function useMasterInsights() {
     ).values()
   );
 
+  // Content fingerprint: changes whenever the set of items changes, forcing a fresh query
+  const itemsFingerprint = deduplicatedItems
+    .map((i) => `${i.tmdbId}-${i.mediaType}`)
+    .sort()
+    .join(",");
+
   const insightsQuery = useQuery<ListInsights>({
-    queryKey: ["insights", "master"],
+    queryKey: ["insights", "master", itemsFingerprint],
     queryFn: async () => {
       if (deduplicatedItems.length === 0) {
         throw new Error("No items found across all lists");
@@ -123,8 +129,8 @@ export function useMasterInsights() {
       // Step 2: Compute all metrics
       const genreDistribution = computeGenreDistribution(enrichedItems);
       const topGenres = getTopGenres(genreDistribution, 5);
-      const topActors = computeTopActors(enrichedItems, 5);
-      const topDirectors = computeTopDirectors(enrichedItems, 5);
+      const topActors = computeTopActors(enrichedItems, 3);
+      const topDirectors = computeTopDirectors(enrichedItems, 3);
       const ratingComparison = computeRatingComparison(
         enrichedItems,
         mediaEntries

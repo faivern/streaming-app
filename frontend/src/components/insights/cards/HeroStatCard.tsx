@@ -7,14 +7,24 @@ type HeroStatCardProps = {
 };
 
 export default function HeroStatCard({ totalCount }: HeroStatCardProps) {
+  const estimatedHours = Math.round(totalCount * 1.8);
+
   return (
-    <BaseInsightCard span="md:col-span-2 md:row-span-2">
-      <div className="flex flex-col items-center justify-center h-full">
-        <Film className="w-10 h-10 text-accent-primary mb-4" />
-        <div className="text-6xl md:text-7xl font-extrabold text-text-h1 mb-2">
+    <BaseInsightCard>
+      <div className="flex flex-col items-center justify-center h-full gap-1">
+        <Film className="w-9 h-9 text-accent-primary mb-2" />
+        <div className="text-xs font-semibold text-subtle uppercase tracking-widest">
+          you've tracked
+        </div>
+        <div className="text-6xl md:text-7xl font-extrabold text-text-h1 leading-none">
           <CountUp end={totalCount} duration={2} />
         </div>
-        <div className="text-lg text-subtle">Movies & Shows</div>
+        <div className="text-base text-subtle">films &amp; series</div>
+        <div className="mt-4 pt-3 border-t border-border/30 w-full text-center">
+          <span className="text-xs text-subtle/70">
+            ~{estimatedHours.toLocaleString()}h of stories in your universe
+          </span>
+        </div>
       </div>
     </BaseInsightCard>
   );
