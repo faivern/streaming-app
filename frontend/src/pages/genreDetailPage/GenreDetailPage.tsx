@@ -15,9 +15,11 @@ import TitleMid from "../../components/media/title/TitleMid";
 
 import { useInfiniteDiscoverGenre } from "../../hooks/genres/useInfiniteDiscoverGenre";
 import { useGenreById } from "../../hooks/genres/useGenreById";
+import { useGenresWithBackdrops } from "../../hooks/genres/useGenresWithBackdrops";
 import { getDiscoverGenre } from "../../api/genres.api";
 import InfiniteScrollWrapper from "../../components/ui/InfiniteScrollWrapper";
 import SortByDropdown from "../../components/discover/filters/SortByDropdown";
+import Backdrop from "../../components/media/shared/Backdrop";
 import type { MediaType } from "../../types/tmdb";
 
 export default function GenreDetailPage() {
@@ -93,6 +95,11 @@ export default function GenreDetailPage() {
     navigate(`/genre/${genreIdNum}?${newParams.toString()}`, { replace: true });
   };
 
+  const { data: genresWithBackdrops } = useGenresWithBackdrops();
+  const backdropPath =
+    genresWithBackdrops?.find((g) => g.id === genreIdNum)?.backdropPath ??
+    undefined;
+
   const {
     data,
     isLoading,
@@ -155,35 +162,38 @@ export default function GenreDetailPage() {
     <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32 max-w-7xl mx-auto px-4 py-8">
       <BackLink />
 
-      <div className="mb-4">
-        <TitleMid className="text-3xl">{genreName}</TitleMid>
-        <p className="text-lg text-gray-300 italic">
-          Explore the best {genreName.toLowerCase()}{" "}
-          {mediaType === "tv" ? "shows" : "movies"}
-        </p>
-      </div>
-
-      <div className="flex items-center gap-3 text-sm text-gray-400 isolation-auto mb-4">
-        {/* count display */}
-        <span
-          className="flex items-center gap-1 isolate"
-          style={{ contain: "paint", willChange: "transform" }}
-        >
-          <Film className="w-4 h-4 text-accent-primary" />
-          {movieCount.toLocaleString()} {movieCount === 1 ? "Movie" : "Movies"}
-        </span>
-
-        <span
-          className="flex items-center gap-1 isolate"
-          style={{ contain: "paint", willChange: "transform" }}
-        >
-          <Tv className="w-4 h-4 text-accent-primary" />
-          {tvCount.toLocaleString()} {tvCount === 1 ? "TV Show" : "TV Shows"}
-        </span>
-
-        <span>•</span>
-        <span>{totalMediaCount.toLocaleString()} Total</span>
-      </div>
+      {/* Hero section */}
+      <section className="relative overflow-hidden rounded-xl border border-slate-600/30 shadow-lg mb-6">
+        <Backdrop
+          path={backdropPath}
+          alt={genreName}
+          className="w-full h-56 md:h-72 lg:h-80"
+          sizes="100vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
+        <div className="absolute bottom-5 left-6">
+          <TitleMid className="text-3xl">{genreName}</TitleMid>
+          <p className="text-lg text-gray-300 italic">
+            Explore the best {genreName.toLowerCase()}{" "}
+            {mediaType === "tv" ? "shows" : "movies"}
+          </p>
+          <div className="flex items-center gap-3 text-sm text-gray-400 mt-2">
+            <span className="flex items-center gap-1">
+              <Film className="w-4 h-4 text-accent-primary" />
+              {movieCount.toLocaleString()}{" "}
+              {movieCount === 1 ? "Movie" : "Movies"}
+            </span>
+            <span className="flex items-center gap-1">
+              <Tv className="w-4 h-4 text-accent-primary" />
+              {tvCount.toLocaleString()}{" "}
+              {tvCount === 1 ? "TV Show" : "TV Shows"}
+            </span>
+            <span>•</span>
+            <span>{totalMediaCount.toLocaleString()} Total</span>
+          </div>
+        </div>
+      </section>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         {/* Only show toggle when genre supports both media types */}
