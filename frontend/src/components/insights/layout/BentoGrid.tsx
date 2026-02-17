@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 type BentoGridProps = {
   children: React.ReactNode;
+  layout?: string[];
   className?: string;
 };
 
@@ -29,7 +30,7 @@ const cardVariants = {
   },
 };
 
-export default function BentoGrid({ children, className = "" }: BentoGridProps) {
+export default function BentoGrid({ children, layout, className = "" }: BentoGridProps) {
   return (
     <motion.div
       className={`grid gap-4 grid-cols-1 md:grid-cols-4 lg:grid-cols-6 ${className}`}
@@ -37,8 +38,10 @@ export default function BentoGrid({ children, className = "" }: BentoGridProps) 
       initial="hidden"
       animate="visible"
     >
-      {React.Children.map(children, (child) => (
-        <motion.div variants={cardVariants}>{child}</motion.div>
+      {React.Children.map(children, (child, i) => (
+        <motion.div variants={cardVariants} className={layout?.[i] ?? ""}>
+          {child}
+        </motion.div>
       ))}
     </motion.div>
   );

@@ -1,4 +1,6 @@
 import { FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { BarChart3, ChevronRight } from "lucide-react";
 import type { List } from "../../../types/list";
 import type { WatchStatus } from "../../../types/mediaEntry";
 import type { ActiveView } from "../../../types/lists.view";
@@ -38,6 +40,18 @@ export default function ListsSidebar({
 }: ListsSidebarProps) {
   return (
     <div className="flex flex-col h-full">
+      {/* Insights entry point */}
+      <div className="px-4 pt-4 pb-3 border-b border-gray-700/50">
+        <Link
+          to="/lists/insights"
+          className="group flex items-center gap-2.5 w-full px-3 py-2.5 rounded-lg bg-accent-primary/10 border border-accent-primary/25 text-accent-primary hover:bg-accent-primary/20 hover:border-accent-primary/45 transition-all text-sm font-medium"
+        >
+          <BarChart3 className="w-4 h-4 flex-shrink-0" />
+          <span className="flex-1">Insights</span>
+          <ChevronRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+        </Link>
+      </div>
+
       {/* Watch Status Section */}
       <div className="px-4 py-4 border-b border-gray-700/50">
         <button
@@ -107,6 +121,7 @@ export default function ListsSidebar({
           </div>
         )}
       </div>
+
     </div>
   );
 }

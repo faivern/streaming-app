@@ -18,7 +18,18 @@
       "Bash(export PATH=\"/run/host/usr/bin:$PATH\")",
       "Bash(npm run build:strict:*)",
       "Bash(node /run/host/usr/lib/node_modules_22/npm/bin/npm-cli.js run --prefix /home/gustaffaivre/Documents/streaming-app/frontend build:strict)",
-      "Bash(flatpak-spawn --host npm run --prefix /home/gustaffaivre/Documents/streaming-app/frontend build:strict)"
+      "Bash(flatpak-spawn --host npm run --prefix /home/gustaffaivre/Documents/streaming-app/frontend build:strict)",
+      "WebSearch",
+      "Bash(node:*)",
+      "Bash(wc:*)",
+      "Bash(then echo \"FOUND: $hash\")",
+      "Bash(else echo \"MISSING: $hash\")",
+      "Bash(fi:*)",
+      "Bash(done)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(git stash:*)"
     ]
   },
   "outputStyle": "Explanatory"

@@ -95,8 +95,14 @@ export function useListInsights(listId: number) {
   const { data: list, isLoading: isLoadingList } = useListById(listId);
   const { data: mediaEntries = [] } = useMediaEntries();
 
+  // Content fingerprint: changes whenever the list's items change, forcing a fresh query
+  const itemsFingerprint = (list?.items ?? [])
+    .map((i) => `${i.tmdbId}-${i.mediaType}`)
+    .sort()
+    .join(",");
+
   const insightsQuery = useQuery<ListInsights>({
-    queryKey: ["insights", "list", listId],
+    queryKey: ["insights", "list", listId, itemsFingerprint],
     queryFn: async () => {
       if (!list?.items || list.items.length === 0) {
         throw new Error("List has no items");
@@ -112,8 +118,8 @@ export function useListInsights(listId: number) {
       // Step 2: Compute all metrics
       const genreDistribution = computeGenreDistribution(enrichedItems);
       const topGenres = getTopGenres(genreDistribution, 5);
-      const topActors = computeTopActors(enrichedItems, 5);
-      const topDirectors = computeTopDirectors(enrichedItems, 5);
+      const topActors = computeTopActors(enrichedItems, 3);
+      const topDirectors = computeTopDirectors(enrichedItems, 3);
       const ratingComparison = computeRatingComparison(
         enrichedItems,
         mediaEntries
