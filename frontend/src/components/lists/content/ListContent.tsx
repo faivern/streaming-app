@@ -1,4 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { BarChart3 } from "lucide-react";
 import type { List } from "../../../types/list";
 import type { MediaEntry, WatchStatus } from "../../../types/mediaEntry";
 import type {
@@ -168,6 +170,19 @@ export default function ListContent({
 
   return (
     <div>
+      {/* Insights button for custom lists */}
+      {isCustomList && selectedList && sortedItems.length >= 3 && (
+        <div className="mb-4">
+          <Link
+            to={`/list/${selectedList.id}/insights`}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm text-subtle hover:text-text-h1 bg-component-primary/40 hover:bg-component-primary/60 rounded-lg transition-colors"
+          >
+            <BarChart3 className="w-4 h-4" />
+            View Insights
+          </Link>
+        </div>
+      )}
+
       <ListHeader
         title={title}
         movieCount={movieCount}

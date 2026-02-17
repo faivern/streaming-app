@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { FaBars, FaSignInAlt } from "react-icons/fa";
+import { BarChart3 } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { useUser } from "../../hooks/user/useUser";
@@ -332,6 +334,19 @@ export default function MyListsPage() {
 
       {/* Main Content */}
       <main className="flex-1 px-4 lg:px-8 py-6">
+        {/* Master Insights link - show when user has lists with items */}
+        {lists.length > 0 && mediaEntries.length >= 3 && (
+          <div className="mb-6 flex justify-end">
+            <Link
+              to="/lists/insights"
+              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-text-h1 bg-component-primary/50 hover:bg-component-primary/70 rounded-lg transition-colors border border-border/50"
+            >
+              <BarChart3 className="w-4 h-4" />
+              View All Insights
+            </Link>
+          </div>
+        )}
+
         <ListContent
           activeView={activeView}
           selectedStatus={selectedStatus}
