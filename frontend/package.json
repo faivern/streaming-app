@@ -27,6 +27,7 @@
     "embla-carousel-react": "^8.6.0",
     "flag-icons": "^7.5.0",
     "flyonui": "^2.2.0",
+    "framer-motion": "^12.34.1",
     "lucide-react": "^0.542.0",
     "react": "^19.1.0",
     "react-countup": "^6.5.3",
