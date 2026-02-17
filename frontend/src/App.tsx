@@ -10,6 +10,7 @@ import GenreDetailPage from "./pages/genreDetailPage/GenreDetailPage";
 import CollectionPage from "./pages/collectionPage/collectionPage";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import MyListsPage from "./pages/myLists";
+import { ListInsightsPage, MasterInsightsPage } from "./pages/insights";
 import ProviderPage from "./pages/providerPage/ProviderPage";
 import ProvidersPage from "./pages/providersPage/ProvidersPage";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
@@ -43,6 +44,8 @@ function App() {
           <Route path="/person/:id/:name" element={<CreditsDetailPage />} />
 
           <Route path="/lists" element={<MyListsPage />} />
+          <Route path="/list/:id/insights" element={<ListInsightsPage />} />
+          <Route path="/lists/insights" element={<MasterInsightsPage />} />
           <Route
             path="/movies"
             element={

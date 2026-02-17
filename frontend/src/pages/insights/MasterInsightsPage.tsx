@@ -114,15 +114,15 @@ export default function MasterInsightsPage() {
 
         <BentoGrid>
           <HeroStatCard totalCount={insights.totalCount} />
-          <GenreDonutCard genreDistribution={insights.genreDistribution} />
+          <GenreDonutCard data={insights.genreDistribution} />
           <TopPeopleCard
-            topActors={insights.topActors}
-            topDirectors={insights.topDirectors}
+            actors={insights.topActors}
+            directors={insights.topDirectors}
           />
-          <TopGenresCard topGenres={insights.topGenres} />
-          <RatingComparisonCard ratingComparison={insights.ratingComparison} />
-          <ActiveMonthCard mostActiveMonth={insights.mostActiveMonth} />
-          <ReleaseYearCard releaseYearBreakdown={insights.releaseYearBreakdown} />
+          <TopGenresCard genres={insights.topGenres} />
+          <RatingComparisonCard data={insights.ratingComparison} />
+          <ActiveMonthCard data={insights.mostActiveMonth} />
+          <ReleaseYearCard data={insights.releaseYearBreakdown} />
         </BentoGrid>
       </div>
     </div>
