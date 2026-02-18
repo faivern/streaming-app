@@ -1,13 +1,13 @@
 # Cinelas
 
-A full-stack movie and TV show discovery app built with React and .NET.
+**Your personal cinema universe.** Discover, track, and obsess over movies and TV shows — all in one beautifully crafted app.
 
 ![Cinelas Banner](./screenshots/banner.png)
 
 ## Tech Stack
 
 ### Frontend
-![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
@@ -21,15 +21,16 @@ A full-stack movie and TV show discovery app built with React and .NET.
 
 ## Features
 
--  **Search** - Movies, TV shows, and people with real-time results
--  **Browse by Genre** - Filter content with infinite scroll pagination
--  **Detailed Info** - Cast, crew, trailers, and watch providers
--  **Custom Lists** - Create and manage personal movie/TV collections with grid and list views
--  **Watch Tracking** - Track your watchlist status (Want to Watch, Watching, Watched)
--  **Reviews & Ratings** - Rate media across categories (Acting, Story, Visuals, Soundtrack)
--  **Discover Modal** - Find new content with advanced filters to add to your lists
--  **Google OAuth** - Secure authentication with cookie sessions
--  **Responsive** - Works on desktop and mobile
+- **Search** — Instant results across movies, TV shows, and people as you type
+- **Browse by Genre** — Deep-dive into any genre with infinite scroll and smart filtering
+- **Rich Media Pages** — Full cast & crew, trailers, ratings, and exactly where to stream it
+- **Streaming Services** — Browse 60+ providers by country and explore their full catalogs
+- **Custom Lists** — Build and curate personal collections with grid and list views
+- **One-Click Tracking** — Mark anything as Want to Watch, Watching, or Watched from anywhere in the app
+- **Reviews & Ratings** — Score media across four dimensions: Acting, Story, Visuals, and Soundtrack
+- **Discover Modal** — Surface hidden gems with advanced filters and add them straight to your lists
+- **Google OAuth** — Frictionless sign-in with secure cookie sessions
+- **Responsive** — Feels native on desktop and mobile
 
 ## Coming Soon
 
@@ -48,29 +49,31 @@ A full-stack movie and TV show discovery app built with React and .NET.
 
 ## Screenshots
 
-| Homepage Grid | Homepage Carousels |
-|:--------:|:------------------:|
+| Homepage | Carousels |
+|:--------:|:---------:|
 | ![Homepage](./screenshots/homepage.png) | ![Carousels](./screenshots/carouselles-homepage.png) |
 
 | Movie Details | TV Show Details |
 |:-------------:|:---------------:|
 | ![Movie Details](./screenshots/detail-movie.png) | ![TV Details](./screenshots/detail-tv.png) |
 
-| Search | Login |
-|:------:|:-----:|
-| ![Search](./screenshots/search.png) | ![Login](./screenshots/login.png) |
+| Search | Browse by Genre |
+|:------:|:---------------:|
+| ![Search](./screenshots/search.png) | ![Genre Page](./screenshots/genrepage.png) |
 
-| Browse by Genre | Genre Modal |
-|:---------------:|:-----------:|
-| ![Genre Page](./screenshots/genrepage.png) | ![Genre Modal](./screenshots/genre-modal.png) |
+| Genre Filter Modal | Cast & Crew |
+|:------------------:|:-----------:|
+| ![Genre Modal](./screenshots/genre-modal.png) | ![Credits](./screenshots/credits.png) |
 
-| Cast & Crew | Person Details |
-|:-----------:|:--------------:|
-| ![Credits](./screenshots/credits.png) | ![Person](./screenshots/person.png) |
+| Person Details | Collections |
+|:--------------:|:-----------:|
+| ![Person](./screenshots/person.png) | ![Collection](./screenshots/collectionpage.png) |
 
-| Collections |
-|:-----------:|
-| ![Collection](./screenshots/collectionpage.png) |
+### Streaming Services
+
+| All Providers | Provider Catalog |
+|:-------------:|:----------------:|
+| ![All Providers](./screenshots/all-provider-grid.png) | ![Provider Detail](./screenshots/provider-detail.png) |
 
 ### My Lists & Tracking
 
@@ -78,13 +81,13 @@ A full-stack movie and TV show discovery app built with React and .NET.
 |:-----------:|:-----------------------:|
 | ![My Tracking](./screenshots/my-tracking.png) | ![List Grid View](./screenshots/my-list-gridview.png) |
 
-| Custom List (List View) | Discover Modal |
-|:-----------------------:|:--------------:|
-| ![List List View](./screenshots/my-list-listview.png) | ![Discover Modal](./screenshots/my-list-discover-modal.png) |
+| Custom List (List View) | Track & Add to List |
+|:-----------------------:|:-------------------:|
+| ![List List View](./screenshots/my-list-listview.png) | ![Media Entry Modal](./screenshots/media-entry-modal.png) |
 
-| Review & Ratings |
-|:----------------:|
-| ![Review Modal](./screenshots/my-list-review.png) |
+| Discover Modal | Review & Ratings |
+|:--------------:|:----------------:|
+| ![Discover Modal](./screenshots/my-list-discover-modal.png) | ![Review Modal](./screenshots/my-list-review.png) |
 
 ## Architecture
 
