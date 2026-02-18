@@ -214,7 +214,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
         </div>
 
         {/* Dots */}
-        <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 lg:bottom-6 xl:bottom-8 left-1/2 z-20 flex gap-2 -translate-x-1/2">
+        <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 lg:bottom-6 xl:bottom-8 left-1/2 z-30 flex gap-2 -translate-x-1/2">
           {(loading ? Array.from({ length: 6 }) : filtered).map((_, idx) => {
             const isActive = !loading && idx === currentIndex;
             return (
@@ -225,13 +225,17 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                 aria-current={isActive ? "true" : "false"}
                 disabled={loading}
                 onClick={() => !loading && setCurrentIndex(idx)}
-                className={`h-1 sm:h-0.5 md:h-1 lg:h-1.5 xl:h-2 w-4 sm:w-6 md:w-8 lg:w-10 xl:w-12 rounded-full transition-all
-                ${
-                  isActive
-                    ? "bg-gradient-to-r from-accent-primary to-accent-secondary scale-110 shadow"
-                    : "bg-gray-400/60 hover:bg-gradient-to-r hover:from-accent-primary/75 hover:to-accent-secondary/75"
-                } disabled:opacity-40 focus:outline-none focus:ring-2 focus:ring-accent-primary/40`}
-              />
+                className="group py-2 px-1 flex items-center justify-center disabled:opacity-40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/40 cursor-pointer"
+              >
+                <span
+                  className={`block h-1 sm:h-0.5 md:h-1 lg:h-1.5 xl:h-2 w-4 sm:w-6 md:w-8 lg:w-10 xl:w-12 rounded-full transition-all
+                  ${
+                    isActive
+                      ? "bg-gradient-to-r from-accent-primary to-accent-secondary scale-110 shadow"
+                      : "bg-gray-400/60 group-hover:bg-gradient-to-r group-hover:from-accent-primary/75 group-hover:to-accent-secondary/75"
+                  }`}
+                />
+              </button>
             );
           })}
         </div>

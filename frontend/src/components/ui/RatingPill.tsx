@@ -9,6 +9,7 @@ type Props = {
   className?: string;
   showOutOfTen?: boolean;
   imdbId?: string;
+  showWhenEmpty?: boolean;
 };
 
 export default function RatingPill({
@@ -17,14 +18,29 @@ export default function RatingPill({
   className = "",
   showOutOfTen = true,
   imdbId,
+  showWhenEmpty = false,
 }: Props) {
+  const hasRating = rating != null && rating > 0;
+  const visibilityClass = !hasRating && !showWhenEmpty ? "invisible" : "";
+
   const content = (
     <Pill
-      className={`font-medium ${imdbId ? "hover:bg-amber-500/20 transition-colors cursor-pointer" : ""} ${!rating ? "invisible" : ""} ${className}`}
-      icon={<FontAwesomeIcon icon={faStar} className="text-amber-400 mr-1" />}
-      title={imdbId ? "View on IMDB" : "Average TMDB rating"}
+      className={`font-medium ${imdbId && hasRating ? "hover:bg-amber-500/20 transition-colors cursor-pointer" : ""} ${visibilityClass} ${className}`}
+      icon={
+        <FontAwesomeIcon
+          icon={faStar}
+          className={hasRating ? "text-amber-400 mr-1" : "text-gray-500 mr-1"}
+        />
+      }
+      title={
+        !hasRating
+          ? "No rating available yet"
+          : imdbId
+          ? "View on IMDB"
+          : "Average TMDB rating"
+      }
     >
-      {rating ? (
+      {hasRating ? (
         <>
           <span className="font-bold">{rating.toFixed(1)}</span>
           {showOutOfTen && <span>/10</span>}
@@ -35,7 +51,7 @@ export default function RatingPill({
           )}
         </>
       ) : (
-        "No rating"
+        <span className="text-gray-500">—</span>
       )}
     </Pill>
   );

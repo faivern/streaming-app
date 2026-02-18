@@ -27,7 +27,7 @@ export default function MediaMetaChips({
 }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
-      <RatingPill rating={vote_average} count={vote_count} showOutOfTen={true} imdbId={imdb_id} />
+      <RatingPill rating={vote_average} count={vote_count} showOutOfTen={true} imdbId={imdb_id} showWhenEmpty />
       <RuntimePill
         mediaType={media_type ?? "movie"}
         runtimeMin={runtime}
