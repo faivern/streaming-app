@@ -24,7 +24,7 @@
 - **Search** — Instant results across movies, TV shows, and people as you type
 - **Browse by Genre** — Deep-dive into any genre with infinite scroll and smart filtering
 - **Rich Media Pages** — Full cast & crew, trailers, ratings, and exactly where to stream it
-- **Streaming Services** — Browse 60+ providers by country and explore their full catalogs
+- **Streaming Services** — Browse by hundreds of providers by country and explore their full catalogs
 - **Custom Lists** — Build and curate personal collections with grid and list views
 - **One-Click Tracking** — Mark anything as Want to Watch, Watching, or Watched from anywhere in the app
 - **Reviews & Ratings** — Score media across four dimensions: Acting, Story, Visuals, and Soundtrack
@@ -34,11 +34,10 @@
 
 ## Coming Soon
 
-- **Insights Dashboard** — Personalized viewing analytics per list or across all your lists: genre breakdown with taste persona, top actors & directors you keep returning to, your rating vs. the crowd, most active month, release decade distribution, and a top-3 title showcase
-- **AI Recommendations** — AI-powered suggestions based on your watch history and rating patterns
-- **Email Digests** — Weekly recap of what you watched, what's trending in your genres, and curated picks you haven't seen yet
-- **Social Lists** — Share lists publicly and follow other users' collections
-- **Advanced Stats** — Total watch time, completion rates, and year-in-review summaries
+- **Insight dashboard for lists**
+- **AI-powered suggestions**
+- **Email reminder for upcoming releases**
+- **Shareable lists**
 
 ## Technical Highlights
 
@@ -49,7 +48,7 @@
 
 ## Screenshots
 
-| Homepage | Carousels |
+| Homepage(1/2) | Carousels(2/2) |
 |:--------:|:---------:|
 | ![Homepage](./screenshots/homepage.png) | ![Carousels](./screenshots/carouselles-homepage.png) |
 
