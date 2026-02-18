@@ -10,6 +10,7 @@ import {
   TopPeopleCard,
   ActiveMonthCard,
   ReleaseYearCard,
+  IdentityIntroCard,
 } from "../../components/insights/cards";
 import BentoGrid from "../../components/insights/layout/BentoGrid";
 import ListSnapshotStrip from "../../components/insights/layout/ListSnapshotStrip";
@@ -87,6 +88,8 @@ export default function MasterInsightsPage() {
   return (
     <div className="px-4 md:px-8 py-6 mt-20 lg:mt-24 max-w-7xl mx-auto">
       {header}
+
+      <IdentityIntroCard topThree={insights.topThree} />
 
       <div className="relative">
         <div className="absolute inset-0 -z-10 opacity-30 pointer-events-none">
