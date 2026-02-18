@@ -31,6 +31,14 @@ A full-stack movie and TV show discovery app built with React and .NET.
 -  **Google OAuth** - Secure authentication with cookie sessions
 -  **Responsive** - Works on desktop and mobile
 
+## Coming Soon
+
+- **Insights Dashboard** — Personalized viewing analytics per list or across all your lists: genre breakdown with taste persona, top actors & directors you keep returning to, your rating vs. the crowd, most active month, release decade distribution, and a top-3 title showcase
+- **AI Recommendations** — AI-powered suggestions based on your watch history and rating patterns
+- **Email Digests** — Weekly recap of what you watched, what's trending in your genres, and curated picks you haven't seen yet
+- **Social Lists** — Share lists publicly and follow other users' collections
+- **Advanced Stats** — Total watch time, completion rates, and year-in-review summaries
+
 ## Technical Highlights
 
 - **20+ Custom React Hooks** for data fetching, sorting, and UI state
