@@ -31,6 +31,7 @@ type MediaCardProps = {
   number_of_seasons?: number;
   number_of_episodes?: number;
   disableHoverModal?: boolean;
+  showQuickAdd?: boolean;
   onClick?: () => void;
 };
 
@@ -49,6 +50,7 @@ export default function MediaCard(props: MediaCardProps) {
     number_of_seasons,
     number_of_episodes,
     disableHoverModal = false,
+    showQuickAdd = true,
     onClick,
   } = props;
 
@@ -92,7 +94,7 @@ export default function MediaCard(props: MediaCardProps) {
                   showOutOfTen={false}
                 />
 
-                {user && (
+                {user && showQuickAdd && (
                   <button
                     onClick={handleAddToList}
                     aria-label="Add to list"

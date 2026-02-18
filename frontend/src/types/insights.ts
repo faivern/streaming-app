@@ -51,6 +51,15 @@ export type ReleaseYearBreakdown = {
   count: number;
 };
 
+// Top-rated title for the top 3 card display
+export type TopRatedTitle = {
+  title: string;
+  rating: number;
+  tmdbId: number;
+  mediaType: string;
+  posterPath: string | null;
+};
+
 // Complete insights object
 export type ListInsights = {
   totalCount: number;
@@ -61,6 +70,7 @@ export type ListInsights = {
   ratingComparison: RatingComparison;
   mostActiveMonth: ActiveMonth | null;
   releaseYearBreakdown: ReleaseYearBreakdown[];
+  topThree: TopRatedTitle[];
 };
 
 // Re-export types needed by aggregators

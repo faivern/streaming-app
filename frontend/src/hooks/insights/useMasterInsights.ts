@@ -11,6 +11,7 @@ import {
   computeRatingComparison,
   computeMostActiveMonth,
   computeReleaseYearBreakdown,
+  computeTopRatedTitles,
 } from "../../lib/insights/aggregators";
 import type { ListInsights, EnrichedListItem } from "../../types/insights";
 import type { MediaType } from "../../types/tmdb";
@@ -137,6 +138,7 @@ export function useMasterInsights() {
       );
       const mostActiveMonth = computeMostActiveMonth(allItems);
       const releaseYearBreakdown = computeReleaseYearBreakdown(enrichedItems);
+      const topThree = computeTopRatedTitles(enrichedItems, mediaEntries);
 
       // Step 3: Return complete ListInsights object
       return {
@@ -148,6 +150,7 @@ export function useMasterInsights() {
         ratingComparison,
         mostActiveMonth,
         releaseYearBreakdown,
+        topThree,
       };
     },
     enabled: Boolean(deduplicatedItems.length),

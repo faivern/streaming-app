@@ -6,3 +6,4 @@ export { default as TopPeopleCard } from "./TopPeopleCard";
 export { default as ActiveMonthCard } from "./ActiveMonthCard";
 export { default as ReleaseYearCard } from "./ReleaseYearCard";
 export { default as BaseInsightCard } from "./BaseInsightCard";
+export { default as IdentityIntroCard } from "./IdentityIntroCard";

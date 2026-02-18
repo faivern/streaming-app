@@ -5,6 +5,7 @@ import type {
   RatingComparison,
   ActiveMonth,
   ReleaseYearBreakdown,
+  TopRatedTitle,
   MediaEntry,
 } from "../../types/insights";
 
@@ -335,4 +336,65 @@ export function computeReleaseYearBreakdown(
 
   // Sort by year descending
   return breakdown.sort((a, b) => b.year - a.year);
+}
+
+/**
+ * Compute top N titles by user rating (or TMDB rating as fallback)
+ * User rating is average of non-null acting/story/visuals/soundtrack scores
+ * Items with a computed rating of 0 are excluded
+ */
+export function computeTopRatedTitles(
+  items: EnrichedListItem[],
+  mediaEntries: MediaEntry[],
+  limit: number = 3
+): TopRatedTitle[] {
+  const entryMap = new Map<string, MediaEntry>();
+  mediaEntries.forEach((entry) => {
+    const key = `${entry.tmdbId}-${entry.mediaType}`;
+    entryMap.set(key, entry);
+  });
+
+  const rated: TopRatedTitle[] = [];
+
+  items.forEach((item) => {
+    const key = `${item.tmdbId}-${item.mediaType}`;
+    const entry = entryMap.get(key);
+    let rating = 0;
+
+    if (entry) {
+      const scores = [
+        entry.ratingActing,
+        entry.ratingStory,
+        entry.ratingVisuals,
+        entry.ratingSoundtrack,
+      ].filter((r): r is number => r !== null);
+
+      if (scores.length > 0) {
+        rating = scores.reduce((sum, r) => sum + r, 0) / scores.length;
+      }
+    }
+
+    // Fall back to TMDB vote_average if no user rating
+    if (rating === 0) {
+      rating = item.details?.vote_average ?? 0;
+    }
+
+    if (rating === 0) return;
+
+    const title =
+      item.details?.title ||
+      item.details?.name ||
+      item.title ||
+      "Unknown";
+
+    rated.push({
+      title,
+      rating,
+      tmdbId: item.tmdbId,
+      mediaType: item.mediaType,
+      posterPath: item.details?.poster_path ?? null,
+    });
+  });
+
+  return rated.sort((a, b) => b.rating - a.rating).slice(0, limit);
 }
