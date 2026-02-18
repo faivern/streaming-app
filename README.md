@@ -1,6 +1,6 @@
 # Cinelas
 
-**Your personal cinema universe.** Discover, track, and obsess over movies and TV shows — all in one beautifully crafted app.
+**Your personal cinema atlas.** Explore, track, and collect over 1.3 Million movies and TV shows.
 
 ![Cinelas Banner](./screenshots/banner.png)
 
