@@ -18,6 +18,28 @@ type Props = {
   loading?: boolean;
 };
 
+function SlideTitleArea({ m, isActive }: { m: TrendingMedia; isActive: boolean }) {
+  const mediaType =
+    m.media_type === "movie" || m.media_type === "tv" ? m.media_type : undefined;
+  const { data: logoPath } = useMediaLogo(mediaType, m.id);
+
+  if (!isActive) return null;
+
+  return logoPath ? (
+    <Logo
+      path={logoPath}
+      alt={m.title || m.name || "Title logo"}
+      className="max-h-16 w-auto max-w-xs animate-[fadeIn_0.4s_ease-in-out]"
+      sizes="100vw"
+      priority={false}
+    />
+  ) : (
+    <h2 className="text-white text-3xl font-bold animate-[fadeIn_0.3s_ease-in-out]">
+      {m.title || m.name}
+    </h2>
+  );
+}
+
 export default function TrendingCarousel({ items, loading = false }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const intervalRef = useRef<number | null>(null);
@@ -55,14 +77,6 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
   const slides = loading
     ? Array.from({ length: 6 }).map((_, i) => i)
     : filtered;
-  const current = filtered[currentIndex];
-
-  const mediaType =
-    current?.media_type === "movie" || current?.media_type === "tv"
-      ? current.media_type
-      : undefined;
-  const { data: logoPath } = useMediaLogo(mediaType, current?.id);
-
   return (
     <div className="w-full">
       <div className="relative w-full overflow-hidden -mt-40">
@@ -153,20 +167,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                       className="flex items-start flex-wrap gap-2
                            min-h-10 sm:min-h-12 md:min-h-14"
                     >
-                      {idx === currentIndex &&
-                        (logoPath ? (
-                          <Logo
-                            path={logoPath}
-                            alt={m.title || m.name || "Title logo"}
-                            className="max-h-16 w-auto max-w-xs"
-                            sizes="100vw"
-                            priority={false}
-                          />
-                        ) : (
-                          <h2 className="text-white text-3xl font-bold">
-                            {m.title || m.name}
-                          </h2>
-                        ))}
+                      <SlideTitleArea m={m} isActive={idx === currentIndex} />
                     </div>
                     {/* Meta */}
                     <div className="space-y-2" aria-label="Media metadata">
