@@ -4,7 +4,8 @@ import { useFloating } from "@floating-ui/react";
 import { useMediaDetail } from "../../../hooks/media/useMediaDetail";
 import genreMap from "../../../utils/genreMap";
 import languageMap from "../../../utils/languageMap";
-import { Calendar, Clock, Globe } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
+import { LuLanguages } from "react-icons/lu";
 import { dateFormat } from "../../../utils/dateFormat";
 import type { DetailMedia, MediaType } from "../../../types/tmdb";
 import useMediaRuntime from "../../../hooks/media/useMediaRuntime";
@@ -116,7 +117,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
           </span>
           <span className="text-gray-600">|</span>
           <span className="flex items-center gap-1">
-            <Globe className="h-3 w-3" />
+            <LuLanguages className="h-3 w-3" />
             {languageMap[lang] ?? lang.toUpperCase()}
           </span>
         </div>
