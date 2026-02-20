@@ -38,7 +38,7 @@ export default function MobileFilterDrawer({
             leaveFrom="translate-y-0"
             leaveTo="translate-y-full"
           >
-            <Dialog.Panel className="fixed inset-x-0 bottom-0 max-h-[85vh] bg-gray-900 border-t border-gray-700 rounded-t-2xl flex flex-col">
+            <Dialog.Panel className="fixed inset-x-0 bottom-0 max-h-[85dvh] bg-gray-900 border-t border-gray-700 rounded-t-2xl flex flex-col pb-safe">
               {/* Handle bar */}
               <div className="flex justify-center pt-3 pb-2">
                 <div className="w-12 h-1 bg-gray-600 rounded-full" />

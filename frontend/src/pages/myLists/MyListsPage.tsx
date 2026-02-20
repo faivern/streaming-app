@@ -297,7 +297,7 @@ export default function MyListsPage() {
       </aside>
 
       {/* Mobile Drawer Trigger */}
-      <div className="lg:hidden fixed bottom-4 left-4 z-40">
+      <div className="lg:hidden fixed bottom-4 left-4 z-(--z-overlay) pb-safe">
         <button
           onClick={() => setIsDrawerOpen(true)}
           className="flex items-center gap-2 px-4 py-3 bg-accent-primary hover:bg-accent-primary/80 text-white font-medium rounded-full shadow-lg transition-colors"

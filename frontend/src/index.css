@@ -83,3 +83,13 @@
     opacity: 1;
   }
 }
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pb-safe-or-4 {
+    /* Minimum 1rem spacing even when safe-area-inset-bottom is 0 */
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
