@@ -32,8 +32,8 @@
 
 ### Media Cards & Hover Interactions
 
-- [ ] **CARD-01**: `MediaCard` hover tooltip (`MediaCardModal`) is hidden on touch devices (`hidden lg:block`) — no accidental API calls or navigation on tap
-- [ ] **CARD-02**: All media card tap targets meet ≥44px minimum (covers poster, title, and action buttons)
+- [x] **CARD-01**: `MediaCard` hover tooltip (`MediaCardModal`) is hidden on touch devices (`hidden lg:block`) — no accidental API calls or navigation on tap
+- [x] **CARD-02**: All media card tap targets meet ≥44px minimum (covers poster, title, and action buttons)
 
 ### Modals & Overlays
 
@@ -126,8 +126,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CAR-05 | Phase 3 | Pending |
 | CAR-06 | Phase 3 | Pending |
 | CAR-07 | Phase 3 | Pending |
-| CARD-01 | Phase 3 | Pending |
-| CARD-02 | Phase 3 | Pending |
+| CARD-01 | Phase 3 | Complete |
+| CARD-02 | Phase 3 | Complete |
 | MOD-01 | Phase 5 | Pending |
 | MOD-02 | Phase 5 | Pending |
 | MOD-03 | Phase 5 | Pending |
