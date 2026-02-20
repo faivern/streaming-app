@@ -36,6 +36,28 @@
   --color-action-hover: var(--action-hover);
   --color-accent-thirdary: var(--accent-thirdary);
   --color-subtle: var(--subtle);
+
+  /* Custom breakpoints — replaces tailwind.config.js theme.extend.screens (silently ignored in TW4) */
+  --breakpoint-3xl: 120rem;  /* 1920px */
+  --breakpoint-4xl: 160rem;  /* 2560px */
+
+  /* Navbar offset spacing token — generates mt-navbar-offset utility */
+  /* Set here as a placeholder; responsive value applied via :root in Plan 02-02 */
+  --spacing-navbar-offset: 5rem;
+}
+
+:root {
+  /* Z-index scale — canonical stacking layers. Use z-(--z-*) syntax in TSX. */
+  --z-base:      1;
+  --z-raised:    10;   /* cards on hover, inline elevated elements */
+  --z-dropdown:  20;   /* dropdowns, listbox options */
+  --z-sticky:    50;   /* sticky navbar */
+  --z-overlay:   60;   /* mobile filter drawer backdrop */
+  --z-drawer:    100;  /* mobile nav drawer / genre panel */
+  --z-searchbar: 110;  /* search overlay */
+  --z-modal:     140;  /* Headless UI dialog backdrop */
+  --z-dialog:    150;  /* Headless UI dialog panel */
+  --z-toast:     200;  /* react-hot-toast notifications */
 }
 
 @layer scrollbar {
