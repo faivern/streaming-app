@@ -22,7 +22,7 @@ function App() {
   useTheme();
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-white scrollbar">
+    <div className="min-h-dvh flex flex-col bg-background text-white scrollbar">
       <Header />
       <main className="flex-grow">
         <ScrollToTop />

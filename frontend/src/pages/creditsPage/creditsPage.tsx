@@ -53,7 +53,7 @@ const CreditsPage = () => {
   // loading & error states
   if (!isValidId) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white grid place-items-center">
+      <div className="min-h-dvh bg-gray-900 text-white grid place-items-center">
         <p className="text-gray-300">Invalid media id.</p>
       </div>
     );
@@ -61,7 +61,7 @@ const CreditsPage = () => {
 
   if (creditsLoading || detailsLoading) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white grid place-items-center">
+      <div className="min-h-dvh bg-gray-900 text-white grid place-items-center">
         <p className="text-gray-300">Loading full cast & crew…</p>
       </div>
     );
@@ -69,14 +69,14 @@ const CreditsPage = () => {
 
   if (creditsError || detailsError) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white grid place-items-center">
+      <div className="min-h-dvh bg-gray-900 text-white grid place-items-center">
         <p className="text-red-300">Failed to load credits.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-dvh bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">

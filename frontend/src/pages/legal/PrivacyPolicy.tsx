@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 export default function PrivacyPolicy() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-dvh bg-background">
       <article className="max-w-4xl mx-auto px-6 py-16 text-gray-300">
         {/* Header */}
         <header className="mb-12">
