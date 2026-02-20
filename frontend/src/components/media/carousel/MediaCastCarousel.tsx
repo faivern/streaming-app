@@ -29,7 +29,7 @@ const MediaCastCarousel = ({ cast }: Props) => {
       </div>
 
       <div
-        className="flex gap-6 overflow-x-auto px-2 py-2 scrollbar focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/50 rounded-lg"
+        className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-none lg:scrollbar px-2 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/50 rounded-lg"
         tabIndex={0}
         role="region"
         aria-label="Cast and crew carousel"
