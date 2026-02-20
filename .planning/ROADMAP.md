@@ -87,11 +87,11 @@ Plans:
   1. A persistent bottom navigation bar is visible on screens below the `md` breakpoint with correct active-state indicators for the current route
   2. The mobile menu (when opened) locks scroll correctly on iOS — the page behind does not scroll
   3. Both the top bar (desktop) and bottom bar (mobile) are present simultaneously and neither overlaps app content at any breakpoint
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: Build BottomNav component with safe-area padding, z-index token, and React Router active state; hide at `lg:`
-- [ ] 04-02: Migrate Navbar mobile drawer to Headless UI Dialog for correct iOS scroll lock
+- [ ] 04-01-PLAN.md — Build BottomNav component (NavLink active state, safe-area padding, z-index token); wire into App.tsx with pb-bottom-nav; fix MyListsPage FAB offset
+- [ ] 04-02-PLAN.md — Migrate Navbar mobile drawer to Headless UI Dialog for correct iOS scroll lock
 
 ### Phase 5: Modals and Filters
 **Goal**: All modals and filter panels behave as bottom sheets on mobile — no centered desktop overlays clip content on a 375px screen
