@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-20)
 ## Current Position
 
 Phase: 2 of 9 (Foundation)
-Plan: 1 of 2 in current phase
-Status: In progress
-Last activity: 2026-02-20 — Completed Plan 02-01 (CSS foundation: breakpoints, z-index tokens, viewport meta, min-h-dvh)
+Plan: 2 of 2 in current phase
+Status: Phase complete
+Last activity: 2026-02-20 — Completed Plan 02-02 (iOS safe-area utilities, mt-navbar-offset token, Splide removed, tailwind.config.js deleted)
 
-Progress: [█░░░░░░░░░] 6% (v1.1 milestone)
+Progress: [██░░░░░░░░] 12% (v1.1 milestone)
 
 ## Performance Metrics
 
@@ -28,9 +28,10 @@ Progress: [█░░░░░░░░░] 6% (v1.1 milestone)
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | Phase 1 (Insights) | 4 | 539s | 135s |
+| Phase 2 (Foundation) | 2 | ~520s | ~260s |
 
 **Recent Trend:**
-- Last 4 plans: 159s, 155s, 95s, 130s
+- Last 4 plans: 159s, 155s, 95s, 130s, 245s
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -47,6 +48,9 @@ Recent decisions affecting current work:
 - [Roadmap]: Use Embla Carousel for all 6 carousels — already installed, no new dependencies
 - [02-01]: @theme breakpoints use rem not px — Tailwind 4 sorts breakpoints numerically; mixing units causes wrong sort order
 - [02-01]: Z-index tokens in :root not @theme — @theme has no --z-* namespace; use z-(--z-*) syntax in TSX class attributes
+- [Phase 02-02]: pb-safe uses env(safe-area-inset-bottom) directly; pb-safe-or-4 uses max(1rem,env()) for minimum floor
+- [Phase 02-02]: mt-navbar-offset is canonical page top offset — all pages must use this, never hardcoded mt-20/24/28/32
+- [Phase 02-02]: Fixed-bottom elements use pb-safe or pb-safe-or-4 to clear iOS home indicator
 
 ### Pending Todos
 
@@ -61,5 +65,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-20
-Stopped at: Completed 02-01-PLAN.md — CSS foundation done. Plan 02-02 is next.
+Stopped at: Completed 02-02-PLAN.md — iOS safe-area utilities, mt-navbar-offset token, Splide removed. Phase 02 complete.
 Resume file: None

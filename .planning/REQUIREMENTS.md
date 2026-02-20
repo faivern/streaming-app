@@ -10,9 +10,9 @@
 - [x] **FOUND-01**: Global CSS defines `3xl` and `4xl` custom breakpoints in `@theme` (currently silently ignored in Tailwind CSS 4)
 - [x] **FOUND-02**: All full-height containers use `min-h-dvh` instead of `min-h-screen` / `100vh` (fixes iOS Safari toolbar clipping)
 - [x] **FOUND-03**: `index.html` viewport meta includes `viewport-fit=cover` for notch/safe-area support
-- [ ] **FOUND-04**: All bottom-edge fixed elements apply `env(safe-area-inset-bottom)` padding
+- [x] **FOUND-04**: All bottom-edge fixed elements apply `env(safe-area-inset-bottom)` padding
 - [x] **FOUND-05**: A z-index token table is defined (replacing 9+ ad-hoc values) before bottom nav is added
-- [ ] **FOUND-06**: Hardcoded `mt-20`/`mt-24` navbar offsets are replaced with a consistent layout spacing variable
+- [x] **FOUND-06**: Hardcoded `mt-20`/`mt-24` navbar offsets are replaced with a consistent layout spacing variable
 
 ### Navigation
 
@@ -113,9 +113,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FOUND-01 | Phase 2 | Complete |
 | FOUND-02 | Phase 2 | Complete |
 | FOUND-03 | Phase 2 | Complete |
-| FOUND-04 | Phase 2 | Pending |
+| FOUND-04 | Phase 2 | Complete |
 | FOUND-05 | Phase 2 | Complete |
-| FOUND-06 | Phase 2 | Pending |
+| FOUND-06 | Phase 2 | Complete |
 | NAV-01 | Phase 4 | Pending |
 | NAV-02 | Phase 4 | Pending |
 | NAV-03 | Phase 4 | Pending |

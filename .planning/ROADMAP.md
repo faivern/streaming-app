@@ -36,7 +36,7 @@ Plans:
 
 ## Summary Checklist
 
-- [ ] **Phase 2: Foundation** - Global CSS config, viewport meta, and z-index tokens that every subsequent phase depends on
+- [x] **Phase 2: Foundation** - Global CSS config, viewport meta, and z-index tokens that every subsequent phase depends on (completed 2026-02-20)
 - [ ] **Phase 3: Carousels** - Migrate all six carousels to Embla with touch swipe; fix media card overflow and hover behavior
 - [ ] **Phase 4: Navigation** - Add persistent bottom nav bar on mobile; fix iOS scroll lock in mobile menu
 - [ ] **Phase 5: Modals and Filters** - Bottom-sheet pattern for all modals and overlays; filter panels functional at 375px
@@ -176,7 +176,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 2. Foundation | 1/2 | In Progress|  |
+| 2. Foundation | 2/2 | Complete   | 2026-02-20 |
 | 3. Carousels | 0/3 | Not started | - |
 | 4. Navigation | 0/2 | Not started | - |
 | 5. Modals and Filters | 0/3 | Not started | - |
