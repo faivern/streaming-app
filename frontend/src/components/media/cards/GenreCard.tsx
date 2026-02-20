@@ -27,7 +27,7 @@ const GenreCard = ({ id, name, supportedMediaTypes, backdropPath }: GenreCardPro
     > 
       <Link
         to={`/genre/${id}?mediaType=${defaultMediaType}&name=${encodeURIComponent(name)}`}
-        className="block h-full w-md"
+        className="block h-full w-full"
       >
         {/* Backdrop image */}
         {backdropUrl && (

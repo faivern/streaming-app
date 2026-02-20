@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import GenreCard from "../cards/GenreCard.tsx";
 import "../../../style/TitleHover.css";
 import TitleMid from "../title/TitleMid.tsx";
@@ -15,61 +16,29 @@ type Props = {
 };
 
 export default function GenreCardList({ genres, loading = false }: Props) {
-  // Page-based scrolling
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [pageSize, setPageSize] = useState(3);
-  const [page, setPage] = useState(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "start" });
 
-  const measure = useCallback(() => {
-    const viewport = viewportRef.current;
-    const track = trackRef.current;
-    if (!viewport || !track || track.children.length === 0) return;
-
-    const first = track.children[0] as HTMLElement;
-    const second = track.children[1] as HTMLElement | undefined;
-
-    const w1 = first.getBoundingClientRect().width;
-    const step = second ? second.offsetLeft - first.offsetLeft : w1; // width + gap
-    const vw = viewport.clientWidth;
-    setPageSize(Math.max(1, Math.floor((vw + 1) / step)));
-  }, []);
-
-  const pageCount = Math.max(
-    1,
-    Math.ceil((genres?.length ?? 0) / Math.max(1, pageSize))
-  );
-
-  const clampPage = useCallback(
-    (p: number) => Math.min(Math.max(0, p), Math.max(0, pageCount - 1)),
-    [pageCount]
-  );
-
-  const applyTranslate = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const startIndex = page * pageSize;
-    const target = track.children[startIndex] as HTMLElement | undefined;
-    track.style.transform = target
-      ? `translateX(${-target.offsetLeft}px)`
-      : "translateX(0)";
-  }, [page, pageSize]);
+  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);
+  const [nextBtnEnabled, setNextBtnEnabled] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
   useEffect(() => {
-    measure();
-    const ro = new ResizeObserver(measure);
-    if (viewportRef.current) ro.observe(viewportRef.current);
-    if (trackRef.current) ro.observe(trackRef.current);
-    return () => ro.disconnect();
-  }, [measure]);
-
-  useEffect(() => {
-    setPage((p) => clampPage(p));
-    applyTranslate();
-  }, [pageSize, genres?.length, clampPage, applyTranslate]);
-
-  const prev = () => setPage((p) => clampPage(p - 1));
-  const next = () => setPage((p) => clampPage(p + 1));
+    if (!emblaApi) return;
+    setScrollSnaps(emblaApi.scrollSnapList());
+    const onSelect = () => {
+      setPrevBtnEnabled(emblaApi.canScrollPrev());
+      setNextBtnEnabled(emblaApi.canScrollNext());
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+    emblaApi.on("select", onSelect);
+    emblaApi.on("init", onSelect);
+    onSelect();
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("init", onSelect);
+    };
+  }, [emblaApi]);
 
   const renderItems = loading
     ? Array.from({ length: 8 }).map((_, i) => ({ id: i, name: "" } as any))
@@ -83,25 +52,24 @@ export default function GenreCardList({ genres, loading = false }: Props) {
 
       <div className="relative -my-3 -mx-3">
         <div
-          ref={viewportRef}
+          ref={emblaRef}
           className="overflow-hidden py-3 px-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/50 rounded-lg"
           tabIndex={0}
           onKeyDown={(e) => {
-            if (e.key === "ArrowLeft") prev();
-            if (e.key === "ArrowRight") next();
+            if (e.key === "ArrowLeft") emblaApi?.scrollPrev();
+            if (e.key === "ArrowRight") emblaApi?.scrollNext();
           }}
           role="region"
           aria-label="Genres carousel"
         >
-          <div
-            ref={trackRef}
-            className="flex gap-6 transition-transform duration-300 will-change-transform"
-            style={{ transform: "translateX(0)" }}
-          >
+          <div className="flex gap-6">
             {renderItems.map((genre: EnrichedGenre) => (
-              <div key={genre.id} className="shrink-0">
+              <div
+                key={genre.id}
+                className="flex-[0_0_calc(50%-12px)] sm:flex-[0_0_calc(33.333%-16px)] md:flex-[0_0_calc(25%-18px)] lg:flex-[0_0_calc(20%-20px)] min-w-0 shrink-0"
+              >
                 {loading ? (
-                  <div className="h-40 w-40 rounded-2xl bg-white/10 animate-pulse" />
+                  <div className="h-40 rounded-2xl bg-white/10 animate-pulse" />
                 ) : (
                   <GenreCard
                     id={genre.id}
@@ -115,11 +83,11 @@ export default function GenreCardList({ genres, loading = false }: Props) {
           </div>
         </div>
 
-        {page > 0 && (
+        {prevBtnEnabled && (
           <button
             type="button"
-            onClick={prev}
-            className="absolute left-0 inset-y-0 z-10 w-20 flex items-center justify-start pl-2
+            onClick={() => emblaApi?.scrollPrev()}
+            className="absolute left-0 inset-y-0 z-10 hidden lg:flex w-20 items-center justify-start pl-2
                        bg-gradient-to-r from-background via-background/60 to-transparent
                        text-white/60 hover:text-white
                        transition-all duration-300 cursor-pointer"
@@ -130,31 +98,31 @@ export default function GenreCardList({ genres, loading = false }: Props) {
             </span>
           </button>
         )}
-        <button
-          type="button"
-          onClick={next}
-          disabled={page >= pageCount - 1}
-          className="absolute right-0 inset-y-0 z-10 w-20 flex items-center justify-end pr-2
-                     bg-gradient-to-l from-background via-background/60 to-transparent
-                     text-white/60 hover:text-white
-                     disabled:opacity-0 disabled:pointer-events-none
-                     transition-all duration-300 cursor-pointer"
-          aria-label="Next"
-        >
-          <span className="drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]">
-            <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
-          </span>
-        </button>
+        {nextBtnEnabled && (
+          <button
+            type="button"
+            onClick={() => emblaApi?.scrollNext()}
+            className="absolute right-0 inset-y-0 z-10 hidden lg:flex w-20 items-center justify-end pr-2
+                       bg-gradient-to-l from-background via-background/60 to-transparent
+                       text-white/60 hover:text-white
+                       transition-all duration-300 cursor-pointer"
+            aria-label="Next"
+          >
+            <span className="drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]">
+              <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
+            </span>
+          </button>
+        )}
 
         <div className="">
           <div className="flex items-center justify-center gap-2">
-            {Array.from({ length: pageCount }).map((_, i) => (
+            {scrollSnaps.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setPage(i)}
-                aria-label={`Go to page ${i + 1}`}
+                onClick={() => emblaApi?.scrollTo(i)}
+                aria-label={`Go to slide ${i + 1}`}
                 className={`h-2 rounded-full transition-all ${
-                  i === page ? "bg-sky-500 w-6" : "bg-gray-500/50 w-2"
+                  i === selectedIndex ? "bg-sky-500 w-6" : "bg-gray-500/50 w-2"
                 }`}
               />
             ))}
