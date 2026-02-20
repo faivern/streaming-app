@@ -22,11 +22,11 @@
 
 ### Carousels
 
-- [ ] **CAR-01**: `CollectionCarousel` migrated to Embla with touch swipe and viewport-relative slide widths
-- [ ] **CAR-02**: `Top10Carousel` migrated to Embla with touch swipe and viewport-relative slide widths
+- [x] **CAR-01**: `CollectionCarousel` migrated to Embla with touch swipe and viewport-relative slide widths
+- [x] **CAR-02**: `Top10Carousel` migrated to Embla with touch swipe and viewport-relative slide widths
 - [x] **CAR-03**: `UpcomingCarousel` migrated to Embla with touch swipe and viewport-relative slide widths
 - [x] **CAR-04**: `WatchProviderCarousel` migrated to Embla with touch swipe
-- [ ] **CAR-05**: `GenreCardList` migrated to Embla or CSS scroll-snap with touch swipe
+- [x] **CAR-05**: `GenreCardList` migrated to Embla or CSS scroll-snap with touch swipe
 - [x] **CAR-06**: `TrendingCarousel` hero has touch swipe and uses `svh`/`dvh` for height
 - [x] **CAR-07**: No carousel card overflows a 375px viewport (hardcoded `w-lg`/`w-md` widths removed)
 
@@ -119,11 +119,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NAV-01 | Phase 4 | Pending |
 | NAV-02 | Phase 4 | Pending |
 | NAV-03 | Phase 4 | Pending |
-| CAR-01 | Phase 3 | Pending |
-| CAR-02 | Phase 3 | Pending |
+| CAR-01 | Phase 3 | Complete |
+| CAR-02 | Phase 3 | Complete |
 | CAR-03 | Phase 3 | Complete |
 | CAR-04 | Phase 3 | Complete |
-| CAR-05 | Phase 3 | Pending |
+| CAR-05 | Phase 3 | Complete |
 | CAR-06 | Phase 3 | Complete |
 | CAR-07 | Phase 3 | Complete |
 | CARD-01 | Phase 3 | Complete |
