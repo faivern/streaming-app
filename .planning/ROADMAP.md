@@ -77,7 +77,7 @@ Plans:
 Plans:
 - [ ] 03-01-PLAN.md — Migrate CollectionCarousel, Top10Carousel, and GenreCardList to Embla with viewport-relative slide widths
 - [ ] 03-02-PLAN.md — Migrate UpcomingCarousel, WatchProviderCarousel, and TrendingCarousel to Embla; fix TrendingCarousel hero height (dvh)
-- [ ] 03-03-PLAN.md — Guard MediaCardModal to desktop-only (hidden lg:block); audit MediaCastCarousel and MediaCastCard touch targets
+- [x] 03-03-PLAN.md — Guard MediaCardModal to desktop-only (hidden lg:block); audit MediaCastCarousel and MediaCastCard touch targets
 
 ### Phase 4: Navigation
 **Goal**: Mobile users navigate the app through a native-feeling bottom tab bar — the hamburger drawer is replaced as the primary mobile navigation pattern
@@ -177,7 +177,7 @@ Plans:
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 2. Foundation | 2/2 | Complete    | 2026-02-20 |
-| 3. Carousels | 0/3 | Not started | - |
+| 3. Carousels | 1/3 | In Progress|  |
 | 4. Navigation | 0/2 | Not started | - |
 | 5. Modals and Filters | 0/3 | Not started | - |
 | 6. Media Detail Page | 0/1 | Not started | - |

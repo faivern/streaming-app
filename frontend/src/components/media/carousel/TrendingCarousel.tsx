@@ -12,6 +12,7 @@ import GenrePill from "../../ui/GenrePill";
 import DatePill from "../../ui/DatePill";
 import { useMediaLogo } from "../../../hooks/images/useMediaLogo";
 import Logo from "../shared/EnhancedTitle";
+import useEmblaCarousel from "embla-carousel-react";
 
 type Props = {
   items: TrendingMedia[];
@@ -41,7 +42,6 @@ function SlideTitleArea({ m, isActive }: { m: TrendingMedia; isActive: boolean }
 }
 
 export default function TrendingCarousel({ items, loading = false }: Props) {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const intervalRef = useRef<number | null>(null);
   const intervalTime = 6000;
 
@@ -51,39 +51,45 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
       (m.media_type === "movie" || m.media_type === "tv") && m.backdrop_path
   );
 
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "start",
+    dragFree: false,
+  });
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    const onSelect = () => setCurrentIndex(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onSelect);
+    emblaApi.on("init", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("init", onSelect);
+    };
+  }, [emblaApi]);
+
   // autoplay
   useEffect(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
-    if (!loading && filtered.length > 0) {
+    if (!loading && emblaApi && filtered.length > 0) {
       intervalRef.current = window.setInterval(() => {
-        setCurrentIndex((i) => (i + 1) % filtered.length);
+        emblaApi.scrollNext();
       }, intervalTime);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [loading, filtered.length]);
+  }, [loading, emblaApi, filtered.length]);
 
-  const goToPrev = () => {
-    if (!filtered.length) return;
-    setCurrentIndex((i) => (i - 1 + filtered.length) % filtered.length);
-  };
-  const goToNext = () => {
-    if (!filtered.length) return;
-    setCurrentIndex((i) => (i + 1) % filtered.length);
-  };
-
-  // skeletons vs real data
-  const slides = loading
-    ? Array.from({ length: 6 }).map((_, i) => i)
-    : filtered;
   return (
     <div className="w-full">
       <div className="relative w-full overflow-hidden -mt-40">
         {/* Arrows */}
         {!loading && filtered.length > 0 && (
           <button
-            onClick={goToPrev}
+            onClick={() => emblaApi?.scrollPrev()}
             aria-label="Previous"
             className="absolute left-2 sm:left-4 top-1/2 z-20 -translate-y-1/2
                        bg-black/40 backdrop-blur-sm text-white/70
@@ -101,7 +107,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
         )}
 
         <button
-          onClick={goToNext}
+          onClick={() => emblaApi?.scrollNext()}
           aria-label="Next"
           disabled={loading || filtered.length === 0}
           className="absolute right-2 sm:right-4 top-1/2 z-20 -translate-y-1/2
@@ -119,99 +125,94 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
           />
         </button>
 
-        <div className="relative w-full h-[60vh] md:h-[65vh] lg:h-[75vh] xl:h-[78vh] transition-all duration-300 ease-in-out overflow-hidden">
-          {loading
-            ? slides.map((i) => (
-                <div
-                  key={i}
-                  className={`absolute inset-0 ${
-                    i === 0 ? "opacity-100 z-10" : "opacity-0 z-0"
-                  } pointer-events-none`}
-                >
-                  <div className="w-full h-full bg-white/10 animate-pulse" />
-                </div>
-              ))
-            : filtered.map((m, idx) => (
-                <div
-                  key={m.id}
-                  className={`absolute inset-0 transition-opacity duration-800 ${
-                    idx === currentIndex
-                      ? "opacity-100 z-10 pointer-events-auto"
-                      : "opacity-0 z-0 pointer-events-none"
-                  }`}
-                >
-                  <Link to={`/media/${m.media_type}/${m.id}`}>
-                    <div className="absolute bottom-0 left-0 w-full h-38 bg-gradient-to-t from-background via-background/70 to-transparent z-10"></div>
-                    <Backdrop
-                      path={m.backdrop_path || undefined}
-                      alt={m.title || m.name || "Backdrop"}
-                      className="w-full h-full object-cover object-top transition-opacity duration-1000 ease-in-out"
-                      sizes="100vw"
-                      priority={false}
-                    />
-                    <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-background/80 via-black/30 to-transparent z-0 pointer-events-none" />
-                  </Link>
-
+        <div
+          ref={emblaRef}
+          className="relative w-full overflow-hidden"
+        >
+          <div className="flex h-[60dvh] md:h-[65dvh] lg:h-[75dvh] xl:h-[78dvh]">
+            {loading
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="flex-[0_0_100%] min-w-0">
+                    <div className="w-full h-full bg-white/10 animate-pulse" />
+                  </div>
+                ))
+              : filtered.map((m, idx) => (
                   <div
-                    className="absolute bottom-4 sm:bottom-10 md:bottom-14 left-4 sm:left-8 md:left-12 z-50
-                           flex flex-col gap-3
-                           w-[calc(100%-2rem)] sm:w-[min(75%,36rem)] max-w-2xl
-                           px-4 sm:px-6 py-4 sm:py-6
-                           rounded-xl 
-                           backdrop-blur-sm
-                           shadow-lg
-                           "
+                    key={m.id}
+                    className="flex-[0_0_100%] min-w-0 relative"
                   >
-                    {/* Title / Logo */}
+                    <Link to={`/media/${m.media_type}/${m.id}`}>
+                      <div className="absolute bottom-0 left-0 w-full h-38 bg-gradient-to-t from-background via-background/70 to-transparent z-10"></div>
+                      <Backdrop
+                        path={m.backdrop_path || undefined}
+                        alt={m.title || m.name || "Backdrop"}
+                        className="w-full h-full object-cover object-top transition-opacity duration-1000 ease-in-out"
+                        sizes="100vw"
+                        priority={false}
+                      />
+                      <div className="absolute bottom-0 left-0 w-full h-full bg-gradient-to-t from-background/80 via-black/30 to-transparent z-0 pointer-events-none" />
+                    </Link>
+
                     <div
-                      className="flex items-start flex-wrap gap-2
-                           min-h-10 sm:min-h-12 md:min-h-14"
+                      className="absolute bottom-4 sm:bottom-10 md:bottom-14 left-4 sm:left-8 md:left-12 z-50
+                             flex flex-col gap-3
+                             w-[calc(100%-2rem)] sm:w-[min(75%,36rem)] max-w-2xl
+                             px-4 sm:px-6 py-4 sm:py-6
+                             rounded-xl
+                             backdrop-blur-sm
+                             shadow-lg
+                             "
                     >
-                      <SlideTitleArea m={m} isActive={idx === currentIndex} />
-                    </div>
-                    {/* Meta */}
-                    <div className="space-y-2" aria-label="Media metadata">
-                      <div className="flex flex-wrap items-center gap-4 pb-1">
-                        {m.vote_average != null && m.vote_average > 0 && (
-                          <RatingPill
-                            rating={m.vote_average}
-                            className="!bg-transparent !border-0 !shadow-none !px-0 !py-0 text-gray-200"
-                          />
-                        )}
-                        {(m.release_date || m.first_air_date) && (
-                          <DatePill
-                            date={m.release_date || m.first_air_date}
-                            className="!bg-transparent !border-0 !shadow-none !px-0 !py-0 text-gray-400"
-                            title="Release date"
-                          />
+                      {/* Title / Logo */}
+                      <div
+                        className="flex items-start flex-wrap gap-2
+                             min-h-10 sm:min-h-12 md:min-h-14"
+                      >
+                        <SlideTitleArea m={m} isActive={idx === currentIndex} />
+                      </div>
+                      {/* Meta */}
+                      <div className="space-y-2" aria-label="Media metadata">
+                        <div className="flex flex-wrap items-center gap-4 pb-1">
+                          {m.vote_average != null && m.vote_average > 0 && (
+                            <RatingPill
+                              rating={m.vote_average}
+                              className="!bg-transparent !border-0 !shadow-none !px-0 !py-0 text-gray-200"
+                            />
+                          )}
+                          {(m.release_date || m.first_air_date) && (
+                            <DatePill
+                              date={m.release_date || m.first_air_date}
+                              className="!bg-transparent !border-0 !shadow-none !px-0 !py-0 text-gray-400"
+                            />
+                          )}
+                        </div>
+
+                        {m.genre_ids?.length ? (
+                          <div className="flex flex-wrap gap-2">
+                            {m.genre_ids.slice(0, 3).map((id) => (
+                                <GenrePill
+                                  key={id}
+                                  id={id}
+                                  className="bg-badge-primary/70 border-badge-foreground/40 shadow-sm"
+                                  interactive={false}
+                                />
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="text-xs text-gray-500 italic">
+                            No genres
+                          </div>
                         )}
                       </div>
 
-                      {m.genre_ids?.length ? (
-                        <div className="flex flex-wrap gap-2">
-                          {m.genre_ids.slice(0, 3).map((id) => (
-                              <GenrePill
-                                key={id}
-                                id={id}
-                                className="bg-badge-primary/70 border-badge-foreground/40 shadow-sm"
-                                interactive={false}
-                              />
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-xs text-gray-500 italic">
-                          No genres
-                        </div>
-                      )}
+                      {/* Overview */}
+                      <p className="text-gray-300 line-clamp-2 sm:line-clamp-3 text-sm sm:text-base md:text-lg leading-snug">
+                        {m.overview || "No overview available."}
+                      </p>
                     </div>
-
-                    {/* Overview */}
-                    <p className="text-gray-300 line-clamp-2 sm:line-clamp-3 text-sm sm:text-base md:text-lg leading-snug">
-                      {m.overview || "No overview available."}
-                    </p>
                   </div>
-                </div>
-              ))}
+                ))}
+          </div>
         </div>
 
         {/* Dots */}
@@ -225,7 +226,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                 aria-label={`Go to slide ${idx + 1}`}
                 aria-current={isActive ? "true" : "false"}
                 disabled={loading}
-                onClick={() => !loading && setCurrentIndex(idx)}
+                onClick={() => !loading && emblaApi?.scrollTo(idx)}
                 className="group py-2 px-1 flex items-center justify-center disabled:opacity-40 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/40 cursor-pointer"
               >
                 <span

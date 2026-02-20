@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-20)
 
 **Core value:** Every page of Cinelas looks intentional and feels native at any screen width — nothing overflows, nothing is an afterthought.
-**Current focus:** Phase 2 — Foundation (v1.1 Full Responsiveness milestone)
+**Current focus:** Phase 3 — Carousels (v1.1 Full Responsiveness milestone)
 
 ## Current Position
 
-Phase: 2 of 9 (Foundation)
-Plan: 2 of 2 in current phase
-Status: Phase complete
-Last activity: 2026-02-20 — Completed Plan 02-02 (iOS safe-area utilities, mt-navbar-offset token, Splide removed, tailwind.config.js deleted)
+Phase: 3 of 9 (Carousels)
+Plan: 3 of 3 in current phase
+Status: Plan complete
+Last activity: 2026-02-21 — Completed Plan 03-03 (MediaCard hover popup guard, cast carousel scroll polish, cast card full-area tap target)
 
-Progress: [██░░░░░░░░] 12% (v1.1 milestone)
+Progress: [███░░░░░░░] 18% (v1.1 milestone)
 
 ## Performance Metrics
 
@@ -29,9 +29,10 @@ Progress: [██░░░░░░░░] 12% (v1.1 milestone)
 |-------|-------|-------|----------|
 | Phase 1 (Insights) | 4 | 539s | 135s |
 | Phase 2 (Foundation) | 2 | ~520s | ~260s |
+| Phase 3 (Carousels) | 3 | ~125s | ~42s |
 
 **Recent Trend:**
-- Last 4 plans: 159s, 155s, 95s, 130s, 245s
+- Last 4 plans: 159s, 155s, 95s, 130s, 245s, ~65s (03-03)
 - Trend: Stable
 
 *Updated after each plan completion*
@@ -51,6 +52,9 @@ Recent decisions affecting current work:
 - [Phase 02-02]: pb-safe uses env(safe-area-inset-bottom) directly; pb-safe-or-4 uses max(1rem,env()) for minimum floor
 - [Phase 02-02]: mt-navbar-offset is canonical page top offset — all pages must use this, never hardcoded mt-20/24/28/32
 - [Phase 02-02]: Fixed-bottom elements use pb-safe or pb-safe-or-4 to clear iOS home indicator
+- [03-03]: hidden lg:block is canonical pattern for desktop-only floating UI — CSS guard is sufficient; no pointer event suppression needed
+- [03-03]: No Embla migration for MediaCastCarousel — native overflow-x-auto confirmed adequate for iOS/Android touch scroll
+- [03-03]: scrollbar-none lg:scrollbar removes mobile scrollbar while retaining desktop scrollbar using tailwind-scrollbar plugin
 
 ### Pending Todos
 
@@ -64,6 +68,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-02-20
-Stopped at: Completed 02-02-PLAN.md — iOS safe-area utilities, mt-navbar-offset token, Splide removed. Phase 02 complete.
+Last session: 2026-02-21
+Stopped at: Completed 03-03-PLAN.md — MediaCard hover popup guarded to desktop-only, cast carousel scroll polished, cast card full-area tap target expanded. Plan 03-03 complete.
 Resume file: None
