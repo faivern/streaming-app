@@ -72,12 +72,12 @@ Plans:
   2. No carousel card overflows the horizontal viewport — hardcoded `w-lg`/`w-md` fixed widths are replaced with viewport-relative sizing
   3. Tapping a media card on a touch device navigates correctly without first showing the hover tooltip popup
   4. All media card tap targets (poster, title, action buttons) meet the 44px minimum on mobile
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 03-01: Migrate CollectionCarousel, Top10Carousel, and GenreCardList to Embla with viewport-relative slide widths
-- [ ] 03-02: Migrate UpcomingCarousel, WatchProviderCarousel, and TrendingCarousel to Embla; fix TrendingCarousel hero height (`svh`/`dvh`)
-- [ ] 03-03: Fix MediaCardModal hover popup (`hidden lg:block`); audit MediaCard and MediaCastCarousel touch targets
+- [ ] 03-01-PLAN.md — Migrate CollectionCarousel, Top10Carousel, and GenreCardList to Embla with viewport-relative slide widths
+- [ ] 03-02-PLAN.md — Migrate UpcomingCarousel, WatchProviderCarousel, and TrendingCarousel to Embla; fix TrendingCarousel hero height (dvh)
+- [ ] 03-03-PLAN.md — Guard MediaCardModal to desktop-only (hidden lg:block); audit MediaCastCarousel and MediaCastCard touch targets
 
 ### Phase 4: Navigation
 **Goal**: Mobile users navigate the app through a native-feeling bottom tab bar — the hamburger drawer is replaced as the primary mobile navigation pattern
