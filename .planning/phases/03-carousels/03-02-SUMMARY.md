@@ -104,6 +104,16 @@ None - no external service configuration required.
 - Phase 03 plan 03-01 (CollectionCarousel, Top10Carousel, GenreCardList) has uncommitted in-progress work visible in working tree — those files need to be committed as part of plan 03-01 execution
 - All carousel Embla patterns established and consistent across plans 03-01 and 03-02
 
+## Self-Check: PASSED
+
+- FOUND: frontend/src/components/media/carousel/UpcomingCarousel.tsx
+- FOUND: frontend/src/components/media/carousel/WatchProviderCarousel.tsx
+- FOUND: frontend/src/components/media/carousel/TrendingCarousel.tsx
+- FOUND: .planning/phases/03-carousels/03-02-SUMMARY.md
+- FOUND commit: 051d931 (Task 1)
+- FOUND commit: 18db26a (Task 2)
+- FOUND commit: e47d1e6 (metadata)
+
 ---
 *Phase: 03-carousels*
 *Completed: 2026-02-20*
