@@ -73,7 +73,7 @@ const topRated = useSortByBayesian(topRatedRaw);
   }
 
   return (
-    <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32">
+    <main className="mt-navbar-offset">
       {/* Hero carousel - full bleed for cinematic effect */}
       <TrendingCarousel items={trending} loading={trendingLoading} />
 

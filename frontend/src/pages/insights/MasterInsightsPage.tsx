@@ -69,7 +69,7 @@ export default function MasterInsightsPage() {
 
   if (isLoading) {
     return (
-      <div className="px-4 md:px-8 py-6 mt-20 lg:mt-24 max-w-7xl mx-auto">
+      <div className="px-4 md:px-8 py-6 mt-navbar-offset max-w-7xl mx-auto">
         {header}
         <InsightsSkeleton />
       </div>
@@ -78,7 +78,7 @@ export default function MasterInsightsPage() {
 
   if (!insights || insights.totalCount < 3) {
     return (
-      <div className="px-4 md:px-8 py-6 mt-20 lg:mt-24 max-w-7xl mx-auto">
+      <div className="px-4 md:px-8 py-6 mt-navbar-offset max-w-7xl mx-auto">
         {header}
         <InsightsEmptyState onBrowse={handleBrowse} />
       </div>
@@ -86,7 +86,7 @@ export default function MasterInsightsPage() {
   }
 
   return (
-    <div className="px-4 md:px-8 py-6 mt-20 lg:mt-24 max-w-7xl mx-auto">
+    <div className="px-4 md:px-8 py-6 mt-navbar-offset max-w-7xl mx-auto">
       {header}
 
       <IdentityIntroCard topThree={insights.topThree} />

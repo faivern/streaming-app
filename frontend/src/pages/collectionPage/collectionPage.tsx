@@ -43,7 +43,7 @@ const CollectionPage = () => {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8 mt-20">
+      <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
         <BackLink />
         <MediaDetailVideoSkeleton />
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-4 gap-6 mt-6">

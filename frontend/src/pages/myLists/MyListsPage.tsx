@@ -272,7 +272,7 @@ export default function MyListsPage() {
   const existingTmdbIds = new Set(currentList?.items.map((i) => i.tmdbId) || []);
 
   return (
-    <div className="flex min-h-dvh mt-20 lg:mt-24">
+    <div className="flex min-h-dvh mt-navbar-offset">
       {/* Desktop Sidebar */}
       <aside className="hidden lg:block w-64 xl:w-72 border-r border-gray-700/50 bg-gray-900/50">
         <ListsSidebar

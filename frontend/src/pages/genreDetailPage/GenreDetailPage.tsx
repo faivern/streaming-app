@@ -159,7 +159,7 @@ export default function GenreDetailPage() {
   }
 
   return (
-    <main className="mt-20 md:mt-24 lg:mt-28 xl:mt-32 max-w-7xl mx-auto px-4 py-8">
+    <main className="mt-navbar-offset max-w-7xl mx-auto px-4 py-8">
       <BackLink />
 
       {/* Hero section */}
