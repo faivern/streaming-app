@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import WatchProviderCard from "../cards/WatchProviderCard";
 import "../../../style/TitleHover.css";
@@ -9,6 +9,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import type { WatchProviderListItem } from "../../../types/tmdb";
+import useEmblaCarousel from "embla-carousel-react";
 
 type Props = {
   providers: WatchProviderListItem[];
@@ -26,63 +27,31 @@ export default function WatchProviderCarousel({
   // Limit to top providers
   const displayProviders = providers.slice(0, MAX_PROVIDERS);
 
-  // Page-based scrolling (following GenreCardList pattern)
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [pageSize, setPageSize] = useState(4);
-  const [page, setPage] = useState(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: false,
+    align: "start",
+    dragFree: true,
+  });
 
-  const measure = useCallback(() => {
-    const viewport = viewportRef.current;
-    const track = trackRef.current;
-    if (!viewport || !track || track.children.length === 0) return;
-
-    const first = track.children[0] as HTMLElement;
-    const second = track.children[1] as HTMLElement | undefined;
-
-    const w1 = first.getBoundingClientRect().width;
-    const step = second ? second.offsetLeft - first.offsetLeft : w1;
-    const vw = viewport.clientWidth;
-    setPageSize(Math.max(1, Math.floor((vw + 1) / step)));
-  }, []);
-
-  const pageCount = Math.max(
-    1,
-    Math.ceil((displayProviders?.length ?? 0) / Math.max(1, pageSize))
-  );
-
-  const clampPage = useCallback(
-    (p: number) => Math.min(Math.max(0, p), Math.max(0, pageCount - 1)),
-    [pageCount]
-  );
-
-  const applyTranslate = useCallback(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const startIndex = page * pageSize;
-    const target = track.children[startIndex] as HTMLElement | undefined;
-    track.style.transform = target
-      ? `translateX(${-target.offsetLeft}px)`
-      : "translateX(0)";
-  }, [page, pageSize]);
+  const [prevEnabled, setPrevEnabled] = useState(false);
+  const [nextEnabled, setNextEnabled] = useState(true);
 
   useEffect(() => {
-    measure();
-    const ro = new ResizeObserver(measure);
-    if (viewportRef.current) ro.observe(viewportRef.current);
-    if (trackRef.current) ro.observe(trackRef.current);
-    return () => ro.disconnect();
-  }, [measure]);
+    if (!emblaApi) return;
+    const update = () => {
+      setPrevEnabled(emblaApi.canScrollPrev());
+      setNextEnabled(emblaApi.canScrollNext());
+    };
+    emblaApi.on("select", update);
+    emblaApi.on("init", update);
+    update();
+    return () => {
+      emblaApi.off("select", update);
+      emblaApi.off("init", update);
+    };
+  }, [emblaApi]);
 
-  useEffect(() => {
-    setPage((p) => clampPage(p));
-    applyTranslate();
-  }, [pageSize, displayProviders?.length, clampPage, applyTranslate]);
-
-  const prev = () => setPage((p) => clampPage(p - 1));
-  const next = () => setPage((p) => clampPage(p + 1));
-
-  const renderItems = loading
+  const renderItems: WatchProviderListItem[] = loading
     ? Array.from({ length: 17 }).map((_, i) => ({
         provider_id: i,
         provider_name: "",
@@ -111,23 +80,22 @@ export default function WatchProviderCarousel({
 
       <div className="relative -my-3 -mx-3">
         <div
-          ref={viewportRef}
+          ref={emblaRef}
           className="overflow-hidden py-3 px-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/50 rounded-lg"
           tabIndex={0}
           onKeyDown={(e) => {
-            if (e.key === "ArrowLeft") prev();
-            if (e.key === "ArrowRight") next();
+            if (e.key === "ArrowLeft") emblaApi?.scrollPrev();
+            if (e.key === "ArrowRight") emblaApi?.scrollNext();
           }}
           role="region"
           aria-label="Streaming services carousel"
         >
-          <div
-            ref={trackRef}
-            className="flex gap-6 transition-transform duration-300 will-change-transform"
-            style={{ transform: "translateX(0)" }}
-          >
+          <div className="flex gap-6">
             {renderItems.map((provider: WatchProviderListItem) => (
-              <div key={provider.provider_id} className="shrink-0">
+              <div
+                key={provider.provider_id}
+                className="flex-[0_0_calc(25%-18px)] sm:flex-[0_0_calc(20%-20px)] lg:flex-[0_0_calc(12.5%-21px)] min-w-0 shrink-0"
+              >
                 {loading ? (
                   <div className="flex flex-col items-center">
                     <div className="h-28 w-28 rounded-2xl bg-white/10 animate-pulse" />
@@ -146,11 +114,11 @@ export default function WatchProviderCarousel({
           </div>
         </div>
 
-        {page > 0 && (
+        {prevEnabled && (
           <button
             type="button"
-            onClick={prev}
-            className="absolute left-0 inset-y-0 z-10 w-10 sm:w-20 flex items-center justify-start pl-2
+            onClick={() => emblaApi?.scrollPrev()}
+            className="absolute left-0 inset-y-0 hidden lg:flex items-center justify-start pl-2 z-10 w-20
                        bg-gradient-to-r from-background via-background/60 to-transparent
                        text-white/60 hover:text-white
                        transition-all duration-300 cursor-pointer"
@@ -161,36 +129,21 @@ export default function WatchProviderCarousel({
             </span>
           </button>
         )}
-        <button
-          type="button"
-          onClick={next}
-          disabled={page >= pageCount - 1}
-          className="absolute right-0 inset-y-0 z-10 w-10 sm:w-20 flex items-center justify-end pr-2
-                     bg-gradient-to-l from-background via-background/60 to-transparent
-                     text-white/60 hover:text-white
-                     disabled:opacity-0 disabled:pointer-events-none
-                     transition-all duration-300 cursor-pointer"
-          aria-label="Next"
-        >
-          <span className="drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]">
-            <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
-          </span>
-        </button>
-
-        <div className="">
-          <div className="flex items-center justify-center gap-2">
-            {Array.from({ length: pageCount }).map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setPage(i)}
-                aria-label={`Go to page ${i + 1}`}
-                className={`h-2 rounded-full transition-all ${
-                  i === page ? "bg-sky-500 w-6" : "bg-gray-500/50 w-2"
-                }`}
-              />
-            ))}
-          </div>
-        </div>
+        {nextEnabled && (
+          <button
+            type="button"
+            onClick={() => emblaApi?.scrollNext()}
+            className="absolute right-0 inset-y-0 hidden lg:flex items-center justify-end pr-2 z-10 w-20
+                       bg-gradient-to-l from-background via-background/60 to-transparent
+                       text-white/60 hover:text-white
+                       transition-all duration-300 cursor-pointer"
+            aria-label="Next"
+          >
+            <span className="drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]">
+              <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
+            </span>
+          </button>
+        )}
       </div>
     </section>
   );
