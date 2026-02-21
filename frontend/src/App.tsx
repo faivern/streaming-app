@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
+import BottomNav from "./components/layout/BottomNav";
 import HomePage from "./pages/home/HomePage";
 import MediaDetailPage from "./pages/detailPage/MediaDetailPage";
 import CreditsPage from "./pages/creditsPage/creditsPage";
@@ -24,7 +25,7 @@ function App() {
   return (
     <div className="min-h-dvh flex flex-col bg-background text-white scrollbar">
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow pb-bottom-nav md:pb-0">
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -65,9 +66,13 @@ function App() {
           <Route path="/terms-of-service" element={<TermsOfService />} />
         </Routes>
       </main>
+      <BottomNav />
       <Footer />
       <Toaster
         position="bottom-center"
+        containerStyle={{
+          bottom: "calc(var(--bottom-nav-height) + env(safe-area-inset-bottom) + 0.5rem)",
+        }}
         toastOptions={{
           style: {
             background: "var(--component-primary)",
