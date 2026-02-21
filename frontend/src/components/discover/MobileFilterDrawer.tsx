@@ -59,7 +59,7 @@ export default function MobileFilterDrawer({
               </div>
 
               {/* Filter Content */}
-              <div className="flex-1 overflow-y-auto p-4">{children}</div>
+              <div className="flex-1 overflow-y-auto overscroll-contain p-4">{children}</div>
 
               {/* Apply Button */}
               <div className="p-4 border-t border-gray-700">
