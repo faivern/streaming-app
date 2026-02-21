@@ -48,6 +48,10 @@ export default function DeleteConfirmModal({
               leaveTo="opacity-0 scale-95"
             >
               <Dialog.Panel className="w-full max-w-sm transform rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 p-6 shadow-xl transition-all max-h-[90dvh] overflow-y-auto overscroll-contain">
+                {/* Drag handle — visible on mobile to signal bottom-sheet affordance */}
+                <div className="flex justify-center pt-2 pb-1 sm:hidden">
+                  <div className="w-10 h-1 bg-gray-600 rounded-full" />
+                </div>
                 <div className="flex items-center gap-4 mb-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
                     <FaExclamationTriangle className="text-red-400 text-xl" />
