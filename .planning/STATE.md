@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-20)
 ## Current Position
 
 Phase: 8 of 9 (Secondary Pages and Insights) — IN PROGRESS
-Plan: 3 of 4 in current phase
-Status: Plan 08-03 complete — SEC-02/03/04/05 satisfied; 8 files fixed for 375px mobile layout
-Last activity: 2026-02-21 — Phase 8 Plan 03 complete. Genre/collection/provider/legal pages all clear navbar and contain content at 375px.
+Plan: 2 of 4 in current phase
+Status: Plan 08-02 complete — SEC-01/SEC-06 satisfied; credits pages and person detail page clear navbar; biography break-words added
+Last activity: 2026-02-21 — Phase 8 Plan 02 complete. mt-navbar-offset added to creditsPage.tsx inner container and all four creditsDetailPage.tsx states. break-words added to CreditsDetailHeader biography paragraph.
 
-Progress: [████████░░] 67% (v1.1 milestone)
+Progress: [████████░░] 63% (v1.1 milestone)
 
 ## Performance Metrics
 
@@ -43,7 +43,7 @@ Progress: [████████░░] 67% (v1.1 milestone)
 | Phase 06-media-detail-page P03 | 60 | 1 tasks | 0 files |
 | Phase 07-lists-page P01 | 120 | 2 tasks | 4 files |
 | Phase 08-secondary-pages-and-insights P01 | 38 | 1 tasks | 1 files |
-| Phase 08-secondary-pages-and-insights P03 | 109 | 2 tasks | 8 files |
+| Phase 08-secondary-pages-and-insights P02 | 66 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -103,9 +103,9 @@ Recent decisions affecting current work:
 - [Phase 07-lists-page]: All three Phase 7 requirements (LIST-01, LIST-02, LIST-03) visually approved at 375px by human reviewer
 - [08-01]: gap-2 (not gap-4) on 3-column MediaCard grid in IdentityIntroCard — each poster gets ~4px more horizontal room at 375px
 - [08-01]: BentoGrid grid-cols-1, Recharts ResponsiveContainer width="100%", typography text-sm/text-xs already correct — no changes needed for INS-01/02/03
-- [08-03]: HeroCollection overlay changed from absolute left-4 max-w-xl to absolute left-0 right-0 — panel bounded to section, not floating with fixed max-width that overflows 375px
-- [08-03]: WatchProviderCard uses w-full aspect-square instead of fixed w-28 h-28 — grid column width drives card dimensions; fixed pixel sizes break responsive grids
-- [08-03]: ProvidersPage base column count reduced from grid-cols-3 to grid-cols-2 — 3 columns at 375px gives ~103px per card, too narrow; 2 columns gives ~163px
+- [08-02]: mt-navbar-offset on inner content container (not outer min-h-dvh shell) in creditsPage.tsx — outer shell fills full viewport background including navbar area
+- [08-02]: All four wrapper divs in creditsDetailPage.tsx get mt-navbar-offset — invalid id, loading, error, and main render states all clear the navbar
+- [08-02]: break-words alongside whitespace-pre-line on biography paragraph — overflow-wrap prevents horizontal scroll; whitespace-pre-line preserves paragraph breaks
 
 ### Pending Todos
 
@@ -120,5 +120,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 08-03-PLAN.md — SEC-02/03/04/05 satisfied; 8 mobile layout fixes committed (a032257, 2f28313). Phase 8 Plan 04 is next.
+Stopped at: Completed 08-02-PLAN.md — SEC-01/SEC-06 satisfied; credits pages navbar offset fixed, biography break-words added (f2b746e). Phase 8 Plan 03 is next.
 Resume file: None

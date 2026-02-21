@@ -69,12 +69,12 @@
 
 ### Secondary Pages
 
-- [ ] **SEC-01**: Credits page (cast/crew) is responsive — grid adapts from multi-column to 2-column on mobile
+- [x] **SEC-01**: Credits page (cast/crew) is responsive — grid adapts from multi-column to 2-column on mobile
 - [x] **SEC-02**: Genre detail page is responsive
 - [x] **SEC-03**: Collection page is responsive
 - [x] **SEC-04**: Provider and providers list pages are responsive
 - [x] **SEC-05**: Legal pages (Privacy Policy, Terms of Service) are readable on mobile
-- [ ] **SEC-06**: Person detail page is responsive
+- [x] **SEC-06**: Person detail page is responsive
 
 ### Global Polish
 
@@ -145,12 +145,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INS-01 | Phase 8 | Complete |
 | INS-02 | Phase 8 | Complete |
 | INS-03 | Phase 8 | Complete |
-| SEC-01 | Phase 8 | Pending |
+| SEC-01 | Phase 8 | Complete |
 | SEC-02 | Phase 8 | Complete |
 | SEC-03 | Phase 8 | Complete |
 | SEC-04 | Phase 8 | Complete |
 | SEC-05 | Phase 8 | Complete |
-| SEC-06 | Phase 8 | Pending |
+| SEC-06 | Phase 8 | Complete |
 | POL-01 | Phase 9 | Pending |
 | POL-02 | Phase 9 | Pending |
 | POL-03 | Phase 9 | Pending |
