@@ -133,10 +133,11 @@ Plans:
   1. The create-list action is accessible on mobile without being hidden by or conflicting with the bottom navigation bar
   2. List item cards are readable and tappable at 375px — text is legible and tap targets meet 44px
   3. The lists sidebar/drawer opens and closes correctly on mobile
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 07-01: Resolve FAB/bottom-nav conflict; audit ListGridView column count, ListRowItem touch targets, ListHeader layout; add overscroll containment to list scroll containers
+- [ ] 07-01-PLAN.md — Fix ListsDrawer z-index token + overscroll; fix ViewToggle, ListHeader Listbox.Option, ListsSidebar touch targets
+- [ ] 07-02-PLAN.md — Human visual verification at 375px for LIST-01/02/03
 
 ### Phase 8: Secondary Pages and Insights
 **Goal**: Every remaining page in the app is functional and readable at 375px — no pages are left with unaudited desktop-only layouts
