@@ -178,7 +178,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 2. Foundation | 2/2 | Complete    | 2026-02-20 |
 | 3. Carousels | 3/3 | Complete   | 2026-02-20 |
-| 4. Navigation | 0/2 | Not started | - |
+| 4. Navigation | 1/2 | In Progress|  |
 | 5. Modals and Filters | 0/3 | Not started | - |
 | 6. Media Detail Page | 0/1 | Not started | - |
 | 7. Lists Page | 0/1 | Not started | - |

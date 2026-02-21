@@ -16,9 +16,9 @@
 
 ### Navigation
 
-- [ ] **NAV-01**: A persistent bottom navigation bar replaces the current mobile nav on screens below `md`
+- [x] **NAV-01**: A persistent bottom navigation bar replaces the current mobile nav on screens below `md`
 - [ ] **NAV-02**: Mobile menu scroll-lock uses Headless UI Dialog (not `document.body.style.overflow`) to work on iOS
-- [ ] **NAV-03**: All pages render correctly with both top-bar (desktop) and bottom-bar (mobile) navigation present
+- [x] **NAV-03**: All pages render correctly with both top-bar (desktop) and bottom-bar (mobile) navigation present
 
 ### Carousels
 
@@ -116,9 +116,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FOUND-04 | Phase 2 | Complete |
 | FOUND-05 | Phase 2 | Complete |
 | FOUND-06 | Phase 2 | Complete |
-| NAV-01 | Phase 4 | Pending |
+| NAV-01 | Phase 4 | Complete |
 | NAV-02 | Phase 4 | Pending |
-| NAV-03 | Phase 4 | Pending |
+| NAV-03 | Phase 4 | Complete |
 | CAR-01 | Phase 3 | Complete |
 | CAR-02 | Phase 3 | Complete |
 | CAR-03 | Phase 3 | Complete |

@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-20)
 
 **Core value:** Every page of Cinelas looks intentional and feels native at any screen width — nothing overflows, nothing is an afterthought.
-**Current focus:** Phase 3 — Carousels (v1.1 Full Responsiveness milestone)
+**Current focus:** Phase 4 — Navigation (v1.1 Full Responsiveness milestone)
 
 ## Current Position
 
-Phase: 3 of 9 (Carousels)
-Plan: 3 of 3 in current phase
-Status: Phase complete
-Last activity: 2026-02-21 — Completed Plan 03-01 (CollectionCarousel, Top10Carousel, GenreCardList migrated to Embla with 2-up mobile layout). All 03-carousels plans complete.
+Phase: 4 of 9 (Navigation)
+Plan: 1 of 2 in current phase
+Status: Checkpoint — awaiting human visual verification of BottomNav
+Last activity: 2026-02-21 — Completed Plan 04-01 (BottomNav component, CSS tokens, App.tsx layout wire-up, MyListsPage FAB fix). Awaiting Task 3 human-verify checkpoint.
 
-Progress: [███░░░░░░░] 18% (v1.1 milestone)
+Progress: [████░░░░░░] 22% (v1.1 milestone)
 
 ## Performance Metrics
 
@@ -62,6 +62,10 @@ Recent decisions affecting current work:
 - [03-03]: hidden lg:block is canonical pattern for desktop-only floating UI — CSS guard is sufficient; no pointer event suppression needed
 - [03-03]: No Embla migration for MediaCastCarousel — native overflow-x-auto confirmed adequate for iOS/Android touch scroll
 - [03-03]: scrollbar-none lg:scrollbar removes mobile scrollbar while retaining desktop scrollbar using tailwind-scrollbar plugin
+- [04-01]: BottomNav uses z-(--z-sticky) not z-(--z-dialog) — persistent chrome shares header stacking layer, not temporary overlay layer
+- [04-01]: end prop required on NavLink to="/" — without it Home tab highlights active on every route
+- [04-01]: pb-bottom-nav on <main> in App.tsx is single catch-all content clearance — no per-page adjustments needed for standard pages
+- [04-01]: MyListsPage FAB removes pb-safe — bottom nav pb-safe-or-4 already clears iOS home indicator; FAB only needs to clear nav height
 
 ### Pending Todos
 
@@ -76,5 +80,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 03-01-PLAN.md — CollectionCarousel, Top10Carousel, GenreCardList migrated to Embla with native touch swipe and 2-up mobile layout. Phase 03 all plans complete.
+Stopped at: 04-01-PLAN.md — Task 3 checkpoint (human-verify). BottomNav component built and wired. Dev server running at http://localhost:5173 for visual verification.
 Resume file: None
