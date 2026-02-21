@@ -28,15 +28,22 @@ const MediaCastCarousel = ({ cast }: Props) => {
         </Link>
       </div>
 
-      <div
-        className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-none lg:scrollbar px-2 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/50 rounded-lg"
-        tabIndex={0}
-        role="region"
-        aria-label="Cast and crew carousel"
-      >
-        {cast.slice(mediaCastStart, mediaCastEnd).map((person) => (
-          <MediaCastCard key={person.id} cast={person} />
-        ))}
+      <div className="relative">
+        <div
+          className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-none lg:scrollbar px-2 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary/50 rounded-lg"
+          tabIndex={0}
+          role="region"
+          aria-label="Cast and crew carousel"
+        >
+          {cast.slice(mediaCastStart, mediaCastEnd).map((person) => (
+            <MediaCastCard key={person.id} cast={person} />
+          ))}
+        </div>
+        {/* Right-edge fade — pointer-events-none so it does not block touch scroll */}
+        <div
+          className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[hsl(224,37%,12%)] to-transparent pointer-events-none lg:hidden"
+          aria-hidden="true"
+        />
       </div>
     </section>
   );
