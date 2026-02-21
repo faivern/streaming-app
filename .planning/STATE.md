@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-20)
 
 **Core value:** Every page of Cinelas looks intentional and feels native at any screen width — nothing overflows, nothing is an afterthought.
-**Current focus:** Phase 4 — Navigation (v1.1 Full Responsiveness milestone)
+**Current focus:** Phase 5 — Modals and Filters (v1.1 Full Responsiveness milestone)
 
 ## Current Position
 
-Phase: 4 of 9 (Navigation)
-Plan: 2 of 2 in current phase — COMPLETE
-Status: Phase complete
-Last activity: 2026-02-21 — Completed Plan 04-02 (Navbar mobile drawer migrated to Headless UI Dialog — iOS scroll lock via position:fixed, Escape key, backdrop click, and focus trap handled by Dialog internally). Human visual verification approved.
+Phase: 5 of 9 (Modals and Filters)
+Plan: 2 of 3 in current phase — COMPLETE
+Status: In progress
+Last activity: 2026-02-21 — Completed Plan 05-02 (MobileFilterDrawer inner scroll overscroll-contain; ≥44px touch targets on all discover filter dropdown option rows via py-3/py-2.5).
 
-Progress: [████░░░░░░] 26% (v1.1 milestone)
+Progress: [████░░░░░░] 28% (v1.1 milestone)
 
 ## Performance Metrics
 
@@ -31,6 +31,7 @@ Progress: [████░░░░░░] 26% (v1.1 milestone)
 | Phase 2 (Foundation) | 2 | ~520s | ~260s |
 | Phase 3 (Carousels) | 3 | ~313s | ~104s |
 | Phase 4 (Navigation) | 2 | ~1194s | ~597s |
+| Phase 5 (Modals/Filters) | 2 (so far) | ~100s | ~50s |
 
 **Recent Trend:**
 - Last 4 plans: 159s, 155s, 95s, 130s, 245s, ~65s (03-03), ~188s (03-01)
@@ -70,6 +71,13 @@ Recent decisions affecting current work:
 - [04-02]: Headless UI Dialog uses position:fixed for scroll lock — correct iOS Safari strategy vs document.body.style.overflow which is silently ignored
 - [04-02]: Dialog v1 API enforced (Transition.Root, Transition.Child, Dialog.Panel) — matches all 11 existing Dialog usages; mixing v1/v2 APIs causes TypeScript errors
 - [04-02]: Dialog handles Escape key and backdrop click via onClose — no manual event listeners needed in components
+- [05-01]: dvh is canonical unit for modal max-h — vh uses max viewport (toolbar hidden), dvh tracks dynamic visual viewport; fixes iOS Safari clipping
+- [05-01]: overscroll-contain on every overflow-y-auto scroll container in modals prevents iOS momentum scroll bleed to background page
+- [05-01]: overflow-hidden on Dialog.Panel conflicts with overflow-y-auto — remove overflow-hidden when enabling panel scroll; rounded corners preserved by border-radius classes
+- [05-01]: sm: breakpoint dvh variants retained where they existed — both mobile and sm sizes corrected from vh to dvh
+- [05-02]: overscroll-contain on inner scroll div only (not Dialog.Panel shell) — shell is already correct per research
+- [05-02]: Listbox.Button trigger rows left at py-2 (full-width, already ≥44px); only Listbox.Option rows need py-3
+- [05-02]: GenreCheckboxList checkbox updated to h-5 w-5 alongside py-2.5 label padding for proportional row sizing
 
 ### Pending Todos
 
@@ -84,5 +92,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 04-02-PLAN.md — Navbar mobile drawer migrated to Headless UI Dialog. Phase 04 (Navigation) all plans complete.
+Stopped at: Completed 05-01-PLAN.md — dvh + overscroll-contain applied to all 8 modal Dialog.Panel elements.
 Resume file: None
