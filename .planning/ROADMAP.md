@@ -40,7 +40,7 @@ Plans:
 - [x] **Phase 3: Carousels** - Migrate all six carousels to Embla with touch swipe; fix media card overflow and hover behavior (completed 2026-02-20)
 - [x] **Phase 4: Navigation** - Add persistent bottom nav bar on mobile; fix iOS scroll lock in mobile menu (completed 2026-02-21)
 - [x] **Phase 5: Modals and Filters** - Bottom-sheet pattern for all modals and overlays; filter panels functional at 375px (completed 2026-02-21)
-- [ ] **Phase 6: Media Detail Page** - Complete vertical-stack layout, chip wrap, and touch-target fixes on the detail page
+- [x] **Phase 6: Media Detail Page** - Complete vertical-stack layout, chip wrap, and touch-target fixes on the detail page (completed 2026-02-21)
 - [ ] **Phase 7: Lists Page** - Resolve FAB/bottom-nav conflict; audit list item touch targets and column layout
 - [ ] **Phase 8: Secondary Pages and Insights** - Audit and fix all remaining pages: credits, genre, collection, providers, legal, insights
 - [ ] **Phase 9: Global Polish** - Typography sweep, CLS fixes, touch-target sweep, spacing consistency, and full device matrix test
@@ -182,7 +182,7 @@ Plans:
 | 3. Carousels | 3/3 | Complete   | 2026-02-20 |
 | 4. Navigation | 2/2 | Complete   | 2026-02-21 |
 | 5. Modals and Filters | 3/3 | Complete   | 2026-02-21 |
-| 6. Media Detail Page | 2/3 | In Progress|  |
+| 6. Media Detail Page | 3/3 | Complete   | 2026-02-21 |
 | 7. Lists Page | 0/1 | Not started | - |
 | 8. Secondary Pages and Insights | 0/3 | Not started | - |
 | 9. Global Polish | 0/2 | Not started | - |
