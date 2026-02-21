@@ -77,7 +77,7 @@ const CreditsPage = () => {
 
   return (
     <div className="min-h-dvh bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 mt-navbar-offset">
         {/* Header */}
         <div className="mb-8">
           <Link
