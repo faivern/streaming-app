@@ -100,7 +100,7 @@ const CreditsDetailHeader = ({
               Biography
             </h3>
             <div className="h-px w-full bg-gradient-to-r from-gray-500/80 to-transparent"></div>
-            <p className="text-gray-300 whitespace-pre-line">
+            <p className="text-gray-300 whitespace-pre-line break-words">
               {biography || "No biography available."}
             </p>
           </div>

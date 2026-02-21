@@ -23,7 +23,7 @@ const CreditsDetailPage = () => {
   const personId = Number(id);
   if (!id || isNaN(personId)) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
         <p className="text-red-400">Invalid person ID</p>
       </div>
     );
@@ -69,7 +69,7 @@ const CreditsDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
         <p className="text-gray-400">Loading...</p>
       </div>
     );
@@ -77,13 +77,13 @@ const CreditsDetailPage = () => {
 
   if (hasError || !person) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
         <p className="text-red-400">Error loading person</p>
       </div>
     );
   }
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
       <BackLink
         media_type={fromMediaType || undefined}
         id={mediaId || undefined}
