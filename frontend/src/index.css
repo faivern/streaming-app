@@ -44,6 +44,9 @@
   /* Navbar offset spacing token — generates mt-navbar-offset utility */
   /* Responsive value set via --navbar-height CSS variable in :root */
   --spacing-navbar-offset: var(--navbar-height);
+
+  /* Bottom nav height spacing token — generates bottom-nav-height utility */
+  --spacing-bottom-nav-height: var(--bottom-nav-height);
 }
 
 :root {
@@ -61,6 +64,9 @@
 
   /* Navbar height — responsive, drives mt-navbar-offset utility */
   --navbar-height: 5rem;        /* mobile: 80px (mt-20 equivalent) */
+
+  /* Bottom nav height — mobile tab bar, drives pb-bottom-nav utility */
+  --bottom-nav-height: 4rem;    /* 64px — standard mobile bottom tab bar */
 }
 
 @media (min-width: 48rem) {   /* md: 768px */
@@ -104,5 +110,9 @@
   .pb-safe-or-4 {
     /* Minimum 1rem spacing even when safe-area-inset-bottom is 0 */
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  .pb-bottom-nav {
+    /* Clears bottom nav height + iOS home indicator */
+    padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
   }
 }
