@@ -1,4 +1,6 @@
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
+import { Dialog, Transition } from "@headlessui/react";
 import logo from "../../assets/react.svg";
 import { FaRegUser } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
@@ -52,20 +54,6 @@ export default function Header() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  // Close mobile menu on Escape key & lock body scroll
-  useEffect(() => {
-    if (!isMobileMenuOpen) return;
-    document.body.style.overflow = "hidden";
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setIsMobileMenuOpen(false);
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.body.style.overflow = "";
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isMobileMenuOpen]);
 
   const handleLogout = () => {
     logout();
@@ -235,81 +223,50 @@ export default function Header() {
         />
       )}
 
-      {/* Mobile nav drawer */}
-      {isMobileMenuOpen && (
-        <>
+      {/* Mobile nav drawer — Headless UI Dialog for correct iOS scroll lock */}
+      <Transition.Root show={isMobileMenuOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-(--z-dialog)"
+          onClose={() => setIsMobileMenuOpen(false)}
+        >
           {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[140] animate-[fadeIn_.2s_ease]"
-            onClick={() => setIsMobileMenuOpen(false)}
-            aria-hidden="true"
-          />
-          {/* Drawer */}
-          <aside
-            className="fixed inset-y-0 left-0 w-72 max-w-[calc(100vw-3rem)] bg-gray-900/95 backdrop-blur-lg border-r border-gray-700 z-[150] flex flex-col shadow-2xl animate-[slideIn_.25s_ease]"
-            role="dialog"
-            aria-label="Mobile navigation"
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-200"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-150"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
           >
-            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-700">
-              <h2 className="text-lg font-semibold text-white">Menu</h2>
-              <button
-                aria-label="Close menu"
-                autoFocus
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="p-2 text-gray-300 hover:text-white transition"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm" aria-hidden="true" />
+          </Transition.Child>
 
-            <nav className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
-              <Link
-                to="/"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-3 w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
-              >
-                <FontAwesomeIcon icon={faHouse} className="text-sm w-5" />
-                Home
-              </Link>
-              <Link
-                to="/lists"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-3 w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
-              >
-                <FontAwesomeIcon icon={faListUl} className="text-sm w-5" />
-                My Lists
-              </Link>
-
-              <div>
+          {/* Drawer panel */}
+          <Transition.Child
+            as={Fragment}
+            enter="transform transition ease-out duration-[250ms]"
+            enterFrom="-translate-x-full"
+            enterTo="translate-x-0"
+            leave="transform transition ease-in duration-200"
+            leaveFrom="translate-x-0"
+            leaveTo="-translate-x-full"
+          >
+            <Dialog.Panel
+              as="aside"
+              className="fixed inset-y-0 left-0 w-72 max-w-[calc(100vw-3rem)] bg-gray-900/95 backdrop-blur-lg border-r border-gray-700 flex flex-col shadow-2xl"
+            >
+              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-700">
+                <h2 className="text-lg font-semibold text-white">Menu</h2>
                 <button
-                  onClick={() => setShowMobileGenres((p) => !p)}
-                  className="flex items-center justify-between w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
-                  aria-expanded={showMobileGenres}
-                  aria-controls="mobile-genres-panel"
+                  aria-label="Close menu"
+                  autoFocus
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 text-gray-300 hover:text-white transition"
                 >
-                  <span className="flex items-center gap-3">
-                    <FontAwesomeIcon
-                      icon={faMasksTheater}
-                      className="text-sm w-5"
-                    />
-                    Genres
-                  </span>
                   <svg
-                    className={`w-5 h-5 transform transition ${
-                      showMobileGenres ? "rotate-180" : ""
-                    }`}
+                    className="w-6 h-6"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -318,56 +275,107 @@ export default function Header() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M19 9l-7 7-7-7"
+                      d="M6 18L18 6M6 6l12 12"
                     />
                   </svg>
                 </button>
+              </div>
 
-                {showMobileGenres && (
-                  <div
-                    id="mobile-genres-panel"
-                    className="mt-3 max-h-72 overflow-y-auto pr-1 space-y-1 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
+              <nav className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+                <Link
+                  to="/"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+                >
+                  <FontAwesomeIcon icon={faHouse} className="text-sm w-5" />
+                  Home
+                </Link>
+                <Link
+                  to="/lists"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center gap-3 w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+                >
+                  <FontAwesomeIcon icon={faListUl} className="text-sm w-5" />
+                  My Lists
+                </Link>
+
+                <div>
+                  <button
+                    onClick={() => setShowMobileGenres((p) => !p)}
+                    className="flex items-center justify-between w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+                    aria-expanded={showMobileGenres}
+                    aria-controls="mobile-genres-panel"
                   >
-                    <GenreList genres={genres} />
+                    <span className="flex items-center gap-3">
+                      <FontAwesomeIcon
+                        icon={faMasksTheater}
+                        className="text-sm w-5"
+                      />
+                      Genres
+                    </span>
+                    <svg
+                      className={`w-5 h-5 transform transition ${
+                        showMobileGenres ? "rotate-180" : ""
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  {showMobileGenres && (
+                    <div
+                      id="mobile-genres-panel"
+                      className="mt-3 max-h-72 overflow-y-auto pr-1 space-y-1 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
+                    >
+                      <GenreList genres={genres} />
+                    </div>
+                  )}
+                </div>
+              </nav>
+
+              <div className="px-5 py-4 border-t border-gray-700">
+                {user ? (
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      {user.picture && (
+                        <img
+                          src={user.picture}
+                          alt="Profile"
+                          className="w-8 h-8 rounded-full"
+                        />
+                      )}
+                      <span className="text-green-500 font-medium">
+                        {user.name}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => logout()}
+                      className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-full transition"
+                    >
+                      Logout
+                    </button>
                   </div>
+                ) : (
+                  <a href={GOOGLE_LOGIN_URL} className="block">
+                    <button className="w-full flex items-center justify-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 py-2 rounded-full transition">
+                      <FaRegUser className="mr-2" />
+                      Login
+                    </button>
+                  </a>
                 )}
               </div>
-            </nav>
-
-            <div className="px-5 py-4 border-t border-gray-700">
-              {user ? (
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    {user.picture && (
-                      <img
-                        src={user.picture}
-                        alt="Profile"
-                        className="w-8 h-8 rounded-full"
-                      />
-                    )}
-                    <span className="text-green-500 font-medium">
-                      {user.name}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => logout()}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 rounded-full transition"
-                  >
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <a href={GOOGLE_LOGIN_URL} className="block">
-                  <button className="w-full flex items-center justify-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 py-2 rounded-full transition">
-                    <FaRegUser className="mr-2" />
-                    Login
-                  </button>
-                </a>
-              )}
-            </div>
-          </aside>
-        </>
-      )}
+            </Dialog.Panel>
+          </Transition.Child>
+        </Dialog>
+      </Transition.Root>
     </>
   );
 }
