@@ -38,7 +38,7 @@ Plans:
 
 - [x] **Phase 2: Foundation** - Global CSS config, viewport meta, and z-index tokens that every subsequent phase depends on (completed 2026-02-20)
 - [x] **Phase 3: Carousels** - Migrate all six carousels to Embla with touch swipe; fix media card overflow and hover behavior (completed 2026-02-20)
-- [ ] **Phase 4: Navigation** - Add persistent bottom nav bar on mobile; fix iOS scroll lock in mobile menu
+- [x] **Phase 4: Navigation** - Add persistent bottom nav bar on mobile; fix iOS scroll lock in mobile menu (completed 2026-02-21)
 - [ ] **Phase 5: Modals and Filters** - Bottom-sheet pattern for all modals and overlays; filter panels functional at 375px
 - [ ] **Phase 6: Media Detail Page** - Complete vertical-stack layout, chip wrap, and touch-target fixes on the detail page
 - [ ] **Phase 7: Lists Page** - Resolve FAB/bottom-nav conflict; audit list item touch targets and column layout
@@ -178,7 +178,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 2. Foundation | 2/2 | Complete    | 2026-02-20 |
 | 3. Carousels | 3/3 | Complete   | 2026-02-20 |
-| 4. Navigation | 1/2 | In Progress|  |
+| 4. Navigation | 2/2 | Complete   | 2026-02-21 |
 | 5. Modals and Filters | 0/3 | Not started | - |
 | 6. Media Detail Page | 0/1 | Not started | - |
 | 7. Lists Page | 0/1 | Not started | - |
