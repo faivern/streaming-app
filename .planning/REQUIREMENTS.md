@@ -41,7 +41,7 @@
 - [x] **MOD-02**: `AddToListModal` and all Headless UI Dialog instances use `max-h-[90dvh]` not `max-h-[90vh]`
 - [x] **MOD-03**: `MobileFilterDrawer` bottom-sheet pattern applied consistently to all filter/discover modals
 - [x] **MOD-04**: Modal scroll areas use `overscroll-behavior: contain` to prevent background page scroll
-- [ ] **MOD-05**: Click-outside handlers on all modals/dropdowns respond to touch events (not mouse-only)
+- [x] **MOD-05**: Click-outside handlers on all modals/dropdowns respond to touch events (not mouse-only)
 
 ### Media Detail Page
 
@@ -53,7 +53,7 @@
 
 - [x] **DISC-01**: Filter panel is fully usable on 375px (full-screen takeover or bottom drawer pattern)
 - [x] **DISC-02**: Filter/sort dropdowns have ≥44px touch targets
-- [ ] **DISC-03**: Search input autofocus on mobile avoids layout jump (uses `visualViewport` or `dvh` scroll positioning)
+- [x] **DISC-03**: Search input autofocus on mobile avoids layout jump (uses `visualViewport` or `dvh` scroll positioning)
 
 ### Lists Page
 
@@ -132,13 +132,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MOD-02 | Phase 5 | Complete |
 | MOD-03 | Phase 5 | Complete |
 | MOD-04 | Phase 5 | Complete |
-| MOD-05 | Phase 5 | Pending |
+| MOD-05 | Phase 5 | Complete |
 | DETAIL-01 | Phase 6 | Pending |
 | DETAIL-02 | Phase 6 | Pending |
 | DETAIL-03 | Phase 6 | Pending |
 | DISC-01 | Phase 5 | Complete |
 | DISC-02 | Phase 5 | Complete |
-| DISC-03 | Phase 5 | Pending |
+| DISC-03 | Phase 5 | Complete |
 | LIST-01 | Phase 7 | Pending |
 | LIST-02 | Phase 7 | Pending |
 | LIST-03 | Phase 7 | Pending |

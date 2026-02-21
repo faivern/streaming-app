@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-20)
 ## Current Position
 
 Phase: 5 of 9 (Modals and Filters)
-Plan: 2 of 3 in current phase — COMPLETE
+Plan: 3 of 3 in current phase — COMPLETE
 Status: In progress
-Last activity: 2026-02-21 — Completed Plan 05-02 (MobileFilterDrawer inner scroll overscroll-contain; ≥44px touch targets on all discover filter dropdown option rows via py-3/py-2.5).
+Last activity: 2026-02-21 — Completed Plan 05-03 (touchstart passive listener for iOS SearchBar tap-outside; DiscoverModal onFocus scrollIntoView 300ms; drag handle bars on CreateListModal, EditListModal, DeleteConfirmModal).
 
 Progress: [████░░░░░░] 28% (v1.1 milestone)
 
@@ -31,7 +31,7 @@ Progress: [████░░░░░░] 28% (v1.1 milestone)
 | Phase 2 (Foundation) | 2 | ~520s | ~260s |
 | Phase 3 (Carousels) | 3 | ~313s | ~104s |
 | Phase 4 (Navigation) | 2 | ~1194s | ~597s |
-| Phase 5 (Modals/Filters) | 2 (so far) | ~100s | ~50s |
+| Phase 5 (Modals/Filters) | 3 | ~174s | ~58s |
 
 **Recent Trend:**
 - Last 4 plans: 159s, 155s, 95s, 130s, 245s, ~65s (03-03), ~188s (03-01)
@@ -78,6 +78,9 @@ Recent decisions affecting current work:
 - [05-02]: overscroll-contain on inner scroll div only (not Dialog.Panel shell) — shell is already correct per research
 - [05-02]: Listbox.Button trigger rows left at py-2 (full-width, already ≥44px); only Listbox.Option rows need py-3
 - [05-02]: GenreCheckboxList checkbox updated to h-5 w-5 alongside py-2.5 label padding for proportional row sizing
+- [05-03]: touchstart { passive: true } added in same useEffect as mousedown on a MouseEvent | TouchEvent union handler — no second useEffect
+- [05-03]: 300ms delay on scrollIntoView matches iOS virtual keyboard animation duration; React 19 synthetic events do not need e.persist()
+- [05-03]: Drag handle uses w-10 (not MobileFilterDrawer's w-12) for more subtle appearance on compact list modals; sm:hidden hides it on desktop
 
 ### Pending Todos
 
@@ -92,5 +95,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 05-01-PLAN.md — dvh + overscroll-contain applied to all 8 modal Dialog.Panel elements.
+Stopped at: Completed 05-03-PLAN.md — touchstart passive listener for iOS SearchBar tap-outside; DiscoverModal onFocus scrollIntoView; drag handles on list modals.
 Resume file: None
