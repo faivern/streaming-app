@@ -186,5 +186,5 @@ Plans:
 | 5. Modals and Filters | 3/3 | Complete   | 2026-02-21 |
 | 6. Media Detail Page | 3/3 | Complete   | 2026-02-21 |
 | 7. Lists Page | 2/2 | Complete   | 2026-02-21 |
-| 8. Secondary Pages and Insights | 1/4 | In Progress|  |
+| 8. Secondary Pages and Insights | 3/4 | In Progress|  |
 | 9. Global Polish | 0/2 | Not started | - |
