@@ -82,6 +82,11 @@ Recent decisions affecting current work:
 - [05-03]: touchstart { passive: true } added in same useEffect as mousedown on a MouseEvent | TouchEvent union handler — no second useEffect
 - [05-03]: 300ms delay on scrollIntoView matches iOS virtual keyboard animation duration; React 19 synthetic events do not need e.persist()
 - [05-03]: Drag handle uses w-10 (not MobileFilterDrawer's w-12) for more subtle appearance on compact list modals; sm:hidden hides it on desktop
+- [06-01]: MediaDetailHeader root changed from <main> to <section> — fixes nested <main> HTML validity error
+- [06-01]: sm:line-clamp-none overrides line-clamp-3 on desktop — no JS window.innerWidth check needed for responsive truncation
+- [06-01]: Mobile collapse pattern: sm:hidden toggle button + sm:block wrapper div — drives content visibility on mobile only, desktop always visible
+- [06-01]: h-[40dvh] for page-level backdrop hero — dvh is canonical unit consistent with Phase 3 (TrendingCarousel) and Phase 5 (modal max-h)
+- [06-01]: MediaDetailVideo repositioned to labeled "Watch Trailer" section below WatchProviders — trailer below fold, not at page top
 - [06-02]: grid grid-cols-3 replaces space-y-3 + inner grid-cols-2 — all three action buttons in one equal-width horizontal row at 375px
 - [06-02]: flex-col icon-above-label with py-3 minimum on all three buttons ensures >=44px touch target height in compact cells
 - [06-02]: No overflow-hidden on relative wrapper in MediaCastCarousel — would clip scroll container (Phase 5 lesson reapplied)
@@ -100,5 +105,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 06-02-PLAN.md — MediaPosterActions 3-col grid row; MediaCastCarousel right-edge fade gradient.
+Stopped at: Completed 06-01-PLAN.md — full-bleed backdrop hero, overview expand toggle, keywords collapse toggle, trailer repositioned below WatchProviders.
 Resume file: None

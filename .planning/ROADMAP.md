@@ -182,7 +182,7 @@ Plans:
 | 3. Carousels | 3/3 | Complete   | 2026-02-20 |
 | 4. Navigation | 2/2 | Complete   | 2026-02-21 |
 | 5. Modals and Filters | 3/3 | Complete   | 2026-02-21 |
-| 6. Media Detail Page | 1/3 | In Progress|  |
+| 6. Media Detail Page | 2/3 | In Progress|  |
 | 7. Lists Page | 0/1 | Not started | - |
 | 8. Secondary Pages and Insights | 0/3 | Not started | - |
 | 9. Global Polish | 0/2 | Not started | - |
