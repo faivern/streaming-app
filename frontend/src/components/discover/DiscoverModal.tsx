@@ -483,6 +483,12 @@ export default function DiscoverModal({
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search movies and TV shows..."
                             className="w-full pl-10 pr-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
+                            onFocus={(e) => {
+                              // After the virtual keyboard animates in (~300ms), scroll the input into view
+                              setTimeout(() => {
+                                (e.target as HTMLElement).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                              }, 300);
+                            }}
                           />
                         </div>
                       </div>

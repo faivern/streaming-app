@@ -40,7 +40,7 @@ export default function SearchBar({
   }, [isMobile, isExpanded]);
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
         setOpen(false);
         if (isMobile && isExpanded) {
@@ -49,7 +49,11 @@ export default function SearchBar({
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside, { passive: true });
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
   }, [isMobile, isExpanded, onToggle]);
 
   const handleChange = (val: any) => {
