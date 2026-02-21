@@ -42,7 +42,7 @@ Plans:
 - [x] **Phase 5: Modals and Filters** - Bottom-sheet pattern for all modals and overlays; filter panels functional at 375px (completed 2026-02-21)
 - [x] **Phase 6: Media Detail Page** - Complete vertical-stack layout, chip wrap, and touch-target fixes on the detail page (completed 2026-02-21)
 - [x] **Phase 7: Lists Page** - Resolve FAB/bottom-nav conflict; audit list item touch targets and column layout (completed 2026-02-21)
-- [ ] **Phase 8: Secondary Pages and Insights** - Audit and fix all remaining pages: credits, genre, collection, providers, legal, insights
+- [x] **Phase 8: Secondary Pages and Insights** - Audit and fix all remaining pages: credits, genre, collection, providers, legal, insights (completed 2026-02-22)
 - [ ] **Phase 9: Global Polish** - Typography sweep, CLS fixes, touch-target sweep, spacing consistency, and full device matrix test
 
 ## Phase Details
@@ -152,10 +152,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Insights page audit: IdentityIntroCard gap-2, BentoGrid and Recharts verified (INS-01/02/03)
-- [ ] 08-02-PLAN.md — Credits and person detail pages: mt-navbar-offset + break-words on biography (SEC-01, SEC-06)
-- [ ] 08-03-PLAN.md — Genre, collection, provider, and legal pages: hero overflow, navbar offsets, grid fixes, z-index token (SEC-02/03/04/05)
-- [ ] 08-04-PLAN.md — Human visual verification at 375px for all INS and SEC requirements
+- [x] 08-01-PLAN.md — Insights page audit: IdentityIntroCard gap-2, BentoGrid and Recharts verified (INS-01/02/03)
+- [x] 08-02-PLAN.md — Credits and person detail pages: mt-navbar-offset + break-words on biography (SEC-01, SEC-06)
+- [x] 08-03-PLAN.md — Genre, collection, provider, and legal pages: hero overflow, navbar offsets, grid fixes, z-index token (SEC-02/03/04/05)
+- [x] 08-04-PLAN.md — Human visual verification at 375px for all INS and SEC requirements
 
 ### Phase 9: Global Polish
 **Goal**: The entire app is visually consistent and pixel-clean across all breakpoints — zero horizontal overflow at root causes, consistent spacing, correct CLS behavior, and full touch-target compliance on every page
@@ -186,5 +186,5 @@ Plans:
 | 5. Modals and Filters | 3/3 | Complete   | 2026-02-21 |
 | 6. Media Detail Page | 3/3 | Complete   | 2026-02-21 |
 | 7. Lists Page | 2/2 | Complete   | 2026-02-21 |
-| 8. Secondary Pages and Insights | 3/4 | In Progress|  |
+| 8. Secondary Pages and Insights | 4/4 | Complete   | 2026-02-22 |
 | 9. Global Polish | 0/2 | Not started | - |
