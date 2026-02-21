@@ -66,7 +66,7 @@ export default function EditListModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 p-6 shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-md transform rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 p-6 shadow-xl transition-all max-h-[90dvh] overflow-y-auto overscroll-contain">
                 <div className="flex items-center justify-between mb-6">
                   <Dialog.Title className="text-lg font-semibold text-white">
                     Edit List
