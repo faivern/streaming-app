@@ -1,4 +1,5 @@
 // src/components/media/detail/MediaDetailHeader.tsx
+import { useState } from "react";
 import MediaPosterActions from "./MediaPosterActions";
 import MediaMetaChips from "../cards/MediaMetaChips";
 import MediaDetails from "./MediaDetails";
@@ -21,12 +22,13 @@ export default function MediaDetailHeader({
   keywords = [],
   media_type,
   onWatchNow,
-  logo_path,
 }: Props) {
+  const [overviewExpanded, setOverviewExpanded] = useState(false);
+
   // Normalize once for UI
   const title = details.title ?? details.name ?? "No title available.";
   const posterPath = details.poster_path ?? "";
-  const backdropPath = details.backdrop_path ?? ""; // keep if you’ll use it later
+  const backdropPath = details.backdrop_path ?? ""; // keep if you'll use it later
   const releaseDate = details.release_date ?? details.first_air_date ?? "";
   const runtime = details.runtime ?? details.episode_run_time?.[0] ?? 0;
   const voteAverage = details.vote_average ?? 0;
@@ -43,7 +45,7 @@ export default function MediaDetailHeader({
   const revenue = details.revenue;
 
   return (
-    <main className="relative flex flex-col md:flex-row gap-6 md:gap-8 py-8 px-4 md:px-12 max-w-7xl mx-auto">
+    <section className="relative flex flex-col md:flex-row gap-6 md:gap-8 py-8 px-4 md:px-12 max-w-7xl mx-auto">
       {/* Poster and Actions */}
       <div className="flex-shrink-0 w-full md:w-1/3 max-w-[360px] mx-auto">
         <div className="relative">
@@ -103,7 +105,15 @@ export default function MediaDetailHeader({
         {details.overview && (
           <div className="mt-2">
             <h2 className="text-2xl font-bold text-text-h1 mb-3">Overview</h2>
-            <p className="text-gray-300 leading-relaxed">{details.overview}</p>
+            <p className={`text-gray-300 leading-relaxed sm:line-clamp-none ${overviewExpanded ? "" : "line-clamp-3"}`}>
+              {details.overview}
+            </p>
+            <button
+              onClick={() => setOverviewExpanded(!overviewExpanded)}
+              className="mt-1 text-accent-primary text-sm font-medium sm:hidden"
+            >
+              {overviewExpanded ? "Show less" : "Show more"}
+            </button>
           </div>
         )}
 
@@ -121,6 +131,6 @@ export default function MediaDetailHeader({
           created_by={details.created_by}
         />
       </div>
-    </main>
+    </section>
   );
 }
