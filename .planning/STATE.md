@@ -10,11 +10,11 @@ See: .planning/PROJECT.md (updated 2026-02-20)
 ## Current Position
 
 Phase: 4 of 9 (Navigation)
-Plan: 1 of 2 in current phase — COMPLETE
-Status: In Progress (plan 04-01 complete, 04-02 pending)
-Last activity: 2026-02-21 — Completed Plan 04-01 (BottomNav component, CSS tokens, App.tsx layout wire-up, MyListsPage FAB fix). Human visual verification approved — all 6 checks passed.
+Plan: 2 of 2 in current phase — COMPLETE
+Status: Phase complete
+Last activity: 2026-02-21 — Completed Plan 04-02 (Navbar mobile drawer migrated to Headless UI Dialog — iOS scroll lock via position:fixed, Escape key, backdrop click, and focus trap handled by Dialog internally). Human visual verification approved.
 
-Progress: [████░░░░░░] 22% (v1.1 milestone)
+Progress: [████░░░░░░] 26% (v1.1 milestone)
 
 ## Performance Metrics
 
@@ -30,7 +30,7 @@ Progress: [████░░░░░░] 22% (v1.1 milestone)
 | Phase 1 (Insights) | 4 | 539s | 135s |
 | Phase 2 (Foundation) | 2 | ~520s | ~260s |
 | Phase 3 (Carousels) | 3 | ~313s | ~104s |
-| Phase 4 (Navigation) | 1 | 599s | 599s |
+| Phase 4 (Navigation) | 2 | ~1194s | ~597s |
 
 **Recent Trend:**
 - Last 4 plans: 159s, 155s, 95s, 130s, 245s, ~65s (03-03), ~188s (03-01)
@@ -67,6 +67,9 @@ Recent decisions affecting current work:
 - [04-01]: end prop required on NavLink to="/" — without it Home tab highlights active on every route
 - [04-01]: pb-bottom-nav on <main> in App.tsx is single catch-all content clearance — no per-page adjustments needed for standard pages
 - [04-01]: MyListsPage FAB removes pb-safe — bottom nav pb-safe-or-4 already clears iOS home indicator; FAB only needs to clear nav height
+- [04-02]: Headless UI Dialog uses position:fixed for scroll lock — correct iOS Safari strategy vs document.body.style.overflow which is silently ignored
+- [04-02]: Dialog v1 API enforced (Transition.Root, Transition.Child, Dialog.Panel) — matches all 11 existing Dialog usages; mixing v1/v2 APIs causes TypeScript errors
+- [04-02]: Dialog handles Escape key and backdrop click via onClose — no manual event listeners needed in components
 
 ### Pending Todos
 
@@ -81,5 +84,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 04-01-PLAN.md — BottomNav built, wired, and human-verified. Phase 4 Plan 2 (04-02) is next.
+Stopped at: Completed 04-02-PLAN.md — Navbar mobile drawer migrated to Headless UI Dialog. Phase 04 (Navigation) all plans complete.
 Resume file: None
