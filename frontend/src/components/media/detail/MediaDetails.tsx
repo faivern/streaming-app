@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { dateFormat } from "../../../utils/dateFormat";
 import languageMap from "../../../utils/languageMap";
 import { keywordsFormat } from "../../../utils/keywordsFormat";
@@ -57,6 +58,8 @@ export default function MediaDetails({
   media_type,
   created_by,
 }: Props) {
+  const [keywordsExpanded, setKeywordsExpanded] = useState(false);
+
   const director = getDirector(crew);
   const mainCast = getMainCast(cast);
   const isTV = media_type === "tv";
@@ -83,11 +86,22 @@ export default function MediaDetails({
           <DetailRow label="Release Date" value={dateFormat(release_date) || "N/A"} />
           <DetailRow label="Language" value={language ? languageMap[language] || "Unknown" : "Unknown"} />
           <DetailRow label="Country" value={country || "N/A"} />
-          <DetailRow
-            label="Keywords"
-            value={keywordsFormat(keywords)}
-            valueClassName="line-clamp-2 hover:line-clamp-none transition-all duration-300"
-          />
+          <div>
+            <button
+              onClick={() => setKeywordsExpanded(!keywordsExpanded)}
+              className="sm:hidden flex items-center gap-1 text-slate-400 text-sm font-medium mb-1"
+            >
+              <span>Keywords</span>
+              <span>{keywordsExpanded ? "▲" : "▼"}</span>
+            </button>
+            <div className={`sm:block ${keywordsExpanded ? "block" : "hidden"}`}>
+              <DetailRow
+                label="Keywords"
+                value={keywordsFormat(keywords)}
+                valueClassName="line-clamp-2 hover:line-clamp-none transition-all duration-300"
+              />
+            </div>
+          </div>
         </div>
 
         <div className="space-y-4">
