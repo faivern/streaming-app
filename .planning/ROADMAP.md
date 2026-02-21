@@ -103,12 +103,12 @@ Plans:
   3. Scrolling inside any modal does not scroll the background page
   4. The filter/discover panel is fully usable at 375px — all inputs and dropdowns have at least 44px touch targets
   5. Searching on mobile does not cause a layout jump when the virtual keyboard appears
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 05-01: Apply bottom-sheet pattern to MediaModal; update all Dialog.Panel instances to `max-h-[90dvh]`; add `overscroll-behavior: contain` to modal scroll areas
-- [ ] 05-02: Audit and fix filter/discover panel (DISC-01–03): touch targets, full-screen takeover, search keyboard avoidance
-- [ ] 05-03: Fix click-outside handlers to respond to touch events (MOD-05); add drag handle bars to list modals
+- [ ] 05-01-PLAN.md — Replace vh with dvh on all 8 Dialog.Panel instances; add max-h + overflow-y-auto + overscroll-contain to 4 panels missing height constraints
+- [ ] 05-02-PLAN.md — Add overscroll-contain to MobileFilterDrawer inner scroll; increase filter dropdown option rows to py-3 (≥44px touch targets)
+- [ ] 05-03-PLAN.md — Add touchstart to SearchBar click-outside handler; add onFocus scrollIntoView to DiscoverModal search input; add drag handle bars to 3 list modals
 
 ### Phase 6: Media Detail Page
 **Goal**: The media detail page is fully usable on a 375px phone — content stacks vertically, chips and badges wrap correctly, and the cast row is swipeable
