@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-20)
 
 **Core value:** Every page of Cinelas looks intentional and feels native at any screen width — nothing overflows, nothing is an afterthought.
-**Current focus:** Phase 7 — next phase
+**Current focus:** Phase 7 — Lists Page
 
 ## Current Position
 
-Phase: 6 of 9 (Media Detail Page) — COMPLETE
-Plan: 3 of 3 in current phase — COMPLETE
-Status: Phase 6 complete
-Last activity: 2026-02-21 — Completed Plan 06-03 (visual verification gate — all DETAIL-01/02/03 requirements approved at 375px by human reviewer).
+Phase: 7 of 9 (Lists Page) — IN PROGRESS
+Plan: 1 of ? in current phase — COMPLETE
+Status: Phase 7 Plan 1 complete
+Last activity: 2026-02-21 — Completed Plan 07-01 (lists page mobile fixes — z-index token, overscroll, touch targets on 4 files).
 
-Progress: [█████░░░░░] 36% (v1.1 milestone)
+Progress: [█████░░░░░] 38% (v1.1 milestone)
 
 ## Performance Metrics
 
@@ -33,6 +33,7 @@ Progress: [█████░░░░░] 36% (v1.1 milestone)
 | Phase 4 (Navigation) | 2 | ~1194s | ~597s |
 | Phase 5 (Modals/Filters) | 3 | ~174s | ~58s |
 | Phase 6 (Media Detail) | 3 | ~142s | ~47s |
+| Phase 7 (Lists Page) | 1 | ~120s | ~120s |
 
 **Recent Trend:**
 - Last 4 plans: 159s, 155s, 95s, 130s, 245s, ~65s (03-03), ~188s (03-01)
@@ -40,6 +41,7 @@ Progress: [█████░░░░░] 36% (v1.1 milestone)
 
 *Updated after each plan completion*
 | Phase 06-media-detail-page P03 | 60 | 1 tasks | 0 files |
+| Phase 07-lists-page P01 | 120 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -93,6 +95,9 @@ Recent decisions affecting current work:
 - [06-02]: No overflow-hidden on relative wrapper in MediaCastCarousel — would clip scroll container (Phase 5 lesson reapplied)
 - [06-02]: lg:hidden on fade div — desktop already has scrollbar via lg:scrollbar; fade affordance only needed on mobile
 - [Phase 06-media-detail-page]: All three Phase 6 requirements (DETAIL-01, DETAIL-02, DETAIL-03) visually approved at 375px by human reviewer
+- [07-01]: ListsDrawer was using z-50 (integer=50) instead of z-(--z-drawer) token (=100) — corrected to align with Phase 2 z-index token table
+- [07-01]: overscroll-contain applied to flex-1 overflow-y-auto in ListsDrawer — consistent with Phase 5 pattern for all Dialog scroll containers
+- [07-01]: ViewToggle p-2->p-3 (icon buttons); Listbox.Option py-2->py-3 (dropdown rows); ListsSidebar create button p-1.5->p-2.5 — all touch targets enlarged
 
 ### Pending Todos
 
@@ -107,5 +112,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 06-03-PLAN.md — Phase 6 visual verification gate passed; DETAIL-01, DETAIL-02, DETAIL-03 all approved at 375px. Phase 6 complete.
+Stopped at: Completed 07-01-PLAN.md — Lists page mobile fixes applied (z-index token, overscroll containment, touch targets). Phase 7 Plan 1 complete.
 Resume file: None

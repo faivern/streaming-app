@@ -57,9 +57,9 @@
 
 ### Lists Page
 
-- [ ] **LIST-01**: Lists page sidebar/drawer works correctly on mobile
-- [ ] **LIST-02**: FAB (floating action button) does not conflict with bottom navigation bar
-- [ ] **LIST-03**: List item cards are readable and tappable at 375px
+- [x] **LIST-01**: Lists page sidebar/drawer works correctly on mobile
+- [x] **LIST-02**: FAB (floating action button) does not conflict with bottom navigation bar
+- [x] **LIST-03**: List item cards are readable and tappable at 375px
 
 ### Insights Page
 
@@ -139,9 +139,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DISC-01 | Phase 5 | Complete |
 | DISC-02 | Phase 5 | Complete |
 | DISC-03 | Phase 5 | Complete |
-| LIST-01 | Phase 7 | Pending |
-| LIST-02 | Phase 7 | Pending |
-| LIST-03 | Phase 7 | Pending |
+| LIST-01 | Phase 7 | Complete |
+| LIST-02 | Phase 7 | Complete |
+| LIST-03 | Phase 7 | Complete |
 | INS-01 | Phase 8 | Pending |
 | INS-02 | Phase 8 | Pending |
 | INS-03 | Phase 8 | Pending |
