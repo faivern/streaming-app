@@ -45,7 +45,7 @@
 
 ### Media Detail Page
 
-- [ ] **DETAIL-01**: Media detail page layout stacks vertically on mobile (poster + hero stacked, not side-by-side)
+- [x] **DETAIL-01**: Media detail page layout stacks vertically on mobile (poster + hero stacked, not side-by-side)
 - [x] **DETAIL-02**: Genre chips, rating badges, and action buttons wrap correctly on 375px without overflow
 - [x] **DETAIL-03**: Cast row is horizontally scrollable on mobile with touch swipe
 
@@ -133,7 +133,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MOD-03 | Phase 5 | Complete |
 | MOD-04 | Phase 5 | Complete |
 | MOD-05 | Phase 5 | Complete |
-| DETAIL-01 | Phase 6 | Pending |
+| DETAIL-01 | Phase 6 | Complete |
 | DETAIL-02 | Phase 6 | Complete |
 | DETAIL-03 | Phase 6 | Complete |
 | DISC-01 | Phase 5 | Complete |
