@@ -23,7 +23,7 @@ export default function ViewToggle({
         role="radio"
         aria-checked={viewMode === "list"}
         onClick={() => onChange("list")}
-        className={`p-2 rounded-md transition-colors ${
+        className={`p-3 rounded-md transition-colors ${
           viewMode === "list"
             ? "bg-gray-700 text-white"
             : "text-gray-400 hover:text-white"
@@ -37,7 +37,7 @@ export default function ViewToggle({
         role="radio"
         aria-checked={viewMode === "grid"}
         onClick={() => onChange("grid")}
-        className={`p-2 rounded-md transition-colors ${
+        className={`p-3 rounded-md transition-colors ${
           viewMode === "grid"
             ? "bg-gray-700 text-white"
             : "text-gray-400 hover:text-white"

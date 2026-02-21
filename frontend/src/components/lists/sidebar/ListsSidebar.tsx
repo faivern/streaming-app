@@ -86,7 +86,7 @@ export default function ListsSidebar({
           </span>
           <button
             onClick={onCreateList}
-            className="p-1.5 text-gray-400 hover:text-accent-primary hover:bg-gray-800 rounded-lg transition-colors"
+            className="p-2.5 text-gray-400 hover:text-accent-primary hover:bg-gray-800 rounded-lg transition-colors"
             aria-label="Create new list"
           >
             <FaPlus className="text-xs" />
