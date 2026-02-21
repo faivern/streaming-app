@@ -73,7 +73,7 @@ export default function GenreCheckboxList({
                 return (
                   <label
                     key={genre.id}
-                    className={`flex items-center gap-2 px-3 py-1.5 cursor-pointer transition-colors ${
+                    className={`flex items-center gap-2 px-3 py-2.5 cursor-pointer transition-colors ${
                       isSelected
                         ? "bg-accent-primary/20 text-white"
                         : "text-gray-300 hover:bg-gray-700/50"
@@ -83,7 +83,7 @@ export default function GenreCheckboxList({
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => onToggleGenre(genre.id)}
-                      className="w-4 h-4 rounded border-gray-500 bg-gray-700 text-accent-primary focus:ring-accent-primary/50 focus:ring-offset-0"
+                      className="h-5 w-5 rounded border-gray-500 bg-gray-700 text-accent-primary focus:ring-accent-primary/50 focus:ring-offset-0"
                     />
                     <span className="text-sm">{genre.name}</span>
                   </label>

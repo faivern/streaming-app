@@ -53,7 +53,7 @@ export default function SortByDropdown({ value, onChange }: Props) {
               <Listbox.Option
                 key={option.value}
                 className={({ active }) =>
-                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                  `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
                     active ? "bg-accent-primary/20 text-white" : "text-gray-300"
                   }`
                 }
