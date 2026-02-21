@@ -14,7 +14,7 @@ export default function IdentityIntroCard({ topThree }: Props) {
       <p className="text-xs uppercase tracking-widest text-subtle mb-5">
         Your Top 3 Titles
       </p>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-2">
         {topThree.map((item) => (
           <MediaCard
             key={item.tmdbId}
