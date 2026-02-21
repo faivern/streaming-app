@@ -107,7 +107,7 @@ export default function MediaEntryModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[90vh] sm:max-h-[85vh] overflow-y-auto">
+              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[90dvh] sm:max-h-[85dvh] overflow-y-auto overscroll-contain">
                 <form onSubmit={handleSubmit}>
                   {/* Header with media info */}
                   <div className="flex items-start gap-4 p-4 border-b border-gray-700">

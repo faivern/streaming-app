@@ -444,7 +444,7 @@ export default function DiscoverModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[95vh] sm:max-h-[90vh] flex flex-col">
+                <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[95dvh] sm:max-h-[90dvh] flex flex-col">
                   {/* Header */}
                   <div className="flex items-center justify-between p-4 border-b border-gray-700">
                     <div>
@@ -511,7 +511,7 @@ export default function DiscoverModal({
                       </div>
 
                       {/* Results Grid */}
-                      <div ref={scrollContainerRef} className="flex-1 p-4 overflow-y-auto">
+                      <div ref={scrollContainerRef} className="flex-1 p-4 overflow-y-auto overscroll-contain">
                         {isLoading ? (
                           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                             {Array.from({ length: 12 }).map((_, i) => (

@@ -92,7 +92,7 @@ export default function AddMediaModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[90vh] sm:max-h-[85vh] flex flex-col">
+              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[90dvh] sm:max-h-[85dvh] flex flex-col">
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-700">
                   <Dialog.Title className="text-lg font-semibold text-white">
@@ -123,7 +123,7 @@ export default function AddMediaModal({
                 </div>
 
                 {/* Results */}
-                <div className="p-4 max-h-[400px] overflow-y-auto">
+                <div className="p-4 max-h-[400px] overflow-y-auto overscroll-contain">
                   {loading ? (
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                       {Array.from({ length: 8 }).map((_, i) => (
