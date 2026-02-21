@@ -29,42 +29,40 @@ export default function MediaPosterActions({
   const [addToListModalOpen, setAddToListModalOpen] = useState(false);
 
   return (
-    <div className="mt-6 space-y-3">
+    <div className="mt-6 grid grid-cols-3 gap-3">
       <button
         aria-label="Watch Now"
         title="Watch Now"
         onClick={onWatchNow}
-        className="w-full bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-thirdary
+        className="bg-gradient-to-b from-accent-primary to-accent-secondary
                    hover:from-accent-primary hover:to-accent-secondary
-                   text-white py-4 px-6 rounded-xl font-semibold shadow-lg
+                   text-white py-3 px-2 rounded-xl font-semibold shadow-lg
                    transform transition-transform duration-200 hover:scale-103
-                   flex items-center justify-center gap-3 cursor-pointer"
+                   flex flex-col items-center justify-center gap-1 cursor-pointer"
       >
-        <FontAwesomeIcon icon={faPlay} className="text-white text-lg" />
-        <span className="tracking-wide">Watch Now</span>
+        <FontAwesomeIcon icon={faPlay} className="text-white text-base" />
+        <span className="text-xs tracking-wide">Watch</span>
       </button>
 
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          aria-label="Add to List"
-          title="Add to List"
-          onClick={() => setAddToListModalOpen(true)}
-          className="bg-action-primary hover:bg-action-hover text-white py-3 px-4 rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 border border-slate-600/50 hover:cursor-pointer"
-        >
-          <FontAwesomeIcon icon={faListUl} />
-          <span>Add to List</span>
-        </button>
+      <button
+        aria-label="Add to List"
+        title="Add to List"
+        onClick={() => setAddToListModalOpen(true)}
+        className="bg-action-primary hover:bg-action-hover text-white py-3 px-2 rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex flex-col items-center justify-center gap-1 border border-slate-600/50 hover:cursor-pointer"
+      >
+        <FontAwesomeIcon icon={faListUl} className="text-base" />
+        <span className="text-xs">Add</span>
+      </button>
 
-        <button
-          onClick={handleShare}
-          aria-label="Share"
-          title="Share"
-          className="bg-action-primary hover:bg-action-hover text-white py-3 px-4 rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex items-center justify-center gap-2 border border-accent-foreground hover:cursor-pointer"
-        >
-          <FontAwesomeIcon icon={faShare} />
-          <span>Share</span>
-        </button>
-      </div>
+      <button
+        onClick={handleShare}
+        aria-label="Share"
+        title="Share"
+        className="bg-action-primary hover:bg-action-hover text-white py-3 px-2 rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex flex-col items-center justify-center gap-1 border border-accent-foreground hover:cursor-pointer"
+      >
+        <FontAwesomeIcon icon={faShare} className="text-base" />
+        <span className="text-xs">Share</span>
+      </button>
 
       <AddToListModal
         isOpen={addToListModalOpen}
