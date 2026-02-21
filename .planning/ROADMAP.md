@@ -149,12 +149,13 @@ Plans:
   3. The credits page grid collapses to 2-column on mobile and cast/crew tabs have adequate touch targets
   4. Genre, collection, provider, and person detail pages display their hero sections and content correctly at 375px
   5. Legal pages (Privacy Policy, Terms of Service) are readable at 375px with no horizontal overflow
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 08-01: Insights page audit — BentoGrid single-column, Recharts ResponsiveContainer, typography at 375px
-- [ ] 08-02: Credits page and person detail page audit — grid collapse, tab touch targets
-- [ ] 08-03: Genre, collection, provider, and legal pages audit — hero sections and content layout at 375px
+- [ ] 08-01-PLAN.md — Insights page audit: IdentityIntroCard gap-2, BentoGrid and Recharts verified (INS-01/02/03)
+- [ ] 08-02-PLAN.md — Credits and person detail pages: mt-navbar-offset + break-words on biography (SEC-01, SEC-06)
+- [ ] 08-03-PLAN.md — Genre, collection, provider, and legal pages: hero overflow, navbar offsets, grid fixes, z-index token (SEC-02/03/04/05)
+- [ ] 08-04-PLAN.md — Human visual verification at 375px for all INS and SEC requirements
 
 ### Phase 9: Global Polish
 **Goal**: The entire app is visually consistent and pixel-clean across all breakpoints — zero horizontal overflow at root causes, consistent spacing, correct CLS behavior, and full touch-target compliance on every page
