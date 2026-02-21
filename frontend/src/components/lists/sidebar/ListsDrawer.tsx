@@ -44,7 +44,7 @@ export default function ListsDrawer({
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+      <Dialog as="div" className="relative z-(--z-drawer)" onClose={onClose}>
         {/* Backdrop */}
         <Transition.Child
           as={Fragment}
@@ -89,7 +89,7 @@ export default function ListsDrawer({
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 overflow-y-auto">
+                    <div className="flex-1 overflow-y-auto overscroll-contain">
                       <ListsSidebar
                         lists={lists}
                         activeView={activeView}
