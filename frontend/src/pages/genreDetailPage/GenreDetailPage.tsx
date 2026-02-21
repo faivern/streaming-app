@@ -178,7 +178,7 @@ export default function GenreDetailPage() {
             Explore the best {genreName.toLowerCase()}{" "}
             {mediaType === "tv" ? "shows" : "movies"}
           </p>
-          <div className="flex items-center gap-3 text-sm text-gray-400 mt-2">
+          <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400 mt-2">
             <span className="flex items-center gap-1">
               <Film className="w-4 h-4 text-accent-primary" />
               {movieCount.toLocaleString()}{" "}

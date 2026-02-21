@@ -75,7 +75,7 @@ const CollectionPage = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 mt-10">
+    <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
       <BackLink />
       <HeroCollection collection={collection} />
       <CollectionPartsSection parts={collection.parts} />

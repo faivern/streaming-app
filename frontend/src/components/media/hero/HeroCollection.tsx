@@ -44,8 +44,8 @@ const HeroCollection = ({ collection }: Props) => {
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-      <div className="gap-4 absolute bottom-4 left-4 max-w-xl bg-gray-700/5 p-6 rounded-xl backdrop-blur-sm shadow-lg">
-        <h1 className="text-3xl md:text-4xl font-bold">{collection.name}</h1>
+      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">{collection.name}</h1>
 
         <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mt-3">
           <p
@@ -81,7 +81,7 @@ const HeroCollection = ({ collection }: Props) => {
             Movies: {movieCount}
           </p>
         </div>
-        <p className="mt-2 text-gray-300 max-w-3xl">{collectionOverview}</p>
+        <p className="mt-2 text-gray-300 line-clamp-3 sm:line-clamp-none">{collectionOverview}</p>
       </div>
     </section>
   );
