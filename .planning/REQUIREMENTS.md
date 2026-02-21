@@ -63,9 +63,9 @@
 
 ### Insights Page
 
-- [ ] **INS-01**: BentoGrid insight cards adapt to single-column layout on mobile
-- [ ] **INS-02**: Recharts `ResponsiveContainer` charts render correctly at mobile widths
-- [ ] **INS-03**: Insight page typography is readable at 375px
+- [x] **INS-01**: BentoGrid insight cards adapt to single-column layout on mobile
+- [x] **INS-02**: Recharts `ResponsiveContainer` charts render correctly at mobile widths
+- [x] **INS-03**: Insight page typography is readable at 375px
 
 ### Secondary Pages
 
@@ -142,9 +142,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LIST-01 | Phase 7 | Complete |
 | LIST-02 | Phase 7 | Complete |
 | LIST-03 | Phase 7 | Complete |
-| INS-01 | Phase 8 | Pending |
-| INS-02 | Phase 8 | Pending |
-| INS-03 | Phase 8 | Pending |
+| INS-01 | Phase 8 | Complete |
+| INS-02 | Phase 8 | Complete |
+| INS-03 | Phase 8 | Complete |
 | SEC-01 | Phase 8 | Pending |
 | SEC-02 | Phase 8 | Pending |
 | SEC-03 | Phase 8 | Pending |

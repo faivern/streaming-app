@@ -21,7 +21,7 @@ export default function WatchProviderCard({
         className="block"
       >
         <div
-          className="relative w-28 h-28 rounded-2xl overflow-hidden
+          className="relative w-full aspect-square rounded-2xl overflow-hidden
                      border border-gray-400/30 shadow-lg
                      transition-all duration-300
                      group-hover:scale-105 group-hover:border-accent-primary/75
@@ -39,7 +39,7 @@ export default function WatchProviderCard({
         <p
           className="mt-2 text-center text-sm text-gray-300/0
                     group-hover:text-white transition-colors
-                    truncate max-w-28 text-opacity-100"
+                    truncate max-w-full text-opacity-100"
         >
           {providerName}
         </p>

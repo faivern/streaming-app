@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 
 export default function PrivacyPolicy() {
   return (
-    <main className="min-h-dvh bg-background">
-      <article className="max-w-4xl mx-auto px-6 py-16 text-gray-300">
+    <main className="min-h-dvh bg-background mt-navbar-offset">
+      <article className="max-w-4xl mx-auto px-6 py-8 text-gray-300">
         {/* Header */}
         <header className="mb-12">
           <h1 className="text-4xl font-bold text-text-h1 mb-4">Privacy Policy</h1>

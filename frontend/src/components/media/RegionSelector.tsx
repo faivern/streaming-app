@@ -66,7 +66,7 @@ export default function RegionSelector({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-20 mt-1 max-h-72 w-full overflow-hidden rounded-lg bg-gray-800 border border-gray-600 text-sm shadow-lg focus:outline-none">
+          <Listbox.Options className="absolute z-(--z-dropdown) mt-1 max-h-72 w-full overflow-hidden rounded-lg bg-gray-800 border border-gray-600 text-sm shadow-lg focus:outline-none">
             <div className="sticky top-0 bg-gray-800 p-2 border-b border-gray-700">
               <div className="relative">
                 <FontAwesomeIcon
@@ -93,7 +93,7 @@ export default function RegionSelector({
                   <Listbox.Option
                     key={region.iso_3166_1}
                     className={({ active }) =>
-                      `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                      `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
                         active ? "bg-sky-500/20 text-white" : "text-gray-300"
                       }`
                     }

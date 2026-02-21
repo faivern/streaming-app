@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-02-20)
 
 ## Current Position
 
-Phase: 8 of 9 (Secondary Pages and Insights) — NOT STARTED
-Plan: 0 of 3 in current phase
-Status: Phase 7 complete — Phase 8 ready to plan
-Last activity: 2026-02-21 — Phase 7 complete. All LIST-01/02/03 visually approved at 375px (drawer z-index, FAB clearance, overscroll, touch targets).
+Phase: 8 of 9 (Secondary Pages and Insights) — IN PROGRESS
+Plan: 1 of 4 in current phase
+Status: Plan 08-01 complete — INS-01/02/03 satisfied; IdentityIntroCard gap-2 committed
+Last activity: 2026-02-21 — Phase 8 Plan 01 complete. IdentityIntroCard gap tightened to gap-2; BentoGrid and Recharts already correct.
 
-Progress: [██████░░░░] 56% (v1.1 milestone)
+Progress: [███████░░░] 61% (v1.1 milestone)
 
 ## Performance Metrics
 
@@ -42,6 +42,7 @@ Progress: [██████░░░░] 56% (v1.1 milestone)
 *Updated after each plan completion*
 | Phase 06-media-detail-page P03 | 60 | 1 tasks | 0 files |
 | Phase 07-lists-page P01 | 120 | 2 tasks | 4 files |
+| Phase 08-secondary-pages-and-insights P01 | 38 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -99,6 +100,8 @@ Recent decisions affecting current work:
 - [07-01]: overscroll-contain applied to flex-1 overflow-y-auto in ListsDrawer — consistent with Phase 5 pattern for all Dialog scroll containers
 - [07-01]: ViewToggle p-2->p-3 (icon buttons); Listbox.Option py-2->py-3 (dropdown rows); ListsSidebar create button p-1.5->p-2.5 — all touch targets enlarged
 - [Phase 07-lists-page]: All three Phase 7 requirements (LIST-01, LIST-02, LIST-03) visually approved at 375px by human reviewer
+- [08-01]: gap-2 (not gap-4) on 3-column MediaCard grid in IdentityIntroCard — each poster gets ~4px more horizontal room at 375px
+- [08-01]: BentoGrid grid-cols-1, Recharts ResponsiveContainer width="100%", typography text-sm/text-xs already correct — no changes needed for INS-01/02/03
 
 ### Pending Todos
 
@@ -113,5 +116,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Phase 7 complete — human approved all LIST-01/02/03 at 375px. Advancing to Phase 8 (Secondary Pages and Insights).
+Stopped at: Completed 08-01-PLAN.md — INS-01/02/03 satisfied; IdentityIntroCard gap-2 committed (25770d0). Phase 8 Plan 02 is next.
 Resume file: None
