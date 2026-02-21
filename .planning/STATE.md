@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-20)
 
 **Core value:** Every page of Cinelas looks intentional and feels native at any screen width — nothing overflows, nothing is an afterthought.
-**Current focus:** Phase 5 — Modals and Filters (v1.1 Full Responsiveness milestone)
+**Current focus:** Phase 6 — Media Detail Page
 
 ## Current Position
 
-Phase: 5 of 9 (Modals and Filters)
-Plan: 3 of 3 in current phase — COMPLETE
+Phase: 6 of 9 (Media Detail Page)
+Plan: 2 of 3 in current phase
 Status: In progress
-Last activity: 2026-02-21 — Completed Plan 05-03 (touchstart passive listener for iOS SearchBar tap-outside; DiscoverModal onFocus scrollIntoView 300ms; drag handle bars on CreateListModal, EditListModal, DeleteConfirmModal).
+Last activity: 2026-02-21 — Completed Plan 06-02 (MediaPosterActions 3-col grid row; MediaCastCarousel right-edge fade gradient with pointer-events-none).
 
-Progress: [████░░░░░░] 28% (v1.1 milestone)
+Progress: [████░░░░░░] 31% (v1.1 milestone)
 
 ## Performance Metrics
 
@@ -32,6 +32,7 @@ Progress: [████░░░░░░] 28% (v1.1 milestone)
 | Phase 3 (Carousels) | 3 | ~313s | ~104s |
 | Phase 4 (Navigation) | 2 | ~1194s | ~597s |
 | Phase 5 (Modals/Filters) | 3 | ~174s | ~58s |
+| Phase 6 (Media Detail) | 2 | ~82s | ~41s |
 
 **Recent Trend:**
 - Last 4 plans: 159s, 155s, 95s, 130s, 245s, ~65s (03-03), ~188s (03-01)
@@ -81,6 +82,10 @@ Recent decisions affecting current work:
 - [05-03]: touchstart { passive: true } added in same useEffect as mousedown on a MouseEvent | TouchEvent union handler — no second useEffect
 - [05-03]: 300ms delay on scrollIntoView matches iOS virtual keyboard animation duration; React 19 synthetic events do not need e.persist()
 - [05-03]: Drag handle uses w-10 (not MobileFilterDrawer's w-12) for more subtle appearance on compact list modals; sm:hidden hides it on desktop
+- [06-02]: grid grid-cols-3 replaces space-y-3 + inner grid-cols-2 — all three action buttons in one equal-width horizontal row at 375px
+- [06-02]: flex-col icon-above-label with py-3 minimum on all three buttons ensures >=44px touch target height in compact cells
+- [06-02]: No overflow-hidden on relative wrapper in MediaCastCarousel — would clip scroll container (Phase 5 lesson reapplied)
+- [06-02]: lg:hidden on fade div — desktop already has scrollbar via lg:scrollbar; fade affordance only needed on mobile
 
 ### Pending Todos
 
@@ -95,5 +100,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-21
-Stopped at: Completed 05-03-PLAN.md — touchstart passive listener for iOS SearchBar tap-outside; DiscoverModal onFocus scrollIntoView; drag handles on list modals.
+Stopped at: Completed 06-02-PLAN.md — MediaPosterActions 3-col grid row; MediaCastCarousel right-edge fade gradient.
 Resume file: None
