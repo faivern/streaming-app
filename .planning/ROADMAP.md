@@ -118,10 +118,12 @@ Plans:
   1. On a 375px phone, the poster and hero backdrop stack vertically — they do not render side-by-side
   2. Genre chips, rating badges, and action buttons wrap to additional lines rather than overflowing the viewport edge
   3. The cast row is horizontally swipeable on mobile without cards clipping the viewport edge
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 06-01: Fix MediaMetaChips flex-wrap, MediaPosterActions touch targets, MediaDetails cast/keyword overflow; verify MediaDetailVideo at 375px; audit Poster.tsx and Backdrop.tsx for CLS
+- [ ] 06-01-PLAN.md — Restructure MediaDetailPage with full-bleed backdrop hero (h-[40dvh]), reposition MediaDetailVideo to trailer section, fix nested &lt;main&gt; in MediaDetailHeader, add overview line-clamp expand toggle, add keywords collapse toggle
+- [ ] 06-02-PLAN.md — Refactor MediaPosterActions to equal-width 3-column grid row; add right-edge fade gradient to MediaCastCarousel
+- [ ] 06-03-PLAN.md — Human verification checkpoint at 375px for all DETAIL-01/02/03 criteria
 
 ### Phase 7: Lists Page
 **Goal**: The lists page is fully usable on mobile — the FAB does not conflict with the bottom nav, and list items are readable and tappable at 375px
@@ -180,7 +182,7 @@ Plans:
 | 3. Carousels | 3/3 | Complete   | 2026-02-20 |
 | 4. Navigation | 2/2 | Complete   | 2026-02-21 |
 | 5. Modals and Filters | 3/3 | Complete   | 2026-02-21 |
-| 6. Media Detail Page | 0/1 | Not started | - |
+| 6. Media Detail Page | 0/3 | Not started | - |
 | 7. Lists Page | 0/1 | Not started | - |
 | 8. Secondary Pages and Insights | 0/3 | Not started | - |
 | 9. Global Polish | 0/2 | Not started | - |
