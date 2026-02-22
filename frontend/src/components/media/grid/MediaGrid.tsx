@@ -25,7 +25,7 @@ export default function MediaGrid({
   // Error state
   if (error) {
     return (
-      <div className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36">
+      <div className="px-page">
         <TitleMid>{displayTitle}</TitleMid>
         <div className="text-red-400 text-center py-8 bg-red-500/10 rounded-lg border border-red-500/20">
           <p className="text-lg font-medium">Failed to load media</p>
@@ -37,7 +37,7 @@ export default function MediaGrid({
 
   return (
 
-    <div className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36">
+    <div className="px-page">
       <TitleMid>{displayTitle}</TitleMid>
 
       <div className="max-w-screen-4xl mx-auto">

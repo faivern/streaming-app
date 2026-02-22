@@ -115,4 +115,15 @@
     /* Clears bottom nav height + iOS home indicator */
     padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
   }
+  .px-page {
+    padding-left: 1rem;   /* 16px = px-4 */
+    padding-right: 1rem;
+  }
+}
+
+@media (min-width: 48rem) {   /* md: 768px */
+  .px-page {
+    padding-left: 2rem;  /* 32px = px-8 */
+    padding-right: 2rem;
+  }
 }

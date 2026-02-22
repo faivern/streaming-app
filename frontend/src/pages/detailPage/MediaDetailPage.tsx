@@ -39,7 +39,7 @@ export default function MediaDetailPage() {
   if (isLoading) {
     return (
       <main>
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
           <BackLink />
           <MediaDetailVideoSkeleton />
         </div>
@@ -85,10 +85,10 @@ export default function MediaDetailPage() {
               onWatchNow={handleWatchNow}
               logo_path={logoPath}
             />
-            <div className="mt-12 py-8 px-4 md:px-12 max-w-7xl mx-auto">
+            <div className="mt-12 py-8 max-w-7xl mx-auto">
               <WatchProviders mediaType={media_type} mediaId={numericId} title={details.title ?? details.name} />
             </div>
-            <div className="mt-8 px-4 md:px-12 max-w-7xl mx-auto">
+            <div className="mt-8 max-w-7xl mx-auto">
               <h2 className="text-xl font-semibold text-white mb-4">Watch Trailer</h2>
               <MediaDetailVideo
                 backdrop_path={details.backdrop_path ?? ""}
