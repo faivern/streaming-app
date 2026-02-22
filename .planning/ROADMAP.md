@@ -167,11 +167,11 @@ Plans:
   3. Full-screen images have explicit `aspect-ratio` or `width`/`height` attributes — no layout shift on image load
   4. Horizontal page padding is consistent at each breakpoint across all pages
   5. The app is manually verified at 375px, 768px, 1440px, and 2560px widths — all breakpoints render without broken elements
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 09-01: Typography and touch-target sweep across all pages; spacing consistency pass with standardized page padding variable
-- [ ] 09-02: Image CLS audit (Poster.tsx, Backdrop.tsx), skeleton state sizing audit, full device matrix test
+- [ ] 09-01-PLAN.md — px-page token, MediaGrid spacing, touch targets (Navbar/BottomNav/WatchProviders), CLS fixes (Backdrop/EnhancedTitle), z-index token sweep (POL-01/02/03/04)
+- [ ] 09-02-PLAN.md — Device matrix human verification at 375px, 768px, 1440px, 2560px (POL-05)
 
 ## Progress
 
@@ -186,5 +186,5 @@ Plans:
 | 5. Modals and Filters | 3/3 | Complete   | 2026-02-21 |
 | 6. Media Detail Page | 3/3 | Complete   | 2026-02-21 |
 | 7. Lists Page | 2/2 | Complete   | 2026-02-21 |
-| 8. Secondary Pages and Insights | 4/4 | Complete   | 2026-02-22 |
+| 8. Secondary Pages and Insights | 4/4 | Complete    | 2026-02-21 |
 | 9. Global Polish | 0/2 | Not started | - |
