@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-20)
 ## Current Position
 
 Phase: 9 of 9 (Global Polish) — COMPLETE
-Plan: 3 of 3 in current phase (09-01 complete, 09-02 complete, 09-03 complete)
-Status: Phase 9 COMPLETE — all requirements POL-01 through POL-05 satisfied (POL-04 gap closed by 09-03). v1.1 Full Responsiveness milestone ship-ready.
-Last activity: 2026-02-25 — 09-03 executed: 5 carousel section wrappers migrated from stepped padding scale to px-page token, closing 8px misalignment gap at 375px.
+Plan: 4 of 4 in current phase (09-01 complete, 09-02 complete, 09-03 complete, 09-04 complete)
+Status: Phase 9 COMPLETE — all requirements POL-01 through POL-05 satisfied. Zero z-50 integer literals remain in frontend/src/components/. v1.1 Full Responsiveness milestone ship-ready.
+Last activity: 2026-02-25 — 09-04 executed: z-index token sweep complete. All 9 remaining components (7 lists/modals + MediaCard + TrendingCarousel) migrated from z-50 to z-(--z-*) tokens.
 
 Progress: [██████████] 100% (v1.1 milestone COMPLETE)
 
@@ -49,6 +49,7 @@ Progress: [██████████] 100% (v1.1 milestone COMPLETE)
 | Phase 09-global-polish P01 | 141 | 3 tasks | 15 files |
 | Phase 09-global-polish P02 | checkpoint | 1 tasks | 0 files |
 | Phase 09-global-polish P03 | 55 | 1 tasks | 5 files |
+| Phase 09-global-polish P04 | 88 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -120,6 +121,9 @@ Recent decisions affecting current work:
 - [Phase 09-01]: DiscoverModal uses z-(--z-modal) (140) not z-(--z-dialog) (150) — modal backdrop/wrapper sits below the dialog panel layer; MobileFilterDrawer uses z-(--z-overlay) (60)
 - [Phase 09-02]: Human approval at all four breakpoints (375px, 768px, 1440px, 2560px) confirms Phase 9 implementation correct — no gap-closure tasks required; v1.1 Full Responsiveness milestone ship-ready
 - [Phase 09-03]: px-page token is the sole source of horizontal page inset — no component should hardcode the old px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36 stepped scale
+- [Phase 09-04]: All Headless UI Dialog root elements use z-(--z-modal) (140) — canonical modal stacking token above sticky navbar (--z-sticky: 50)
+- [Phase 09-04]: MediaCard floating hover panel uses z-(--z-dropdown) (20) — above base cards, below sticky navbar; correct for floating-ui anchored tooltip
+- [Phase 09-04]: TrendingCarousel overlay text div uses z-(--z-overlay) (60) — canonical token for absolutely-positioned content over background images
 
 ### Pending Todos
 
@@ -134,5 +138,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-25
-Stopped at: Phase 9 plan 09-03 complete. All 5 carousel section wrappers migrated to px-page token. POL-04 gap closed. v1.1 milestone ship-ready.
+Stopped at: Phase 9 plan 09-04 complete. Z-index token sweep complete — zero z-50 integer literals remain in frontend/src/components/. POL-04 satisfied. All gap closure plans complete. v1.1 milestone ship-ready.
 Resume file: None
