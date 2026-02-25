@@ -61,6 +61,7 @@
   --component-primary: hsl(0, 0%, 12%);/* component base */
   --action-primary: hsl(0, 0%, 15%);   /* button bg default */
   --action-hover: hsl(0, 0%, 25%);     /* button hover */
+  --subtle: hsl(0, 0%, 64%);           /* muted / secondary text */
 }
 
 :root[data-preset="sleek"] {
@@ -87,4 +88,5 @@
   --component-primary: hsl(220, 15%, 14%); /* component bg */
   --action-primary: hsl(220, 15%, 18%); /* button bg default */
   --action-hover: hsl(220, 15%, 28%);   /* button hover */
+  --subtle: hsl(0, 0%, 64%);            /* muted / secondary text */
 }

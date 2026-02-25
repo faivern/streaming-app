@@ -216,7 +216,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
         </div>
 
         {/* Dots */}
-        <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 lg:bottom-6 xl:bottom-8 left-1/2 z-30 flex gap-2 -translate-x-1/2">
+        <div className="absolute bottom-2 sm:bottom-3 md:bottom-4 lg:bottom-6 xl:bottom-8 left-1/2 z-30 hidden lg:flex gap-2 -translate-x-1/2">
           {(loading ? Array.from({ length: 6 }) : filtered).map((_, idx) => {
             const isActive = !loading && idx === currentIndex;
             return (

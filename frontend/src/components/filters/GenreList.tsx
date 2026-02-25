@@ -11,7 +11,7 @@ export default function GenreList({ genres }: Props) {
 
     if (!genres || genres.length === 0) {
         return (
-            <div className="text-gray-400 text-sm">
+            <div className="text-subtle text-sm">
                 Loading genres...
             </div>
         );
@@ -23,7 +23,7 @@ export default function GenreList({ genres }: Props) {
 
     return (
         <div className="max-h-80 overflow-y-auto">
-            <h3 className="text-white font-semibold mb-3 text-sm uppercase tracking-wide">
+            <h3 className="text-text-h1 font-semibold mb-3 text-sm uppercase tracking-wide">
                 Browse Genres
             </h3>
             <ul className="grid grid-cols-3 gap-1">
@@ -33,7 +33,7 @@ export default function GenreList({ genres }: Props) {
                         onClick={() =>
                             navigate(`/genre/${genre.id}?mediaType=${getDefaultMediaType(genre)}&name=${encodeURIComponent(genre.name)}`)
                         }
-                        className="text-gray-300 hover:text-white hover:bg-sky-500/20 px-2 py-2 rounded-md cursor-pointer transition-colors text-sm"
+                        className="text-subtle hover:text-text-h1 hover:bg-accent-primary/20 px-2 py-2 rounded-md cursor-pointer transition-colors text-sm"
                     >
                         {genre.name}
                     </li>

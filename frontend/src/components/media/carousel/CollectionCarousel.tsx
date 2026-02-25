@@ -116,7 +116,7 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
           </button>
         )}
 
-        <div className="">
+        <div className="hidden lg:block">
           <div className="flex items-center justify-center gap-2">
             {scrollSnaps.map((_, i) => (
               <button
@@ -124,7 +124,7 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
                 onClick={() => emblaApi?.scrollTo(i)}
                 aria-label={`Go to slide ${i + 1}`}
                 className={`h-2 rounded-full transition-all ${
-                  i === selectedIndex ? "bg-sky-500 w-6" : "bg-gray-500/50 w-2"
+                  i === selectedIndex ? "bg-accent-primary w-6" : "bg-gray-500/50 w-2"
                 }`}
               />
             ))}

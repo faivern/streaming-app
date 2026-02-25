@@ -113,7 +113,7 @@ export default function Header() {
 
                   {showGenres && (
                     <div className="absolute left-0 top-full pt-2 z-(--z-drawer)">
-                      <div className="w-96 bg-gray-900/95 backdrop-blur-lg border border-gray-700 rounded-xl p-6 shadow-2xl">
+                      <div className="w-96 bg-component-primary/95 backdrop-blur-lg border border-border rounded-xl p-6 shadow-2xl">
                         <GenreList genres={genres} />
                       </div>
                     </div>
@@ -143,7 +143,7 @@ export default function Header() {
                 <button
                   aria-label="Open menu"
                   onClick={() => setIsMobileMenuOpen(true)}
-                  className="p-3 text-white hover:text-accent-primary transition"
+                  className="p-3 text-text-h1 hover:text-accent-primary transition"
                 >
                   <svg
                     className="w-7 h-7"
@@ -175,11 +175,11 @@ export default function Header() {
                         className="w-8 h-8 rounded-full"
                       />
                     )}
-                    <span className="hidden lg:inline text-sm font-medium text-white">
+                    <span className="hidden lg:inline text-sm font-medium text-text-h1">
                       {user.name}
                     </span>
                     <svg
-                      className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${
+                      className={`w-4 h-4 text-subtle transition-transform duration-300 ${
                         isUserModalOpen ? "rotate-180" : ""
                       }`}
                       fill="none"
@@ -255,15 +255,15 @@ export default function Header() {
           >
             <Dialog.Panel
               as="aside"
-              className="fixed inset-y-0 left-0 w-72 max-w-[calc(100vw-3rem)] bg-gray-900/95 backdrop-blur-lg border-r border-gray-700 flex flex-col shadow-2xl"
+              className="fixed inset-y-0 left-0 w-72 max-w-[calc(100vw-3rem)] bg-component-primary/95 backdrop-blur-lg border-r border-border flex flex-col shadow-2xl"
             >
-              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-700">
-                <h2 className="text-lg font-semibold text-white">Menu</h2>
+              <div className="flex items-center justify-between px-5 py-4 border-b border-border">
+                <h2 className="text-lg font-semibold text-text-h1">Menu</h2>
                 <button
                   aria-label="Close menu"
                   autoFocus
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-3 text-gray-300 hover:text-white transition"
+                  className="p-3 text-subtle hover:text-text-h1 transition"
                 >
                   <svg
                     className="w-6 h-6"
@@ -285,7 +285,7 @@ export default function Header() {
                 <Link
                   to="/"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+                  className="flex items-center gap-3 w-full text-left text-base font-medium text-text-h1 hover:text-accent-primary transition"
                 >
                   <FontAwesomeIcon icon={faHouse} className="text-sm w-5" />
                   Home
@@ -293,7 +293,7 @@ export default function Header() {
                 <Link
                   to="/lists"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+                  className="flex items-center gap-3 w-full text-left text-base font-medium text-text-h1 hover:text-accent-primary transition"
                 >
                   <FontAwesomeIcon icon={faListUl} className="text-sm w-5" />
                   My Lists
@@ -302,7 +302,7 @@ export default function Header() {
                 <div>
                   <button
                     onClick={() => setShowMobileGenres((p) => !p)}
-                    className="flex items-center justify-between w-full text-left text-base font-medium text-white hover:text-accent-primary transition"
+                    className="flex items-center justify-between w-full text-left text-base font-medium text-text-h1 hover:text-accent-primary transition"
                     aria-expanded={showMobileGenres}
                     aria-controls="mobile-genres-panel"
                   >
@@ -333,7 +333,7 @@ export default function Header() {
                   {showMobileGenres && (
                     <div
                       id="mobile-genres-panel"
-                      className="mt-3 max-h-72 overflow-y-auto pr-1 space-y-1 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
+                      className="mt-3 max-h-72 overflow-y-auto pr-1 space-y-1 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent"
                     >
                       <GenreList genres={genres} />
                     </div>
@@ -341,7 +341,7 @@ export default function Header() {
                 </div>
               </nav>
 
-              <div className="px-5 py-4 border-t border-gray-700">
+              <div className="px-5 py-4 border-t border-border">
                 {user ? (
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">

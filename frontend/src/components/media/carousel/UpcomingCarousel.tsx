@@ -65,15 +65,16 @@ export default function UpcomingCarousel({
     emblaApi?.scrollTo(0);
   }, [mediaType, emblaApi]);
 
-  const snapCount = emblaApi?.scrollSnapList().length ?? 0;
-  const showDots = snapCount > 0 && snapCount <= 10;
   const [selectedSnap, setSelectedSnap] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
   useEffect(() => {
     if (!emblaApi) return;
+    setScrollSnaps(emblaApi.scrollSnapList());
     const onSelect = () => setSelectedSnap(emblaApi.selectedScrollSnap());
     emblaApi.on("select", onSelect);
     emblaApi.on("init", onSelect);
+    onSelect();
     return () => {
       emblaApi.off("select", onSelect);
       emblaApi.off("init", onSelect);
@@ -196,16 +197,16 @@ export default function UpcomingCarousel({
           </button>
         )}
 
-        {showDots && (
-          <div className="">
+        {scrollSnaps.length > 0 && (
+          <div className="hidden lg:block">
             <div className="flex items-center justify-center gap-2">
-              {emblaApi?.scrollSnapList().map((_, i) => (
+              {scrollSnaps.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => emblaApi.scrollTo(i)}
                   aria-label={`Go to slide ${i + 1}`}
                   className={`h-2 rounded-full transition-all ${
-                    i === selectedSnap ? "bg-sky-500 w-6" : "bg-gray-500/50 w-2"
+                    i === selectedSnap ? "bg-accent-primary w-6" : "bg-gray-500/50 w-2"
                   }`}
                 />
               ))}

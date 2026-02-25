@@ -54,9 +54,9 @@ export default function MediaDetailPage() {
 
   return (
     <main>
-      {/* Hero backdrop — full-bleed, no horizontal padding */}
+      {/* Hero backdrop — mobile only */}
       {details.backdrop_path && (
-        <div className="relative w-full h-[40dvh] overflow-hidden">
+        <div className="md:hidden relative w-full h-[40dvh] overflow-hidden">
           <img
             src={`https://image.tmdb.org/t/p/w1280${details.backdrop_path}`}
             srcSet={`https://image.tmdb.org/t/p/w780${details.backdrop_path} 780w, https://image.tmdb.org/t/p/w1280${details.backdrop_path} 1280w`}
@@ -71,9 +71,26 @@ export default function MediaDetailPage() {
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto px-4">
+      {/* BackLink — desktop uses mt-navbar-offset since backdrop is hidden */}
+      <div className="max-w-7xl mx-auto px-4 md:mt-navbar-offset">
         <BackLink />
+      </div>
 
+      {/* Desktop: trailer above 2-column layout, ~78% viewport width */}
+      <div className="hidden md:block w-[78%] mx-auto mt-4">
+        <MediaDetailVideo
+          backdrop_path={details.backdrop_path ?? ""}
+          poster_path={details.poster_path ?? ""}
+          title={details.title ?? details.name ?? "Media Trailer"}
+          isPlaying={isPlaying}
+          media_type={media_type}
+          id={numericId}
+          onScrollToWatchProviders={scrollToWatchProviders}
+          onAddToList={() => setAddToListModalOpen(true)}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 mt-4">
         <div className="flex flex-col md:flex-row gap-8">
           <div className="md:w-3/4 w-full">
             <MediaDetailHeader
@@ -88,7 +105,7 @@ export default function MediaDetailPage() {
             <div className="mt-12 py-8 max-w-7xl mx-auto">
               <WatchProviders mediaType={media_type} mediaId={numericId} title={details.title ?? details.name} />
             </div>
-            <div className="mt-8 max-w-7xl mx-auto">
+            <div className="mt-8 md:hidden">
               <h2 className="text-xl font-semibold text-white mb-4">Watch Trailer</h2>
               <MediaDetailVideo
                 backdrop_path={details.backdrop_path ?? ""}

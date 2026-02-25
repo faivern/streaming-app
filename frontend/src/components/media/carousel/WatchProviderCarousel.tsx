@@ -35,6 +35,8 @@ export default function WatchProviderCarousel({
 
   const [prevEnabled, setPrevEnabled] = useState(false);
   const [nextEnabled, setNextEnabled] = useState(true);
+  const [selectedSnap, setSelectedSnap] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -48,6 +50,19 @@ export default function WatchProviderCarousel({
     return () => {
       emblaApi.off("select", update);
       emblaApi.off("init", update);
+    };
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    setScrollSnaps(emblaApi.scrollSnapList());
+    const onSelect = () => setSelectedSnap(emblaApi.selectedScrollSnap());
+    emblaApi.on("select", onSelect);
+    emblaApi.on("init", onSelect);
+    onSelect();
+    return () => {
+      emblaApi.off("select", onSelect);
+      emblaApi.off("init", onSelect);
     };
   }, [emblaApi]);
 
@@ -94,12 +109,12 @@ export default function WatchProviderCarousel({
             {renderItems.map((provider: WatchProviderListItem) => (
               <div
                 key={provider.provider_id}
-                className="flex-[0_0_calc(25%-18px)] sm:flex-[0_0_calc(20%-20px)] lg:flex-[0_0_calc(12.5%-21px)] min-w-0 shrink-0"
+                className="flex-none"
               >
                 {loading ? (
                   <div className="flex flex-col items-center">
-                    <div className="h-28 w-28 rounded-2xl bg-white/10 animate-pulse" />
-                    <div className="h-4 w-20 mt-2 rounded bg-white/10 animate-pulse" />
+                    <div className="h-48 w-48 rounded-2xl bg-white/10 animate-pulse" />
+                    <div className="h-4 w-3/4 mt-2 rounded bg-white/10 animate-pulse" />
                   </div>
                 ) : (
                   <WatchProviderCard
@@ -143,6 +158,23 @@ export default function WatchProviderCarousel({
               <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
             </span>
           </button>
+        )}
+
+        {scrollSnaps.length > 0 && scrollSnaps.length <= 10 && (
+          <div className="hidden lg:block">
+            <div className="flex items-center justify-center gap-2">
+              {scrollSnaps.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => emblaApi?.scrollTo(i)}
+                  aria-label={`Go to slide ${i + 1}`}
+                  className={`h-2 rounded-full transition-all ${
+                    i === selectedSnap ? "bg-accent-primary w-6" : "bg-gray-500/50 w-2"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
         )}
       </div>
     </section>

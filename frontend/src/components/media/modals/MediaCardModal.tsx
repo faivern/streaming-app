@@ -83,9 +83,9 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
     <Link to={`/media/${media_type}/${id}`}>
       <div
         ref={refs.setFloating}
-        className="backdrop-blur-md bg-gray-900/80 w-full max-w-lg p-3 shadow-2xl rounded-lg border border-gray-600/70 text-white"
+        className="backdrop-blur-md bg-component-primary/80 w-full max-w-lg p-3 shadow-2xl rounded-lg border border-border/70 text-text-h1"
       >
-        <h2 className="text-xl font-bold mb-2 text-gray-100">{title}</h2>
+        <h2 className="text-xl font-bold mb-2 text-text-h1">{title}</h2>
 
         {/* Backdrop image */}
         {poster && (
@@ -102,20 +102,20 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
           </div>
         )}
 
-        <p className="text-sm text-gray-200 mb-2 line-clamp-3">{overview}</p>
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-gray-700/70 to-transparent mb-2" />
+        <p className="text-sm text-text-h1 mb-2 line-clamp-3">{overview}</p>
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-border/70 to-transparent mb-2" />
 
-        <div className="flex flex-wrap items-center gap-x-2 text-xs text-gray-300">
+        <div className="flex flex-wrap items-center gap-x-2 text-xs text-subtle">
           <span className="flex items-center gap-1">
             <Calendar className="h-3 w-3" />
             {dateFormat(release) || "No date"}
           </span>
-          <span className="text-gray-600">|</span>
+          <span className="text-subtle">|</span>
           <span className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             {runtimeDisplay ?? "Unknown"}
           </span>
-          <span className="text-gray-600">|</span>
+          <span className="text-subtle">|</span>
           <span className="flex items-center gap-1">
             <LuLanguages className="h-3 w-3" />
             {languageMap[lang] ?? lang.toUpperCase()}
@@ -127,7 +127,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
             {genres.slice(0, 4).map((gid: number) => (
               <span
                 key={gid}
-                className="px-2 py-0.5 text-xs rounded-full bg-gray-700/60 text-gray-300 border border-gray-600/40"
+                className="px-2 py-0.5 text-xs rounded-full bg-action-primary/60 text-subtle border border-border/40"
               >
                 {genreMap[gid] || "Unknown"}
               </span>

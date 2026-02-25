@@ -98,7 +98,7 @@ export default function SearchBar({
     return (
       <button
         onClick={onToggle}
-        className="p-2 text-white hover:text-blue-300 transition"
+        className="p-2 text-text-h1 hover:text-accent-primary transition"
         aria-label="Open search"
       >
         <FontAwesomeIcon icon={faSearch} className="w-5 h-5" />
@@ -109,14 +109,14 @@ export default function SearchBar({
   // Mobile: Full screen overlay when expanded
   if (isMobile && isExpanded) {
     return (
-      <div className="fixed inset-0 z-(--z-searchbar) bg-gray-900/95 backdrop-blur-lg">
-        <div className="flex items-center p-4 border-b border-gray-700">
+      <div className="fixed inset-0 z-(--z-searchbar) bg-component-primary/95 backdrop-blur-lg">
+        <div className="flex items-center p-4 border-b border-border">
           <div className="flex-1 relative" ref={searchRef}>
             <Combobox value={selected} onChange={handleChange} nullable>
               <div className="relative">
                 <Combobox.Input
                   ref={inputRef}
-                  className="w-full bg-gray-800 border border-gray-600 rounded-full px-4 py-3 pl-12 pr-12 text-white placeholder-gray-400 focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all duration-200"
+                  className="w-full bg-action-primary border border-border rounded-full px-4 py-3 pl-12 pr-12 text-text-h1 placeholder-subtle focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all duration-200"
                   placeholder="Search titles, people..."
                   displayValue={() => query}
                   onChange={(e) => handleInput(e.target.value)}
@@ -124,7 +124,7 @@ export default function SearchBar({
                 />
                 <FontAwesomeIcon
                   icon={faSearch}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-subtle"
                 />
               </div>
 
@@ -138,9 +138,9 @@ export default function SearchBar({
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 -translate-y-1"
               >
-                <Combobox.Options className="absolute top-full left-0 right-0 mt-2 bg-gray-800 border border-gray-600 rounded-lg shadow-xl max-h-96 overflow-y-auto focus:outline-none">
+                <Combobox.Options className="absolute top-full left-0 right-0 mt-2 bg-action-primary border border-border rounded-lg shadow-xl max-h-96 overflow-y-auto focus:outline-none">
                   {loading && (
-                    <div className="p-4 text-center text-gray-400">
+                    <div className="p-4 text-center text-subtle">
                       <FontAwesomeIcon
                         icon={faSearch}
                         className="animate-spin mr-2"
@@ -156,7 +156,7 @@ export default function SearchBar({
                   {!loading && !error && hasSearched && (
                     <>
                       {totalResults > 0 && (
-                        <div className="p-3 text-xs text-gray-400 border-b border-gray-700">
+                        <div className="p-3 text-xs text-subtle border-b border-border">
                           {totalResults} result{totalResults !== 1 ? "s" : ""}{" "}
                           found
                         </div>
@@ -170,8 +170,8 @@ export default function SearchBar({
                             className={({ active }) =>
                               `flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors duration-150 ${
                                 active
-                                  ? "bg-sky-500/20 text-white"
-                                  : "text-gray-200 hover:bg-gray-700/50"
+                                  ? "bg-accent-primary/20 text-text-h1"
+                                  : "text-text-h1 hover:bg-action-hover/50"
                               }`
                             }
                           >
@@ -186,12 +186,12 @@ export default function SearchBar({
                                 <div className="flex-1 min-w-0">
                                   <p
                                     className={`font-medium truncate ${
-                                      active ? "text-sky-300" : "text-white"
+                                      active ? "text-accent-primary" : "text-text-h1"
                                     }`}
                                   >
                                     {r.title || r.name}
                                   </p>
-                                  <p className="text-sm text-gray-400 capitalize truncate">
+                                  <p className="text-sm text-subtle capitalize truncate">
                                     {r.media_type === "tv"
                                       ? "TV Show"
                                       : r.media_type}
@@ -210,7 +210,7 @@ export default function SearchBar({
                           </Combobox.Option>
                         ))
                       ) : (
-                        <div className="p-4 text-center text-gray-400">
+                        <div className="p-4 text-center text-subtle">
                           No results for "{query}"
                         </div>
                       )}
@@ -225,7 +225,7 @@ export default function SearchBar({
               <button
                 type="button"
                 onClick={handleClear}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 p-1 z-(--z-searchbar)"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-subtle hover:text-text-h1 transition-colors duration-200 p-1 z-(--z-searchbar)"
               >
                 <FontAwesomeIcon icon={faTimes} />
               </button>
@@ -234,7 +234,7 @@ export default function SearchBar({
 
           <button
             onClick={onToggle}
-            className="ml-4 p-2 text-gray-400 hover:text-white transition"
+            className="ml-4 p-2 text-subtle hover:text-text-h1 transition"
             aria-label="Close search"
           >
             <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
@@ -251,7 +251,7 @@ export default function SearchBar({
         <div className="relative">
           <Combobox.Input
             ref={inputRef}
-            className="w-full bg-gray-900/40 border-2 border-gray-600 rounded-full px-4 py-2.5 pl-10 pr-10 text-white placeholder-gray-400 focus:outline-none focus:border-accent-secondary focus:ring-2 focus:ring-accent-primary/20 transition-all duration-200 text-sm md:text-base"
+            className="w-full bg-component-primary/40 border-2 border-border rounded-full px-4 py-2.5 pl-10 pr-10 text-text-h1 placeholder-subtle focus:outline-none focus:border-accent-secondary focus:ring-2 focus:ring-accent-primary/20 transition-all duration-200 text-sm md:text-base"
             placeholder="Search Movies, TV Shows, People..."
             displayValue={() => query}
             onChange={(e) => handleInput(e.target.value)}
@@ -259,7 +259,7 @@ export default function SearchBar({
           />
           <FontAwesomeIcon
             icon={faSearch}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-subtle text-sm"
           />
         </div>
 
@@ -273,9 +273,9 @@ export default function SearchBar({
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 -translate-y-1"
         >
-          <Combobox.Options className="absolute top-full left-0 right-0 mt-1 bg-gray-900/95 backdrop-blur-lg border border-gray-600 rounded-lg shadow-xl z-(--z-overlay) max-h-96 overflow-y-auto focus:outline-none text-sm">
+          <Combobox.Options className="absolute top-full left-0 right-0 mt-1 bg-component-primary/95 backdrop-blur-lg border border-border rounded-lg shadow-xl z-(--z-overlay) max-h-96 overflow-y-auto focus:outline-none text-sm">
             {loading && (
-              <div className="p-4 text-center text-gray-400">
+              <div className="p-4 text-center text-subtle">
                 <FontAwesomeIcon
                   icon={faSearch}
                   className="animate-spin mr-2"
@@ -291,7 +291,7 @@ export default function SearchBar({
             {!loading && !error && hasSearched && (
               <>
                 {totalResults > 0 && (
-                  <div className="p-2 text-xs text-gray-400 border-b border-gray-700">
+                  <div className="p-2 text-xs text-subtle border-b border-border">
                     {totalResults} result{totalResults !== 1 ? "s" : ""} found
                   </div>
                 )}
@@ -304,8 +304,8 @@ export default function SearchBar({
                       className={({ active }) =>
                         `flex items-center gap-3 px-4 py-2 cursor-pointer transition-colors duration-150 ${
                           active
-                            ? "bg-sky-500/20 text-white"
-                            : "text-gray-200 hover:bg-gray-800/50"
+                            ? "bg-accent-primary/20 text-text-h1"
+                            : "text-text-h1 hover:bg-action-primary/50"
                         }`
                       }
                     >
@@ -320,12 +320,12 @@ export default function SearchBar({
                           <div className="flex-1 min-w-0">
                             <p
                               className={`font-medium truncate ${
-                                active ? "text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary" : "text-white"
+                                active ? "text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary" : "text-text-h1"
                               }`}
                             >
                               {r.title || r.name}
                             </p>
-                            <p className="text-xs text-gray-400 capitalize truncate">
+                            <p className="text-xs text-subtle capitalize truncate">
                               {r.media_type === "tv" ? "TV Show" : r.media_type}
                               {r.release_date &&
                                 ` • ${new Date(r.release_date).getFullYear()}`}
@@ -340,7 +340,7 @@ export default function SearchBar({
                     </Combobox.Option>
                   ))
                 ) : (
-                  <div className="p-4 text-center text-gray-400">
+                  <div className="p-4 text-center text-subtle">
                     No results for "{query}"
                   </div>
                 )}
@@ -355,7 +355,7 @@ export default function SearchBar({
         <button
           type="button"
           onClick={handleClear}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 p-1 z-(--z-drawer)"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-subtle hover:text-text-h1 transition-colors duration-200 p-1 z-(--z-drawer)"
         >
           <FontAwesomeIcon icon={faTimes} className="text-sm" />
         </button>
