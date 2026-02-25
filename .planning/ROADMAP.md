@@ -2,191 +2,55 @@
 
 ## Milestones
 
-- [x] **v0.0 Mobile Responsiveness Stub** - Phase 0 (initial plan created, superseded by v1.0)
-- [x] **v1.0 List Insights Dashboard** - Phase 1 (shipped 2026-02-17)
-- [x] **v1.1 Full Responsiveness** - Phases 2–9 (completed 2026-02-25)
+- [x] **v0.0 Mobile Responsiveness Stub** — Phase 0 (initial plan created, superseded by v1.1)
+- [x] **v1.0 List Insights Dashboard** — Phase 1 (shipped 2026-02-17)
+- [x] **v1.1 Full Responsiveness** — Phases 2–9 (shipped 2026-02-25)
 
 ## Phases
 
 <details>
-<summary>Phase 0–1 (Complete)</summary>
+<summary>✅ v0.0 + v1.0 (Phases 0–1) — SHIPPED</summary>
 
 ### Phase 0: Mobile Responsiveness (Stub)
 **Goal**: Initial mobile responsiveness planning document
 **Status**: Superseded by v1.1 Full Responsiveness milestone (Phases 2–9)
-**Plans**: 1 legacy plan (`.planning/phases/00-mobile-responsiveness/PLAN.md`)
 
 ### Phase 1: List Insights Dashboard
-**Goal**: Build a static insights dashboard that analyzes a user's lists and presents visual data through a bento grid layout with glassmorphism cards — two views: per-list insights at `/list/:id/insights` and master insights aggregating all lists
-**Depends on**: Phase 0
+**Goal**: Build a static insights dashboard that analyzes a user's lists and presents visual data through a bento grid layout with glassmorphism cards
 **Status**: Complete (2026-02-17)
 **Plans**: 4 plans
-
-Plans:
-- [x] 01-01-PLAN.md — Types, aggregators, formatters, and Recharts chart wrappers
-- [x] 01-02-PLAN.md — BentoGrid layout, glassmorphism cards, all 7 metric card components, empty/loading states
-- [x] 01-03-PLAN.md — Data-fetching hooks (useListInsights, useMasterInsights) with TMDB enrichment
-- [x] 01-04-PLAN.md — Insights pages, routing, and entry points in lists UI
+- [x] 01-01 — Types, aggregators, formatters, and Recharts chart wrappers
+- [x] 01-02 — BentoGrid layout, glassmorphism cards, all 7 metric card components
+- [x] 01-03 — Data-fetching hooks (useListInsights, useMasterInsights)
+- [x] 01-04 — Insights pages, routing, and entry points in lists UI
 
 </details>
 
-### v1.1 Full Responsiveness (In Progress)
+<details>
+<summary>✅ v1.1 Full Responsiveness (Phases 2–9) — SHIPPED 2026-02-25</summary>
 
-**Milestone Goal:** Every page of Cinelas looks intentional and feels native at any screen width from 375px phones to 2560px+ desktops — nothing overflows, nothing is an afterthought.
+- [x] Phase 2: Foundation (2/2 plans) — completed 2026-02-20
+- [x] Phase 3: Carousels (3/3 plans) — completed 2026-02-20
+- [x] Phase 4: Navigation (2/2 plans) — completed 2026-02-21
+- [x] Phase 5: Modals and Filters (3/3 plans) — completed 2026-02-21
+- [x] Phase 6: Media Detail Page (3/3 plans) — completed 2026-02-21
+- [x] Phase 7: Lists Page (2/2 plans) — completed 2026-02-21
+- [x] Phase 8: Secondary Pages and Insights (4/4 plans) — completed 2026-02-22
+- [x] Phase 9: Global Polish (4/4 plans) — completed 2026-02-25
 
-## Summary Checklist
+Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 
-- [x] **Phase 2: Foundation** - Global CSS config, viewport meta, and z-index tokens that every subsequent phase depends on (completed 2026-02-20)
-- [x] **Phase 3: Carousels** - Migrate all six carousels to Embla with touch swipe; fix media card overflow and hover behavior (completed 2026-02-20)
-- [x] **Phase 4: Navigation** - Add persistent bottom nav bar on mobile; fix iOS scroll lock in mobile menu (completed 2026-02-21)
-- [x] **Phase 5: Modals and Filters** - Bottom-sheet pattern for all modals and overlays; filter panels functional at 375px (completed 2026-02-21)
-- [x] **Phase 6: Media Detail Page** - Complete vertical-stack layout, chip wrap, and touch-target fixes on the detail page (completed 2026-02-21)
-- [x] **Phase 7: Lists Page** - Resolve FAB/bottom-nav conflict; audit list item touch targets and column layout (completed 2026-02-21)
-- [x] **Phase 8: Secondary Pages and Insights** - Audit and fix all remaining pages: credits, genre, collection, providers, legal, insights (completed 2026-02-22)
-- [x] **Phase 9: Global Polish** - Typography sweep, CLS fixes, touch-target sweep, spacing consistency, and full device matrix test (completed 2026-02-25)
-
-## Phase Details
-
-### Phase 2: Foundation
-**Goal**: The global CSS shell is correct and iOS-safe — every subsequent phase can build on a reliable breakpoint system, viewport height, safe-area support, and z-index scale
-**Depends on**: Phase 1
-**Requirements**: FOUND-01, FOUND-02, FOUND-03, FOUND-04, FOUND-05, FOUND-06
-**Success Criteria** (what must be TRUE):
-  1. Custom breakpoints `3xl` and `4xl` apply correctly — a 1920px+ viewport receives `3xl:` prefixed styles (previously silently ignored in Tailwind CSS 4)
-  2. The app shell fills the visible viewport on iOS Safari without content hiding behind the browser chrome (verifiable by loading on iPhone with Safari toolbar visible)
-  3. Safe-area padding is applied to all fixed-bottom elements — content does not overlap the iPhone home indicator
-  4. A consistent z-index token table exists in CSS `@theme` — no ad-hoc numeric z-values for new layers added in this milestone
-  5. Navbar offset margins across pages are driven by a single CSS variable, not scattered `mt-20`/`mt-24` hardcodes
-**Plans**: 2 plans
-
-Plans:
-- [ ] 02-01-PLAN.md — Breakpoints in @theme, viewport-fit=cover, min-h-dvh replacement, z-index token table
-- [ ] 02-02-PLAN.md — Safe-area pb-safe utilities on fixed-bottom elements, mt-navbar-offset token, Splide removal
-
-### Phase 3: Carousels
-**Goal**: Every carousel in the app is touch-native — users can swipe horizontally to browse content on a 375px phone without cards overflowing the viewport
-**Depends on**: Phase 2
-**Requirements**: CAR-01, CAR-02, CAR-03, CAR-04, CAR-05, CAR-06, CAR-07, CARD-01, CARD-02
-**Success Criteria** (what must be TRUE):
-  1. A user on a 375px phone can swipe left/right on any carousel (CollectionCarousel, Top10Carousel, UpcomingCarousel, WatchProviderCarousel, GenreCardList, TrendingCarousel) and cards snap correctly
-  2. No carousel card overflows the horizontal viewport — hardcoded `w-lg`/`w-md` fixed widths are replaced with viewport-relative sizing
-  3. Tapping a media card on a touch device navigates correctly without first showing the hover tooltip popup
-  4. All media card tap targets (poster, title, action buttons) meet the 44px minimum on mobile
-**Plans**: 3 plans
-
-Plans:
-- [ ] 03-01-PLAN.md — Migrate CollectionCarousel, Top10Carousel, and GenreCardList to Embla with viewport-relative slide widths
-- [ ] 03-02-PLAN.md — Migrate UpcomingCarousel, WatchProviderCarousel, and TrendingCarousel to Embla; fix TrendingCarousel hero height (dvh)
-- [x] 03-03-PLAN.md — Guard MediaCardModal to desktop-only (hidden lg:block); audit MediaCastCarousel and MediaCastCard touch targets
-
-### Phase 4: Navigation
-**Goal**: Mobile users navigate the app through a native-feeling bottom tab bar — the hamburger drawer is replaced as the primary mobile navigation pattern
-**Depends on**: Phase 2
-**Requirements**: NAV-01, NAV-02, NAV-03
-**Success Criteria** (what must be TRUE):
-  1. A persistent bottom navigation bar is visible on screens below the `md` breakpoint with correct active-state indicators for the current route
-  2. The mobile menu (when opened) locks scroll correctly on iOS — the page behind does not scroll
-  3. Both the top bar (desktop) and bottom bar (mobile) are present simultaneously and neither overlaps app content at any breakpoint
-**Plans**: 2 plans
-
-Plans:
-- [ ] 04-01-PLAN.md — Build BottomNav component (NavLink active state, safe-area padding, z-index token); wire into App.tsx with pb-bottom-nav; fix MyListsPage FAB offset
-- [ ] 04-02-PLAN.md — Migrate Navbar mobile drawer to Headless UI Dialog for correct iOS scroll lock
-
-### Phase 5: Modals and Filters
-**Goal**: All modals and filter panels behave as bottom sheets on mobile — no centered desktop overlays clip content on a 375px screen
-**Depends on**: Phase 4
-**Requirements**: MOD-01, MOD-02, MOD-03, MOD-04, MOD-05, DISC-01, DISC-02, DISC-03
-**Success Criteria** (what must be TRUE):
-  1. MediaModal presents as a bottom sheet on mobile — it does not render as a centered overlay that clips off-screen at 375px
-  2. All Headless UI Dialog modals (AddToListModal, CreateListModal, EditListModal, DeleteConfirmModal) use `max-h-[90dvh]` and do not overflow the visible viewport
-  3. Scrolling inside any modal does not scroll the background page
-  4. The filter/discover panel is fully usable at 375px — all inputs and dropdowns have at least 44px touch targets
-  5. Searching on mobile does not cause a layout jump when the virtual keyboard appears
-**Plans**: 3 plans
-
-Plans:
-- [ ] 05-01-PLAN.md — Replace vh with dvh on all 8 Dialog.Panel instances; add max-h + overflow-y-auto + overscroll-contain to 4 panels missing height constraints
-- [ ] 05-02-PLAN.md — Add overscroll-contain to MobileFilterDrawer inner scroll; increase filter dropdown option rows to py-3 (≥44px touch targets)
-- [ ] 05-03-PLAN.md — Add touchstart to SearchBar click-outside handler; add onFocus scrollIntoView to DiscoverModal search input; add drag handle bars to 3 list modals
-
-### Phase 6: Media Detail Page
-**Goal**: The media detail page is fully usable on a 375px phone — content stacks vertically, chips and badges wrap correctly, and the cast row is swipeable
-**Depends on**: Phase 3
-**Requirements**: DETAIL-01, DETAIL-02, DETAIL-03
-**Success Criteria** (what must be TRUE):
-  1. On a 375px phone, the poster and hero backdrop stack vertically — they do not render side-by-side
-  2. Genre chips, rating badges, and action buttons wrap to additional lines rather than overflowing the viewport edge
-  3. The cast row is horizontally swipeable on mobile without cards clipping the viewport edge
-**Plans**: 3 plans
-
-Plans:
-- [ ] 06-01-PLAN.md — Restructure MediaDetailPage with full-bleed backdrop hero (h-[40dvh]), reposition MediaDetailVideo to trailer section, fix nested &lt;main&gt; in MediaDetailHeader, add overview line-clamp expand toggle, add keywords collapse toggle
-- [ ] 06-02-PLAN.md — Refactor MediaPosterActions to equal-width 3-column grid row; add right-edge fade gradient to MediaCastCarousel
-- [ ] 06-03-PLAN.md — Human verification checkpoint at 375px for all DETAIL-01/02/03 criteria
-
-### Phase 7: Lists Page
-**Goal**: The lists page is fully usable on mobile — the FAB does not conflict with the bottom nav, and list items are readable and tappable at 375px
-**Depends on**: Phase 4
-**Requirements**: LIST-01, LIST-02, LIST-03
-**Success Criteria** (what must be TRUE):
-  1. The create-list action is accessible on mobile without being hidden by or conflicting with the bottom navigation bar
-  2. List item cards are readable and tappable at 375px — text is legible and tap targets meet 44px
-  3. The lists sidebar/drawer opens and closes correctly on mobile
-**Plans**: 2 plans
-
-Plans:
-- [x] 07-01-PLAN.md — Fix ListsDrawer z-index token + overscroll; fix ViewToggle, ListHeader Listbox.Option, ListsSidebar touch targets
-- [x] 07-02-PLAN.md — Human visual verification at 375px for LIST-01/02/03
-
-### Phase 8: Secondary Pages and Insights
-**Goal**: Every remaining page in the app is functional and readable at 375px — no pages are left with unaudited desktop-only layouts
-**Depends on**: Phase 2
-**Requirements**: INS-01, INS-02, INS-03, SEC-01, SEC-02, SEC-03, SEC-04, SEC-05, SEC-06
-**Success Criteria** (what must be TRUE):
-  1. The insights dashboard renders in a single-column layout on mobile — BentoGrid cards stack vertically and are readable
-  2. Recharts charts on the insights page render correctly at mobile widths without overflow or clipping
-  3. The credits page grid collapses to 2-column on mobile and cast/crew tabs have adequate touch targets
-  4. Genre, collection, provider, and person detail pages display their hero sections and content correctly at 375px
-  5. Legal pages (Privacy Policy, Terms of Service) are readable at 375px with no horizontal overflow
-**Plans**: 4 plans
-
-Plans:
-- [x] 08-01-PLAN.md — Insights page audit: IdentityIntroCard gap-2, BentoGrid and Recharts verified (INS-01/02/03)
-- [x] 08-02-PLAN.md — Credits and person detail pages: mt-navbar-offset + break-words on biography (SEC-01, SEC-06)
-- [x] 08-03-PLAN.md — Genre, collection, provider, and legal pages: hero overflow, navbar offsets, grid fixes, z-index token (SEC-02/03/04/05)
-- [x] 08-04-PLAN.md — Human visual verification at 375px for all INS and SEC requirements
-
-### Phase 9: Global Polish
-**Goal**: The entire app is visually consistent and pixel-clean across all breakpoints — zero horizontal overflow at root causes, consistent spacing, correct CLS behavior, and full touch-target compliance on every page
-**Depends on**: Phases 2–8
-**Requirements**: POL-01, POL-02, POL-03, POL-04, POL-05
-**Success Criteria** (what must be TRUE):
-  1. No page produces horizontal scrolling at 375px — root causes are fixed, not masked with `overflow-x: hidden`
-  2. Every interactive element (button, link, icon button) meets the 44px minimum touch target on all pages
-  3. Full-screen images have explicit `aspect-ratio` or `width`/`height` attributes — no layout shift on image load
-  4. Horizontal page padding is consistent at each breakpoint across all pages
-  5. The app is manually verified at 375px, 768px, 1440px, and 2560px widths — all breakpoints render without broken elements
-**Plans**: 4 plans
-
-Plans:
-- [x] 09-01-PLAN.md — px-page token, MediaGrid spacing, touch targets (Navbar/BottomNav/WatchProviders), CLS fixes (Backdrop/EnhancedTitle), z-index token sweep (POL-01/02/03/04)
-- [x] 09-02-PLAN.md — Device matrix human verification at 375px, 768px, 1440px, 2560px (POL-05)
-- [ ] 09-03-PLAN.md — Gap closure: px-page on 5 carousel section wrappers (CollectionCarousel, UpcomingCarousel, Top10Carousel, WatchProviderCarousel, GenreCardList) (POL-04)
-- [ ] 09-04-PLAN.md — Gap closure: z-(--z-modal) on 7 lists/modals Dialog components + z-index tokens on MediaCard and TrendingCarousel (POL-04)
+</details>
 
 ## Progress
 
-**Execution Order:**
-2 → 3 → 4 → 5 → 6 → 7 → 8 → 9
-
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 2. Foundation | 2/2 | Complete    | 2026-02-20 |
-| 3. Carousels | 3/3 | Complete   | 2026-02-20 |
-| 4. Navigation | 2/2 | Complete   | 2026-02-21 |
-| 5. Modals and Filters | 3/3 | Complete   | 2026-02-21 |
-| 6. Media Detail Page | 3/3 | Complete   | 2026-02-21 |
-| 7. Lists Page | 2/2 | Complete   | 2026-02-21 |
-| 8. Secondary Pages and Insights | 4/4 | Complete    | 2026-02-21 |
-| 9. Global Polish | 4/4 | Complete   | 2026-02-25 |
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 2. Foundation | v1.1 | 2/2 | Complete | 2026-02-20 |
+| 3. Carousels | v1.1 | 3/3 | Complete | 2026-02-20 |
+| 4. Navigation | v1.1 | 2/2 | Complete | 2026-02-21 |
+| 5. Modals and Filters | v1.1 | 3/3 | Complete | 2026-02-21 |
+| 6. Media Detail Page | v1.1 | 3/3 | Complete | 2026-02-21 |
+| 7. Lists Page | v1.1 | 2/2 | Complete | 2026-02-21 |
+| 8. Secondary Pages | v1.1 | 4/4 | Complete | 2026-02-22 |
+| 9. Global Polish | v1.1 | 4/4 | Complete | 2026-02-25 |

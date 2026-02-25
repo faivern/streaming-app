@@ -2,10 +2,10 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-02-20)
+See: .planning/PROJECT.md (updated 2026-02-25)
 
 **Core value:** Every page of Cinelas looks intentional and feels native at any screen width — nothing overflows, nothing is an afterthought.
-**Current focus:** Phase 9 — Global Polish
+**Current focus:** v1.1 milestone shipped — planning next milestone
 
 ## Current Position
 
