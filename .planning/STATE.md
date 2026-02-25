@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-02-20)
 ## Current Position
 
 Phase: 9 of 9 (Global Polish) — COMPLETE
-Plan: 2 of 2 in current phase (09-01 complete, 09-02 complete)
-Status: Phase 9 COMPLETE — all requirements POL-01 through POL-05 satisfied. v1.1 Full Responsiveness milestone ship-ready.
-Last activity: 2026-02-25 — 09-02 executed: human reviewer approved all 13 routes at 375px, 768px, 1440px, 2560px. No issues found.
+Plan: 3 of 3 in current phase (09-01 complete, 09-02 complete, 09-03 complete)
+Status: Phase 9 COMPLETE — all requirements POL-01 through POL-05 satisfied (POL-04 gap closed by 09-03). v1.1 Full Responsiveness milestone ship-ready.
+Last activity: 2026-02-25 — 09-03 executed: 5 carousel section wrappers migrated from stepped padding scale to px-page token, closing 8px misalignment gap at 375px.
 
 Progress: [██████████] 100% (v1.1 milestone COMPLETE)
 
@@ -48,6 +48,7 @@ Progress: [██████████] 100% (v1.1 milestone COMPLETE)
 | Phase 08-secondary-pages-and-insights P04 | 1 | 1 tasks | 0 files |
 | Phase 09-global-polish P01 | 141 | 3 tasks | 15 files |
 | Phase 09-global-polish P02 | checkpoint | 1 tasks | 0 files |
+| Phase 09-global-polish P03 | 55 | 1 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -118,6 +119,7 @@ Recent decisions affecting current work:
 - [Phase 09-01]: aspect-video and aspect-[3/1] are additive on img class strings — call-site height classes override aspect-ratio when height is also specified; CLS prevented without breaking existing usages
 - [Phase 09-01]: DiscoverModal uses z-(--z-modal) (140) not z-(--z-dialog) (150) — modal backdrop/wrapper sits below the dialog panel layer; MobileFilterDrawer uses z-(--z-overlay) (60)
 - [Phase 09-02]: Human approval at all four breakpoints (375px, 768px, 1440px, 2560px) confirms Phase 9 implementation correct — no gap-closure tasks required; v1.1 Full Responsiveness milestone ship-ready
+- [Phase 09-03]: px-page token is the sole source of horizontal page inset — no component should hardcode the old px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36 stepped scale
 
 ### Pending Todos
 
@@ -132,5 +134,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-25
-Stopped at: Phase 9 complete. 09-02 device matrix verification approved by human reviewer. All POL-01–POL-05 requirements satisfied. v1.1 milestone ship-ready.
+Stopped at: Phase 9 plan 09-03 complete. All 5 carousel section wrappers migrated to px-page token. POL-04 gap closed. v1.1 milestone ship-ready.
 Resume file: None
