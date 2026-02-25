@@ -82,7 +82,7 @@
 - [x] **POL-02**: All interactive elements (buttons, links, icon buttons) have ≥44px touch targets
 - [x] **POL-03**: All full-screen images use explicit `width`/`height` or `aspect-ratio` to prevent CLS
 - [x] **POL-04**: Horizontal spacing is consistent across all pages at each breakpoint
-- [ ] **POL-05**: App is visually tested at 375px, 768px, 1440px, and 2560px widths
+- [x] **POL-05**: App is visually tested at 375px, 768px, 1440px, and 2560px widths
 
 ## v2 Requirements
 
@@ -155,7 +155,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | POL-02 | Phase 9 | Complete |
 | POL-03 | Phase 9 | Complete |
 | POL-04 | Phase 9 | Complete |
-| POL-05 | Phase 9 | Pending |
+| POL-05 | Phase 9 | Complete |
 
 **Coverage:**
 - v1 requirements: 46 total

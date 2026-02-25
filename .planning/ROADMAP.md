@@ -4,7 +4,7 @@
 
 - [x] **v0.0 Mobile Responsiveness Stub** - Phase 0 (initial plan created, superseded by v1.0)
 - [x] **v1.0 List Insights Dashboard** - Phase 1 (shipped 2026-02-17)
-- [ ] **v1.1 Full Responsiveness** - Phases 2–9 (in progress)
+- [x] **v1.1 Full Responsiveness** - Phases 2–9 (completed 2026-02-25)
 
 ## Phases
 
@@ -43,7 +43,7 @@ Plans:
 - [x] **Phase 6: Media Detail Page** - Complete vertical-stack layout, chip wrap, and touch-target fixes on the detail page (completed 2026-02-21)
 - [x] **Phase 7: Lists Page** - Resolve FAB/bottom-nav conflict; audit list item touch targets and column layout (completed 2026-02-21)
 - [x] **Phase 8: Secondary Pages and Insights** - Audit and fix all remaining pages: credits, genre, collection, providers, legal, insights (completed 2026-02-22)
-- [ ] **Phase 9: Global Polish** - Typography sweep, CLS fixes, touch-target sweep, spacing consistency, and full device matrix test
+- [x] **Phase 9: Global Polish** - Typography sweep, CLS fixes, touch-target sweep, spacing consistency, and full device matrix test (completed 2026-02-25)
 
 ## Phase Details
 
@@ -170,8 +170,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — px-page token, MediaGrid spacing, touch targets (Navbar/BottomNav/WatchProviders), CLS fixes (Backdrop/EnhancedTitle), z-index token sweep (POL-01/02/03/04)
-- [ ] 09-02-PLAN.md — Device matrix human verification at 375px, 768px, 1440px, 2560px (POL-05)
+- [x] 09-01-PLAN.md — px-page token, MediaGrid spacing, touch targets (Navbar/BottomNav/WatchProviders), CLS fixes (Backdrop/EnhancedTitle), z-index token sweep (POL-01/02/03/04)
+- [x] 09-02-PLAN.md — Device matrix human verification at 375px, 768px, 1440px, 2560px (POL-05)
 
 ## Progress
 
@@ -187,4 +187,4 @@ Plans:
 | 6. Media Detail Page | 3/3 | Complete   | 2026-02-21 |
 | 7. Lists Page | 2/2 | Complete   | 2026-02-21 |
 | 8. Secondary Pages and Insights | 4/4 | Complete    | 2026-02-21 |
-| 9. Global Polish | 1/2 | In Progress|  |
+| 9. Global Polish | 2/2 | Complete   | 2026-02-25 |

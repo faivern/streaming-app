@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-02-20)
 
 ## Current Position
 
-Phase: 9 of 9 (Global Polish) — IN PROGRESS
-Plan: 1 of 2 in current phase (09-01 complete, 09-02 pending)
-Status: Phase 9 in progress — 09-01-PLAN.md (px-page token, touch targets, CLS fixes, z-index sweep) COMPLETE. 09-02-PLAN.md (device matrix human verification) ready to execute.
-Last activity: 2026-02-25 — 09-01 executed: px-page token added, 3 touch target gaps fixed, 6 z-index literals replaced, 2 CLS images fixed.
+Phase: 9 of 9 (Global Polish) — COMPLETE
+Plan: 2 of 2 in current phase (09-01 complete, 09-02 complete)
+Status: Phase 9 COMPLETE — all requirements POL-01 through POL-05 satisfied. v1.1 Full Responsiveness milestone ship-ready.
+Last activity: 2026-02-25 — 09-02 executed: human reviewer approved all 13 routes at 375px, 768px, 1440px, 2560px. No issues found.
 
-Progress: [█████████░] 80% (v1.1 milestone)
+Progress: [██████████] 100% (v1.1 milestone COMPLETE)
 
 ## Performance Metrics
 
@@ -47,6 +47,7 @@ Progress: [█████████░] 80% (v1.1 milestone)
 | Phase 08-secondary-pages-and-insights P03 | 109 | 2 tasks | 8 files |
 | Phase 08-secondary-pages-and-insights P04 | 1 | 1 tasks | 0 files |
 | Phase 09-global-polish P01 | 141 | 3 tasks | 15 files |
+| Phase 09-global-polish P02 | checkpoint | 1 tasks | 0 files |
 
 ## Accumulated Context
 
@@ -116,6 +117,7 @@ Recent decisions affecting current work:
 - [Phase 09-01]: px-page utility registered in @layer utilities with responsive override via media query block outside the layer — Tailwind 4 @layer utilities cannot contain @media directives
 - [Phase 09-01]: aspect-video and aspect-[3/1] are additive on img class strings — call-site height classes override aspect-ratio when height is also specified; CLS prevented without breaking existing usages
 - [Phase 09-01]: DiscoverModal uses z-(--z-modal) (140) not z-(--z-dialog) (150) — modal backdrop/wrapper sits below the dialog panel layer; MobileFilterDrawer uses z-(--z-overlay) (60)
+- [Phase 09-02]: Human approval at all four breakpoints (375px, 768px, 1440px, 2560px) confirms Phase 9 implementation correct — no gap-closure tasks required; v1.1 Full Responsiveness milestone ship-ready
 
 ### Pending Todos
 
@@ -129,6 +131,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-02-22
-Stopped at: Phase 9 planned. 09-01 and 09-02 PLAN.md files created and verified. Ready to execute Phase 9.
+Last session: 2026-02-25
+Stopped at: Phase 9 complete. 09-02 device matrix verification approved by human reviewer. All POL-01–POL-05 requirements satisfied. v1.1 milestone ship-ready.
 Resume file: None
