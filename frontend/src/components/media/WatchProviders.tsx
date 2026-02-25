@@ -193,7 +193,7 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
                         <Listbox.Option
                           key={region.iso_3166_1}
                           className={({ active }) =>
-                            `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                            `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
                               active ? "bg-accent-primary/20 text-white" : "text-gray-300"
                             }`
                           }

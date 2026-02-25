@@ -109,7 +109,7 @@ export default function SearchBar({
   // Mobile: Full screen overlay when expanded
   if (isMobile && isExpanded) {
     return (
-      <div className="fixed inset-0 z-[100] bg-gray-900/95 backdrop-blur-lg">
+      <div className="fixed inset-0 z-(--z-searchbar) bg-gray-900/95 backdrop-blur-lg">
         <div className="flex items-center p-4 border-b border-gray-700">
           <div className="flex-1 relative" ref={searchRef}>
             <Combobox value={selected} onChange={handleChange} nullable>
@@ -225,7 +225,7 @@ export default function SearchBar({
               <button
                 type="button"
                 onClick={handleClear}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 p-1 z-[110]"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 p-1 z-(--z-searchbar)"
               >
                 <FontAwesomeIcon icon={faTimes} />
               </button>
@@ -273,7 +273,7 @@ export default function SearchBar({
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 -translate-y-1"
         >
-          <Combobox.Options className="absolute top-full left-0 right-0 mt-1 bg-gray-900/95 backdrop-blur-lg border border-gray-600 rounded-lg shadow-xl z-[60] max-h-96 overflow-y-auto focus:outline-none text-sm">
+          <Combobox.Options className="absolute top-full left-0 right-0 mt-1 bg-gray-900/95 backdrop-blur-lg border border-gray-600 rounded-lg shadow-xl z-(--z-overlay) max-h-96 overflow-y-auto focus:outline-none text-sm">
             {loading && (
               <div className="p-4 text-center text-gray-400">
                 <FontAwesomeIcon
@@ -355,7 +355,7 @@ export default function SearchBar({
         <button
           type="button"
           onClick={handleClear}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 p-1 z-[70]"
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 p-1 z-(--z-drawer)"
         >
           <FontAwesomeIcon icon={faTimes} className="text-sm" />
         </button>

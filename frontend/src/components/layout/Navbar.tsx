@@ -63,7 +63,7 @@ export default function Header() {
   return (
     <>
       <header
-        className={`sticky top-0 z-50 w-full backdrop-blur-lg transition-colors duration-700 ease-in-out
+        className={`sticky top-0 z-(--z-sticky) w-full backdrop-blur-lg transition-colors duration-700 ease-in-out
         ${
           isScrolled
             ? "bg-gradient-to-b from-primary via-primary to-primary shadow-xl"
@@ -112,7 +112,7 @@ export default function Header() {
                   </div>
 
                   {showGenres && (
-                    <div className="absolute left-0 top-full pt-2 z-[100]">
+                    <div className="absolute left-0 top-full pt-2 z-(--z-drawer)">
                       <div className="w-96 bg-gray-900/95 backdrop-blur-lg border border-gray-700 rounded-xl p-6 shadow-2xl">
                         <GenreList genres={genres} />
                       </div>
@@ -143,7 +143,7 @@ export default function Header() {
                 <button
                   aria-label="Open menu"
                   onClick={() => setIsMobileMenuOpen(true)}
-                  className="p-2 text-white hover:text-accent-primary transition"
+                  className="p-3 text-white hover:text-accent-primary transition"
                 >
                   <svg
                     className="w-7 h-7"
@@ -263,7 +263,7 @@ export default function Header() {
                   aria-label="Close menu"
                   autoFocus
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 text-gray-300 hover:text-white transition"
+                  className="p-3 text-gray-300 hover:text-white transition"
                 >
                   <svg
                     className="w-6 h-6"

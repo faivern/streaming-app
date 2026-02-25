@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faListUl, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "../../hooks/user/useUser";
@@ -42,14 +42,17 @@ export default function BottomNav() {
 
         {/* Profile / Login */}
         {user ? (
-          <div className="flex flex-col items-center gap-1 px-4 py-2 text-xs font-medium text-gray-400">
+          <Link
+            to="/lists"
+            className="flex flex-col items-center gap-1 px-4 py-2 text-xs font-medium text-gray-400 hover:text-white transition-colors"
+          >
             <img
               src={user.picture ?? ""}
               alt=""
               className="w-6 h-6 rounded-full object-cover"
             />
             <span>Profile</span>
-          </div>
+          </Link>
         ) : (
           <a
             href={GOOGLE_LOGIN_URL}

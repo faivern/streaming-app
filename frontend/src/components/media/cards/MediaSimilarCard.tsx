@@ -100,7 +100,7 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
   return (
     <div
       className={`group relative transition-transform duration-300 cursor-pointer h-20 ${
-        hovered ? "z-[9999]" : "z-10 hover:z-30"
+        hovered ? "z-(--z-dialog)" : "z-10 hover:z-30"
       }`}
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}

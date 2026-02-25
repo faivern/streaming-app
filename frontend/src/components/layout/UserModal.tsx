@@ -19,7 +19,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
 
   return (
     <div
-      className={`absolute right-0 mt-2 w-56 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl py-3 z-50 border border-gray-700
+      className={`absolute right-0 mt-2 w-56 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-2xl py-3 z-(--z-dropdown) border border-gray-700
         transition-all duration-300 ease-out origin-top-right
         ${
           show
@@ -73,7 +73,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-50 mt-1 w-full overflow-auto rounded-lg bg-gray-800 border border-gray-600 py-1 text-sm shadow-lg focus:outline-none">
+              <Listbox.Options className="absolute z-(--z-dropdown) mt-1 w-full overflow-auto rounded-lg bg-gray-800 border border-gray-600 py-1 text-sm shadow-lg focus:outline-none">
                 {THEME_OPTIONS.map((option) => (
                   <Listbox.Option
                     key={option.value}

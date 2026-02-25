@@ -420,7 +420,7 @@ export default function DiscoverModal({
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={handleClose}>
+        <Dialog as="div" className="relative z-(--z-modal)" onClose={handleClose}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
