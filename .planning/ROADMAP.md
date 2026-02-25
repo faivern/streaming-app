@@ -167,11 +167,13 @@ Plans:
   3. Full-screen images have explicit `aspect-ratio` or `width`/`height` attributes — no layout shift on image load
   4. Horizontal page padding is consistent at each breakpoint across all pages
   5. The app is manually verified at 375px, 768px, 1440px, and 2560px widths — all breakpoints render without broken elements
-**Plans**: 2 plans
+**Plans**: 4 plans
 
 Plans:
 - [x] 09-01-PLAN.md — px-page token, MediaGrid spacing, touch targets (Navbar/BottomNav/WatchProviders), CLS fixes (Backdrop/EnhancedTitle), z-index token sweep (POL-01/02/03/04)
 - [x] 09-02-PLAN.md — Device matrix human verification at 375px, 768px, 1440px, 2560px (POL-05)
+- [ ] 09-03-PLAN.md — Gap closure: px-page on 5 carousel section wrappers (CollectionCarousel, UpcomingCarousel, Top10Carousel, WatchProviderCarousel, GenreCardList) (POL-04)
+- [ ] 09-04-PLAN.md — Gap closure: z-(--z-modal) on 7 lists/modals Dialog components + z-index tokens on MediaCard and TrendingCarousel (POL-04)
 
 ## Progress
 
@@ -187,4 +189,4 @@ Plans:
 | 6. Media Detail Page | 3/3 | Complete   | 2026-02-21 |
 | 7. Lists Page | 2/2 | Complete   | 2026-02-21 |
 | 8. Secondary Pages and Insights | 4/4 | Complete    | 2026-02-21 |
-| 9. Global Polish | 2/2 | Complete   | 2026-02-25 |
+| 9. Global Polish | 2/4 | In Progress (gap closure) | 2026-02-25 |
