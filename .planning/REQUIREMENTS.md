@@ -78,10 +78,10 @@
 
 ### Global Polish
 
-- [ ] **POL-01**: Zero horizontal overflow at 375px on all pages (no `overflow-x: hidden` hacks — fix root causes)
-- [ ] **POL-02**: All interactive elements (buttons, links, icon buttons) have ≥44px touch targets
-- [ ] **POL-03**: All full-screen images use explicit `width`/`height` or `aspect-ratio` to prevent CLS
-- [ ] **POL-04**: Horizontal spacing is consistent across all pages at each breakpoint
+- [x] **POL-01**: Zero horizontal overflow at 375px on all pages (no `overflow-x: hidden` hacks — fix root causes)
+- [x] **POL-02**: All interactive elements (buttons, links, icon buttons) have ≥44px touch targets
+- [x] **POL-03**: All full-screen images use explicit `width`/`height` or `aspect-ratio` to prevent CLS
+- [x] **POL-04**: Horizontal spacing is consistent across all pages at each breakpoint
 - [ ] **POL-05**: App is visually tested at 375px, 768px, 1440px, and 2560px widths
 
 ## v2 Requirements
@@ -151,10 +151,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEC-04 | Phase 8 | Complete |
 | SEC-05 | Phase 8 | Complete |
 | SEC-06 | Phase 8 | Complete |
-| POL-01 | Phase 9 | Pending |
-| POL-02 | Phase 9 | Pending |
-| POL-03 | Phase 9 | Pending |
-| POL-04 | Phase 9 | Pending |
+| POL-01 | Phase 9 | Complete |
+| POL-02 | Phase 9 | Complete |
+| POL-03 | Phase 9 | Complete |
+| POL-04 | Phase 9 | Complete |
 | POL-05 | Phase 9 | Pending |
 
 **Coverage:**

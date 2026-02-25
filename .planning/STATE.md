@@ -5,16 +5,16 @@
 See: .planning/PROJECT.md (updated 2026-02-20)
 
 **Core value:** Every page of Cinelas looks intentional and feels native at any screen width — nothing overflows, nothing is an afterthought.
-**Current focus:** Phase 8 — Secondary Pages and Insights
+**Current focus:** Phase 9 — Global Polish
 
 ## Current Position
 
-Phase: 8 of 9 (Secondary Pages and Insights) — COMPLETE
-Plan: 4 of 4 in current phase (phase complete)
-Status: Plan 08-04 complete — all 9 Phase 8 requirements (INS-01/02/03 and SEC-01–SEC-06) visually approved by human reviewer at 375px. Phase 8 fully done.
-Last activity: 2026-02-22 — Phase 8 Plan 04 complete. Human visual verification gate passed — all 7 page category checks approved at 375px. No gap-closure tasks needed.
+Phase: 9 of 9 (Global Polish) — IN PROGRESS
+Plan: 1 of 2 in current phase (09-01 complete, 09-02 pending)
+Status: Phase 9 in progress — 09-01-PLAN.md (px-page token, touch targets, CLS fixes, z-index sweep) COMPLETE. 09-02-PLAN.md (device matrix human verification) ready to execute.
+Last activity: 2026-02-25 — 09-01 executed: px-page token added, 3 touch target gaps fixed, 6 z-index literals replaced, 2 CLS images fixed.
 
-Progress: [█████████░] 72% (v1.1 milestone)
+Progress: [█████████░] 80% (v1.1 milestone)
 
 ## Performance Metrics
 
@@ -46,6 +46,7 @@ Progress: [█████████░] 72% (v1.1 milestone)
 | Phase 08-secondary-pages-and-insights P02 | 66 | 2 tasks | 3 files |
 | Phase 08-secondary-pages-and-insights P03 | 109 | 2 tasks | 8 files |
 | Phase 08-secondary-pages-and-insights P04 | 1 | 1 tasks | 0 files |
+| Phase 09-global-polish P01 | 141 | 3 tasks | 15 files |
 
 ## Accumulated Context
 
@@ -112,6 +113,9 @@ Recent decisions affecting current work:
 - [08-03]: WatchProviderCard uses w-full aspect-square instead of fixed w-28 h-28 — grid column width drives card dimensions; fixed pixel sizes break responsive grids
 - [08-03]: ProvidersPage base column count reduced from grid-cols-3 to grid-cols-2 — 3 columns at 375px gives ~103px per card, too narrow; 2 columns gives ~163px
 - [Phase 08-secondary-pages-and-insights]: All 9 Phase 8 requirements (INS-01/02/03 and SEC-01–SEC-06) visually approved at 375px by human reviewer on 2026-02-22
+- [Phase 09-01]: px-page utility registered in @layer utilities with responsive override via media query block outside the layer — Tailwind 4 @layer utilities cannot contain @media directives
+- [Phase 09-01]: aspect-video and aspect-[3/1] are additive on img class strings — call-site height classes override aspect-ratio when height is also specified; CLS prevented without breaking existing usages
+- [Phase 09-01]: DiscoverModal uses z-(--z-modal) (140) not z-(--z-dialog) (150) — modal backdrop/wrapper sits below the dialog panel layer; MobileFilterDrawer uses z-(--z-overlay) (60)
 
 ### Pending Todos
 
@@ -126,5 +130,5 @@ Recent decisions affecting current work:
 ## Session Continuity
 
 Last session: 2026-02-22
-Stopped at: Completed 08-04-PLAN.md — Phase 8 fully complete. All 9 requirements (INS-01/02/03 and SEC-01–SEC-06) visually approved at 375px. Ready for Phase 9.
+Stopped at: Phase 9 planned. 09-01 and 09-02 PLAN.md files created and verified. Ready to execute Phase 9.
 Resume file: None
