@@ -83,7 +83,7 @@ export default function UpcomingCarousel({
   const title = mediaType === "movie" ? "Upcoming Movies" : "On The Air";
 
   return (
-    <section className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36 mt-8">
+    <section className="px-page mt-8">
       <TitleMid>{title}</TitleMid>
 
       <div className="relative -my-3 -mx-3">

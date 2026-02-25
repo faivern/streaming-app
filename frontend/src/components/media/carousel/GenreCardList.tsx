@@ -47,7 +47,7 @@ export default function GenreCardList({ genres, loading = false }: Props) {
   if (!genres.length && !loading) return null;
 
   return (
-    <section className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36 mt-8">
+    <section className="px-page mt-8">
       <TitleMid>Genres</TitleMid>
 
       <div className="relative -my-3 -mx-3">

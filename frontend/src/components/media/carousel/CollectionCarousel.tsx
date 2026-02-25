@@ -49,7 +49,7 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
     : items;
 
   return (
-    <section className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36 mt-8">
+    <section className="px-page mt-8">
       <TitleMid>Collections</TitleMid>
 
       <div className="relative -my-3 -mx-3">

@@ -64,7 +64,7 @@ export default function WatchProviderCarousel({
   if (!providers.length && !loading) return null;
 
   return (
-    <section className="px-6 sm:px-10 md:px-16 lg:px-20 xl:px-28 2xl:px-36 mt-8">
+    <section className="px-page mt-8">
       <div className="flex items-center justify-between mb-1">
         <TitleMid>Streaming Services</TitleMid>
         <Link
