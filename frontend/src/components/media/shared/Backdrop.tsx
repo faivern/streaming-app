@@ -27,7 +27,7 @@ export default function Backdrop({
     <img
       loading={priority ? "eager" : "lazy"}
       decoding="async"
-      className={`rounded-t-lg object-cover ${className}`}
+      className={`rounded-t-lg object-cover aspect-video ${className}`}
       src={`${base}/w1280${path}`}
       srcSet={`${base}/w300${path} 300w, ${base}/w780${path} 780w, ${base}/w1280${path} 1280w, ${base}/original${path} 1920w`}
       sizes={sizes}
