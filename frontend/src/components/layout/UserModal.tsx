@@ -19,7 +19,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
 
   return (
     <div
-      className={`absolute right-0 mt-2 w-56 bg-component-primary/95 backdrop-blur-lg rounded-xl shadow-2xl py-3 z-(--z-dropdown) border border-border
+      className={`absolute right-0 mt-2 w-56 bg-component-primary/95 backdrop-blur-lg rounded-xl shadow-2xl py-3 z-(--z-dropdown) border border-outline
         transition-all duration-300 ease-out origin-top-right
         ${
           show
@@ -28,7 +28,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
         }`}
     >
       {/* User name header */}
-      <div className="px-4 py-2 text-sm text-subtle border-b border-border/50 mb-1 flex items-center gap-2">
+      <div className="px-4 py-2 text-sm text-subtle border-b border-border/25 mb-1 flex items-center gap-2">
         <FaRegUser className="text-subtle" />
         {userName}
       </div>
@@ -46,7 +46,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
       </Link>
 
       {/* Theme selector */}
-      <div className="px-4 py-2 border-t border-border/50 mt-1">
+      <div className="px-4 py-2 border-t border-border/25 mt-1">
         <div className="flex items-center gap-2 text-sm text-subtle mb-2">
           <FaPalette className="text-accent-primary" />
           <span>Theme</span>
@@ -56,7 +56,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
           onChange={(value: ThemePreset) => setTheme(value)}
         >
           <div className="relative">
-            <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-action-primary border border-border py-2 pl-3 pr-10 text-left text-text-h1 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
+            <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-input border border-outline py-2 pl-3 pr-10 text-left text-text-h1 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
               <span className="block truncate">
                 {THEME_OPTIONS.find((t) => t.value === theme)?.label}
               </span>
@@ -73,7 +73,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-(--z-dropdown) mt-1 w-full overflow-auto rounded-lg bg-action-primary border border-border py-1 text-sm shadow-lg focus:outline-none">
+              <Listbox.Options className="absolute z-(--z-dropdown) mt-1 w-full overflow-auto rounded-lg bg-action-primary border border-outline py-1 text-sm shadow-lg focus:outline-none">
                 {THEME_OPTIONS.map((option) => (
                   <Listbox.Option
                     key={option.value}
@@ -123,7 +123,7 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
       {/* Sign out button */}
       <button
         onClick={onLogout}
-        className="flex items-center w-full text-left px-4 py-2 text-sm text-text-h1 hover:bg-accent-primary/20 hover:text-text-h1 transition-colors cursor-pointer border-t border-border/50 mt-1"
+        className="flex items-center w-full text-left px-4 py-2 text-sm text-text-h1 hover:bg-accent-primary/20 hover:text-text-h1 transition-colors cursor-pointer border-t border-border/25 mt-1"
       >
         <FaSignOutAlt className="mr-2" />
         Log out

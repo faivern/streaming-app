@@ -67,7 +67,7 @@ export default function CreateListModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 p-6 shadow-xl transition-all max-h-[90dvh] overflow-y-auto overscroll-contain">
+              <Dialog.Panel className="w-full max-w-md transform rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline p-6 shadow-xl transition-all max-h-[90dvh] overflow-y-auto overscroll-contain">
                 {/* Drag handle — visible on mobile to signal bottom-sheet affordance */}
                 <div className="flex justify-center pt-2 pb-1 sm:hidden">
                   <div className="w-10 h-1 bg-gray-600 rounded-full" />
@@ -100,7 +100,7 @@ export default function CreateListModal({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="My Favorite Movies"
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
+                      className="w-full px-3 py-2 bg-input border border-outline rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
                       required
                       autoFocus
                     />
@@ -120,7 +120,7 @@ export default function CreateListModal({
                       onChange={(e) => setDescription(e.target.value)}
                       placeholder="A collection of my all-time favorite films..."
                       rows={3}
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 resize-none"
+                      className="w-full px-3 py-2 bg-input border border-outline rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 resize-none"
                     />
                   </div>
 

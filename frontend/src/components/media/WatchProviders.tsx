@@ -36,7 +36,7 @@ function ProviderGroup({
 
   return (
     <div className="mb-5">
-      <h4 className="text-sm text-gray-400 mb-3 font-medium">{title}</h4>
+      <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-3 font-semibold">{title}</h4>
       <div className="flex flex-wrap gap-4">
         {providers.map((provider) => {
           const content = (

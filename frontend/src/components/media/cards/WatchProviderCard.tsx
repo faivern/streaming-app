@@ -34,15 +34,12 @@ export default function WatchProviderCard({
             loading="lazy"
           />
 
+          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-3 pt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <p className="text-center text-sm text-white font-medium truncate">
+              {providerName}
+            </p>
+          </div>
         </div>
-
-        <p
-          className="mt-2 text-center text-sm text-gray-300/0
-                    group-hover:text-white transition-colors
-                    truncate max-w-full text-opacity-100"
-        >
-          {providerName}
-        </p>
       </Link>
     </div>
   );

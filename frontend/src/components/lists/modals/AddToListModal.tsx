@@ -365,7 +365,7 @@ export default function AddToListModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[90dvh] sm:max-h-[85dvh] overflow-y-auto overscroll-contain">
+                <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline shadow-xl transition-all max-h-[90dvh] sm:max-h-[85dvh] overflow-y-auto overscroll-contain">
                   {/* Header with media info */}
                   <div className="flex items-start gap-4 p-4 border-b border-gray-700">
                     <Poster
@@ -534,7 +534,7 @@ export default function AddToListModal({
                                       ? "bg-green-500/10 border border-green-500/30 cursor-default"
                                       : isSelected
                                         ? "bg-accent-primary/20 border border-accent-primary/50"
-                                        : "bg-gray-800 border border-gray-700 hover:border-gray-600"
+                                        : "bg-input border border-outline hover:border-gray-600"
                                   }`}
                                 >
                                   <div className="text-left">
@@ -657,7 +657,7 @@ export default function AddToListModal({
                           onChange={(e) => setNotes(e.target.value)}
                           placeholder="Write your thoughts..."
                           rows={3}
-                          className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 resize-none"
+                          className="w-full px-3 py-2 bg-input border border-outline rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 resize-none"
                         />
                       </div>
 

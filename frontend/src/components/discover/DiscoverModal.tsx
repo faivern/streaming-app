@@ -444,7 +444,7 @@ export default function DiscoverModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[95dvh] sm:max-h-[90dvh] flex flex-col">
+                <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline shadow-xl transition-all max-h-[95dvh] sm:max-h-[90dvh] flex flex-col">
                   {/* Header */}
                   <div className="flex items-center justify-between p-4 border-b border-gray-700">
                     <div>
@@ -482,7 +482,7 @@ export default function DiscoverModal({
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search movies and TV shows..."
-                            className="w-full pl-10 pr-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
+                            className="w-full pl-10 pr-4 py-2.5 bg-input border border-outline rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
                             onFocus={(e) => {
                               // After the virtual keyboard animates in (~300ms), scroll the input into view
                               setTimeout(() => {

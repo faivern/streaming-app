@@ -113,7 +113,7 @@ export default function Header() {
 
                   {showGenres && (
                     <div className="absolute left-0 top-full pt-2 z-(--z-drawer)">
-                      <div className="w-96 bg-component-primary/95 backdrop-blur-lg border border-border rounded-xl p-6 shadow-2xl">
+                      <div className="w-96 bg-component-primary/95 backdrop-blur-lg border border-outline rounded-xl p-6 shadow-2xl">
                         <GenreList genres={genres} />
                       </div>
                     </div>

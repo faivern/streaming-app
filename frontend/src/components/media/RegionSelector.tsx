@@ -40,7 +40,7 @@ export default function RegionSelector({
   if (loading) {
     return (
       <div
-        className={`w-48 h-10 bg-gray-700 rounded-lg animate-pulse ${className}`}
+        className={`w-48 h-10 bg-action-primary rounded-lg animate-pulse ${className}`}
       />
     );
   }
@@ -48,7 +48,7 @@ export default function RegionSelector({
   return (
     <Listbox value={selectedCountry} onChange={onCountryChange}>
       <div className={`relative w-full sm:w-48 ${className}`}>
-        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-gray-800 border border-gray-600 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all text-sm">
+        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-component-primary border border-outline py-2 pl-3 pr-10 text-left text-text-h1 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
           <span className="flex items-center gap-2">
             <span className={`fi fi-${selectedCountry.toLowerCase()}`}></span>
             {selectedRegion?.english_name || selectedCountry}
@@ -56,7 +56,7 @@ export default function RegionSelector({
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <FontAwesomeIcon
               icon={faChevronDown}
-              className="h-4 w-4 text-gray-400"
+              className="h-4 w-4 text-subtle"
             />
           </span>
         </Listbox.Button>
@@ -66,26 +66,26 @@ export default function RegionSelector({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-(--z-dropdown) mt-1 max-h-72 w-full overflow-hidden rounded-lg bg-gray-800 border border-gray-600 text-sm shadow-lg focus:outline-none">
-            <div className="sticky top-0 bg-gray-800 p-2 border-b border-gray-700">
+          <Listbox.Options className="absolute z-(--z-dropdown) mt-1 max-h-72 w-full overflow-hidden rounded-lg bg-component-primary border border-outline text-sm shadow-lg focus:outline-none">
+            <div className="sticky top-0 bg-component-primary p-2 border-b border-outline">
               <div className="relative">
                 <FontAwesomeIcon
                   icon={faSearch}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-3 w-3"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-subtle h-3 w-3"
                 />
                 <input
                   type="text"
                   placeholder="Search countries..."
                   value={countrySearch}
                   onChange={(e) => setCountrySearch(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-md py-1.5 pl-8 pr-3 text-white placeholder-gray-400 focus:outline-none focus:border-sky-500 text-sm"
+                  className="w-full bg-input border border-outline rounded-md py-1.5 pl-8 pr-3 text-text-h1 placeholder:text-subtle focus:outline-none focus:border-accent-primary text-sm"
                   onClick={(e) => e.stopPropagation()}
                 />
               </div>
             </div>
             <div className="max-h-52 overflow-auto py-1">
               {filteredRegions.length === 0 ? (
-                <div className="py-2 px-4 text-gray-400 text-center">
+                <div className="py-2 px-4 text-subtle text-center">
                   No countries found
                 </div>
               ) : (
@@ -94,7 +94,7 @@ export default function RegionSelector({
                     key={region.iso_3166_1}
                     className={({ active }) =>
                       `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
-                        active ? "bg-sky-500/20 text-white" : "text-gray-300"
+                        active ? "bg-action-hover text-text-h1" : "text-subtle"
                       }`
                     }
                     value={region.iso_3166_1}
@@ -108,7 +108,7 @@ export default function RegionSelector({
                           {region.english_name}
                         </span>
                         {selected && (
-                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-400">
+                          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-accent-primary">
                             <FontAwesomeIcon
                               icon={faCheck}
                               className="h-4 w-4"

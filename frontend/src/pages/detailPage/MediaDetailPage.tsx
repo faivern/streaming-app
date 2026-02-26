@@ -72,7 +72,7 @@ export default function MediaDetailPage() {
       )}
 
       {/* BackLink — desktop uses mt-navbar-offset since backdrop is hidden */}
-      <div className="max-w-7xl mx-auto px-4 md:mt-navbar-offset">
+      <div className="px-4 md:px-[11%] md:mt-navbar-offset">
         <BackLink />
       </div>
 
@@ -90,9 +90,10 @@ export default function MediaDetailPage() {
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 mt-4">
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="md:w-3/4 w-full">
+      <div className="px-4 md:px-[11%] mt-4">
+        <div className="flex flex-col md:grid md:grid-cols-[3fr_1fr] gap-8 md:gap-x-16">
+          {/* col 1, row 1 */}
+          <div className="min-w-0">
             <MediaDetailHeader
               details={details}
               cast={credits?.cast ?? []}
@@ -102,29 +103,36 @@ export default function MediaDetailPage() {
               onWatchNow={handleWatchNow}
               logo_path={logoPath}
             />
-            <div className="mt-12 py-8 max-w-7xl mx-auto">
-              <WatchProviders mediaType={media_type} mediaId={numericId} title={details.title ?? details.name} />
-            </div>
-            <div className="mt-8 md:hidden">
-              <h2 className="text-xl font-semibold text-white mb-4">Watch Trailer</h2>
-              <MediaDetailVideo
-                backdrop_path={details.backdrop_path ?? ""}
-                poster_path={details.poster_path ?? ""}
-                title={details.title ?? details.name ?? "Media Trailer"}
-                isPlaying={isPlaying}
-                media_type={media_type}
-                id={numericId}
-                onScrollToWatchProviders={scrollToWatchProviders}
-                onAddToList={() => setAddToListModalOpen(true)}
-              />
-            </div>
-            <div className="mt-8">
-              <MediaCastCarousel cast={credits?.cast ?? []} />
-            </div>
           </div>
 
-          <div className="md:w-1/4 w-full mt-8 md:mt-0">
+          {/* col 2, rows 1–3 */}
+          <div className="mt-8 md:mt-0 md:row-span-3 md:col-start-2 min-w-0">
             <MediaGridSimilar similarMedia={similarMedia} parentType={media_type} />
+          </div>
+
+          {/* col 1, row 2 */}
+          <div className="py-8 min-w-0 px-4 md:px-12">
+            <WatchProviders mediaType={media_type} mediaId={numericId} title={details.title ?? details.name} />
+          </div>
+
+          {/* mobile trailer — hidden in grid */}
+          <div className="mt-8 md:hidden">
+            <h2 className="text-xl font-semibold text-white mb-4">Watch Trailer</h2>
+            <MediaDetailVideo
+              backdrop_path={details.backdrop_path ?? ""}
+              poster_path={details.poster_path ?? ""}
+              title={details.title ?? details.name ?? "Media Trailer"}
+              isPlaying={isPlaying}
+              media_type={media_type}
+              id={numericId}
+              onScrollToWatchProviders={scrollToWatchProviders}
+              onAddToList={() => setAddToListModalOpen(true)}
+            />
+          </div>
+
+          {/* col 1, row 3 */}
+          <div className="min-w-0">
+            <MediaCastCarousel cast={credits?.cast ?? []} />
           </div>
         </div>
       </div>

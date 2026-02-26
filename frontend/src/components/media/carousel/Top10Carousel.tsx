@@ -101,18 +101,20 @@ export default function Top10Carousel({
                       <div className="relative flex items-center">
                         {/* Large ranking number - hollow by default, fills on hover */}
                         <span
-                          className="absolute bottom-0 right-0 pb-4 pr-4 z-10 text-[8rem] font-black leading-none select-none
-                            transition-all duration-300 ease-out
+                          className="absolute bottom-0 right-0 pb-4 pr-4 z-10 leading-none select-none font-black
+                            transition-all duration-300 ease-out origin-bottom-right
                             text-transparent
+                            group-hover/card:scale-[1.15]
                             [--stroke-color:var(--accent-primary)]
+                            [--glow:color-mix(in_srgb,var(--accent-primary)_30%,transparent)]
                             drop-shadow-[0_0_8px_rgba(0,0,0,0.6)]
-                            group-hover/card:text-[9rem]
                             group-hover/card:bg-gradient-to-br group-hover/card:from-accent-primary group-hover/card:to-accent-secondary
                             group-hover/card:bg-clip-text
-                            group-hover/card:[--stroke-color:rgba(0,40,60,0.7)]
-                            group-hover/card:drop-shadow-[0_4px_12px_rgba(0,200,255,0.3)]"
+                            group-hover/card:[--stroke-color:var(--primary)]
+                            group-hover/card:drop-shadow-[0_4px_12px_var(--glow)]"
                           style={{
-                            fontFamily: "system-ui, sans-serif",
+                            fontFamily: "Arial, Helvetica, sans-serif",
+                            fontSize: "8rem",
                             WebkitTextStroke: "1px var(--stroke-color)",
                             paintOrder: "stroke fill",
                           }}

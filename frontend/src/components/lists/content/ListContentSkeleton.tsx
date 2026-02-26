@@ -11,13 +11,13 @@ export default function ListContentSkeleton({
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}
-            className="flex items-center gap-4 p-3 rounded-xl bg-gray-800/50"
+            className="flex items-center gap-4 p-3 rounded-xl bg-component-primary/50"
           >
-            <div className="w-16 h-24 bg-gray-700 rounded-lg animate-pulse" />
+            <div className="w-16 h-24 bg-border rounded-lg animate-pulse" />
             <div className="flex-1 space-y-2">
-              <div className="h-5 w-48 bg-gray-700 rounded animate-pulse" />
-              <div className="h-4 w-24 bg-gray-700 rounded animate-pulse" />
-              <div className="h-4 w-32 bg-gray-700 rounded animate-pulse" />
+              <div className="h-5 w-48 bg-border rounded animate-pulse" />
+              <div className="h-4 w-24 bg-border rounded animate-pulse" />
+              <div className="h-4 w-32 bg-border rounded animate-pulse" />
             </div>
           </div>
         ))}
@@ -30,7 +30,7 @@ export default function ListContentSkeleton({
       {Array.from({ length: 12 }).map((_, i) => (
         <div
           key={i}
-          className="aspect-[2/3] bg-gray-800 rounded-lg animate-pulse"
+          className="aspect-[2/3] bg-component-primary rounded-lg animate-pulse"
         />
       ))}
     </div>

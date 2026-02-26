@@ -36,6 +36,8 @@
   --color-action-hover: var(--action-hover);
   --color-accent-thirdary: var(--accent-thirdary);
   --color-subtle: var(--subtle);
+  --color-outline: var(--outline);
+  --color-input: var(--input);
 
   /* Custom breakpoints — replaces tailwind.config.js theme.extend.screens (silently ignored in TW4) */
   --breakpoint-3xl: 120rem;  /* 1920px */

@@ -116,7 +116,7 @@ export default function SearchBar({
               <div className="relative">
                 <Combobox.Input
                   ref={inputRef}
-                  className="w-full bg-action-primary border border-border rounded-full px-4 py-3 pl-12 pr-12 text-text-h1 placeholder-subtle focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all duration-200"
+                  className="w-full bg-input border border-outline rounded-full px-4 py-3 pl-12 pr-12 text-text-h1 placeholder-subtle focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all duration-200"
                   placeholder="Search titles, people..."
                   displayValue={() => query}
                   onChange={(e) => handleInput(e.target.value)}
@@ -138,7 +138,7 @@ export default function SearchBar({
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 -translate-y-1"
               >
-                <Combobox.Options className="absolute top-full left-0 right-0 mt-2 bg-action-primary border border-border rounded-lg shadow-xl max-h-96 overflow-y-auto focus:outline-none">
+                <Combobox.Options className="absolute top-full left-0 right-0 mt-2 bg-action-primary border border-outline rounded-lg shadow-xl max-h-96 overflow-y-auto focus:outline-none">
                   {loading && (
                     <div className="p-4 text-center text-subtle">
                       <FontAwesomeIcon
@@ -251,7 +251,7 @@ export default function SearchBar({
         <div className="relative">
           <Combobox.Input
             ref={inputRef}
-            className="w-full bg-component-primary/40 border-2 border-border rounded-full px-4 py-2.5 pl-10 pr-10 text-text-h1 placeholder-subtle focus:outline-none focus:border-accent-secondary focus:ring-2 focus:ring-accent-primary/20 transition-all duration-200 text-sm md:text-base"
+            className="w-full bg-input border-2 border-outline rounded-full px-4 py-2.5 pl-10 pr-10 text-text-h1 placeholder-subtle focus:outline-none focus:border-accent-secondary focus:ring-2 focus:ring-accent-primary/20 transition-all duration-200 text-sm md:text-base"
             placeholder="Search Movies, TV Shows, People..."
             displayValue={() => query}
             onChange={(e) => handleInput(e.target.value)}
@@ -273,7 +273,7 @@ export default function SearchBar({
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 -translate-y-1"
         >
-          <Combobox.Options className="absolute top-full left-0 right-0 mt-1 bg-component-primary/95 backdrop-blur-lg border border-border rounded-lg shadow-xl z-(--z-overlay) max-h-96 overflow-y-auto focus:outline-none text-sm">
+          <Combobox.Options className="absolute top-full left-0 right-0 mt-1 bg-component-primary/95 backdrop-blur-lg border border-outline rounded-lg shadow-xl z-(--z-overlay) max-h-96 overflow-y-auto focus:outline-none text-sm">
             {loading && (
               <div className="p-4 text-center text-subtle">
                 <FontAwesomeIcon

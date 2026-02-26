@@ -36,6 +36,8 @@
   --action-primary: hsl(217, 35%, 16%);
   --action-hover: hsl(217, 35%, 26%);
   --subtle: hsl(0, 0%, 64%);
+  --outline: hsl(224, 18%, 22%);
+  --input: hsl(222, 35%, 18%);
 }
 
 :root[data-preset="netflix"] {
@@ -62,6 +64,8 @@
   --action-primary: hsl(0, 0%, 15%);   /* button bg default */
   --action-hover: hsl(0, 0%, 25%);     /* button hover */
   --subtle: hsl(0, 0%, 64%);           /* muted / secondary text */
+  --outline: hsl(0, 5%, 20%);
+  --input: hsl(0, 0%, 17%);
 }
 
 :root[data-preset="sleek"] {
@@ -89,4 +93,6 @@
   --action-primary: hsl(220, 15%, 18%); /* button bg default */
   --action-hover: hsl(220, 15%, 28%);   /* button hover */
   --subtle: hsl(0, 0%, 64%);            /* muted / secondary text */
+  --outline: hsl(220, 12%, 22%);
+  --input: hsl(220, 15%, 18%);
 }

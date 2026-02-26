@@ -32,15 +32,15 @@ export default function SortingDropdown({ value, onChange, className = "" }: Pro
   return (
     <Listbox value={value} onChange={onChange}>
       <div className={`relative w-44 ${className}`}>
-        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-gray-800 border border-gray-600 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-500/20 transition-all text-sm">
+        <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-component-primary border border-outline py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
           <span className="flex items-center gap-2 truncate">
-            {selectedOption && <FontAwesomeIcon icon={selectedOption.icon} className="h-3 w-3 text-sky-400" />}
+            {selectedOption && <FontAwesomeIcon icon={selectedOption.icon} className="h-3 w-3 text-accent-primary" />}
             {selectedOption?.label || "Sort by"}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <FontAwesomeIcon
               icon={faChevronDown}
-              className="h-4 w-4 text-gray-400"
+              className="h-4 w-4 text-subtle"
             />
           </span>
         </Listbox.Button>
@@ -50,13 +50,13 @@ export default function SortingDropdown({ value, onChange, className = "" }: Pro
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-gray-800 border border-gray-600 py-1 text-sm shadow-lg focus:outline-none">
+          <Listbox.Options className="absolute z-(--z-dropdown) mt-1 max-h-60 w-full overflow-auto rounded-lg bg-component-primary border border-outline py-1 text-sm shadow-lg focus:outline-none">
             {SORT_OPTIONS.map((option) => (
               <Listbox.Option
                 key={option.value}
                 className={({ active }) =>
                   `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                    active ? "bg-sky-500/20 text-white" : "text-gray-300"
+                    active ? "bg-accent-primary/20 text-text-h1" : "text-subtle"
                   }`
                 }
                 value={option.value}
@@ -72,7 +72,7 @@ export default function SortingDropdown({ value, onChange, className = "" }: Pro
                       {option.label}
                     </span>
                     {selected && (
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-sky-400">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-accent-primary">
                         <FontAwesomeIcon icon={faCheck} className="h-4 w-4" />
                       </span>
                     )}
