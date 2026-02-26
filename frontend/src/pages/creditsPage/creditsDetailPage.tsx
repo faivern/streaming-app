@@ -70,7 +70,7 @@ const CreditsDetailPage = () => {
   if (isLoading) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
-        <p className="text-gray-400">Loading...</p>
+        <p className="text-[var(--subtle)]">Loading...</p>
       </div>
     );
   }

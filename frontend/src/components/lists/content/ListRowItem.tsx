@@ -62,8 +62,8 @@ export default function ListRowItem({
   return (
     <div
       onClick={handleRowClick}
-      className={`group relative flex flex-col gap-2 p-3 rounded-xl overflow-hidden shadow-lg border border-gray-400/10 transition-all duration-300
-        ${!item.backdropPath ? "bg-gray-800/50 hover:bg-gray-800" : ""}
+      className={`group relative flex flex-col gap-2 p-3 rounded-xl overflow-hidden shadow-lg border border-[var(--border)]/40 transition-all duration-300
+        ${!item.backdropPath ? "bg-[var(--action-primary)]/50 hover:bg-[var(--action-primary)]" : ""}
         ${isEditMode ? "" : "hover:shadow-xl hover:scale-101 hover:border-accent-primary/85"}
         ${hasExpandableContent && !isEditMode ? "cursor-pointer" : ""}`}
     >
@@ -115,7 +115,7 @@ export default function ListRowItem({
                 </div>
               )}
             </div>
-            <p className="text-sm text-gray-400 mt-0.5">
+            <p className="text-sm text-[var(--subtle)] mt-0.5">
               {[mediaTypeLabel, releaseYear, runTime]
                 .filter(Boolean)
                 .join(" · ")}
@@ -125,7 +125,7 @@ export default function ListRowItem({
           {/* Chevron expand indicator */}
           {hasExpandableContent && (
             <div
-              className="flex-shrink-0 text-gray-500 transition-transform duration-200"
+              className="flex-shrink-0 text-[var(--subtle)] transition-transform duration-200"
               style={{ transform: isExpanded ? "rotate(180deg)" : undefined }}
             >
               <IoChevronDown className="text-sm" />
@@ -185,19 +185,19 @@ export default function ListRowItem({
                   {item.voteAverage && (
                     <div className="flex items-center gap-1 text-sm">
                       <FaStar className="text-yellow-400 text-xs" />
-                      <span className="text-gray-300">
+                      <span className="text-[var(--subtle)]">
                         {item.voteAverage.toFixed(1)}
                       </span>
-                      <span className="text-gray-500 text-xs">TMDB</span>
+                      <span className="text-[var(--subtle)] text-xs">TMDB</span>
                     </div>
                   )}
                   {avgRating !== null && (
                     <div className="flex items-center gap-1 text-sm">
                       <FaStar className="text-accent-primary text-xs" />
-                      <span className="text-gray-300">
+                      <span className="text-[var(--subtle)]">
                         {avgRating.toFixed(1)}
                       </span>
-                      <span className="text-gray-500 text-xs">
+                      <span className="text-[var(--subtle)] text-xs">
                         Your average rating
                       </span>
                     </div>
@@ -218,8 +218,8 @@ export default function ListRowItem({
 
                 {/* Review text */}
                 {reviewContent && (
-                  <div className="pl-4 border-l-2 border-gray-700/50">
-                    <p className="text-sm text-gray-300 leading-relaxed whitespace-pre-line">
+                  <div className="pl-4 border-l-2 border-[var(--border)]/50">
+                    <p className="text-sm text-[var(--subtle)] leading-relaxed whitespace-pre-line">
                       "{reviewContent}"
                     </p>
                   </div>

@@ -47,29 +47,29 @@ export default function DeleteConfirmModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-sm transform rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 p-6 shadow-xl transition-all max-h-[90dvh] overflow-y-auto overscroll-contain">
+              <Dialog.Panel className="w-full max-w-sm transform rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline p-6 shadow-xl transition-all max-h-[90dvh] overflow-y-auto overscroll-contain">
                 {/* Drag handle — visible on mobile to signal bottom-sheet affordance */}
                 <div className="flex justify-center pt-2 pb-1 sm:hidden">
-                  <div className="w-10 h-1 bg-gray-600 rounded-full" />
+                  <div className="w-10 h-1 bg-[var(--border)] rounded-full" />
                 </div>
                 <div className="flex items-center gap-4 mb-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
                     <FaExclamationTriangle className="text-red-400 text-xl" />
                   </div>
                   <div>
-                    <Dialog.Title className="text-lg font-semibold text-white">
+                    <Dialog.Title className="text-lg font-semibold text-[var(--text-h1)]">
                       {title}
                     </Dialog.Title>
                   </div>
                 </div>
 
-                <p className="text-gray-400 text-sm mb-6">{message}</p>
+                <p className="text-[var(--subtle)] text-sm mb-6">{message}</p>
 
                 <div className="flex items-center justify-end gap-3">
                   <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                    className="px-4 py-2 text-sm font-medium text-[var(--subtle)] hover:text-[var(--text-h1)] transition-colors"
                   >
                     Cancel
                   </button>
@@ -77,7 +77,7 @@ export default function DeleteConfirmModal({
                     type="button"
                     onClick={onConfirm}
                     disabled={isLoading}
-                    className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+                    className="px-4 py-2 bg-red-600 hover:bg-red-700 disabled:bg-[var(--action-primary)] disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
                   >
                     {isLoading ? "Deleting..." : confirmLabel}
                   </button>

@@ -125,8 +125,8 @@ export default function UpcomingCarousel({
                     >
                       <Link to={`/media/${mediaType}/${item.id}`}>
                         <div
-                          className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
-                            rounded-2xl border border-gray-400/30 overflow-hidden shadow-lg
+                          className="bg-[var(--component-primary)]
+                            rounded-2xl border border-[var(--border)] overflow-hidden shadow-lg
                             hover:shadow-xl hover:scale-103 hover:border-accent-primary/75
                             transition-all duration-300 relative group cursor-pointer"
                         >
@@ -206,7 +206,7 @@ export default function UpcomingCarousel({
                   onClick={() => emblaApi.scrollTo(i)}
                   aria-label={`Go to slide ${i + 1}`}
                   className={`h-2 rounded-full transition-all ${
-                    i === selectedSnap ? "bg-accent-primary w-6" : "bg-gray-500/50 w-2"
+                    i === selectedSnap ? "bg-accent-primary w-6" : "bg-[var(--outline)] w-2"
                   }`}
                 />
               ))}

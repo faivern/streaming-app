@@ -32,15 +32,15 @@ const CreditsDetailHeader = ({
   const knownFor = knownForDepartment(known_for_department, gender);
 
   return (
-    <div className="bg-slate-800/30 rounded-2xl p-6 border border-slate-600/30 shadow-lg mb-6">
+    <div className="bg-[var(--card)] rounded-2xl p-6 border border-[var(--border)] shadow-lg mb-6">
       <div className="flex flex-col md:flex-row gap-6">
         {/* LEFT COLUMN - IMAGE + BASIC INFO */}
         <div className="w-full md:w-1/3 flex flex-col items-center p-4 rounded">
           <div className="text-center md:text-left mb-4 flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white">
+            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-h1)]">
               {name || `Person #${id}`}
             </h2>
-            <p className="text-sky-400 text-sm">{knownFor}</p>
+            <p className="text-[var(--accent-primary)] text-sm">{knownFor}</p>
           </div>
           {profile_path ? (
             <img
@@ -50,25 +50,25 @@ const CreditsDetailHeader = ({
               loading="lazy"
               decoding="async"
               alt={name}
-              className="aspect-[2/3] w-64 h-auto rounded-2xl shadow-xl object-cover border border-slate-600/30"
+              className="aspect-[2/3] w-64 h-auto rounded-2xl shadow-xl object-cover border border-[var(--border)]"
             />
           ) : (
             <div
-              className="aspect-[2/3] w-64 rounded-2xl shadow-xl border border-slate-600/30 flex items-center justify-center bg-white/5 text-accent-primary"
+              className="aspect-[2/3] w-64 rounded-2xl shadow-xl border border-[var(--border)] flex items-center justify-center bg-[var(--component-primary)] text-[var(--accent-primary)]"
               role="img"
               aria-label={name}
             >
               <User className="w-1/3 h-1/3" />
             </div>
           )}
-          <div className="mt-4 text-sm text-gray-400 space-y-1">
-            <div className="flex text-sm text-gray-400">
+          <div className="mt-4 text-sm text-[var(--subtle)] space-y-1">
+            <div className="flex text-sm text-[var(--subtle)]">
               <div>
-                <span className="font-semibold text-white">Born:</span>{" "}
+                <span className="font-semibold text-[var(--text-h1)]">Born:</span>{" "}
                 {birthInfo}
               </div>
               {!deathday && (
-                <div className="text-gray-300 pl-2">
+                <div className="text-[var(--subtle)] pl-2">
                   {" "}
                   {`(${age} years old)`}
                 </div>
@@ -76,16 +76,16 @@ const CreditsDetailHeader = ({
             </div>
 
             <p>
-              <span className="font-semibold text-white">Birthplace:</span>
+              <span className="font-semibold text-[var(--text-h1)]">Birthplace:</span>
               {placeInfo}
             </p>
             {deathday && (
-              <div className="flex text-sm text-gray-400">
+              <div className="flex text-sm text-[var(--subtle)]">
               <p>
-                <span className="font-semibold text-white">Died:</span>{" "}
+                <span className="font-semibold text-[var(--text-h1)]">Died:</span>{" "}
                 {dateFormatLong(deathday)}
               </p>
-              <div className="text-gray-300 pl-2">
+              <div className="text-[var(--subtle)] pl-2">
                 {`(${age} years old)`}
               </div>
               </div>
@@ -99,8 +99,8 @@ const CreditsDetailHeader = ({
             <h3 className="text-xl font-semibold mb-2">
               Biography
             </h3>
-            <div className="h-px w-full bg-gradient-to-r from-gray-500/80 to-transparent"></div>
-            <p className="text-gray-300 whitespace-pre-line break-words">
+            <div className="h-px w-full bg-gradient-to-r from-[var(--subtle)]/80 to-transparent"></div>
+            <p className="text-[var(--subtle)] whitespace-pre-line break-words">
               {biography || "No biography available."}
             </p>
           </div>

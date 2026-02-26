@@ -92,31 +92,31 @@ export default function AddMediaModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[90dvh] sm:max-h-[85dvh] flex flex-col">
+              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline shadow-xl transition-all max-h-[90dvh] sm:max-h-[85dvh] flex flex-col">
                 {/* Header */}
-                <div className="flex items-center justify-between p-4 border-b border-gray-700">
-                  <Dialog.Title className="text-lg font-semibold text-white">
+                <div className="flex items-center justify-between p-4 border-b border-[var(--border)]">
+                  <Dialog.Title className="text-lg font-semibold text-[var(--text-h1)]">
                     {title}
                   </Dialog.Title>
                   <button
                     type="button"
                     onClick={handleClose}
-                    className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
+                    className="p-2 min-w-11 min-h-11 flex items-center justify-center text-[var(--subtle)] hover:text-[var(--text-h1)] rounded-lg hover:bg-[var(--action-hover)] transition-colors"
                   >
                     <FaTimes />
                   </button>
                 </div>
 
                 {/* Search input */}
-                <div className="p-4 border-b border-gray-700">
+                <div className="p-4 border-b border-[var(--border)]">
                   <div className="relative">
-                    <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                    <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--subtle)]" />
                     <input
                       type="text"
                       value={query}
                       onChange={(e) => setQuery(e.target.value)}
                       placeholder="Search movies and TV shows..."
-                      className="w-full pl-10 pr-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
+                      className="w-full pl-10 pr-4 py-2.5 bg-input border border-outline rounded-lg text-[var(--text-h1)] placeholder-[var(--subtle)] focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
                       autoFocus
                     />
                   </div>
@@ -129,14 +129,14 @@ export default function AddMediaModal({
                       {Array.from({ length: 8 }).map((_, i) => (
                         <div
                           key={i}
-                          className="aspect-[2/3] bg-gray-800 rounded-lg animate-pulse"
+                          className="aspect-[2/3] bg-[var(--action-primary)] rounded-lg animate-pulse"
                         />
                       ))}
                     </div>
                   ) : hasSearched && filteredResults.length === 0 ? (
                     <div className="text-center py-12">
-                      <p className="text-gray-400">No results found</p>
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="text-[var(--subtle)]">No results found</p>
+                      <p className="text-sm text-[var(--subtle)] mt-1">
                         Try a different search term
                       </p>
                     </div>
@@ -152,7 +152,7 @@ export default function AddMediaModal({
                         return (
                           <div
                             key={result.id}
-                            className="group relative rounded-lg overflow-hidden bg-gray-800"
+                            className="group relative rounded-lg overflow-hidden bg-[var(--action-primary)]"
                           >
                             <Poster
                               path={result.poster_path}
@@ -190,7 +190,7 @@ export default function AddMediaModal({
                             </div>
 
                             {/* Media type badge */}
-                            <span className="absolute top-2 left-2 px-2 py-0.5 text-xs font-medium bg-gray-900/80 text-gray-300 rounded">
+                            <span className="absolute top-2 left-2 px-2 py-0.5 text-xs font-medium bg-[var(--background)]/80 text-[var(--subtle)] rounded">
                               {result.media_type === "movie" ? "Movie" : "TV"}
                             </span>
                           </div>
@@ -199,7 +199,7 @@ export default function AddMediaModal({
                     </div>
                   ) : (
                     <div className="text-center py-12">
-                      <p className="text-gray-400">
+                      <p className="text-[var(--subtle)]">
                         Search for movies and TV shows to add
                       </p>
                     </div>
@@ -207,11 +207,11 @@ export default function AddMediaModal({
                 </div>
 
                 {/* Footer */}
-                <div className="flex items-center justify-end gap-3 p-4 border-t border-gray-700">
+                <div className="flex items-center justify-end gap-3 p-4 border-t border-[var(--border)]">
                   <button
                     type="button"
                     onClick={handleClose}
-                    className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                    className="px-4 py-2 text-sm font-medium text-[var(--subtle)] hover:text-[var(--text-h1)] transition-colors"
                   >
                     Done
                   </button>

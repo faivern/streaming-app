@@ -123,12 +123,12 @@ export default function ListContent({
   if (isLoading) {
     return (
       <div>
-        <div className="h-8 w-48 bg-gray-800 rounded animate-pulse mb-6" />
+        <div className="h-8 w-48 bg-[var(--action-primary)] rounded animate-pulse mb-6" />
         <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5">
           {Array.from({ length: 10 }).map((_, i) => (
             <div
               key={i}
-              className="aspect-[2/3] bg-gray-800 rounded-lg animate-pulse"
+              className="aspect-[2/3] bg-[var(--action-primary)] rounded-lg animate-pulse"
             />
           ))}
         </div>

@@ -17,8 +17,8 @@ function RatingItem({ value, label }: RatingItemProps) {
   return (
     <div className="flex items-center gap-1" title={label}>
       <FaStar className="text-accent-primary text-[10px]" />
-      <span className="text-sm text-gray-200">{value.toFixed(1)}</span>
-      <span className="text-xs text-gray-500">{label}</span>
+      <span className="text-sm text-[var(--text-h1)]">{value.toFixed(1)}</span>
+      <span className="text-xs text-[var(--subtle)]">{label}</span>
     </div>
   );
 }

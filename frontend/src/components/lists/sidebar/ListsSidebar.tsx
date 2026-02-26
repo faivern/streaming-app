@@ -41,7 +41,7 @@ export default function ListsSidebar({
   return (
     <div className="flex flex-col h-full">
       {/* Insights entry point */}
-      <div className="px-4 pt-4 pb-3 border-b border-gray-700/50">
+      <div className="px-4 pt-4 pb-3 border-b border-[var(--border)]/50">
         <Link
           to="/lists/insights"
           className="group flex items-center gap-2.5 w-full px-3 py-2.5 rounded-lg bg-accent-primary/10 border border-accent-primary/25 text-accent-primary hover:bg-accent-primary/20 hover:border-accent-primary/45 transition-all text-sm font-medium"
@@ -53,13 +53,13 @@ export default function ListsSidebar({
       </div>
 
       {/* Watch Status Section */}
-      <div className="px-4 py-4 border-b border-gray-700/50">
+      <div className="px-4 py-4 border-b border-[var(--border)]/50">
         <button
           onClick={() => onStatusChange(selectedStatus)}
           className={`text-sm font-semibold mb-3 text-left w-full transition-colors ${
             activeView === "status"
-              ? "text-white"
-              : "text-gray-400 hover:text-white"
+              ? "text-[var(--text-h1)]"
+              : "text-[var(--subtle)] hover:text-[var(--text-h1)]"
           }`}
         >
           My Tracking
@@ -78,15 +78,15 @@ export default function ListsSidebar({
           <span
             className={`text-sm font-semibold text-left transition-colors ${
               activeView === "list"
-                ? "text-white"
-                : "text-gray-400"
+                ? "text-[var(--text-h1)]"
+                : "text-[var(--subtle)]"
             }`}
           >
             My Lists
           </span>
           <button
             onClick={onCreateList}
-            className="p-2.5 text-gray-400 hover:text-accent-primary hover:bg-gray-800 rounded-lg transition-colors"
+            className="p-2.5 text-[var(--subtle)] hover:text-accent-primary hover:bg-[var(--action-hover)] rounded-lg transition-colors"
             aria-label="Create new list"
           >
             <FaPlus className="text-xs" />
@@ -98,12 +98,12 @@ export default function ListsSidebar({
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="h-10 bg-gray-800 rounded-lg animate-pulse"
+                className="h-10 bg-[var(--action-primary)] rounded-lg animate-pulse"
               />
             ))}
           </div>
         ) : lists.length === 0 ? (
-          <p className="text-sm text-gray-500 text-center py-4">
+          <p className="text-sm text-[var(--subtle)] text-center py-4">
             No lists yet. Create one!
           </p>
         ) : (

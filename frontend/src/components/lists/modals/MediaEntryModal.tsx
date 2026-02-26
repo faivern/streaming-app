@@ -107,10 +107,10 @@ export default function MediaEntryModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 shadow-xl transition-all max-h-[90dvh] sm:max-h-[85dvh] overflow-y-auto overscroll-contain">
+              <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline shadow-xl transition-all max-h-[90dvh] sm:max-h-[85dvh] overflow-y-auto overscroll-contain">
                 <form onSubmit={handleSubmit}>
                   {/* Header with media info */}
-                  <div className="flex items-start gap-4 p-4 border-b border-gray-700">
+                  <div className="flex items-start gap-4 p-4 border-b border-[var(--border)]">
                     <Poster
                       path={item.posterPath || undefined}
                       alt={item.title}
@@ -118,10 +118,10 @@ export default function MediaEntryModal({
                       useCustomSize
                     />
                     <div className="flex-1 min-w-0">
-                      <Dialog.Title className="text-lg font-semibold text-white line-clamp-2">
+                      <Dialog.Title className="text-lg font-semibold text-[var(--text-h1)] line-clamp-2">
                         {item.title}
                       </Dialog.Title>
-                      <div className="flex items-center gap-2 mt-1 text-sm text-gray-400">
+                      <div className="flex items-center gap-2 mt-1 text-sm text-[var(--subtle)]">
                         <MediaIcon className="text-xs" />
                         <span>{mediaTypeLabel}</span>
                       </div>
@@ -129,19 +129,19 @@ export default function MediaEntryModal({
                     <button
                       type="button"
                       onClick={onClose}
-                      className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors flex-shrink-0"
+                      className="p-2 min-w-11 min-h-11 flex items-center justify-center text-[var(--subtle)] hover:text-[var(--text-h1)] rounded-lg hover:bg-[var(--action-hover)] transition-colors flex-shrink-0"
                     >
                       <FaTimes />
                     </button>
                   </div>
 
                   {/* Watch status tabs */}
-                  <div className="p-4 border-b border-gray-700">
+                  <div className="p-4 border-b border-[var(--border)]">
                     <Tab.Group
                       selectedIndex={selectedStatusIndex}
                       onChange={(index) => setStatus(WATCH_STATUSES[index].value)}
                     >
-                      <Tab.List className="flex gap-1 p-1 bg-gray-800 rounded-lg">
+                      <Tab.List className="flex gap-1 p-1 bg-[var(--action-primary)] rounded-lg">
                         {WATCH_STATUSES.map((s) => {
                           const colors = STATUS_COLORS[s.value];
                           return (
@@ -151,7 +151,7 @@ export default function MediaEntryModal({
                                 `flex-1 py-2 px-3 text-sm font-medium rounded-md transition-colors focus:outline-none ${
                                   selected
                                     ? `${colors.bg} ${colors.text}`
-                                    : "text-gray-400 hover:text-white hover:bg-gray-700"
+                                    : "text-[var(--subtle)] hover:text-[var(--text-h1)] hover:bg-[var(--action-hover)]"
                                 }`
                               }
                             >
@@ -167,13 +167,13 @@ export default function MediaEntryModal({
                   </div>
 
                   {/* Ratings */}
-                  <div className="p-4 border-b border-gray-700">
-                    <h3 className="text-sm font-medium text-gray-300 mb-4">
+                  <div className="p-4 border-b border-[var(--border)]">
+                    <h3 className="text-sm font-medium text-[var(--subtle)] mb-4">
                       Your Ratings
                     </h3>
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-400">Acting</span>
+                        <span className="text-sm text-[var(--subtle)]">Acting</span>
                         <StarRating
                           value={ratingActing}
                           onChange={setRatingActing}
@@ -181,7 +181,7 @@ export default function MediaEntryModal({
                         />
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-400">Story</span>
+                        <span className="text-sm text-[var(--subtle)]">Story</span>
                         <StarRating
                           value={ratingStory}
                           onChange={setRatingStory}
@@ -189,7 +189,7 @@ export default function MediaEntryModal({
                         />
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-400">Visuals</span>
+                        <span className="text-sm text-[var(--subtle)]">Visuals</span>
                         <StarRating
                           value={ratingVisuals}
                           onChange={setRatingVisuals}
@@ -197,7 +197,7 @@ export default function MediaEntryModal({
                         />
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-400">Soundtrack</span>
+                        <span className="text-sm text-[var(--subtle)]">Soundtrack</span>
                         <StarRating
                           value={ratingSoundtrack}
                           onChange={setRatingSoundtrack}
@@ -208,10 +208,10 @@ export default function MediaEntryModal({
                   </div>
 
                   {/* Review */}
-                  <div className="p-4 border-b border-gray-700">
+                  <div className="p-4 border-b border-[var(--border)]">
                     <label
                       htmlFor="entry-notes"
-                      className="block text-sm font-medium text-gray-300 mb-2"
+                      className="block text-sm font-medium text-[var(--subtle)] mb-2"
                     >
                       Review
                     </label>
@@ -222,9 +222,9 @@ export default function MediaEntryModal({
                       placeholder="Write your thoughts..."
                       rows={maxRowsForNotes}
                       maxLength={maxReviewLength}
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 resize-none"
+                      className="w-full px-3 py-2 bg-input border border-outline rounded-lg text-[var(--text-h1)] placeholder-[var(--subtle)] focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 resize-none"
                     />
-                    <div className="text-xs text-gray-500 mt-1">{notes.length}/{maxReviewLength}</div>
+                    <div className="text-xs text-[var(--subtle)] mt-1">{notes.length}/{maxReviewLength}</div>
                   </div>
 
                   {/* Actions */}
@@ -232,14 +232,14 @@ export default function MediaEntryModal({
                     <button
                       type="button"
                       onClick={onClose}
-                      className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                      className="px-4 py-2 text-sm font-medium text-[var(--subtle)] hover:text-[var(--text-h1)] transition-colors"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className="px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+                      className="px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 disabled:bg-[var(--action-primary)] disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
                     >
                       {isLoading ? "Saving..." : "Save Changes"}
                     </button>

@@ -45,13 +45,13 @@ export default function LimitReachedModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-sm transform rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 p-6 shadow-xl transition-all max-h-[90dvh] overflow-y-auto overscroll-contain">
+              <Dialog.Panel className="w-full max-w-sm transform rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline p-6 shadow-xl transition-all max-h-[90dvh] overflow-y-auto overscroll-contain">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
                     <FaExclamationTriangle className="text-amber-400 text-xl" />
                   </div>
                   <div>
-                    <Dialog.Title className="text-lg font-semibold text-white">
+                    <Dialog.Title className="text-lg font-semibold text-[var(--text-h1)]">
                       {title}
                     </Dialog.Title>
                     <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 text-xs font-medium">
@@ -60,13 +60,13 @@ export default function LimitReachedModal({
                   </div>
                 </div>
 
-                <p className="text-gray-400 text-sm mb-6">{message}</p>
+                <p className="text-[var(--subtle)] text-sm mb-6">{message}</p>
 
                 <div className="flex items-center justify-end">
                   <button
                     type="button"
                     onClick={onClose}
-                    className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium rounded-lg transition-colors"
+                    className="px-4 py-2 bg-[var(--action-hover)] hover:bg-[var(--action-primary)] text-[var(--text-h1)] text-sm font-medium rounded-lg transition-colors"
                   >
                     Got it
                   </button>

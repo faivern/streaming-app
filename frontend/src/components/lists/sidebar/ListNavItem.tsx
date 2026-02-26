@@ -21,7 +21,7 @@ export default function ListNavItem({
       className={`group flex items-center justify-between px-3 py-2.5 rounded-lg cursor-pointer transition-colors ${
         isSelected
           ? "bg-accent-primary/20 text-accent-primary"
-          : "text-gray-300 hover:bg-gray-800 hover:text-white"
+          : "text-[var(--subtle)] hover:bg-[var(--action-hover)] hover:text-[var(--text-h1)]"
       }`}
       onClick={onSelect}
       role="button"
@@ -50,13 +50,13 @@ export default function ListNavItem({
                 menu.classList.toggle("hidden");
               }
             }}
-            className="opacity-0 group-hover:opacity-100 p-1 hover:bg-gray-700 rounded transition-opacity"
+            className="opacity-0 group-hover:opacity-100 p-1 hover:bg-[var(--action-hover)] rounded transition-opacity"
             aria-label="List options"
           >
             <FaEllipsisV className="text-xs" />
           </button>
 
-          <div className="hidden absolute right-0 top-full mt-1 w-32 bg-gray-800 border border-gray-700 rounded-lg shadow-lg z-10">
+          <div className="hidden absolute right-0 top-full mt-1 w-32 bg-[var(--action-primary)] border border-[var(--border)] rounded-lg shadow-lg z-10">
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -64,7 +64,7 @@ export default function ListNavItem({
                 // Hide menu
                 e.currentTarget.parentElement?.classList.add("hidden");
               }}
-              className="w-full px-3 py-2 text-left text-sm text-gray-300 hover:bg-gray-700 hover:text-white transition-colors rounded-t-lg"
+              className="w-full px-3 py-2 text-left text-sm text-[var(--subtle)] hover:bg-[var(--action-hover)] hover:text-[var(--text-h1)] transition-colors rounded-t-lg"
             >
               Edit
             </button>
@@ -75,7 +75,7 @@ export default function ListNavItem({
                 // Hide menu
                 e.currentTarget.parentElement?.classList.add("hidden");
               }}
-              className="w-full px-3 py-2 text-left text-sm text-red-400 hover:bg-gray-700 hover:text-red-300 transition-colors rounded-b-lg"
+              className="w-full px-3 py-2 text-left text-sm text-red-400 hover:bg-[var(--action-hover)] hover:text-red-300 transition-colors rounded-b-lg"
             >
               Delete
             </button>

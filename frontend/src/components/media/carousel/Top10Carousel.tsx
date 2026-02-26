@@ -101,7 +101,7 @@ export default function Top10Carousel({
                       <div className="relative flex items-center">
                         {/* Large ranking number - hollow by default, fills on hover */}
                         <span
-                          className="absolute bottom-0 right-0 pb-4 pr-4 z-10 leading-none select-none font-black
+                          className="absolute bottom-0 right-0 pb-4 pr-4 z-10 leading-none select-none
                             transition-all duration-300 ease-out origin-bottom-right
                             text-transparent
                             group-hover/card:scale-[1.15]
@@ -113,7 +113,8 @@ export default function Top10Carousel({
                             group-hover/card:[--stroke-color:var(--primary)]
                             group-hover/card:drop-shadow-[0_4px_12px_var(--glow)]"
                           style={{
-                            fontFamily: "Arial, Helvetica, sans-serif",
+                            fontFamily: "Poppins, sans-serif",
+                            fontWeight: 700,
                             fontSize: "8rem",
                             WebkitTextStroke: "1px var(--stroke-color)",
                             paintOrder: "stroke fill",
@@ -123,8 +124,8 @@ export default function Top10Carousel({
                         </span>
 
                         <div
-                          className="w-full bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
-                            rounded-2xl border border-gray-400/30 overflow-hidden shadow-lg
+                          className="w-full bg-[var(--component-primary)]
+                            rounded-2xl border border-[var(--border)] overflow-hidden shadow-lg
                             hover:shadow-xl hover:scale-103 hover:border-accent-primary/75
                             transition-all duration-300 relative cursor-pointer"
                         >
@@ -197,7 +198,7 @@ export default function Top10Carousel({
                 onClick={() => emblaApi?.scrollTo(i)}
                 aria-label={`Go to slide ${i + 1}`}
                 className={`h-2 rounded-full transition-all ${
-                  i === selectedIndex ? "bg-accent-primary w-6" : "bg-gray-500/50 w-2"
+                  i === selectedIndex ? "bg-accent-primary w-6" : "bg-[var(--outline)] w-2"
                 }`}
               />
             ))}

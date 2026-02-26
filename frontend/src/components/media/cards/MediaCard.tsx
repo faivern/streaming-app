@@ -81,8 +81,8 @@ export default function MediaCard(props: MediaCardProps) {
     >
       <div className="group relative z-10 hover:z-30 transition-transform duration-300 cursor-pointer">
         <div
-          className="bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
-  rounded-2xl border border-gray-400/30 overflow-hidden shadow-lg
+          className="bg-[var(--component-primary)]
+  rounded-2xl border border-[var(--border)] overflow-hidden shadow-lg
   hover:shadow-xl hover:scale-105 hover:border-accent-primary/75 transition-all duration-300 relative group"
         >
           {(() => {

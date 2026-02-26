@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { dateFormatYear } from "../../../utils/dateFormatYear";
 import { Clock, Calendar, Clapperboard } from "lucide-react";
+import Pill from "../../ui/Pill";
 
 type CollectionPart = {
   id?: number;
@@ -34,7 +35,7 @@ const HeroCollection = ({ collection }: Props) => {
   let collectionOverview = collection.overview;
 
   return (
-    <section className="relative overflow-hidden rounded-xl border border-slate-600/30 shadow-lg mb-6">
+    <section className="relative overflow-hidden rounded-xl border border-[var(--border)] shadow-lg mb-6">
       <Backdrop
         path={collection.backdrop_path || collection.poster_path || ""}
         alt={collection.name}
@@ -47,12 +48,12 @@ const HeroCollection = ({ collection }: Props) => {
       <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
         <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">{collection.name}</h1>
 
-        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400 mt-3">
-          <p
-            className="font-medium bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm flex items-center "
+        <div className="flex flex-wrap items-center gap-4 text-sm text-[var(--subtle)] mt-3">
+          <Pill
+            icon={<FontAwesomeIcon icon={faStar} className="text-amber-400" />}
             title="Average TMDB Rating"
+            className="font-medium"
           >
-            <FontAwesomeIcon icon={faStar} className="text-amber-400 mr-1" />
             {avgRating ? (
               <>
                 <span className="font-bold">{avgRating}</span>
@@ -61,27 +62,25 @@ const HeroCollection = ({ collection }: Props) => {
             ) : (
               "No rating"
             )}
-          </p>
+          </Pill>
 
-          <p
+          <Pill
+            icon={<Calendar className="h-4 w-4" />}
             title="Release Dates"
-            className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm"
           >
-            <Calendar className="h-4 w-4" />
             {firstRelease}
             {" - "}
             {lastRelease}
-          </p>
+          </Pill>
 
-          <p
+          <Pill
+            icon={<Clapperboard className="h-4 w-4" />}
             title="Total Movies"
-            className="flex items-center gap-1 bg-gray-800/70 text-white px-3 py-1 rounded-full border border-gray-600/50 shadow-sm"
           >
-            <Clapperboard className="h-4 w-4" />
             Movies: {movieCount}
-          </p>
+          </Pill>
         </div>
-        <p className="mt-2 text-gray-300 line-clamp-3 sm:line-clamp-none">{collectionOverview}</p>
+        <p className="mt-2 text-[var(--subtle)] line-clamp-3 sm:line-clamp-none">{collectionOverview}</p>
       </div>
     </section>
   );

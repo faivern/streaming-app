@@ -66,19 +66,19 @@ export default function EditListModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform rounded-t-2xl sm:rounded-2xl bg-gray-900 border border-gray-700 p-6 shadow-xl transition-all max-h-[90dvh] overflow-y-auto overscroll-contain">
+              <Dialog.Panel className="w-full max-w-md transform rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline p-6 shadow-xl transition-all max-h-[90dvh] overflow-y-auto overscroll-contain">
                 {/* Drag handle — visible on mobile to signal bottom-sheet affordance */}
                 <div className="flex justify-center pt-2 pb-1 sm:hidden">
-                  <div className="w-10 h-1 bg-gray-600 rounded-full" />
+                  <div className="w-10 h-1 bg-[var(--border)] rounded-full" />
                 </div>
                 <div className="flex items-center justify-between mb-6">
-                  <Dialog.Title className="text-lg font-semibold text-white">
+                  <Dialog.Title className="text-lg font-semibold text-[var(--text-h1)]">
                     Edit List
                   </Dialog.Title>
                   <button
                     type="button"
                     onClick={handleClose}
-                    className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
+                    className="p-2 min-w-11 min-h-11 flex items-center justify-center text-[var(--subtle)] hover:text-[var(--text-h1)] rounded-lg hover:bg-[var(--action-hover)] transition-colors"
                   >
                     <FaTimes />
                   </button>
@@ -89,7 +89,7 @@ export default function EditListModal({
                   <div>
                     <label
                       htmlFor="edit-list-name"
-                      className="block text-sm font-medium text-gray-300 mb-1"
+                      className="block text-sm font-medium text-[var(--subtle)] mb-1"
                     >
                       Name <span className="text-red-400">*</span>
                     </label>
@@ -99,7 +99,7 @@ export default function EditListModal({
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="My Favorite Movies"
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
+                      className="w-full px-3 py-2 bg-input border border-outline rounded-lg text-[var(--text-h1)] placeholder-[var(--subtle)] focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
                       required
                       autoFocus
                     />
@@ -109,7 +109,7 @@ export default function EditListModal({
                   <div>
                     <label
                       htmlFor="edit-list-description"
-                      className="block text-sm font-medium text-gray-300 mb-1"
+                      className="block text-sm font-medium text-[var(--subtle)] mb-1"
                     >
                       Description
                     </label>
@@ -119,17 +119,17 @@ export default function EditListModal({
                       onChange={(e) => setDescription(e.target.value)}
                       placeholder="A collection of my all-time favorite films..."
                       rows={3}
-                      className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 resize-none"
+                      className="w-full px-3 py-2 bg-input border border-outline rounded-lg text-[var(--text-h1)] placeholder-[var(--subtle)] focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 resize-none"
                     />
                   </div>
 
                   {/* Public toggle */}
                   <div className="flex items-center justify-between">
                     <div>
-                      <span className="text-sm font-medium text-gray-300">
+                      <span className="text-sm font-medium text-[var(--subtle)]">
                         Make list public
                       </span>
-                      <p className="text-xs text-gray-500 mt-0.5">
+                      <p className="text-xs text-[var(--subtle)] mt-0.5">
                         Others can view this list
                       </p>
                     </div>
@@ -137,7 +137,7 @@ export default function EditListModal({
                       checked={isPublic}
                       onChange={setIsPublic}
                       className={`${
-                        isPublic ? "bg-accent-primary" : "bg-gray-700"
+                        isPublic ? "bg-accent-primary" : "bg-[var(--action-hover)]"
                       } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary/50`}
                     >
                       <span
@@ -153,14 +153,14 @@ export default function EditListModal({
                     <button
                       type="button"
                       onClick={handleClose}
-                      className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                      className="px-4 py-2 text-sm font-medium text-[var(--subtle)] hover:text-[var(--text-h1)] transition-colors"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
                       disabled={!name.trim() || isLoading}
-                      className="px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+                      className="px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 disabled:bg-[var(--action-primary)] disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
                     >
                       {isLoading ? "Saving..." : "Save Changes"}
                     </button>

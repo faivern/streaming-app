@@ -16,7 +16,7 @@ const Footer = () => {
               <h2 className="mb-6 text-sm font-semibold text-white uppercase">
                 Resources
               </h2>
-              <ul className="text-gray-400 font-medium">
+              <ul className="text-[var(--subtle)] font-medium">
                 <li className="mb-4">
                   <a
                     href="https://developer.themoviedb.org/"
@@ -44,7 +44,7 @@ const Footer = () => {
               <h2 className="mb-6 text-sm font-semibold text-white uppercase">
                 Follow us
               </h2>
-              <ul className="text-gray-400 font-medium">
+              <ul className="text-[var(--subtle)] font-medium">
                 <li className="mb-4">
                   <a
                     href="https://github.com/faivern/streaming-app"
@@ -60,7 +60,7 @@ const Footer = () => {
               <h2 className="mb-6 text-sm font-semibold text-white uppercase">
                 Legal
               </h2>
-              <ul className="text-gray-400 font-medium">
+              <ul className="text-[var(--subtle)] font-medium">
                 <li className="mb-4">
                   <Link
                     to="/privacy-policy"
@@ -81,7 +81,16 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <hr className="my-6 border-gray-700 sm:mx-auto lg:my-8" />
+        <hr className="my-6 border-[var(--border)] sm:mx-auto lg:my-8" />
+
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span className="text-xs text-[var(--subtle)]">
+            © {new Date().getFullYear()} Cinelas
+          </span>
+          <span className="text-xs text-[var(--subtle)] italic select-none">
+            Explore over a million titles in your cinema atlas
+          </span>
+        </div>
 
       </div>
     </footer>

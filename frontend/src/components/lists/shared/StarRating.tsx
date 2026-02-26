@@ -75,7 +75,7 @@ export default function StarRating({
           {Array.from({ length: maxStars }, (_, i) => renderStar(i))}
         </div>
         {showValue && value !== null && (
-          <span className="ml-2 text-gray-400 text-sm font-medium">
+          <span className="ml-2 text-[var(--subtle)] text-sm font-medium">
             {value.toFixed(1)}
           </span>
         )}

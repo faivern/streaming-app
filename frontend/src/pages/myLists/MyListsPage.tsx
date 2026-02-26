@@ -248,11 +248,11 @@ export default function MyListsPage() {
     return (
       <div className="min-h-dvh flex items-center justify-center px-4">
         <div className="text-center max-w-md">
-          <div className="w-20 h-20 rounded-full bg-gray-800 flex items-center justify-center mx-auto mb-6">
-            <FaSignInAlt className="text-3xl text-gray-500" />
+          <div className="w-20 h-20 rounded-full bg-[var(--action-primary)] flex items-center justify-center mx-auto mb-6">
+            <FaSignInAlt className="text-3xl text-[var(--subtle)]" />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-3">Sign in to view your lists</h1>
-          <p className="text-gray-400 mb-6">
+          <h1 className="text-2xl font-bold text-[var(--text-h1)] mb-3">Sign in to view your lists</h1>
+          <p className="text-[var(--subtle)] mb-6">
             Track your movies and TV shows, create custom lists, and rate your favorites.
           </p>
           <a href={GOOGLE_LOGIN_URL}>
@@ -274,7 +274,7 @@ export default function MyListsPage() {
   return (
     <div className="flex min-h-dvh mt-navbar-offset">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:block w-64 xl:w-72 border-r border-gray-700/50 bg-gray-900/50">
+      <aside className="hidden lg:block w-64 xl:w-72 border-r border-[var(--border)]/50 bg-[var(--background)]/50">
         <ListsSidebar
           lists={lists}
           activeView={activeView}

@@ -27,8 +27,6 @@ export default function GenreDetailPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const genreName = searchParams.get("name") || "Unknown Genre";
-
   // guard invalid/absent id while keeping hooks stable
   const genreIdNum = useMemo(() => {
     const n = Number(genreId);
@@ -42,6 +40,8 @@ export default function GenreDetailPage() {
     defaultMediaType,
     isLoading: genreLoading,
   } = useGenreById(genreIdNum);
+
+  const genreName = genre?.name ?? "Unknown Genre";
 
   // Get media type from URL, fallback to defaultMediaType
   const urlMediaType = searchParams.get("mediaType") as MediaType | null;

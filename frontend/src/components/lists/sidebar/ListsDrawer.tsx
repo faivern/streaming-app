@@ -72,15 +72,15 @@ export default function ListsDrawer({
                 leaveTo="-translate-x-full"
               >
                 <Dialog.Panel className="pointer-events-auto w-screen max-w-xs">
-                  <div className="flex h-full flex-col bg-gray-900 shadow-xl">
+                  <div className="flex h-full flex-col bg-[var(--background)] shadow-xl">
                     {/* Header */}
-                    <div className="flex items-center justify-between px-4 py-4 border-b border-gray-700">
-                      <Dialog.Title className="text-lg font-semibold text-white">
+                    <div className="flex items-center justify-between px-4 py-4 border-b border-[var(--border)]">
+                      <Dialog.Title className="text-lg font-semibold text-[var(--text-h1)]">
                         My Lists
                       </Dialog.Title>
                       <button
                         type="button"
-                        className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
+                        className="p-2 min-w-11 min-h-11 flex items-center justify-center text-[var(--subtle)] hover:text-[var(--text-h1)] rounded-lg hover:bg-[var(--action-hover)] transition-colors"
                         onClick={onClose}
                       >
                         <span className="sr-only">Close panel</span>

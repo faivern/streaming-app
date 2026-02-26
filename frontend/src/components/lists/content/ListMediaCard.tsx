@@ -29,8 +29,8 @@ const avgRating = calculateAverageRating(item);
     : "group relative z-10 hover:z-30 transition-transform duration-300";
 
   const cardClass = isEditMode
-    ? "bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950 rounded-2xl border border-gray-400/30 overflow-hidden shadow-lg hover:shadow-xl hover:border-accent-primary/75 transition-all duration-300 relative"
-    : "bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950 rounded-2xl border border-gray-400/30 overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 hover:border-accent-primary/75 transition-all duration-300 relative";
+    ? "bg-[var(--component-primary)] rounded-2xl border border-[var(--border)] overflow-hidden shadow-lg hover:shadow-xl hover:border-accent-primary/75 transition-all duration-300 relative"
+    : "bg-[var(--component-primary)] rounded-2xl border border-[var(--border)] overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 hover:border-accent-primary/75 transition-all duration-300 relative";
 
   return (
     <div className={containerClass}>
@@ -51,7 +51,7 @@ const avgRating = calculateAverageRating(item);
 
           {/* Content - Title area */}
           <div className="p-4 flex flex-wrap gap-4 items-center justify-between">
-            <h3 className="text-md font-semibold text-white truncate">
+            <h3 className="text-md font-semibold text-[var(--text-h1)] truncate">
               {item.title.length > 35
                 ? `${item.title.slice(0, 35)}...`
                 : item.title}

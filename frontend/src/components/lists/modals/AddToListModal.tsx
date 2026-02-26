@@ -367,7 +367,7 @@ export default function AddToListModal({
               >
                 <Dialog.Panel className="w-full max-w-lg transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline shadow-xl transition-all max-h-[90dvh] sm:max-h-[85dvh] overflow-y-auto overscroll-contain">
                   {/* Header with media info */}
-                  <div className="flex items-start gap-4 p-4 border-b border-gray-700">
+                  <div className="flex items-start gap-4 p-4 border-b border-[var(--border)]">
                     <Poster
                       path={media.posterPath || undefined}
                       alt={media.title}
@@ -375,10 +375,10 @@ export default function AddToListModal({
                       useCustomSize
                     />
                     <div className="flex-1 min-w-0">
-                      <Dialog.Title className="text-lg font-semibold text-white line-clamp-2">
+                      <Dialog.Title className="text-lg font-semibold text-[var(--text-h1)] line-clamp-2">
                         {media.title}
                       </Dialog.Title>
-                      <div className="flex items-center gap-2 mt-1 text-sm text-gray-400">
+                      <div className="flex items-center gap-2 mt-1 text-sm text-[var(--subtle)]">
                         <MediaIcon className="text-xs" />
                         <span>{mediaTypeLabel}</span>
                       </div>
@@ -391,7 +391,7 @@ export default function AddToListModal({
                     <button
                       type="button"
                       onClick={handleClose}
-                      className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors flex-shrink-0"
+                      className="p-2 min-w-11 min-h-11 flex items-center justify-center text-[var(--subtle)] hover:text-[var(--text-h1)] rounded-lg hover:bg-[var(--action-hover)] transition-colors flex-shrink-0"
                     >
                       <FaTimes />
                     </button>
@@ -400,8 +400,8 @@ export default function AddToListModal({
                   {step === "select" ? (
                     <>
                       {/* Status section - FIRST to encourage tracking */}
-                      <div className="p-4 border-b border-gray-700 bg-gray-800/30">
-                        <h3 className="text-sm font-medium text-gray-300 mb-1">
+                      <div className="p-4 border-b border-[var(--border)] bg-[var(--action-primary)]/30">
+                        <h3 className="text-sm font-medium text-[var(--subtle)] mb-1">
                           Track in My Library
                           {existingEntry && (
                             <span className="ml-2 text-xs text-accent-primary">
@@ -409,7 +409,7 @@ export default function AddToListModal({
                             </span>
                           )}
                         </h3>
-                        <p className="text-xs text-gray-500 mb-3">
+                        <p className="text-xs text-[var(--subtle)] mb-3">
                           Keep track of what you've watched
                         </p>
                         <div className="grid grid-cols-3 gap-2">
@@ -432,19 +432,19 @@ export default function AddToListModal({
                                 className={`p-3 rounded-lg border-2 transition-all ${
                                   isSelected
                                     ? `${colors.border} ${colors.bg}`
-                                    : "border-gray-700 hover:border-gray-600 bg-gray-800/50"
+                                    : "border-[var(--border)] hover:border-[var(--border)] bg-[var(--action-primary)]/50"
                                 }`}
                               >
                                 <Icon
                                   className={`text-lg mx-auto mb-1 ${
                                     isSelected
                                       ? colors.text
-                                      : "text-gray-400"
+                                      : "text-[var(--subtle)]"
                                   }`}
                                 />
                                 <span
                                   className={`text-xs font-medium block ${
-                                    isSelected ? "text-white" : "text-gray-400"
+                                    isSelected ? "text-[var(--text-h1)]" : "text-[var(--subtle)]"
                                   }`}
                                 >
                                   {s.label}
@@ -456,9 +456,9 @@ export default function AddToListModal({
                       </div>
 
                       {/* Lists section */}
-                      <div className="p-4 border-b border-gray-700">
+                      <div className="p-4 border-b border-[var(--border)]">
                         <div className="flex items-center justify-between mb-3">
-                          <h3 className="text-sm font-medium text-gray-300">
+                          <h3 className="text-sm font-medium text-[var(--subtle)]">
                             Add to Lists
                           </h3>
                           <button
@@ -488,13 +488,13 @@ export default function AddToListModal({
                             {Array.from({ length: 3 }).map((_, i) => (
                               <div
                                 key={i}
-                                className="h-12 bg-gray-800 rounded-lg animate-pulse"
+                                className="h-12 bg-[var(--action-primary)] rounded-lg animate-pulse"
                               />
                             ))}
                           </div>
                         ) : lists.length === 0 ? (
                           <div className="text-center py-6">
-                            <p className="text-gray-400 text-sm">
+                            <p className="text-[var(--subtle)] text-sm">
                               You don't have any lists yet
                             </p>
                             <button
@@ -534,7 +534,7 @@ export default function AddToListModal({
                                       ? "bg-green-500/10 border border-green-500/30 cursor-default"
                                       : isSelected
                                         ? "bg-accent-primary/20 border border-accent-primary/50"
-                                        : "bg-input border border-outline hover:border-gray-600"
+                                        : "bg-input border border-outline hover:border-[var(--border)]"
                                   }`}
                                 >
                                   <div className="text-left">
@@ -547,7 +547,7 @@ export default function AddToListModal({
                                     >
                                       {list.name}
                                     </p>
-                                    <p className="text-xs text-gray-500">
+                                    <p className="text-xs text-[var(--subtle)]">
                                       {list.items.length} item
                                       {list.items.length !== 1 ? "s" : ""}
                                     </p>
@@ -559,7 +559,7 @@ export default function AddToListModal({
                                       <FaCheck className="text-white text-xs" />
                                     </div>
                                   ) : (
-                                    <div className="w-5 h-5 rounded-full border-2 border-gray-600" />
+                                    <div className="w-5 h-5 rounded-full border-2 border-[var(--border)]" />
                                   )}
                                 </button>
                               );
@@ -573,7 +573,7 @@ export default function AddToListModal({
                         <button
                           type="button"
                           onClick={handleClose}
-                          className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                          className="px-4 py-2 text-sm font-medium text-[var(--subtle)] hover:text-[var(--text-h1)] transition-colors"
                         >
                           Cancel
                         </button>
@@ -584,7 +584,7 @@ export default function AddToListModal({
                             isSaving ||
                             (selectedListIds.size === 0 && status === null)
                           }
-                          className="px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+                          className="px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 disabled:bg-[var(--action-primary)] disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
                         >
                           {isSaving
                             ? "Adding..."
@@ -597,13 +597,13 @@ export default function AddToListModal({
                   ) : (
                     <>
                       {/* Rating step */}
-                      <div className="p-4 border-b border-gray-700">
-                        <h3 className="text-sm font-medium text-gray-300 mb-4">
+                      <div className="p-4 border-b border-[var(--border)]">
+                        <h3 className="text-sm font-medium text-[var(--subtle)] mb-4">
                           Your Ratings
                         </h3>
                         <div className="space-y-4">
                           <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-400">
+                            <span className="text-sm text-[var(--subtle)]">
                               Acting
                             </span>
                             <StarRating
@@ -613,7 +613,7 @@ export default function AddToListModal({
                             />
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-400">Story</span>
+                            <span className="text-sm text-[var(--subtle)]">Story</span>
                             <StarRating
                               value={ratingStory}
                               onChange={setRatingStory}
@@ -621,7 +621,7 @@ export default function AddToListModal({
                             />
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-400">
+                            <span className="text-sm text-[var(--subtle)]">
                               Visuals
                             </span>
                             <StarRating
@@ -631,7 +631,7 @@ export default function AddToListModal({
                             />
                           </div>
                           <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-400">
+                            <span className="text-sm text-[var(--subtle)]">
                               Soundtrack
                             </span>
                             <StarRating
@@ -644,10 +644,10 @@ export default function AddToListModal({
                       </div>
 
                       {/* Review */}
-                      <div className="p-4 border-b border-gray-700">
+                      <div className="p-4 border-b border-[var(--border)]">
                         <label
                           htmlFor="entry-notes"
-                          className="block text-sm font-medium text-gray-300 mb-2"
+                          className="block text-sm font-medium text-[var(--subtle)] mb-2"
                         >
                           Review
                         </label>
@@ -666,7 +666,7 @@ export default function AddToListModal({
                         <button
                           type="button"
                           onClick={() => setStep("select")}
-                          className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                          className="px-4 py-2 text-sm font-medium text-[var(--subtle)] hover:text-[var(--text-h1)] transition-colors"
                         >
                           Back
                         </button>
@@ -675,7 +675,7 @@ export default function AddToListModal({
                             type="button"
                             onClick={handleSkipRating}
                             disabled={isSaving}
-                            className="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                            className="px-4 py-2 text-sm font-medium text-[var(--subtle)] hover:text-[var(--text-h1)] transition-colors"
                           >
                             Skip
                           </button>
@@ -683,7 +683,7 @@ export default function AddToListModal({
                             type="button"
                             onClick={handleSave}
                             disabled={isSaving}
-                            className="px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+                            className="px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 disabled:bg-[var(--action-primary)] disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
                           >
                             {isSaving ? "Saving..." : "Save"}
                           </button>

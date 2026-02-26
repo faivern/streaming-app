@@ -119,7 +119,7 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
             <h3 className="text-sm font-medium text-white group-hover:text-accent-primary transition-colors truncate leading-tight">
               {titleshort}
             </h3>
-            <p className="text-xs text-gray-400 mt-1 truncate">
+            <p className="text-xs text-[var(--subtle)] mt-1 truncate">
               {[(release_date ?? first_air_date ?? "Unknown").slice(0, 4), runtimeDisplay]
                 .filter(Boolean)
                 .join(" • ")}

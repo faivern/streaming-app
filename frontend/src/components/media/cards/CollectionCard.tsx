@@ -22,7 +22,7 @@ export default function CollectionCard({
   return (
     <Link
       to={`/collections/${id}`}
-      className="w-full group block rounded-2xl shadow-lg duration-300 border border-gray-400/30 bg-gradient-to-br from-gray-800 via-gray-900 to-gray-950
+      className="w-full group block rounded-2xl shadow-lg duration-300 border border-[var(--border)] bg-[var(--component-primary)]
          hover:scale-103 hover:border-accent-primary/75 relative overflow-hidden"
       aria-label={title}
     >

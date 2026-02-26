@@ -33,7 +33,7 @@ const CreditsDetailGrid = ({
           {Array.from({ length: 10 }).map((_, i) => (
             <div
               key={i}
-              className="aspect-[2/3] bg-gray-800 rounded-lg animate-pulse"
+              className="aspect-[2/3] bg-[var(--component-primary)] rounded-lg animate-pulse"
             />
           ))}
         </div>
@@ -53,7 +53,7 @@ const CreditsDetailGrid = ({
     return (
       <div className="text-center py-8">
         <TitleMid> Known for</TitleMid>
-        <p className="text-gray-400 mt-4">No credits available</p>
+        <p className="text-[var(--subtle)] mt-4">No credits available</p>
       </div>
     );
   }
@@ -63,7 +63,7 @@ const CreditsDetailGrid = ({
       <div className="flex justify-between items-center mt-4">
         <div className="flex gap-2 items-center">
           <TitleMid>Known for</TitleMid>
-          <span className="text-gray-400 text-sm font-medium mb-3">
+          <span className="text-[var(--subtle)] text-sm font-medium mb-3">
             {displayCount} {displayCount === 1 ? 'title' : 'titles'}
           </span>
         </div>
@@ -89,12 +89,12 @@ const CreditsDetailGrid = ({
 
             {/* Show character/job info below the card */}
             {credit.character && (
-              <p className="text-center text-gray-400 text-sm mt-1">
+              <p className="text-center text-[var(--subtle)] text-sm mt-1">
                 as {credit.character}
               </p>
             )}
             {credit.job && (
-              <p className="text-center text-gray-400 text-sm mt-1">
+              <p className="text-center text-[var(--subtle)] text-sm mt-1">
                 {credit.job}
               </p>
             )}

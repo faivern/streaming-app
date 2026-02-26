@@ -22,7 +22,7 @@ const GenreCard = ({ id, name, supportedMediaTypes, backdropPath }: GenreCardPro
   return (
     <div
       className={`group relative h-48 rounded-lg overflow-hidden
-                 ${!hasBackdrop ? getGenreColor(id) : ""} border border-gray-400/30 shadow-lg
+                 ${!hasBackdrop ? getGenreColor(id) : ""} border border-[var(--border)] shadow-lg
                  transition-transform duration-300 hover:scale-105 hover:border-accent-primary/75`}
     > 
       <Link

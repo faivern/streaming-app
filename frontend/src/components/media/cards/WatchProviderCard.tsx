@@ -22,7 +22,7 @@ export default function WatchProviderCard({
       >
         <div
           className="relative h-48 w-48 rounded-2xl overflow-hidden
-                     border border-gray-400/30 shadow-lg
+                     border border-[var(--border)] shadow-lg
                      transition-all duration-300
                      group-hover:scale-105 group-hover:border-accent-primary/75
                      "

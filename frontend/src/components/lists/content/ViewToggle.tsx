@@ -14,7 +14,7 @@ export default function ViewToggle({
 }: ViewToggleProps) {
   return (
     <div
-      className={`inline-flex rounded-lg bg-gray-800 p-1 ${className}`}
+      className={`inline-flex rounded-lg bg-[var(--action-primary)] p-1 ${className}`}
       role="radiogroup"
       aria-label="View mode"
     >
@@ -25,8 +25,8 @@ export default function ViewToggle({
         onClick={() => onChange("list")}
         className={`p-3 rounded-md transition-colors ${
           viewMode === "list"
-            ? "bg-gray-700 text-white"
-            : "text-gray-400 hover:text-white"
+            ? "bg-[var(--action-hover)] text-[var(--text-h1)]"
+            : "text-[var(--subtle)] hover:text-[var(--text-h1)]"
         }`}
         aria-label="List view"
       >
@@ -39,8 +39,8 @@ export default function ViewToggle({
         onClick={() => onChange("grid")}
         className={`p-3 rounded-md transition-colors ${
           viewMode === "grid"
-            ? "bg-gray-700 text-white"
-            : "text-gray-400 hover:text-white"
+            ? "bg-[var(--action-hover)] text-[var(--text-h1)]"
+            : "text-[var(--subtle)] hover:text-[var(--text-h1)]"
         }`}
         aria-label="Grid view"
       >

@@ -86,7 +86,7 @@ export default function ListHeader({
             );
           })()}
           {description && (
-            <p className="text-gray-400 text-sm mt-1">{description}</p>
+            <p className="text-[var(--subtle)] text-sm mt-1">{description}</p>
           )}
         </div>
 
@@ -98,7 +98,7 @@ export default function ListHeader({
               className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                 isEditMode
                   ? "bg-accent-primary text-white hover:bg-accent-primary/80"
-                  : "bg-gray-800 border border-gray-700 text-gray-300 hover:text-white hover:border-gray-600"
+                  : "bg-[var(--action-primary)] border border-[var(--border)] text-[var(--subtle)] hover:text-[var(--text-h1)] hover:border-[var(--border)]"
               }`}
             >
               <FontAwesomeIcon icon={faPen} className="text-xs" />
@@ -120,7 +120,7 @@ export default function ListHeader({
 
       {/* Controls row */}
       <div className="flex items-center justify-between gap-4 mt-4">
-        <div className="flex items-center gap-3 text-sm text-gray-400 isolation-auto">
+        <div className="flex items-center gap-3 text-sm text-[var(--subtle)] isolation-auto">
           {/* count display */}
           <span
             className="flex items-center gap-1 isolate"
@@ -146,12 +146,12 @@ export default function ListHeader({
           {/* Sort dropdown */}
           <Listbox value={sortOption} onChange={onSortChange}>
             <div className="relative w-44">
-              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-gray-800 border border-gray-700 py-2 pl-3 pr-10 text-left text-white focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
+              <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-[var(--action-primary)] border border-[var(--border)] py-2 pl-3 pr-10 text-left text-[var(--text-h1)] focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
                 <span className="block truncate">{selectedSortLabel}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                   <FontAwesomeIcon
                     icon={faChevronDown}
-                    className="h-3 w-3 text-gray-400"
+                    className="h-3 w-3 text-[var(--subtle)]"
                   />
                 </span>
               </Listbox.Button>
@@ -161,15 +161,15 @@ export default function ListHeader({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-gray-800 border border-gray-700 py-1 text-sm shadow-lg focus:outline-none">
+                <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-[var(--action-primary)] border border-[var(--border)] py-1 text-sm shadow-lg focus:outline-none">
                   {LISTS_SORT_OPTIONS.map((option) => (
                     <Listbox.Option
                       key={option.value}
                       className={({ active }) =>
                         `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
                           active
-                            ? "bg-accent-primary/20 text-white"
-                            : "text-gray-300"
+                            ? "bg-accent-primary/20 text-[var(--text-h1)]"
+                            : "text-[var(--subtle)]"
                         }`
                       }
                       value={option.value}
