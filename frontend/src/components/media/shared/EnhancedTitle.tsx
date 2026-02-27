@@ -13,7 +13,7 @@ export default function Logo({ path, alt, className = "", sizes, priority = fals
   return (
     <img
       decoding="async"
-      className={`object-contain aspect-[3/1] ${className}`}
+      className={`object-contain ${className}`}
       src={`${base}/w342${path}`}
       srcSet={`
         ${base}/w185${path} 185w,

@@ -63,7 +63,7 @@ const CreditsDetailGrid = ({
       <div className="flex justify-between items-center mt-4">
         <div className="flex gap-2 items-center">
           <TitleMid>Known for</TitleMid>
-          <span className="text-[var(--subtle)] text-sm font-medium mb-3">
+          <span className="text-[var(--subtle)] text-sm font-medium mb-5">
             {displayCount} {displayCount === 1 ? 'title' : 'titles'}
           </span>
         </div>

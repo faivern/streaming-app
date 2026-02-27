@@ -161,12 +161,12 @@ export default function ListHeader({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-[var(--action-primary)] border border-[var(--border)] py-1 text-sm shadow-lg focus:outline-none">
+                <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-[var(--action-primary)] border border-[var(--border)] px-1 py-1 text-sm shadow-lg focus:outline-none">
                   {LISTS_SORT_OPTIONS.map((option) => (
                     <Listbox.Option
                       key={option.value}
                       className={({ active }) =>
-                        `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
+                        `relative cursor-pointer select-none rounded-md py-3 pl-10 pr-4 ${
                           active
                             ? "bg-accent-primary/20 text-[var(--text-h1)]"
                             : "text-[var(--subtle)]"

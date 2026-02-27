@@ -48,12 +48,12 @@ export default function RuntimeSelector({ value, onChange }: Props) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-gray-800 border border-gray-600 py-1 text-sm shadow-lg focus:outline-none">
+          <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-gray-800 border border-gray-600 px-1 py-1 text-sm shadow-lg focus:outline-none">
             {RUNTIME_OPTIONS.map((option) => (
               <Listbox.Option
                 key={option.label}
                 className={({ active }) =>
-                  `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
+                  `relative cursor-pointer select-none rounded-md py-3 pl-10 pr-4 ${
                     active ? "bg-accent-primary/20 text-white" : "text-gray-300"
                   }`
                 }

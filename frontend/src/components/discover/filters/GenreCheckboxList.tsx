@@ -67,13 +67,13 @@ export default function GenreCheckboxList({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute z-20 mt-1 w-full max-h-64 overflow-auto rounded-lg bg-gray-800 border border-gray-600 py-2 shadow-lg focus:outline-none">
+            <Popover.Panel className="absolute z-20 mt-1 w-full max-h-64 overflow-auto rounded-lg bg-gray-800 border border-gray-600 px-1 py-1 shadow-lg focus:outline-none">
               {filteredGenres.map((genre) => {
                 const isSelected = selectedGenreIds.includes(genre.id);
                 return (
                   <label
                     key={genre.id}
-                    className={`flex items-center gap-2 px-3 py-2.5 cursor-pointer transition-colors ${
+                    className={`flex items-center gap-2 rounded-md px-3 py-2.5 cursor-pointer transition-colors ${
                       isSelected
                         ? "bg-accent-primary/20 text-white"
                         : "text-gray-300 hover:bg-gray-700/50"

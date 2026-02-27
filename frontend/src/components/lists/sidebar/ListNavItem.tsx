@@ -56,7 +56,7 @@ export default function ListNavItem({
             <FaEllipsisV className="text-xs" />
           </button>
 
-          <div className="hidden absolute right-0 top-full mt-1 w-32 bg-[var(--action-primary)] border border-[var(--border)] rounded-lg shadow-lg z-10">
+          <div className="hidden absolute right-0 top-full mt-1 w-32 bg-[var(--action-primary)] border border-[var(--border)] rounded-lg shadow-lg z-10 px-1 py-1">
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -64,7 +64,7 @@ export default function ListNavItem({
                 // Hide menu
                 e.currentTarget.parentElement?.classList.add("hidden");
               }}
-              className="w-full px-3 py-2 text-left text-sm text-[var(--subtle)] hover:bg-[var(--action-hover)] hover:text-[var(--text-h1)] transition-colors rounded-t-lg"
+              className="w-full px-2 py-2 text-left text-sm text-[var(--subtle)] hover:bg-[var(--action-hover)] hover:text-[var(--text-h1)] transition-colors rounded-md"
             >
               Edit
             </button>
@@ -75,7 +75,7 @@ export default function ListNavItem({
                 // Hide menu
                 e.currentTarget.parentElement?.classList.add("hidden");
               }}
-              className="w-full px-3 py-2 text-left text-sm text-red-400 hover:bg-[var(--action-hover)] hover:text-red-300 transition-colors rounded-b-lg"
+              className="w-full px-2 py-2 text-left text-sm text-red-400 hover:bg-[var(--action-hover)] hover:text-red-300 transition-colors rounded-md"
             >
               Delete
             </button>

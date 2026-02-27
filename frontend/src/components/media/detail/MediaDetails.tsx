@@ -79,7 +79,7 @@ export default function MediaDetails({
   }
 
   return (
-    <div className="bg-component-primary rounded-2xl p-6 border border-accent-foreground/60 shadow-lg">
+    <div className="bg-component-primary rounded-xl p-6 border border-accent-foreground/60 shadow-lg">
       <h3 className="text-xl font-semibold text-white mb-4">Details</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
         <div className="space-y-4">

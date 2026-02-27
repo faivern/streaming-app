@@ -83,7 +83,7 @@ export default function RegionSelector({
                 />
               </div>
             </div>
-            <div className="max-h-52 overflow-auto py-1">
+            <div className="max-h-52 overflow-auto px-1 py-1">
               {filteredRegions.length === 0 ? (
                 <div className="py-2 px-4 text-subtle text-center">
                   No countries found
@@ -93,7 +93,7 @@ export default function RegionSelector({
                   <Listbox.Option
                     key={region.iso_3166_1}
                     className={({ active }) =>
-                      `relative cursor-pointer select-none py-3 pl-10 pr-4 ${
+                      `relative cursor-pointer select-none rounded-md py-3 pl-10 pr-4 ${
                         active ? "bg-action-hover text-text-h1" : "text-subtle"
                       }`
                     }

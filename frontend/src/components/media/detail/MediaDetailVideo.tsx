@@ -91,7 +91,7 @@ export default function MediaDetailVideo({
 
   return (
     <div
-      className={`relative m-4 overflow-hidden rounded-lg shadow-2xl group mx-auto border border-badge-foreground ${WRAPPER_MAX_W}`}
+      className={`relative m-4 overflow-hidden rounded-lg shadow-2xl group mx-auto border border-accent-foreground/60 ${WRAPPER_MAX_W}`}
     >
       {/* Media area */}
       <div className="aspect-video w-full rounded-lg overflow-hidden bg-black">

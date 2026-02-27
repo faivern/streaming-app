@@ -50,12 +50,12 @@ export default function SortingDropdown({ value, onChange, className = "" }: Pro
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute z-(--z-dropdown) mt-1 max-h-60 w-full overflow-auto rounded-lg bg-component-primary border border-outline py-1 text-sm shadow-lg focus:outline-none">
+          <Listbox.Options className="absolute z-(--z-dropdown) mt-1 max-h-60 w-full overflow-auto rounded-lg bg-component-primary border border-outline px-1 py-1 text-sm shadow-lg focus:outline-none">
             {SORT_OPTIONS.map((option) => (
               <Listbox.Option
                 key={option.value}
                 className={({ active }) =>
-                  `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                  `relative cursor-pointer select-none rounded-md py-2 pl-10 pr-4 ${
                     active ? "bg-accent-primary/20 text-text-h1" : "text-subtle"
                   }`
                 }

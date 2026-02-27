@@ -34,16 +34,16 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
       </div>
 
       {/* Lists link */}
-      <Link
-        to="/lists"
-        onClick={onClose}
-        className="block px-4 py-2 text-sm text-text-h1 hover:bg-accent-primary/20 hover:text-text-h1 transition-colors"
-      >
-        <div className="flex items-center gap-2 text-sm">
+      <div className="px-2">
+        <Link
+          to="/lists"
+          onClick={onClose}
+          className="flex items-center gap-2 w-full px-2 py-2 text-sm text-text-h1 rounded-md hover:bg-accent-primary/20 hover:text-text-h1 transition-colors"
+        >
           <FontAwesomeIcon icon={faListUl} className="text-sm" />
           <span>Lists</span>
-        </div>
-      </Link>
+        </Link>
+      </div>
 
       {/* Theme selector */}
       <div className="px-4 py-2 border-t border-border/25 mt-1">
@@ -73,12 +73,12 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-(--z-dropdown) mt-1 w-full overflow-auto rounded-lg bg-action-primary border border-outline py-1 text-sm shadow-lg focus:outline-none">
+              <Listbox.Options className="absolute z-(--z-dropdown) mt-1 w-full overflow-auto rounded-lg bg-action-primary border border-outline px-1 py-1 text-sm shadow-lg focus:outline-none">
                 {THEME_OPTIONS.map((option) => (
                   <Listbox.Option
                     key={option.value}
                     className={({ active }) =>
-                      `relative cursor-pointer select-none py-2 pl-9 pr-4 ${
+                      `relative cursor-pointer select-none rounded-md py-2 pl-9 pr-4 ${
                         active
                           ? "bg-accent-primary/20 text-text-h1"
                           : "text-subtle"
@@ -121,13 +121,15 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
       </div>
 
       {/* Sign out button */}
-      <button
-        onClick={onLogout}
-        className="flex items-center w-full text-left px-4 py-2 text-sm text-text-h1 hover:bg-accent-primary/20 hover:text-text-h1 transition-colors cursor-pointer border-t border-border/25 mt-1"
-      >
-        <FaSignOutAlt className="mr-2" />
-        Log out
-      </button>
+      <div className="border-t border-border/25 mt-1 px-2 pt-1">
+        <button
+          onClick={onLogout}
+          className="flex items-center w-full text-left px-2 py-2 text-sm text-text-h1 rounded-md hover:bg-accent-primary/20 hover:text-text-h1 transition-colors cursor-pointer"
+        >
+          <FaSignOutAlt className="mr-2" />
+          Log out
+        </button>
+      </div>
     </div>
   );
 };
