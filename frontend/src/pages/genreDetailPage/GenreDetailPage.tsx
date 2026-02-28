@@ -176,7 +176,7 @@ export default function GenreDetailPage() {
           <TitleMid className="text-3xl">{genreName}</TitleMid>
           <p className="text-lg text-gray-300 italic">
             Explore the best {genreName.toLowerCase()}{" "}
-            {mediaType === "tv" ? "shows" : "movies"}
+            {supportsBoth ? "titles" : mediaType === "tv" ? "shows" : "movies"}
           </p>
           <div className="flex flex-wrap items-center gap-3 text-sm text-gray-400 mt-2">
             <span className="flex items-center gap-1">
@@ -195,15 +195,16 @@ export default function GenreDetailPage() {
         </div>
       </section>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        {/* Only show toggle when genre supports both media types */}
-        {supportsBoth ? (
-          <MediaTypeToggle selectedType={mediaType} onToggle={handleToggle} />
-        ) : (
-          <div /> // Spacer to keep sort dropdown on the right
-        )}
-
-        <SortByDropdown value={sortBy} onChange={setSortBy} />
+      <div className="grid grid-cols-3 items-center mb-6">
+        <div />
+        <div className="flex justify-center">
+          {supportsBoth && (
+            <MediaTypeToggle selectedType={mediaType} onToggle={handleToggle} />
+          )}
+        </div>
+        <div className="flex justify-end">
+          <SortByDropdown value={sortBy} onChange={setSortBy} />
+        </div>
       </div>
 
       <InfiniteScrollWrapper

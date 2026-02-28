@@ -1,6 +1,5 @@
 // components/media/modals/MediaCardModal.tsx
 import { Link } from "react-router-dom";
-import { useFloating } from "@floating-ui/react";
 import { useMediaDetail } from "../../../hooks/media/useMediaDetail";
 import genreMap from "../../../utils/genreMap";
 import languageMap from "../../../utils/languageMap";
@@ -42,7 +41,6 @@ type MediaCardModalProps = {
 };
 
 const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
-  const { refs } = useFloating();
   const { data } = useMediaDetail(media_type, id, initial);
   const title =
     data?.title ?? data?.name ?? initial?.title ?? initial?.name ?? "Loading…";
@@ -82,8 +80,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
   return (
     <Link to={`/media/${media_type}/${id}`}>
       <div
-        ref={refs.setFloating}
-        className="backdrop-blur-md bg-component-primary/80 w-full max-w-lg p-3 shadow-2xl rounded-lg border border-outline/70 text-text-h1"
+        className="backdrop-blur-md bg-component-primary/80 w-96 p-4 shadow-2xl rounded-lg border border-outline/70 text-text-h1"
       >
         <h2 className="text-xl font-bold mb-2 text-text-h1">{title}</h2>
 

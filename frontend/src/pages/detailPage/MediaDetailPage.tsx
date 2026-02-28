@@ -72,7 +72,7 @@ export default function MediaDetailPage() {
       )}
 
       {/* BackLink — desktop uses mt-navbar-offset since backdrop is hidden */}
-      <div className="px-4 md:px-[11%] md:mt-navbar-offset">
+      <div className="px-4 md:px-[8%] md:mt-navbar-offset">
         <BackLink />
       </div>
 
@@ -90,8 +90,8 @@ export default function MediaDetailPage() {
         />
       </div>
 
-      <div className="px-4 md:px-[11%] mt-4">
-        <div className="flex flex-col md:grid md:grid-cols-[3fr_1fr] gap-8 md:gap-x-16">
+      <div className="px-4 md:px-[8%] mt-4">
+        <div className="flex flex-col md:grid md:grid-cols-[3fr_1fr] gap-8 md:gap-x-12">
           {/* col 1, row 1 */}
           <div className="min-w-0">
             <MediaDetailHeader
