@@ -17,12 +17,15 @@ import ProvidersPage from "./pages/providersPage/ProvidersPage";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import TermsOfService from "./pages/legal/TermsOfService";
 import { useTheme } from "./hooks/useTheme";
+import { SignInModalProvider } from "./context/SignInModalContext";
+import SignInModal from "./components/auth/SignInModal";
 
 function App() {
   // Theme is managed by useTheme hook (persisted to localStorage)
   useTheme();
 
   return (
+    <SignInModalProvider>
     <div className="min-h-dvh flex flex-col bg-background text-white scrollbar">
       <Header />
       <main className="flex-grow pb-bottom-nav md:pb-0">
@@ -93,7 +96,9 @@ function App() {
           },
         }}
       />
+      <SignInModal />
     </div>
+    </SignInModalProvider>
   );
 }
 
