@@ -6,8 +6,6 @@ import type { MediaType, CreditsResponse } from "../../types/tmdb";
 import { useMediaCredits } from "../../hooks/people/useMediaCredits";
 import { useMediaDetail } from "../../hooks/media/useMediaDetail";
 
-//TODO Separate the filter segments into their own component
-
 type RouteParams = {
   mediaType: MediaType;
   id: string;
@@ -16,10 +14,8 @@ type RouteParams = {
 const CreditsPage = () => {
   const [activeTab, setActiveTab] = useState<"cast" | "crew">("cast");
 
-  // read and normalize route params
   const { mediaType = "movie", id: idParam } = useParams<RouteParams>();
   const id = Number(idParam);
-  // guard invalid id early
   const isValidId = Number.isFinite(id) && id > 0;
 
   const {
@@ -37,8 +33,7 @@ const CreditsPage = () => {
   const cast = credits?.cast ?? [];
   const crew = credits?.crew ?? [];
 
-  const mediaTitle =
-    details?.title ?? details?.name ?? "Unknown title";
+  const mediaTitle = details?.title ?? details?.name ?? "Unknown title";
 
   type CrewMember = CreditsResponse["crew"][number];
 
@@ -50,86 +45,90 @@ const CreditsPage = () => {
     }, {} as Record<string, CrewMember[]>);
   }, [crew]);
 
-  // loading & error states
   if (!isValidId) {
     return (
-      <div className="min-h-dvh bg-gray-900 text-white grid place-items-center">
-        <p className="text-gray-300">Invalid media id.</p>
+      <div className="min-h-dvh bg-[var(--background)] grid place-items-center">
+        <p className="text-[var(--subtle)]">Invalid media id.</p>
       </div>
     );
   }
 
   if (creditsLoading || detailsLoading) {
     return (
-      <div className="min-h-dvh bg-gray-900 text-white grid place-items-center">
-        <p className="text-gray-300">Loading full cast & crew…</p>
+      <div className="min-h-dvh bg-[var(--background)] grid place-items-center">
+        <p className="text-[var(--subtle)]">Loading full cast &amp; crew…</p>
       </div>
     );
   }
 
   if (creditsError || detailsError) {
     return (
-      <div className="min-h-dvh bg-gray-900 text-white grid place-items-center">
-        <p className="text-red-300">Failed to load credits.</p>
+      <div className="min-h-dvh bg-[var(--background)] grid place-items-center">
+        <p className="text-red-400">Failed to load credits.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-dvh bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-8 mt-navbar-offset">
+    <div className="min-h-dvh bg-[var(--background)]">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-8 mt-navbar-offset">
+
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-10">
           <Link
             to={`/media/${mediaType}/${id}`}
-            className="text-blue-400 hover:text-blue-300 mb-4 inline-block"
+            className="text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] mb-4 inline-block transition-colors text-sm"
           >
             ← Back to {mediaTitle}
           </Link>
-          <h1 className="text-4xl font-bold mb-2">{mediaTitle}</h1>
-          <p className="text-gray-400 text-lg">Full Cast &amp; Crew</p>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-1 text-[var(--text-h1)]">
+            {mediaTitle}
+          </h1>
+          <p className="text-[var(--subtle)] text-base sm:text-lg">
+            Full Cast &amp; Crew
+          </p>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-700 mb-8">
+        <div className="flex border-b border-[var(--border)] mb-8 sm:mb-10">
           <button
             onClick={() => setActiveTab("cast")}
-            className={`px-6 py-3 font-semibold transition-colors ${
+            className={`px-5 sm:px-6 py-3 font-semibold transition-colors ${
               activeTab === "cast"
-                ? "text-blue-400 border-b-2 border-blue-400"
-                : "text-gray-400 hover:text-white"
+                ? "text-[var(--accent-primary)] border-b-2 border-[var(--accent-primary)]"
+                : "text-[var(--subtle)] hover:text-[var(--text-h1)]"
             }`}
           >
             Cast ({cast.length})
           </button>
           <button
             onClick={() => setActiveTab("crew")}
-            className={`px-6 py-3 font-semibold transition-colors ${
+            className={`px-5 sm:px-6 py-3 font-semibold transition-colors ${
               activeTab === "crew"
-                ? "text-blue-400 border-b-2 border-blue-400"
-                : "text-gray-400 hover:text-white"
+                ? "text-[var(--accent-primary)] border-b-2 border-[var(--accent-primary)]"
+                : "text-[var(--subtle)] hover:text-[var(--text-h1)]"
             }`}
           >
             Crew ({crew.length})
           </button>
         </div>
 
-        {/* Content */}
+        {/* Cast Tab */}
         {activeTab === "cast" && (
           <>
-                <TitleMid>Actors</TitleMid>
+            <TitleMid>Actors</TitleMid>
             {cast.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 p-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-4 sm:gap-6">
                 {cast
-                  .slice() // don’t mutate original
+                  .slice()
                   .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
                   .map((person) => (
                     <MediaCastCard key={person.id} cast={person} />
                   ))}
               </div>
             ) : (
-              <div className="text-center py-12">
-                <p className="text-gray-400 text-lg">
+              <div className="text-center py-16">
+                <p className="text-[var(--subtle)] text-lg">
                   No cast information available.
                 </p>
               </div>
@@ -137,17 +136,17 @@ const CreditsPage = () => {
           </>
         )}
 
+        {/* Crew Tab */}
         {activeTab === "crew" && (
           <>
             {crew.length > 0 ? (
-              <div className="space-y-8">
+              <div className="space-y-10 sm:space-y-14">
                 {Object.entries(organizedCrew)
                   .sort(([a], [b]) => a.localeCompare(b))
                   .map(([department, members]) => (
                     <div key={department}>
                       <TitleMid>{department}</TitleMid>
-
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 p-2">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-4 sm:gap-6">
                         {members.map((person) => (
                           <MediaCastCard
                             key={`${person.id}-${person.job}`}
@@ -159,8 +158,8 @@ const CreditsPage = () => {
                   ))}
               </div>
             ) : (
-              <div className="text-center py-12">
-                <p className="text-gray-400 text-lg">
+              <div className="text-center py-16">
+                <p className="text-[var(--subtle)] text-lg">
                   No crew information available.
                 </p>
               </div>
