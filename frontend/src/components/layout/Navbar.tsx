@@ -7,7 +7,7 @@ import { useState, useEffect, useRef } from "react";
 import SearchBar from "../layout/SearchBar";
 import "../../style/TitleHover.css";
 import GenreList from "../filters/GenreList";
-import { GOOGLE_LOGIN_URL } from "../../lib/config";
+import { useSignInModal } from "../../context/SignInModalContext";
 import { useUser } from "../../hooks/user/useUser";
 import { useLogout } from "../../hooks/user/useLogout";
 import { UserModal } from "./UserModal";
@@ -30,6 +30,7 @@ export default function Header() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const { data: user } = useUser();
   const { mutate: logout } = useLogout();
+  const { openSignInModal } = useSignInModal();
   const userPanelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -202,12 +203,13 @@ export default function Header() {
                   />
                 </div>
               ) : (
-                <a href={GOOGLE_LOGIN_URL}>
-                  <button className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap">
-                    <FaRegUser className="mr-1 lg:mr-2" />
-                    <span className="hidden sm:inline">Log in</span>
-                  </button>
-                </a>
+                <button
+                  onClick={() => openSignInModal()}
+                  className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap"
+                >
+                  <FaRegUser className="mr-1 lg:mr-2" />
+                  <span className="hidden sm:inline">Log in</span>
+                </button>
               )}
             </div>
           </nav>
@@ -364,12 +366,13 @@ export default function Header() {
                     </button>
                   </div>
                 ) : (
-                  <a href={GOOGLE_LOGIN_URL} className="block">
-                    <button className="w-full flex items-center justify-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 py-2 rounded-full transition">
-                      <FaRegUser className="mr-2" />
-                      Login
-                    </button>
-                  </a>
+                  <button
+                    onClick={() => { setIsMobileMenuOpen(false); openSignInModal(); }}
+                    className="w-full flex items-center justify-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 py-2 rounded-full transition"
+                  >
+                    <FaRegUser className="mr-2" />
+                    Login
+                  </button>
                 )}
               </div>
             </Dialog.Panel>

@@ -2,10 +2,11 @@ import { NavLink, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faListUl, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useUser } from "../../hooks/user/useUser";
-import { GOOGLE_LOGIN_URL } from "../../lib/config";
+import { useSignInModal } from "../../context/SignInModalContext";
 
 export default function BottomNav() {
   const { data: user } = useUser();
+  const { openSignInModal } = useSignInModal();
 
   return (
     <nav
@@ -54,13 +55,13 @@ export default function BottomNav() {
             <span>Profile</span>
           </Link>
         ) : (
-          <a
-            href={GOOGLE_LOGIN_URL}
+          <button
+            onClick={() => openSignInModal()}
             className="flex flex-col items-center gap-1 px-4 py-2 text-xs font-medium text-gray-400 hover:text-white transition-colors"
           >
             <FontAwesomeIcon icon={faUser} className="text-lg" />
             <span>Log in</span>
-          </a>
+          </button>
         )}
       </div>
     </nav>
