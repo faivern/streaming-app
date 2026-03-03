@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faListUl, faShare } from "@fortawesome/free-solid-svg-icons";
 import useShare from "../../../hooks/useShare";
+import { useUser } from "../../../hooks/user/useUser";
+import { useSignInModal } from "../../../context/SignInModalContext";
 import AddToListModal from "../../lists/modals/AddToListModal";
 
 type Props = {
@@ -26,6 +28,8 @@ export default function MediaPosterActions({
   voteAverage,
 }: Props) {
   const handleShare = useShare();
+  const { data: user } = useUser();
+  const { openSignInModal } = useSignInModal();
   const [addToListModalOpen, setAddToListModalOpen] = useState(false);
 
   return (
@@ -48,7 +52,7 @@ export default function MediaPosterActions({
       <button
         aria-label="Add to List"
         title="Add to List"
-        onClick={() => setAddToListModalOpen(true)}
+        onClick={() => user ? setAddToListModalOpen(true) : openSignInModal()}
         className="bg-action-primary hover:bg-action-hover text-white py-4 px-2 rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex flex-col items-center justify-center gap-1 border border-slate-600/50 hover:cursor-pointer md:flex-row md:gap-2"
       >
         <FontAwesomeIcon icon={faListUl} className="text-base" />

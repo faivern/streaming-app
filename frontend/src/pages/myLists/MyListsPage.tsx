@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaSignInAlt, FaGoogle } from "react-icons/fa";
+import { FaSignInAlt, FaGoogle } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 import { useUser } from "../../hooks/user/useUser";
@@ -26,7 +26,7 @@ import { LIST_LIMITS } from "../../lib/constants";
 
 // Components
 import ListsSidebar from "../../components/lists/sidebar/ListsSidebar";
-import ListsDrawer from "../../components/lists/sidebar/ListsDrawer";
+import MobileListTabs from "../../components/lists/sidebar/MobileListTabs";
 import ListContent from "../../components/lists/content/ListContent";
 import CreateListModal from "../../components/lists/modals/CreateListModal";
 import EditListModal from "../../components/lists/modals/EditListModal";
@@ -71,9 +71,6 @@ export default function MyListsPage() {
     setSelectedListId(listId);
     // Note: selectedStatus stays as fallback default, but activeView controls what's shown
   };
-
-  // Mobile drawer state
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Modal state
   const [limitModalOpen, setLimitModalOpen] = useState(false);
@@ -294,57 +291,43 @@ export default function MyListsPage() {
         />
       </aside>
 
-      {/* Mobile Drawer Trigger */}
-      <div className="lg:hidden fixed bottom-[calc(var(--bottom-nav-height)+1rem)] left-4 z-(--z-overlay)">
-        <button
-          onClick={() => setIsDrawerOpen(true)}
-          className="flex items-center gap-2 px-4 py-3 bg-accent-primary hover:bg-accent-primary/80 text-white font-medium rounded-full shadow-lg transition-colors"
-        >
-          <FaBars />
-          <span>Lists</span>
-        </button>
+      {/* Mobile tabs + content column */}
+      <div className="flex-1 flex flex-col">
+        {/* Mobile Tab Bar — sticky below navbar */}
+        <div className="lg:hidden sticky top-[var(--navbar-height)] z-(--z-sticky) bg-[var(--background)]/95 backdrop-blur-sm border-b border-[var(--border)]/30">
+          <MobileListTabs
+            lists={lists}
+            activeView={activeView}
+            selectedStatus={selectedStatus}
+            selectedListId={selectedListId}
+            statusCounts={statusCounts}
+            onStatusChange={handleSelectStatus}
+            onListSelect={handleSelectList}
+            onCreateList={handleOpenCreateModal}
+            isLoading={isLoadingLists}
+          />
+        </div>
+
+        {/* Main Content */}
+        <main className="flex-1 px-page py-6">
+          <ListContent
+            activeView={activeView}
+            selectedStatus={selectedStatus}
+            selectedList={currentList}
+            mediaEntries={mediaEntries}
+            viewMode={viewMode}
+            sortOption={sortOption}
+            onViewModeChange={setViewMode}
+            onSortChange={setSortOption}
+            onAddMedia={() => setAddMediaModalOpen(true)}
+            onEditEntry={handleEditEntry}
+            onRemoveItem={handleRemoveItem}
+            onEditListDetails={currentList ? () => { setSelectedList(currentList); setEditModalOpen(true); } : undefined}
+            onDeleteListDetails={currentList ? () => { setSelectedList(currentList); setDeleteModalOpen(true); } : undefined}
+            isLoading={isLoading}
+          />
+        </main>
       </div>
-
-      {/* Mobile Drawer */}
-      <ListsDrawer
-        isOpen={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        lists={lists}
-        activeView={activeView}
-        selectedStatus={selectedStatus}
-        selectedListId={selectedListId}
-        statusCounts={statusCounts}
-        onStatusChange={handleSelectStatus}
-        onListSelect={handleSelectList}
-        onCreateList={handleOpenCreateModal}
-        onEditList={(list) => {
-          setSelectedList(list);
-          setEditModalOpen(true);
-        }}
-        onDeleteList={(list) => {
-          setSelectedList(list);
-          setDeleteModalOpen(true);
-        }}
-        isLoading={isLoadingLists}
-      />
-
-      {/* Main Content */}
-      <main className="flex-1 px-4 lg:px-8 py-6">
-        <ListContent
-          activeView={activeView}
-          selectedStatus={selectedStatus}
-          selectedList={currentList}
-          mediaEntries={mediaEntries}
-          viewMode={viewMode}
-          sortOption={sortOption}
-          onViewModeChange={setViewMode}
-          onSortChange={setSortOption}
-          onAddMedia={() => setAddMediaModalOpen(true)}
-          onEditEntry={handleEditEntry}
-          onRemoveItem={handleRemoveItem}
-          isLoading={isLoading}
-        />
-      </main>
 
       {/* Modals */}
       <CreateListModal

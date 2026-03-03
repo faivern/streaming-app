@@ -89,7 +89,7 @@ export default function Top10Carousel({
               return (
                 <div
                   key={item.id}
-                  className="flex-[0_0_calc(50%-12px)] sm:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)] min-w-0 shrink-0"
+                  className="flex-[0_0_100%] sm:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)] min-w-0 shrink-0"
                 >
                   {loading ? (
                     <div className="aspect-video rounded-2xl bg-white/10 animate-pulse" />
@@ -99,24 +99,20 @@ export default function Top10Carousel({
                       className="block group group/card"
                     >
                       <div className="relative flex items-center">
-                        {/* Large ranking number - hollow by default, fills on hover */}
+                        {/* Large ranking number - always gradient-filled, scales on hover */}
                         <span
                           className="absolute bottom-0 right-0 pb-4 pr-4 z-10 leading-none select-none
                             transition-all duration-300 ease-out origin-bottom-right
-                            text-transparent
-                            group-hover/card:scale-[1.15]
-                            [--stroke-color:var(--accent-primary)]
+                            bg-gradient-to-br from-accent-primary to-accent-secondary bg-clip-text text-transparent
                             [--glow:color-mix(in_srgb,var(--accent-primary)_30%,transparent)]
                             drop-shadow-[0_0_8px_rgba(0,0,0,0.6)]
-                            group-hover/card:bg-gradient-to-br group-hover/card:from-accent-primary group-hover/card:to-accent-secondary
-                            group-hover/card:bg-clip-text
-                            group-hover/card:[--stroke-color:var(--primary)]
+                            group-hover/card:scale-[1.15]
                             group-hover/card:drop-shadow-[0_4px_12px_var(--glow)]"
                           style={{
                             fontFamily: "Poppins, sans-serif",
                             fontWeight: 700,
                             fontSize: "8rem",
-                            WebkitTextStroke: "1px var(--stroke-color)",
+                            WebkitTextStroke: "1px var(--primary)",
                             paintOrder: "stroke fill",
                           }}
                         >

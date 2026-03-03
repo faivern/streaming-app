@@ -30,6 +30,8 @@ type ListContentProps = {
   onAddMedia: () => void;
   onEditEntry: (item: DisplayItem) => void;
   onRemoveItem: (item: DisplayItem) => void;
+  onEditListDetails?: () => void;
+  onDeleteListDetails?: () => void;
   isLoading?: boolean;
 };
 
@@ -51,6 +53,8 @@ export default function ListContent({
   onAddMedia,
   onEditEntry,
   onRemoveItem,
+  onEditListDetails,
+  onDeleteListDetails,
   isLoading,
 }: ListContentProps) {
   // Toggle for showing status badges in custom lists (default ON for better sync visibility)
@@ -156,6 +160,8 @@ export default function ListContent({
           onStatusToggle={() => setShowStatusBadges(!showStatusBadges)}
           isEditMode={isEditMode}
           onEditToggle={() => setIsEditMode(!isEditMode)}
+          onEditListDetails={isCustomList ? onEditListDetails : undefined}
+          onDeleteListDetails={isCustomList ? onDeleteListDetails : undefined}
         />
         <EmptyListState
           type={activeView === "status" ? "status" : "list"}
@@ -184,6 +190,8 @@ export default function ListContent({
         onStatusToggle={() => setShowStatusBadges(!showStatusBadges)}
         isEditMode={isEditMode}
         onEditToggle={() => setIsEditMode(!isEditMode)}
+        onEditListDetails={isCustomList ? onEditListDetails : undefined}
+        onDeleteListDetails={isCustomList ? onDeleteListDetails : undefined}
       />
 
       {viewMode === "grid" ? (

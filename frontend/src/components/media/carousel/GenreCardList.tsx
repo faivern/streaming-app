@@ -66,7 +66,7 @@ export default function GenreCardList({ genres, loading = false }: Props) {
             {renderItems.map((genre: EnrichedGenre) => (
               <div
                 key={genre.id}
-                className="flex-[0_0_calc(50%-12px)] sm:flex-[0_0_calc(33.333%-16px)] md:flex-[0_0_calc(25%-18px)] lg:flex-[0_0_calc(20%-20px)] min-w-0 shrink-0"
+                className="flex-[0_0_100%] sm:flex-[0_0_calc(33.333%-16px)] md:flex-[0_0_calc(25%-18px)] lg:flex-[0_0_calc(20%-20px)] min-w-0 shrink-0"
               >
                 {loading ? (
                   <div className="h-40 rounded-2xl bg-white/10 animate-pulse" />

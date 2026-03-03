@@ -17,17 +17,21 @@ import {
   faHouse,
   faListUl,
   faMasksTheater,
+  faSearch,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import BrandLogo from "../common/BrandLogo";
+import MobileProfileDrawer from "./MobileProfileDrawer";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const { data: genres = [] } = useGenres();
   const [showGenres, setShowGenres] = useState(false); // desktop hover dropdown
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // NEW
-  const [showMobileGenres, setShowMobileGenres] = useState(false); // NEW
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showMobileGenres, setShowMobileGenres] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [isMobileProfileOpen, setIsMobileProfileOpen] = useState(false);
   const { data: user } = useUser();
   const { mutate: logout } = useLogout();
   const { openSignInModal } = useSignInModal();
@@ -61,6 +65,14 @@ export default function Header() {
     setIsUserModalOpen(false);
   };
 
+  const handleMobileProfileTap = () => {
+    if (user) {
+      setIsMobileProfileOpen(true);
+    } else {
+      openSignInModal();
+    }
+  };
+
   return (
     <>
       <header
@@ -74,7 +86,7 @@ export default function Header() {
         {/* Full-width container - no max-width constraint */}
         <div className="w-full px-4 lg:px-8 xl:px-12">
           {/* Three-column grid layout with equal-width outer columns for true centering */}
-          <nav className="grid grid-cols-[1fr_auto_1fr] items-center py-4 gap-4 xl:gap-8">
+          <nav className="grid grid-cols-[auto_1fr] md:grid-cols-[1fr_auto_1fr] items-center py-4 gap-4 xl:gap-8">
             {/* LEFT: Logo + Nav Links */}
             <div className="flex items-center gap-6">
               <Link to="/" className="flex-shrink-0 mr-4">
@@ -129,18 +141,39 @@ export default function Header() {
             </div>
 
             {/* RIGHT: User Actions */}
-            <div className="flex items-center justify-end gap-4">
-              {/* Mobile search icon (only icon < md) */}
-              <div className="md:hidden">
-                <SearchBar
-                  isMobile={true}
-                  isExpanded={isMobileSearchOpen}
-                  onToggle={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
-                />
+            <div className="flex items-center md:justify-end gap-4">
+              {/* Mobile-only: Search pill + Profile — md:hidden */}
+              <div className="flex items-center gap-3 flex-1 w-full md:hidden">
+                {/* Search pill — tappable trigger */}
+                <button
+                  aria-label="Open search"
+                  onClick={() => setIsMobileSearchOpen(true)}
+                  className="flex items-center gap-2 flex-1 bg-input border border-outline rounded-full px-4 py-2 text-subtle text-sm transition hover:border-accent-primary"
+                >
+                  <FontAwesomeIcon icon={faSearch} className="text-sm" />
+                  <span>Search</span>
+                </button>
+
+                {/* Profile — pushed to far right via flex-1 on pill */}
+                <button
+                  aria-label="Open profile"
+                  onClick={handleMobileProfileTap}
+                  className="flex-shrink-0 p-2 text-text-h1 hover:text-accent-primary transition"
+                >
+                  {user?.picture ? (
+                    <img
+                      src={user.picture}
+                      alt=""
+                      className="w-7 h-7 rounded-full object-cover"
+                    />
+                  ) : (
+                    <FontAwesomeIcon icon={faUser} className="text-lg" />
+                  )}
+                </button>
               </div>
 
-              {/* Mobile menu button for nav links */}
-              <div className="xl:hidden">
+              {/* Hamburger — tablet only (md to xl), hidden on mobile (<md) where BottomNav handles nav */}
+              <div className="hidden md:block xl:hidden">
                 <button
                   aria-label="Open menu"
                   onClick={() => setIsMobileMenuOpen(true)}
@@ -162,55 +195,57 @@ export default function Header() {
                 </button>
               </div>
 
-              {/* Login Button or User Profile Dropdown */}
-              {user ? (
-                <div className="relative" ref={userPanelRef}>
-                  <button
-                    onClick={() => setIsUserModalOpen(!isUserModalOpen)}
-                    className="flex items-center gap-2 hover:opacity-80 transition cursor-pointer"
-                  >
-                    {user.picture && (
-                      <img
-                        src={user.picture}
-                        alt="Profile"
-                        className="w-8 h-8 rounded-full"
-                      />
-                    )}
-                    <span className="hidden lg:inline text-sm font-medium text-text-h1">
-                      {user.name}
-                    </span>
-                    <svg
-                      className={`w-4 h-4 text-subtle transition-transform duration-300 ${
-                        isUserModalOpen ? "rotate-180" : ""
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+              {/* Login Button or User Profile Dropdown — hidden on mobile (<md) where BottomNav handles it */}
+              <div className="hidden md:block">
+                {user ? (
+                  <div className="relative" ref={userPanelRef}>
+                    <button
+                      onClick={() => setIsUserModalOpen(!isUserModalOpen)}
+                      className="flex items-center gap-2 hover:opacity-80 transition cursor-pointer"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 9l-7 7-7-7"
-                      />
-                    </svg>
+                      {user.picture && (
+                        <img
+                          src={user.picture}
+                          alt="Profile"
+                          className="w-8 h-8 rounded-full"
+                        />
+                      )}
+                      <span className="hidden lg:inline text-sm font-medium text-text-h1">
+                        {user.name}
+                      </span>
+                      <svg
+                        className={`w-4 h-4 text-subtle transition-transform duration-300 ${
+                          isUserModalOpen ? "rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </button>
+                    <UserModal
+                      show={isUserModalOpen}
+                      userName={user.name}
+                      onLogout={handleLogout}
+                      onClose={() => setIsUserModalOpen(false)}
+                    />
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => openSignInModal()}
+                    className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap"
+                  >
+                    <FaRegUser className="mr-1 lg:mr-2" />
+                    <span className="hidden sm:inline">Log in</span>
                   </button>
-                  <UserModal
-                    show={isUserModalOpen}
-                    userName={user.name}
-                    onLogout={handleLogout}
-                    onClose={() => setIsUserModalOpen(false)}
-                  />
-                </div>
-              ) : (
-                <button
-                  onClick={() => openSignInModal()}
-                  className="flex items-center bg-accent-secondary hover:bg-accent-primary text-white font-semibold px-4 lg:px-6 py-2 rounded-full transition cursor-pointer whitespace-nowrap"
-                >
-                  <FaRegUser className="mr-1 lg:mr-2" />
-                  <span className="hidden sm:inline">Log in</span>
-                </button>
-              )}
+                )}
+              </div>
             </div>
           </nav>
         </div>
@@ -225,7 +260,13 @@ export default function Header() {
         />
       )}
 
-      {/* Mobile nav drawer — Headless UI Dialog for correct iOS scroll lock */}
+      {/* Mobile profile drawer */}
+      <MobileProfileDrawer
+        isOpen={isMobileProfileOpen}
+        onClose={() => setIsMobileProfileOpen(false)}
+      />
+
+      {/* Nav drawer — tablet range (md to xl) for genres/links */}
       <Transition.Root show={isMobileMenuOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -284,22 +325,25 @@ export default function Header() {
               </div>
 
               <nav className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
-                <Link
-                  to="/"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 w-full text-left text-base font-medium text-text-h1 hover:text-accent-primary transition"
-                >
-                  <FontAwesomeIcon icon={faHouse} className="text-sm w-5" />
-                  Home
-                </Link>
-                <Link
-                  to="/lists"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center gap-3 w-full text-left text-base font-medium text-text-h1 hover:text-accent-primary transition"
-                >
-                  <FontAwesomeIcon icon={faListUl} className="text-sm w-5" />
-                  My Lists
-                </Link>
+                {/* Home & Lists links hidden on <md where BottomNav provides them */}
+                <div className="hidden md:block space-y-4">
+                  <Link
+                    to="/"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 w-full text-left text-base font-medium text-text-h1 hover:text-accent-primary transition"
+                  >
+                    <FontAwesomeIcon icon={faHouse} className="text-sm w-5" />
+                    Home
+                  </Link>
+                  <Link
+                    to="/lists"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 w-full text-left text-base font-medium text-text-h1 hover:text-accent-primary transition"
+                  >
+                    <FontAwesomeIcon icon={faListUl} className="text-sm w-5" />
+                    My Lists
+                  </Link>
+                </div>
 
                 <div>
                   <button

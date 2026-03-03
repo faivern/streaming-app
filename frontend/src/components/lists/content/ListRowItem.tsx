@@ -64,7 +64,7 @@ export default function ListRowItem({
       onClick={handleRowClick}
       className={`group relative flex flex-col gap-2 p-3 rounded-xl overflow-hidden shadow-lg border border-[var(--border)]/40 transition-all duration-300
         ${!item.backdropPath ? "bg-[var(--action-primary)]/50 hover:bg-[var(--action-primary)]" : ""}
-        ${isEditMode ? "" : "hover:shadow-xl hover:scale-101 hover:border-accent-primary/85"}
+        ${isEditMode ? "" : "sm:hover:shadow-xl sm:hover:scale-101 sm:hover:border-accent-primary/85"}
         ${hasExpandableContent && !isEditMode ? "cursor-pointer" : ""}`}
     >
       {/* Blurred backdrop background */}
@@ -135,9 +135,9 @@ export default function ListRowItem({
           {/* Edit mode buttons - always rendered, animated with opacity + width */}
           {(onRemove || onEdit) && (
             <div
-              className={`flex-shrink-0 flex items-center gap-2 transition-all duration-300 ease-in-out origin-right ${
+              className={`flex-shrink-0 flex items-center gap-1.5 sm:gap-2 transition-all duration-300 ease-in-out origin-right ${
                 isEditMode
-                  ? "opacity-100 max-w-32 scale-100"
+                  ? "opacity-100 max-w-24 sm:max-w-32 scale-100"
                   : "opacity-0 max-w-0 scale-90 overflow-hidden"
               }`}
             >
@@ -148,7 +148,7 @@ export default function ListRowItem({
                     e.stopPropagation();
                     onEdit();
                   }}
-                  className="p-3 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
+                  className="p-2 sm:p-3 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
                   aria-label="Edit entry"
                 >
                   <FaEdit className="text-sm" />
@@ -161,7 +161,7 @@ export default function ListRowItem({
                     e.stopPropagation();
                     onRemove();
                   }}
-                  className="p-3 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
+                  className="p-2 sm:p-3 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
                   aria-label="Remove from list"
                 >
                   <FaTrash className="text-sm" />
@@ -179,7 +179,7 @@ export default function ListRowItem({
             }`}
           >
             <div className="overflow-hidden">
-              <div className="ml-20 pt-2 pb-1 space-y-3">
+              <div className="ml-10 sm:ml-20 pt-2 pb-1 space-y-3">
                 {/* TMDB + user average ratings */}
                 <div className="flex items-center gap-4">
                   {item.voteAverage && (

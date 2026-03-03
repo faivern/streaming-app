@@ -113,7 +113,7 @@ export default function WatchProviderCarousel({
               >
                 {loading ? (
                   <div className="flex flex-col items-center">
-                    <div className="h-48 w-48 rounded-2xl bg-white/10 animate-pulse" />
+                    <div className="h-28 w-28 rounded-2xl bg-white/10 animate-pulse" />
                     <div className="h-4 w-3/4 mt-2 rounded bg-white/10 animate-pulse" />
                   </div>
                 ) : (

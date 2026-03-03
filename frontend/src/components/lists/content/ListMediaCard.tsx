@@ -30,7 +30,7 @@ const avgRating = calculateAverageRating(item);
 
   const cardClass = isEditMode
     ? "bg-[var(--component-primary)] rounded-2xl border border-[var(--border)] overflow-hidden shadow-lg hover:shadow-xl hover:border-accent-primary/75 transition-all duration-300 relative"
-    : "bg-[var(--component-primary)] rounded-2xl border border-[var(--border)] overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 hover:border-accent-primary/75 transition-all duration-300 relative";
+    : "bg-[var(--component-primary)] rounded-2xl border border-[var(--border)] overflow-hidden shadow-lg hover:shadow-xl sm:hover:scale-105 hover:border-accent-primary/75 transition-all duration-300 relative";
 
   return (
     <div className={containerClass}>
@@ -50,11 +50,9 @@ const avgRating = calculateAverageRating(item);
           />
 
           {/* Content - Title area */}
-          <div className="p-4 flex flex-wrap gap-4 items-center justify-between">
-            <h3 className="text-md font-semibold text-[var(--text-h1)] truncate">
-              {item.title.length > 35
-                ? `${item.title.slice(0, 35)}...`
-                : item.title}
+          <div className="p-2 sm:p-4 flex flex-wrap gap-2 sm:gap-4 items-center justify-between">
+            <h3 className="text-sm sm:text-md font-semibold text-[var(--text-h1)] truncate">
+              {item.title}
             </h3>
           </div>
         </Link>
@@ -68,7 +66,7 @@ const avgRating = calculateAverageRating(item);
           >
             <div className="overflow-hidden">
               <div
-                className={`flex flex-row justify-center items-center w-full z-20 gap-4 pb-4 transition-opacity duration-300 ease-in-out ${
+                className={`flex flex-row justify-center items-center w-full z-20 gap-4 pb-3 sm:pb-4 transition-opacity duration-300 ease-in-out ${
                   isEditMode ? "opacity-100" : "opacity-0"
                 }`}
               >
@@ -79,7 +77,7 @@ const avgRating = calculateAverageRating(item);
                       e.stopPropagation();
                       onEdit();
                     }}
-                    className="p-4 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
+                    className="p-3 sm:p-4 bg-blue-500/80 hover:bg-blue-500 text-white rounded-lg transition-colors shadow-lg"
                     aria-label="Edit entry"
                   >
                     <FaEdit className="text-md" />
@@ -92,7 +90,7 @@ const avgRating = calculateAverageRating(item);
                       e.stopPropagation();
                       onRemove();
                     }}
-                    className="p-4 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
+                    className="p-3 sm:p-4 bg-red-500/80 hover:bg-red-500 text-white rounded-lg transition-colors shadow-lg"
                     aria-label="Remove from list"
                   >
                     <FaTrash className="text-md" />

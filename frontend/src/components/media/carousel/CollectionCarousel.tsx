@@ -68,7 +68,7 @@ export default function CollectionCarousel({ items, loading = false }: Props) {
             {renderItems.map((c: any) => (
               <div
                 key={c.id}
-                className="flex-[0_0_calc(50%-12px)] sm:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)] min-w-0 shrink-0"
+                className="flex-[0_0_100%] sm:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)] min-w-0 shrink-0"
               >
                 {loading ? (
                   <div className="w-full aspect-video rounded-2xl bg-white/10 animate-pulse" />

@@ -91,7 +91,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
           <button
             onClick={() => emblaApi?.scrollPrev()}
             aria-label="Previous"
-            className="absolute left-2 sm:left-4 top-1/2 z-20 -translate-y-1/2
+            className="hidden sm:block absolute left-2 sm:left-4 top-1/2 z-20 -translate-y-1/2
                        bg-black/40 backdrop-blur-sm text-white/70
                        hover:bg-black/60 hover:text-white
                        rounded-full p-3 sm:p-4 transition-all duration-300
@@ -110,7 +110,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
           onClick={() => emblaApi?.scrollNext()}
           aria-label="Next"
           disabled={loading || filtered.length === 0}
-          className="absolute right-2 sm:right-4 top-1/2 z-20 -translate-y-1/2
+          className="hidden sm:block absolute right-2 sm:right-4 top-1/2 z-20 -translate-y-1/2
                      bg-black/40 backdrop-blur-sm text-white/70
                      hover:bg-black/60 hover:text-white
                      disabled:opacity-0 disabled:cursor-not-allowed
@@ -158,9 +158,9 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                              flex flex-col gap-3
                              w-[calc(100%-2rem)] sm:w-[min(75%,36rem)] max-w-2xl
                              px-4 sm:px-6 py-4 sm:py-6
-                             rounded-xl
-                             backdrop-blur-sm
-                             shadow-lg
+                             sm:rounded-xl
+                             sm:backdrop-blur-sm
+                             sm:shadow-lg
                              "
                     >
                       {/* Title / Logo */}
@@ -206,7 +206,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                       </div>
 
                       {/* Overview */}
-                      <p className="text-gray-300 line-clamp-2 sm:line-clamp-3 text-sm sm:text-base md:text-lg leading-snug">
+                      <p className="hidden sm:block text-gray-300 line-clamp-2 sm:line-clamp-3 text-sm sm:text-base md:text-lg leading-snug">
                         {m.overview || "No overview available."}
                       </p>
                     </div>

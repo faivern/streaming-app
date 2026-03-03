@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Listbox, Transition } from "@headlessui/react";
+import { Listbox, Menu, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
@@ -7,6 +7,8 @@ import {
   faPlus,
   faTag,
   faPen,
+  faEllipsisVertical,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import ViewToggle from "./ViewToggle";
 import type { ViewMode, ListsSortOption } from "../../../types/lists.view";
@@ -34,6 +36,9 @@ type ListHeaderProps = {
   // Edit mode toggle
   isEditMode?: boolean;
   onEditToggle?: () => void;
+  // List management actions (for custom lists)
+  onEditListDetails?: () => void;
+  onDeleteListDetails?: () => void;
 };
 
 export default function ListHeader({
@@ -52,6 +57,8 @@ export default function ListHeader({
   onStatusToggle,
   isEditMode = false,
   onEditToggle,
+  onEditListDetails,
+  onDeleteListDetails,
 }: ListHeaderProps) {
   const selectedSortLabel =
     LISTS_SORT_OPTIONS.find((opt) => opt.value === sortOption)?.label || "Sort";
@@ -91,43 +98,97 @@ export default function ListHeader({
         </div>
 
         <div className="flex items-center gap-2 flex-shrink-0">
+          {/* List management menu (edit/delete list details) */}
+          {onEditListDetails && (
+            <Menu as="div" className="relative">
+              <Menu.Button
+                className="p-2 sm:px-3 sm:py-2 text-[var(--subtle)] hover:text-[var(--text-h1)] bg-[var(--action-primary)] border border-[var(--border)] rounded-lg transition-colors"
+                aria-label="List options"
+              >
+                <FontAwesomeIcon icon={faEllipsisVertical} className="text-sm" />
+              </Menu.Button>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute right-0 mt-1 w-44 origin-top-right rounded-lg bg-[var(--action-primary)] border border-[var(--border)] shadow-lg z-20 py-1 focus:outline-none">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={onEditListDetails}
+                        className={`${
+                          active ? "bg-accent-primary/20" : ""
+                        } flex items-center gap-2 w-full px-3 py-2.5 text-sm text-[var(--text-h1)]`}
+                      >
+                        <FontAwesomeIcon icon={faPen} className="text-xs text-[var(--subtle)]" />
+                        Edit List Details
+                      </button>
+                    )}
+                  </Menu.Item>
+                  {onDeleteListDetails && (
+                    <Menu.Item>
+                      {({ active }) => (
+                        <button
+                          onClick={onDeleteListDetails}
+                          className={`${
+                            active ? "bg-red-500/20" : ""
+                          } flex items-center gap-2 w-full px-3 py-2.5 text-sm text-red-400`}
+                        >
+                          <FontAwesomeIcon icon={faTrash} className="text-xs" />
+                          Delete List
+                        </button>
+                      )}
+                    </Menu.Item>
+                  )}
+                </Menu.Items>
+              </Transition>
+            </Menu>
+          )}
+
           {/* Edit mode toggle button */}
           {onEditToggle && (
             <button
               onClick={onEditToggle}
-              className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+              aria-label={isEditMode ? "Done editing" : "Edit list"}
+              className={`flex items-center gap-2 p-2 sm:px-4 sm:py-2 text-sm font-medium rounded-lg transition-colors ${
                 isEditMode
                   ? "bg-accent-primary text-white hover:bg-accent-primary/80"
                   : "bg-[var(--action-primary)] border border-[var(--border)] text-[var(--subtle)] hover:text-[var(--text-h1)] hover:border-[var(--border)]"
               }`}
             >
               <FontAwesomeIcon icon={faPen} className="text-xs" />
-              {isEditMode ? "Done" : "Edit"}
+              <span className="hidden sm:inline">{isEditMode ? "Done" : "Edit"}</span>
             </button>
           )}
 
           {showAddButton && onAddMedia && (
             <button
               onClick={onAddMedia}
-              className="flex items-center gap-2 px-4 py-2 bg-accent-primary hover:bg-accent-primary/80 text-white text-sm font-medium rounded-lg transition-colors"
+              aria-label="Add media"
+              className="flex items-center gap-2 p-2 sm:px-4 sm:py-2 bg-accent-primary hover:bg-accent-primary/80 text-white text-sm font-medium rounded-lg transition-colors"
             >
               <FontAwesomeIcon icon={faPlus} className="text-xs" />
-              Add Media
+              <span className="hidden sm:inline">Add Media</span>
             </button>
           )}
         </div>
       </div>
 
       {/* Controls row */}
-      <div className="flex items-center justify-between gap-4 mt-4">
-        <div className="flex items-center gap-3 text-sm text-[var(--subtle)] isolation-auto">
+      <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 mt-4">
+        <div className="flex items-center gap-3 text-xs sm:text-sm text-[var(--subtle)] isolation-auto">
           {/* count display */}
           <span
             className="flex items-center gap-1 isolate"
             style={{ contain: "paint", willChange: "transform" }}
           >
             <Film className="w-4 h-4 text-accent-primary" />
-            {movieCount} {movieCount === 1 ? "Movie" : "Movies"}
+            {movieCount} <span className="hidden sm:inline">{movieCount === 1 ? "Movie" : "Movies"}</span>
           </span>
 
           <span
@@ -135,7 +196,7 @@ export default function ListHeader({
             style={{ contain: "paint", willChange: "transform" }}
           >
             <Tv className="w-4 h-4 text-accent-primary" />
-            {tvCount} {tvCount === 1 ? "TV Show" : "TV Shows"}
+            {tvCount} <span className="hidden sm:inline">{tvCount === 1 ? "TV Show" : "TV Shows"}</span>
           </span>
 
           <span>•</span>
@@ -145,7 +206,7 @@ export default function ListHeader({
         <div className="flex items-center gap-3">
           {/* Sort dropdown */}
           <Listbox value={sortOption} onChange={onSortChange}>
-            <div className="relative w-44">
+            <div className="relative w-32 sm:w-44">
               <Listbox.Button className="relative w-full cursor-pointer rounded-lg bg-[var(--action-primary)] border border-[var(--border)] py-2 pl-3 pr-10 text-left text-[var(--text-h1)] focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all text-sm">
                 <span className="block truncate">{selectedSortLabel}</span>
                 <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">

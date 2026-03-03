@@ -21,6 +21,8 @@ import {
 } from "./filters";
 import MobileFilterDrawer from "./MobileFilterDrawer";
 import AddToListModal from "../lists/modals/AddToListModal";
+import { useUser } from "../../hooks/user/useUser";
+import { useSignInModal } from "../../context/SignInModalContext";
 
 type SelectedMedia = {
   tmdbId: number;
@@ -47,6 +49,8 @@ export default function DiscoverModal({
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState<SelectedMedia | null>(null);
+  const { data: user } = useUser();
+  const { openSignInModal } = useSignInModal();
 
   // Callback ref for infinite scroll sentinel — using state ensures a re-render
   // (and thus a fresh effect run) whenever the sentinel mounts/unmounts,
@@ -189,6 +193,11 @@ export default function DiscoverModal({
     media_type?: string;
     vote_average?: number;
   }) => {
+    if (!user) {
+      openSignInModal();
+      return;
+    }
+
     const mediaTitle = item.title || item.name || "Untitled";
     const posterPath = item.poster_path || null;
     const mediaType = item.media_type || filters.mediaType;

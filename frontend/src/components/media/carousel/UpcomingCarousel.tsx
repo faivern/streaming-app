@@ -104,7 +104,7 @@ export default function UpcomingCarousel({
               ? Array.from({ length: 8 }).map((_, i) => (
                   <div
                     key={i}
-                    className="flex-[0_0_calc(50%-12px)] sm:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)] min-w-0 shrink-0"
+                    className="flex-[0_0_100%] sm:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)] min-w-0 shrink-0"
                   >
                     <div className="aspect-video rounded-2xl bg-white/10 animate-pulse" />
                   </div>
@@ -121,7 +121,7 @@ export default function UpcomingCarousel({
                   return (
                     <div
                       key={item.id}
-                      className="flex-[0_0_calc(50%-12px)] sm:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)] min-w-0 shrink-0"
+                      className="flex-[0_0_100%] sm:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)] min-w-0 shrink-0"
                     >
                       <Link to={`/media/${mediaType}/${item.id}`}>
                         <div
