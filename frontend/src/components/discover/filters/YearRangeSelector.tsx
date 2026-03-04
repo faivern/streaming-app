@@ -29,8 +29,8 @@ export default function YearRangeSelector({ value, onChange }: Props) {
             onClick={() => onChange(preset.range)}
             className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
               isSelected
-                ? "bg-accent-primary text-white"
-                : "bg-gray-700/50 text-gray-300 hover:bg-gray-600/50"
+                ? "bg-accent-primary text-text-h1"
+                : "bg-action-primary text-subtle hover:bg-action-hover"
             }`}
           >
             {preset.label}

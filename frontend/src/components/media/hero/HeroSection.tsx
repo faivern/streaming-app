@@ -10,16 +10,22 @@ const HeroSection = ({ total_results }: Props) => {
 
   return (
     <div className="text-center mb-8 py-4">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-text-h1">
-        Cinema Atlas {" "}
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary">
-          <CountUp end={total_results} duration={durationTimeSeconds} separator={separatorSymbol} />
-        </span>{" "}
-        <span className="text-text-h1">Movies & Shows</span>
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-text-h1">
+        Your Personal Cinema Atlas
       </h1>
-      <p className="mt-2 text-sm sm:text-base md:text-lg lg:text-xl font-medium text-text-h1/60">
-        Explore, discover, and track movies & shows — and find where to stream them.
+
+      <p className="mt-3 text-2xl sm:text-base md:text-2xl text-text-h1/70">
+        Discover, track, and find where to stream over{" "}
+        <span className="tabular-nums text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary font-semibold">
+          <CountUp
+            end={total_results}
+            duration={durationTimeSeconds}
+            separator={separatorSymbol}
+          />
+        </span>{" "}
+        movies and TV shows.
       </p>
+
     </div>
   );
 };

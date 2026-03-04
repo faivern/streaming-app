@@ -1,5 +1,5 @@
-import React from "react";
 import MediaCard from "../cards/MediaCard";
+import MediaCardSkeleton from "../skeleton/MediaCardSkeleton";
 
 type Part = {
   id: number;
@@ -16,9 +16,26 @@ type Part = {
 
 type Props = {
   parts: Part[];
+  loading?: boolean;
 };
 
-const CollectionGrid = ({ parts }: Props) => {
+const CollectionGrid = ({ parts, loading = false }: Props) => {
+  if (loading) {
+    return (
+      <div
+        className="
+          grid gap-4
+          grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7
+          justify-items-center
+        "
+      >
+        {Array.from({ length: 10 }).map((_, i) => (
+          <MediaCardSkeleton key={i} />
+        ))}
+      </div>
+    );
+  }
+
   if (!parts?.length) {
     return (
       <div className="text-gray-400 text-center py-8">

@@ -1,3 +1,5 @@
+import MediaCardSkeleton from "../../media/skeleton/MediaCardSkeleton";
+
 type ListContentSkeletonProps = {
   viewMode: "grid" | "list";
 };
@@ -28,10 +30,7 @@ export default function ListContentSkeleton({
   return (
     <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
       {Array.from({ length: 12 }).map((_, i) => (
-        <div
-          key={i}
-          className="aspect-[2/3] bg-component-primary rounded-lg animate-pulse"
-        />
+        <MediaCardSkeleton key={i} />
       ))}
     </div>
   );

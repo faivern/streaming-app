@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import MediaCard from "../../media/cards/MediaCard";
+import MediaCardSkeleton from "../skeleton/MediaCardSkeleton";
 import type { DetailMedia, MediaType } from "../../../types/tmdb";
 import TitleMid from "../title/TitleMid";
 // Define the enriched credit type that has both credit and media info
@@ -30,11 +31,8 @@ const CreditsDetailGrid = ({
       <div>
         <TitleMid> Known for</TitleMid>
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-5 4xl:grid-cols-6 gap-4 mt-4 p-2">
-          {Array.from({ length: 10 }).map((_, i) => (
-            <div
-              key={i}
-              className="aspect-[2/3] bg-[var(--component-primary)] rounded-lg animate-pulse"
-            />
+          {Array.from({ length: 12 }).map((_, i) => (
+            <MediaCardSkeleton key={i} />
           ))}
         </div>
       </div>

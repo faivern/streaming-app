@@ -279,7 +279,7 @@ export default function DiscoverModal({
             onClick={() => setMediaType("movie")}
             className={`flex-1 px-3 py-2 text-sm rounded-lg transition-colors ${
               filters.mediaType === "movie"
-                ? "bg-accent-primary text-white"
+                ? "bg-accent-primary text-text-h1"
                 : "bg-action-primary text-text-h1 hover:bg-action-hover"
             }`}
           >
@@ -289,7 +289,7 @@ export default function DiscoverModal({
             onClick={() => setMediaType("tv")}
             className={`flex-1 px-3 py-2 text-sm rounded-lg transition-colors ${
               filters.mediaType === "tv"
-                ? "bg-accent-primary text-white"
+                ? "bg-accent-primary text-text-h1"
                 : "bg-action-primary text-text-h1 hover:bg-action-hover"
             }`}
           >
@@ -491,7 +491,7 @@ export default function DiscoverModal({
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search movies and TV shows..."
-                            className="w-full pl-10 pr-4 py-2.5 bg-input border border-outline rounded-lg text-white placeholder-subtle focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
+                            className="w-full pl-10 pr-4 py-2.5 bg-input border border-outline rounded-lg text-text-h1 placeholder-subtle focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
                             onFocus={(e) => {
                               // After the virtual keyboard animates in (~300ms), scroll the input into view
                               setTimeout(() => {

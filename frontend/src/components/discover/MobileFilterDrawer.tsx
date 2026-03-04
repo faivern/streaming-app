@@ -38,21 +38,21 @@ export default function MobileFilterDrawer({
             leaveFrom="translate-y-0"
             leaveTo="translate-y-full"
           >
-            <Dialog.Panel className="fixed inset-x-0 bottom-0 max-h-[85dvh] bg-gray-900 border-t border-gray-700 rounded-t-2xl flex flex-col pb-safe">
+            <Dialog.Panel className="fixed inset-x-0 bottom-0 max-h-[85dvh] bg-component-primary border-t border-outline rounded-t-2xl flex flex-col pb-safe">
               {/* Handle bar */}
               <div className="flex justify-center pt-3 pb-2">
-                <div className="w-12 h-1 bg-gray-600 rounded-full" />
+                <div className="w-12 h-1 bg-outline rounded-full" />
               </div>
 
               {/* Header */}
-              <div className="flex items-center justify-between px-4 pb-3 border-b border-gray-700">
-                <Dialog.Title className="text-lg font-semibold text-white">
+              <div className="flex items-center justify-between px-4 pb-3 border-b border-outline">
+                <Dialog.Title className="text-lg font-semibold text-text-h1">
                   Filters
                 </Dialog.Title>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
+                  className="p-2 min-w-11 min-h-11 flex items-center justify-center text-subtle hover:text-text-h1 rounded-lg hover:bg-action-hover transition-colors"
                 >
                   <FaTimes />
                 </button>
@@ -62,10 +62,10 @@ export default function MobileFilterDrawer({
               <div className="flex-1 overflow-y-auto overscroll-contain p-4">{children}</div>
 
               {/* Apply Button */}
-              <div className="p-4 border-t border-gray-700">
+              <div className="p-4 border-t border-outline">
                 <button
                   onClick={onClose}
-                  className="w-full py-3 bg-accent-primary hover:bg-accent-primary/80 text-white font-medium rounded-lg transition-colors"
+                  className="w-full py-3 bg-accent-primary hover:bg-accent-primary/80 text-text-h1 font-medium rounded-lg transition-colors"
                 >
                   Apply Filters
                 </button>
