@@ -142,7 +142,7 @@ export default function MediaCard(props: MediaCardProps) {
           <div
             ref={refs.setFloating}
             style={floatingStyles}
-            className="hidden lg:block z-(--z-dropdown) pointer-events-none"
+            className="hidden lg:block z-(--z-dropdown) pointer-events-none animate-[fadeIn_0.2s_ease-out]"
           >
             <MediaCardModal
               id={id}

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 
 export function useDelayHover(
-  enterDelay: number = 450,
-  leaveDelay: number = 150,
+  enterDelay: number = 400,
+  leaveDelay: number = 0,
 ) {
   const [hovered, setHovered] = useState(false);
   const enterTimerRef = useRef<number | null>(null);

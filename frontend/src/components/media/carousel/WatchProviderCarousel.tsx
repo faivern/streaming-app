@@ -17,7 +17,7 @@ type Props = {
   region: string;
 };
 
-const MAX_PROVIDERS = 17;
+const MAX_PROVIDERS = 24;
 
 export default function WatchProviderCarousel({
   providers,

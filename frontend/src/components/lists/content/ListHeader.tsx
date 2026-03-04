@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Listbox, Menu, Transition } from "@headlessui/react";
+import { Listbox, Transition } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
@@ -7,8 +7,6 @@ import {
   faPlus,
   faTag,
   faPen,
-  faEllipsisVertical,
-  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import ViewToggle from "./ViewToggle";
 import type { ViewMode, ListsSortOption } from "../../../types/lists.view";
@@ -36,9 +34,6 @@ type ListHeaderProps = {
   // Edit mode toggle
   isEditMode?: boolean;
   onEditToggle?: () => void;
-  // List management actions (for custom lists)
-  onEditListDetails?: () => void;
-  onDeleteListDetails?: () => void;
 };
 
 export default function ListHeader({
@@ -57,8 +52,6 @@ export default function ListHeader({
   onStatusToggle,
   isEditMode = false,
   onEditToggle,
-  onEditListDetails,
-  onDeleteListDetails,
 }: ListHeaderProps) {
   const selectedSortLabel =
     LISTS_SORT_OPTIONS.find((opt) => opt.value === sortOption)?.label || "Sort";
@@ -98,58 +91,6 @@ export default function ListHeader({
         </div>
 
         <div className="flex items-center gap-2 flex-shrink-0">
-          {/* List management menu (edit/delete list details) */}
-          {onEditListDetails && (
-            <Menu as="div" className="relative">
-              <Menu.Button
-                className="p-2 sm:px-3 sm:py-2 text-[var(--subtle)] hover:text-[var(--text-h1)] bg-[var(--action-primary)] border border-[var(--border)] rounded-lg transition-colors"
-                aria-label="List options"
-              >
-                <FontAwesomeIcon icon={faEllipsisVertical} className="text-sm" />
-              </Menu.Button>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute right-0 mt-1 w-44 origin-top-right rounded-lg bg-[var(--action-primary)] border border-[var(--border)] shadow-lg z-20 py-1 focus:outline-none">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <button
-                        onClick={onEditListDetails}
-                        className={`${
-                          active ? "bg-accent-primary/20" : ""
-                        } flex items-center gap-2 w-full px-3 py-2.5 text-sm text-[var(--text-h1)]`}
-                      >
-                        <FontAwesomeIcon icon={faPen} className="text-xs text-[var(--subtle)]" />
-                        Edit List Details
-                      </button>
-                    )}
-                  </Menu.Item>
-                  {onDeleteListDetails && (
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          onClick={onDeleteListDetails}
-                          className={`${
-                            active ? "bg-red-500/20" : ""
-                          } flex items-center gap-2 w-full px-3 py-2.5 text-sm text-red-400`}
-                        >
-                          <FontAwesomeIcon icon={faTrash} className="text-xs" />
-                          Delete List
-                        </button>
-                      )}
-                    </Menu.Item>
-                  )}
-                </Menu.Items>
-              </Transition>
-            </Menu>
-          )}
-
           {/* Edit mode toggle button */}
           {onEditToggle && (
             <button

@@ -322,8 +322,6 @@ export default function MyListsPage() {
             onAddMedia={() => setAddMediaModalOpen(true)}
             onEditEntry={handleEditEntry}
             onRemoveItem={handleRemoveItem}
-            onEditListDetails={currentList ? () => { setSelectedList(currentList); setEditModalOpen(true); } : undefined}
-            onDeleteListDetails={currentList ? () => { setSelectedList(currentList); setDeleteModalOpen(true); } : undefined}
             isLoading={isLoading}
           />
         </main>

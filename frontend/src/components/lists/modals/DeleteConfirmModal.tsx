@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { FaExclamationTriangle } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa";
 
 type DeleteConfirmModalProps = {
   isOpen: boolean;
@@ -54,7 +54,7 @@ export default function DeleteConfirmModal({
                 </div>
                 <div className="flex items-center gap-4 mb-4">
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center">
-                    <FaExclamationTriangle className="text-red-400 text-xl" />
+                    <FaTrash className="text-red-400 text-xl" />
                   </div>
                   <div>
                     <Dialog.Title className="text-lg font-semibold text-[var(--text-h1)]">

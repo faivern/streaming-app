@@ -129,7 +129,7 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
       </Link>
 
       {hovered && (
-        <div className="absolute top-0 right-full mr-2"
+        <div className="absolute top-0 right-full mr-2 animate-[fadeIn_0.2s_ease-out]"
              onMouseEnter={onEnter} onMouseLeave={onLeave}>
           <MediaCardModal id={id} title={displayTitle} media_type={media_type} initial={initial} />
         </div>
