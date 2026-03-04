@@ -88,7 +88,7 @@ const Footer = () => {
             © {new Date().getFullYear()} Cinelas
           </span>
           <span className="text-xs text-[var(--subtle)] italic select-none">
-            Explore over a million titles in your cinema atlas
+            Your cinema atlas — explore over a million movies & shows
           </span>
         </div>
 
