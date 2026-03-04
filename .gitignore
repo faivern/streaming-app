@@ -80,6 +80,9 @@ assistant.md
 PROMPT.md
 prompt.md
 
+# Git worktrees
+.worktrees/
+
 # GSD Workflow (Claude Code planning state)
 .planning/
 
