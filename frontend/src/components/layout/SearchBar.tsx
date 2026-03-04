@@ -1,9 +1,10 @@
 // components/SearchBar.tsx
-import { useState, useRef, useEffect, Fragment } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { Combobox, Transition } from "@headlessui/react";
+import { Combobox } from "@headlessui/react";
 import Poster from "../media/shared/Poster";
 
 type SearchBarProps = {
@@ -28,9 +29,9 @@ export default function SearchBar({
     totalResults,
     clearSearch,
   } = useSearch();
+  const navigate = useNavigate();
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [open, setOpen] = useState(false);
 
   // Auto-focus when expanded on mobile
   useEffect(() => {
@@ -39,17 +40,19 @@ export default function SearchBar({
     }
   }, [isMobile, isExpanded]);
 
+  // Only handle mobile overlay dismiss on outside click
   useEffect(() => {
+    if (!isMobile || !isExpanded) return;
+
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
-        setOpen(false);
-        if (isMobile && isExpanded) {
-          onToggle?.();
-        }
+        onToggle?.();
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside, { passive: true });
+    document.addEventListener("touchstart", handleClickOutside, {
+      passive: true,
+    });
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("touchstart", handleClickOutside);
@@ -58,40 +61,43 @@ export default function SearchBar({
 
   const handleChange = (val: any) => {
     setSelected(val);
-    setOpen(false);
     if (isMobile) {
       onToggle?.();
     }
     // Navigate after selection
-    window.location.href =
+    const path =
       val.media_type === "person"
         ? `/person/${val.id}/${(val.name || "unknown")
             .toLowerCase()
             .split(" ")
             .join("-")}`
         : `/media/${val.media_type}/${val.id}`;
+    navigate(path);
   };
 
   const handleInput = (value: string) => {
     setQuery(value);
     if (value.trim()) {
       search(value);
-      setOpen(true);
     } else {
       clearSearch();
-      setOpen(false);
     }
   };
 
-  const handleClear = () => {
+  const handleClear = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     setQuery("");
     clearSearch();
     setSelected(null);
-    setOpen(false);
     if (isMobile) {
       onToggle?.();
+    } else {
+      inputRef.current?.focus();
     }
   };
+
+  const showOptions = loading || error !== null || hasSearched;
 
   // Mobile: Just return search icon when collapsed
   if (isMobile && !isExpanded) {
@@ -112,7 +118,7 @@ export default function SearchBar({
       <div className="fixed inset-0 z-(--z-searchbar) bg-component-primary/95 backdrop-blur-lg">
         <div className="flex items-center p-4 border-b border-border">
           <div className="flex-1 relative" ref={searchRef}>
-            <Combobox value={selected} onChange={handleChange} nullable>
+            <Combobox value={selected} onChange={handleChange} nullable immediate>
               <div className="relative">
                 <Combobox.Input
                   ref={inputRef}
@@ -120,24 +126,23 @@ export default function SearchBar({
                   placeholder="Search titles, people..."
                   displayValue={() => query}
                   onChange={(e) => handleInput(e.target.value)}
-                  onFocus={() => query && setOpen(true)}
                 />
                 <FontAwesomeIcon
                   icon={faSearch}
                   className="absolute left-4 top-1/2 -translate-y-1/2 text-subtle"
                 />
+                {query && (
+                  <button
+                    type="button"
+                    onMouseDown={handleClear}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-subtle hover:text-text-h1 transition-colors duration-200 p-1"
+                  >
+                    <FontAwesomeIcon icon={faTimes} />
+                  </button>
+                )}
               </div>
 
-              <Transition
-                as={Fragment}
-                show={open && (query.trim().length > 0 || hasSearched)}
-                enter="transition ease-out duration-100"
-                enterFrom="opacity-0 -translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-75"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 -translate-y-1"
-              >
+              {showOptions && (
                 <Combobox.Options className="absolute top-full left-0 right-0 mt-2 bg-action-primary border border-outline rounded-lg shadow-xl max-h-96 overflow-y-auto focus:outline-none">
                   {loading && (
                     <div className="p-4 text-center text-subtle">
@@ -171,7 +176,7 @@ export default function SearchBar({
                               `flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors duration-150 ${
                                 active
                                   ? "bg-accent-primary/20 text-text-h1"
-                                  : "text-text-h1 hover:bg-action-hover/50"
+                                  : "text-subtle"
                               }`
                             }
                           >
@@ -186,7 +191,7 @@ export default function SearchBar({
                                 <div className="flex-1 min-w-0">
                                   <p
                                     className={`font-medium truncate ${
-                                      active ? "text-accent-primary" : "text-text-h1"
+                                      active ? "text-text-h1" : "text-subtle"
                                     }`}
                                   >
                                     {r.title || r.name}
@@ -217,19 +222,8 @@ export default function SearchBar({
                     </>
                   )}
                 </Combobox.Options>
-              </Transition>
+              )}
             </Combobox>
-
-            {/* Clear button outside Combobox to avoid event capture issues */}
-            {query && (
-              <button
-                type="button"
-                onClick={handleClear}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-subtle hover:text-text-h1 transition-colors duration-200 p-1 z-(--z-searchbar)"
-              >
-                <FontAwesomeIcon icon={faTimes} />
-              </button>
-            )}
           </div>
 
           <button
@@ -247,7 +241,7 @@ export default function SearchBar({
   // Desktop: Regular search bar
   return (
     <div className="relative w-full" ref={searchRef}>
-      <Combobox value={selected} onChange={handleChange} nullable>
+      <Combobox value={selected} onChange={handleChange} nullable immediate>
         <div className="relative">
           <Combobox.Input
             ref={inputRef}
@@ -255,24 +249,23 @@ export default function SearchBar({
             placeholder="Search Movies, TV Shows, People..."
             displayValue={() => query}
             onChange={(e) => handleInput(e.target.value)}
-            onFocus={() => query && setOpen(true)}
           />
           <FontAwesomeIcon
             icon={faSearch}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-subtle text-sm"
           />
+          {query && (
+            <button
+              type="button"
+              onMouseDown={handleClear}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-subtle hover:text-text-h1 transition-colors duration-200 p-1"
+            >
+              <FontAwesomeIcon icon={faTimes} className="text-sm" />
+            </button>
+          )}
         </div>
 
-        <Transition
-          as={Fragment}
-          show={open && (query.trim().length > 0 || hasSearched)}
-          enter="transition ease-out duration-100"
-          enterFrom="opacity-0 -translate-y-1"
-          enterTo="opacity-100 translate-y-0"
-          leave="transition ease-in duration-75"
-          leaveFrom="opacity-100 translate-y-0"
-          leaveTo="opacity-0 -translate-y-1"
-        >
+        {showOptions && (
           <Combobox.Options className="absolute top-full left-0 right-0 mt-1 bg-component-primary/95 backdrop-blur-lg border border-outline rounded-lg shadow-xl z-(--z-overlay) max-h-96 overflow-y-auto focus:outline-none text-sm">
             {loading && (
               <div className="p-4 text-center text-subtle">
@@ -305,7 +298,7 @@ export default function SearchBar({
                         `flex items-center gap-3 px-4 py-2 cursor-pointer transition-colors duration-150 ${
                           active
                             ? "bg-accent-primary/20 text-text-h1"
-                            : "text-text-h1 hover:bg-action-primary/50"
+                            : "text-subtle"
                         }`
                       }
                     >
@@ -320,7 +313,7 @@ export default function SearchBar({
                           <div className="flex-1 min-w-0">
                             <p
                               className={`font-medium truncate ${
-                                active ? "text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary" : "text-text-h1"
+                                active ? "text-text-h1" : "text-subtle"
                               }`}
                             >
                               {r.title || r.name}
@@ -347,19 +340,8 @@ export default function SearchBar({
               </>
             )}
           </Combobox.Options>
-        </Transition>
+        )}
       </Combobox>
-
-      {/* Clear button outside Combobox to avoid event capture issues */}
-      {query && (
-        <button
-          type="button"
-          onClick={handleClear}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-subtle hover:text-text-h1 transition-colors duration-200 p-1 z-(--z-drawer)"
-        >
-          <FontAwesomeIcon icon={faTimes} className="text-sm" />
-        </button>
-      )}
     </div>
   );
 }

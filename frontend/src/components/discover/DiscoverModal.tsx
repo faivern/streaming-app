@@ -258,11 +258,11 @@ export default function DiscoverModal({
   const filterContent = (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold text-white">Filters</h3>
+        <h3 className="text-lg font-semibold text-text-h1">Filters</h3>
         {hasActiveFilters && !isSearchMode && (
           <button
             onClick={resetFilters}
-            className="px-3 py-1 text-sm text-gray-400 hover:text-white bg-gray-700/50 hover:bg-gray-600/50 rounded-lg transition-colors"
+            className="px-3 py-1 text-sm text-subtle hover:text-text-h1 bg-action-primary hover:bg-action-hover rounded-lg transition-colors"
           >
             Reset
           </button>
@@ -271,7 +271,7 @@ export default function DiscoverModal({
 
       {/* Media Type Toggle - always available, applies to all modes */}
       <div>
-        <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+        <h3 className="text-xs font-semibold text-subtle uppercase tracking-wider mb-3">
           Media Type
         </h3>
         <div className="flex gap-2">
@@ -280,7 +280,7 @@ export default function DiscoverModal({
             className={`flex-1 px-3 py-2 text-sm rounded-lg transition-colors ${
               filters.mediaType === "movie"
                 ? "bg-accent-primary text-white"
-                : "bg-gray-700/50 text-gray-300 hover:bg-gray-600/50"
+                : "bg-action-primary text-text-h1 hover:bg-action-hover"
             }`}
           >
             Movies
@@ -290,7 +290,7 @@ export default function DiscoverModal({
             className={`flex-1 px-3 py-2 text-sm rounded-lg transition-colors ${
               filters.mediaType === "tv"
                 ? "bg-accent-primary text-white"
-                : "bg-gray-700/50 text-gray-300 hover:bg-gray-600/50"
+                : "bg-action-primary text-text-h1 hover:bg-action-hover"
             }`}
           >
             TV Series
@@ -300,8 +300,8 @@ export default function DiscoverModal({
 
       {/* Search mode hint */}
       {isSearchMode && (
-        <div className="rounded-lg bg-gray-800/60 border border-gray-700 px-3 py-2.5">
-          <p className="text-xs text-gray-400">
+        <div className="rounded-lg bg-component-primary/60 border border-outline px-3 py-2.5">
+          <p className="text-xs text-subtle">
             Clear the search to use advanced filters.
           </p>
         </div>
@@ -310,7 +310,7 @@ export default function DiscoverModal({
       {/* Sort By */}
       {!isSearchMode && (
         <div>
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">
+          <h3 className="text-xs font-semibold text-subtle uppercase tracking-wider mb-3">
             Sort By
           </h3>
           <SortByDropdown value={filters.sortBy} onChange={setSortBy} />
@@ -323,13 +323,13 @@ export default function DiscoverModal({
           {/* Genres */}
           <div>
             <div className="flex justify-between items-center mb-3">
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              <h3 className="text-xs font-semibold text-subtle uppercase tracking-wider">
                 Genres
               </h3>
               {filters.genreIds.length > 0 && (
                 <button
                   onClick={() => clearGenres()}
-                  className="text-xs text-gray-400 hover:text-white transition-colors"
+                  className="text-xs text-subtle hover:text-text-h1 transition-colors"
                 >
                   Clear
                 </button>
@@ -345,13 +345,13 @@ export default function DiscoverModal({
           {/* Year Range */}
           <div>
             <div className="flex justify-between items-center mb-3">
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              <h3 className="text-xs font-semibold text-subtle uppercase tracking-wider">
                 Year
               </h3>
               {(filters.releaseYearRange.min || filters.releaseYearRange.max) && (
                 <button
                   onClick={() => clearReleaseYearRange()}
-                  className="text-xs text-gray-400 hover:text-white transition-colors"
+                  className="text-xs text-subtle hover:text-text-h1 transition-colors"
                 >
                   Clear
                 </button>
@@ -366,13 +366,13 @@ export default function DiscoverModal({
           {/* Rating Slider */}
           <div>
             <div className="flex justify-between items-center mb-3">
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              <h3 className="text-xs font-semibold text-subtle uppercase tracking-wider">
                 Minimum Rating
               </h3>
               {filters.minRating > 0 && (
                 <button
                   onClick={() => clearMinRating()}
-                  className="text-xs text-gray-400 hover:text-white transition-colors"
+                  className="text-xs text-subtle hover:text-text-h1 transition-colors"
                 >
                   Clear
                 </button>
@@ -385,13 +385,13 @@ export default function DiscoverModal({
           {filters.mediaType === "movie" && (
             <div>
               <div className="flex justify-between items-center mb-3">
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                <h3 className="text-xs font-semibold text-subtle uppercase tracking-wider">
                   Runtime
                 </h3>
                 {(filters.runtimeRange.min || filters.runtimeRange.max) && (
                   <button
                     onClick={() => clearRuntimeRange()}
-                    className="text-xs text-gray-400 hover:text-white transition-colors"
+                    className="text-xs text-subtle hover:text-text-h1 transition-colors"
                   >
                     Clear
                   </button>
@@ -407,13 +407,13 @@ export default function DiscoverModal({
           {/* Language */}
           <div>
             <div className="flex justify-between items-center mb-3">
-              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              <h3 className="text-xs font-semibold text-subtle uppercase tracking-wider">
                 Language
               </h3>
               {filters.language && (
                 <button
                   onClick={() => clearLanguage()}
-                  className="text-xs text-gray-400 hover:text-white transition-colors"
+                  className="text-xs text-subtle hover:text-text-h1 transition-colors"
                 >
                   Clear
                 </button>
@@ -455,19 +455,19 @@ export default function DiscoverModal({
               >
                 <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline shadow-xl transition-all max-h-[95dvh] sm:max-h-[90dvh] flex flex-col">
                   {/* Header */}
-                  <div className="flex items-center justify-between p-4 border-b border-gray-700">
+                  <div className="flex items-center justify-between p-4 border-b border-outline">
                     <div>
-                      <Dialog.Title className="text-lg font-semibold text-white">
+                      <Dialog.Title className="text-lg font-semibold text-text-h1">
                         {title}
                       </Dialog.Title>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-sm text-subtle">
                         Find your next watch with guided filters
                       </p>
                     </div>
                     <button
                       type="button"
                       onClick={handleClose}
-                      className="p-2 min-w-11 min-h-11 flex items-center justify-center text-gray-400 hover:text-white rounded-lg hover:bg-gray-800 transition-colors"
+                      className="p-2 min-w-11 min-h-11 flex items-center justify-center text-subtle hover:text-text-h1 rounded-lg hover:bg-action-hover transition-colors"
                     >
                       <FaTimes />
                     </button>
@@ -476,7 +476,7 @@ export default function DiscoverModal({
                   {/* Main Content */}
                   <div className="flex flex-1 overflow-hidden">
                     {/* Sidebar - Desktop only */}
-                    <div className="hidden lg:block w-72 border-r border-gray-700 p-4 overflow-y-auto">
+                    <div className="hidden lg:block w-72 border-r border-outline p-4 overflow-y-auto">
                       {filterContent}
                     </div>
 
@@ -485,13 +485,13 @@ export default function DiscoverModal({
                       {/* Search Bar */}
                       <div className="p-4">
                         <div className="relative">
-                          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-subtle" />
                           <input
                             type="text"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Search movies and TV shows..."
-                            className="w-full pl-10 pr-4 py-2.5 bg-input border border-outline rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
+                            className="w-full pl-10 pr-4 py-2.5 bg-input border border-outline rounded-lg text-white placeholder-subtle focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20"
                             onFocus={(e) => {
                               // After the virtual keyboard animates in (~300ms), scroll the input into view
                               setTimeout(() => {
@@ -503,13 +503,13 @@ export default function DiscoverModal({
                       </div>
 
                       {/* Action Bar */}
-                      <div className="flex pl-4 border-b border-gray-700">
+                      <div className="flex pl-4 border-b border-outline">
                         <div className="flex items-center gap-3">
                           {/* Mobile filter button - hidden during search mode */}
                           {!isSearchMode && (
                             <button
                               onClick={() => setMobileFiltersOpen(true)}
-                              className="lg:hidden flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-700/50 text-gray-300 rounded-lg hover:bg-gray-600/50 transition-colors"
+                              className="lg:hidden flex items-center gap-2 px-3 py-1.5 text-sm bg-action-primary text-text-h1 rounded-lg hover:bg-action-hover transition-colors"
                             >
                               <FaFilter className="text-xs" />
                               Filters
@@ -519,7 +519,7 @@ export default function DiscoverModal({
                             </button>
                           )}
 
-                          <span className="text-sm text-gray-400">
+                          <span className="text-sm text-subtle">
                             {totalResults.toLocaleString()} results
                           </span>
                         </div>
@@ -536,18 +536,18 @@ export default function DiscoverModal({
                         ) : searchError ? (
                           <div className="text-center py-12">
                             <p className="text-red-400">{searchError}</p>
-                            <p className="text-sm text-gray-500 mt-1">
+                            <p className="text-sm text-subtle mt-1">
                               Please try again or use a different search term.
                             </p>
                           </div>
                         ) : displayResults.length === 0 ? (
                           <div className="text-center py-12">
-                            <p className="text-gray-400">
+                            <p className="text-subtle">
                               {isSearchMode && hasSearched
                                 ? "No results found"
                                 : "No results match your filters"}
                             </p>
-                            <p className="text-sm text-gray-500 mt-1">
+                            <p className="text-sm text-subtle mt-1">
                               {isSearchMode
                                 ? "Try a different search term"
                                 : "Try adjusting your filter settings"}
@@ -590,13 +590,13 @@ export default function DiscoverModal({
                               className="py-8 flex justify-center"
                             >
                               {isFetchingNextPage && (
-                                <div className="flex items-center gap-2 text-gray-400">
-                                  <div className="w-5 h-5 border-2 border-gray-600 border-t-accent-primary rounded-full animate-spin" />
+                                <div className="flex items-center gap-2 text-subtle">
+                                  <div className="w-5 h-5 border-2 border-outline border-t-accent-primary rounded-full animate-spin" />
                                   <span className="text-sm">Loading more...</span>
                                 </div>
                               )}
                               {!hasNextPage && displayResults.length > 0 && (
-                                <span className="text-sm text-gray-500">
+                                <span className="text-sm text-subtle">
                                   No more results
                                 </span>
                               )}

@@ -44,7 +44,7 @@ export default function ListsSidebar({
       <div className="px-4 pt-4 pb-3 border-b border-[var(--border)]/50">
         <Link
           to="/lists/insights"
-          className="group flex items-center gap-2.5 w-full px-3 py-2.5 rounded-lg bg-accent-primary/10 border border-accent-primary/25 text-accent-primary hover:bg-accent-primary/20 hover:border-accent-primary/45 transition-all text-sm font-medium"
+          className="group flex items-center gap-2.5 w-full px-3 py-2.5 rounded-lg bg-[var(--action-primary)] border border-[var(--border)]/60 text-[var(--text-h1)] hover:bg-[var(--action-hover)] hover:border-[var(--border)] transition-all text-sm font-medium"
         >
           <BarChart3 className="w-4 h-4 flex-shrink-0" />
           <span className="flex-1">Insights</span>
