@@ -54,26 +54,23 @@ export default function MediaDetailPage() {
 
   return (
     <main>
-      {/* Hero backdrop — mobile only */}
-      {details.backdrop_path && (
-        <div className="md:hidden relative w-full h-[40dvh] overflow-hidden">
-          <img
-            src={`https://image.tmdb.org/t/p/w1280${details.backdrop_path}`}
-            srcSet={`https://image.tmdb.org/t/p/w780${details.backdrop_path} 780w, https://image.tmdb.org/t/p/w1280${details.backdrop_path} 1280w`}
-            sizes="100vw"
-            alt={details.title ?? details.name ?? "Media backdrop"}
-            loading="eager"
-            decoding="async"
-            className="w-full h-full object-cover"
-          />
-          {/* Gradient fade — bottom edge matches Blizzard --background token hsl(224,37%,12%) */}
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[hsl(224,37%,12%)] to-transparent" />
-        </div>
-      )}
-
-      {/* BackLink — desktop uses mt-navbar-offset since backdrop is hidden */}
-      <div className="px-4 md:px-[8%] md:mt-navbar-offset">
+      {/* BackLink — always has navbar offset now that hero backdrop is removed */}
+      <div className="px-4 md:px-[8%] 4xl:px-[12%] mt-navbar-offset">
         <BackLink />
+      </div>
+
+      {/* Mobile trailer — hero position, full-width */}
+      <div className="md:hidden px-4 mt-2">
+        <MediaDetailVideo
+          backdrop_path={details.backdrop_path ?? ""}
+          poster_path={details.poster_path ?? ""}
+          title={details.title ?? details.name ?? "Media Trailer"}
+          isPlaying={isPlaying}
+          media_type={media_type}
+          id={numericId}
+          onScrollToWatchProviders={scrollToWatchProviders}
+          onAddToList={() => setAddToListModalOpen(true)}
+        />
       </div>
 
       {/* Desktop: trailer above 2-column layout, ~78% viewport width */}
@@ -90,9 +87,9 @@ export default function MediaDetailPage() {
         />
       </div>
 
-      <div className="px-4 md:px-[8%] mt-4">
-        <div className="flex flex-col md:grid md:grid-cols-[3fr_1fr] gap-8 md:gap-x-12">
-          {/* col 1, row 1 */}
+      <div className="px-4 md:px-[8%] 4xl:px-[12%] mt-4">
+        <div className="flex flex-col md:grid md:grid-cols-[1fr_auto] gap-6 md:gap-8 md:gap-x-12">
+          {/* col 1, row 1 — header (poster+info on mobile) */}
           <div className="order-1 md:order-none min-w-0">
             <MediaDetailHeader
               details={details}
@@ -105,32 +102,17 @@ export default function MediaDetailPage() {
             />
           </div>
 
-          {/* col 2, rows 1–3 — pushed to end on mobile */}
-          <div className="order-5 md:order-none mt-8 md:mt-0 md:row-span-3 md:col-start-2 min-w-0">
+          {/* col 2, rows 1-3 — similar media sidebar (pushed to end on mobile) */}
+          <div className="order-6 md:order-none mt-4 md:mt-0 md:row-span-3 md:col-start-2 min-w-0">
             <MediaGridSimilar similarMedia={similarMedia} parentType={media_type} />
           </div>
 
-          {/* col 1, row 2 */}
-          <div className="order-2 md:order-none py-4 min-w-0">
+          {/* col 1, row 2 — watch providers */}
+          <div className="order-3 md:order-none py-2 md:py-4 min-w-0">
             <WatchProviders mediaType={media_type} mediaId={numericId} title={details.title ?? details.name} />
           </div>
 
-          {/* mobile trailer — hidden in grid */}
-          <div className="order-3 md:order-none mt-8 md:hidden">
-            <h2 className="text-xl font-semibold text-white mb-4">Watch Trailer</h2>
-            <MediaDetailVideo
-              backdrop_path={details.backdrop_path ?? ""}
-              poster_path={details.poster_path ?? ""}
-              title={details.title ?? details.name ?? "Media Trailer"}
-              isPlaying={isPlaying}
-              media_type={media_type}
-              id={numericId}
-              onScrollToWatchProviders={scrollToWatchProviders}
-              onAddToList={() => setAddToListModalOpen(true)}
-            />
-          </div>
-
-          {/* col 1, row 3 */}
+          {/* col 1, row 3 — cast carousel */}
           <div className="order-4 md:order-none min-w-0">
             <MediaCastCarousel cast={credits?.cast ?? []} />
           </div>
