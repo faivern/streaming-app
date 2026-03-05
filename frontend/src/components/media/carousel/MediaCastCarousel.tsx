@@ -15,7 +15,7 @@ const MediaCastCarousel = ({ cast }: Props) => {
   const mediaCastEnd = 12;
 
   return (
-    <section className="w-full py-4 px-4 md:px-12">
+    <section className="w-full py-4">
       <div className="bg-component-primary rounded-xl p-6 border border-accent-foreground/60 shadow-lg">
         <div className="flex justify-between items-center mb-4">
           <div className="[&>div]:mb-0">
@@ -42,7 +42,7 @@ const MediaCastCarousel = ({ cast }: Props) => {
           </div>
           {/* Right-edge fade — pointer-events-none so it does not block touch scroll */}
           <div
-            className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[hsl(224,37%,12%)] to-transparent pointer-events-none lg:hidden"
+            className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[var(--component-primary)] to-transparent pointer-events-none lg:hidden"
             aria-hidden="true"
           />
         </div>

@@ -93,7 +93,7 @@ export default function MediaDetailPage() {
       <div className="px-4 md:px-[8%] mt-4">
         <div className="flex flex-col md:grid md:grid-cols-[3fr_1fr] gap-8 md:gap-x-12">
           {/* col 1, row 1 */}
-          <div className="min-w-0">
+          <div className="order-1 md:order-none min-w-0">
             <MediaDetailHeader
               details={details}
               cast={credits?.cast ?? []}
@@ -105,18 +105,18 @@ export default function MediaDetailPage() {
             />
           </div>
 
-          {/* col 2, rows 1–3 */}
-          <div className="mt-8 md:mt-0 md:row-span-3 md:col-start-2 min-w-0">
+          {/* col 2, rows 1–3 — pushed to end on mobile */}
+          <div className="order-5 md:order-none mt-8 md:mt-0 md:row-span-3 md:col-start-2 min-w-0">
             <MediaGridSimilar similarMedia={similarMedia} parentType={media_type} />
           </div>
 
           {/* col 1, row 2 */}
-          <div className="py-8 min-w-0 px-4 md:px-12">
+          <div className="order-2 md:order-none py-4 min-w-0">
             <WatchProviders mediaType={media_type} mediaId={numericId} title={details.title ?? details.name} />
           </div>
 
           {/* mobile trailer — hidden in grid */}
-          <div className="mt-8 md:hidden">
+          <div className="order-3 md:order-none mt-8 md:hidden">
             <h2 className="text-xl font-semibold text-white mb-4">Watch Trailer</h2>
             <MediaDetailVideo
               backdrop_path={details.backdrop_path ?? ""}
@@ -131,7 +131,7 @@ export default function MediaDetailPage() {
           </div>
 
           {/* col 1, row 3 */}
-          <div className="min-w-0">
+          <div className="order-4 md:order-none min-w-0">
             <MediaCastCarousel cast={credits?.cast ?? []} />
           </div>
         </div>

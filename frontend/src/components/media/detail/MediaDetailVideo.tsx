@@ -162,13 +162,13 @@ export default function MediaDetailVideo({
       {/* Overlay play button when not playing */}
       {!shouldFetchVideo && (
         <>
-          <div className="absolute inset-0 backdrop-blur bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <div className="absolute inset-0 flex items-center justify-center z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute inset-0 backdrop-blur bg-black/20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 flex items-center justify-center z-20 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300">
             <button
               type="button"
               onClick={handlePlayClick}
               aria-label="Play trailer"
-              className="bg-gray-100/80 hover:bg-gray-100 text-black p-4 rounded-full shadow-lg transition-transform duration-300 group-hover:scale-110 animate-pulse"
+              className="bg-gray-100/80 hover:bg-gray-100 text-black p-4 rounded-full shadow-lg transition-transform duration-300 scale-110 md:scale-100 md:group-hover:scale-110 animate-pulse"
             >
               <FaPlay className="text-xl" />
             </button>
