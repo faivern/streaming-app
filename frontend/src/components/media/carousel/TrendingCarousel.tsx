@@ -44,7 +44,6 @@ function SlideTitleArea({ m, isActive }: { m: TrendingMedia; isActive: boolean }
 export default function TrendingCarousel({ items, loading = false }: Props) {
   const intervalRef = useRef<number | null>(null);
   const intervalTime = 6000;
-
   // only movie/tv with backdrop
   const filtered = (items ?? []).filter(
     (m) =>
@@ -206,9 +205,9 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                       </div>
 
                       {/* Overview */}
-                      <p className="hidden sm:block text-gray-300 line-clamp-2 sm:line-clamp-3 text-sm sm:text-base md:text-lg leading-snug">
+                        <p className="hidden sm:line-clamp-4 text-gray-300 text-sm sm:text-base md:text-lg leading-snug overflow-hidden">
                         {m.overview || "No overview available."}
-                      </p>
+                        </p>
                     </div>
                   </div>
                 ))}

@@ -53,6 +53,23 @@ function findBestUnusedBackdrop(
   return null;
 }
 
+/**
+ * Get the best candidates from discover results:
+ * prefer Bayesian-sorted items, fall back to any item with a backdrop.
+ */
+function getCandidates(results: DetailMedia[]): DetailMedia[] {
+  const sorted = sortByBayesian(results);
+  if (sorted.length > 0) return sorted;
+  return results
+    .filter((item) => item.backdrop_path)
+    .sort((a, b) => (b.vote_count ?? 0) - (a.vote_count ?? 0));
+}
+
+// Hardcoded backdrops for genres where TMDB discover returns no backdrop images
+const FALLBACK_BACKDROPS: Record<number, string> = {
+  10402: "/g7CHF8gTLGooTbP4GznIGwaqAGL.jpg", // Music → Coco (2017)
+};
+
 async function fetchDiscoverResults(
   genreId: number,
   mediaType: "movie" | "tv",
@@ -84,10 +101,8 @@ export function useGenresWithBackdrops() {
             ? "movie"
             : "tv";
           const results = await fetchDiscoverResults(genre.id, mediaType);
-          return {
-            genre,
-            sortedItems: sortByBayesian(results),
-          };
+          const candidates = getCandidates(results);
+          return { genre, candidates };
         }),
       );
 
@@ -95,8 +110,11 @@ export function useGenresWithBackdrops() {
       const usedBackdrops = new Set<string>();
       const genresWithBackdrops: EnrichedGenre[] = [];
 
-      for (const { genre, sortedItems } of genreDiscoverData) {
-        const backdropPath = findBestUnusedBackdrop(sortedItems, usedBackdrops);
+      for (const { genre, candidates } of genreDiscoverData) {
+        const backdropPath =
+          findBestUnusedBackdrop(candidates, usedBackdrops) ??
+          FALLBACK_BACKDROPS[genre.id] ??
+          null;
 
         if (backdropPath) {
           usedBackdrops.add(backdropPath);
