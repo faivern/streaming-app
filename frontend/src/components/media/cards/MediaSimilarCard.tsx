@@ -106,7 +106,7 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
       onMouseLeave={onLeave}
     >
       <Link to={`/media/${media_type}/${id}`}>
-        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-action-hover transition-all duration-200 bg-transparent h-full w-xs">
+        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-action-hover transition-all duration-200 bg-transparent h-full w-full">
           <div className="flex-shrink-0">
             <Poster
               path={posterForCard}

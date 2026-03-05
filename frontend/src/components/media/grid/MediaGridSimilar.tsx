@@ -20,14 +20,14 @@ const MediaGridSimilar = ({ similarMedia, parentType }: Props) => {
     (m.first_air_date ? "tv" : "movie"); // crude but works for TMDB
 
   return (
-    <aside className="shadow-lg block">
+    <aside className="shadow-lg block md:w-72">
       <div className="bg-component-primary rounded-xl p-4 border border-accent-foreground/60 overflow-visible">
         <TitleMid className="">
           You may like
         </TitleMid>
 
         <div className="relative">
-          <div className="flex overflow-x-auto scroll-smooth scrollbar-none gap-3 md:grid md:grid-cols-1 md:gap-2 md:overflow-visible">
+          <div className="flex overflow-x-auto scroll-smooth scrollbar-none gap-3 py-2 md:py-0 md:grid md:grid-cols-1 md:gap-2 md:overflow-visible">
             {similarMedia.slice(start, end).map((m) => {
               const mt: MediaType = (m.media_type as MediaType) ?? parentType ?? inferType(m);
               const displayTitle = m.title ?? m.name ?? "Unknown Title";

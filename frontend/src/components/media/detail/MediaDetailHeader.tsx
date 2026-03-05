@@ -45,7 +45,7 @@ export default function MediaDetailHeader({
   const revenue = details.revenue;
 
   return (
-    <section className="relative flex flex-row gap-4 md:gap-8 py-4 md:py-8 px-4 md:px-12 max-w-7xl mx-auto">
+    <section className="relative flex flex-row flex-wrap md:flex-nowrap gap-4 md:gap-8 py-4 md:py-8 px-4 md:px-12 max-w-7xl mx-auto">
       {/* Poster and Actions */}
       <div className="flex-shrink-0 w-2/5 max-w-[160px] md:w-1/3 md:max-w-[360px]">
         <div className="relative">
@@ -117,6 +117,25 @@ export default function MediaDetailHeader({
           </div>
         )}
 
+        <div className="hidden md:block">
+          <MediaDetails
+            cast={cast}
+            crew={crew}
+            release_date={releaseDate}
+            country={country}
+            language={language}
+            production_companies={companies}
+            keywords={keywords}
+            budget={budget}
+            revenue={revenue}
+            media_type={media_type ?? details.media_type}
+            created_by={details.created_by}
+          />
+        </div>
+      </div>
+
+      {/* Mobile-only: full-width Details section */}
+      <div className="md:hidden w-full">
         <MediaDetails
           cast={cast}
           crew={crew}

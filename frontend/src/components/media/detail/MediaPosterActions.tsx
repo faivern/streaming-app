@@ -33,7 +33,7 @@ export default function MediaPosterActions({
   const [addToListModalOpen, setAddToListModalOpen] = useState(false);
 
   return (
-    <div className="mt-3 md:mt-6 grid grid-cols-3 md:grid-cols-2 gap-2 md:gap-3">
+    <div className="mt-3 md:mt-6 grid grid-cols-2 gap-2 md:gap-3">
       <button
         aria-label="Watch Now"
         title="Watch Now"
@@ -42,7 +42,7 @@ export default function MediaPosterActions({
                    hover:from-accent-primary hover:to-accent-secondary
                    text-white py-2 md:py-4 px-2 rounded-lg md:rounded-xl font-semibold shadow-lg
                    transform transition-transform duration-200 hover:scale-103
-                   flex flex-col items-center justify-center gap-0.5 md:gap-1 cursor-pointer
+                   hidden md:flex flex-col items-center justify-center gap-0.5 md:gap-1 cursor-pointer
                    md:col-span-2 md:flex-row md:gap-2"
       >
         <FontAwesomeIcon icon={faPlay} className="text-white text-base" />
