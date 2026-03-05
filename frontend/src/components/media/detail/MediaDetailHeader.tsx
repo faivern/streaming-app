@@ -45,16 +45,16 @@ export default function MediaDetailHeader({
   const revenue = details.revenue;
 
   return (
-    <section className="relative flex flex-col md:flex-row gap-6 md:gap-8 py-8 px-4 md:px-12 max-w-7xl mx-auto">
+    <section className="relative flex flex-row gap-4 md:gap-8 py-4 md:py-8 px-4 md:px-12 max-w-7xl mx-auto">
       {/* Poster and Actions */}
-      <div className="flex-shrink-0 w-full md:w-1/3 max-w-[360px] mx-auto">
+      <div className="flex-shrink-0 w-2/5 max-w-[160px] md:w-1/3 md:max-w-[360px]">
         <div className="relative">
           <img
             loading="lazy"
             decoding="async"
             src={`https://image.tmdb.org/t/p/w500${posterPath}`}
             srcSet={`https://image.tmdb.org/t/p/w342${posterPath} 342w, https://image.tmdb.org/t/p/w500${posterPath} 500w`}
-            sizes="(max-width: 768px) 100vw, 360px"
+            sizes="(max-width: 768px) 40vw, 360px"
             alt={title}
             className="w-full aspect-[2/3] object-cover rounded-3xl shadow-lg border border-accent-foreground/60"
           />
@@ -82,12 +82,12 @@ export default function MediaDetailHeader({
       </div>
 
       {/* Details */}
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-3 md:gap-6 min-w-0 flex-1">
         <div>
           <div className="flex flex-row items-center">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">{title}</h1>
+            <h1 className="text-lg sm:text-2xl md:text-4xl font-bold text-white leading-tight">{title}</h1>
           </div>
-          {tagline && <p className="text-gray-400 italic mt-2">{tagline}</p>}
+          {tagline && <p className="hidden md:block text-gray-400 italic mt-2">{tagline}</p>}
         </div>
 
         <MediaMetaChips
