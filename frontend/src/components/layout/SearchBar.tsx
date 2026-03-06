@@ -123,7 +123,7 @@ export default function SearchBar({
                 <Combobox.Input
                   ref={inputRef}
                   className="w-full bg-input border border-outline rounded-full px-4 py-3 pl-12 pr-12 text-text-h1 placeholder-subtle focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 transition-all duration-200"
-                  placeholder="Search titles, people..."
+                  placeholder="Search Movies, TV Shows, People..."
                   displayValue={() => query}
                   onChange={(e) => handleInput(e.target.value)}
                 />

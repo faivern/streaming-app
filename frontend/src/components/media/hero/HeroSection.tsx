@@ -15,7 +15,7 @@ const HeroSection = ({ total_results }: Props) => {
       </h1>
 
       <p className="mt-3 text-2xl sm:text-base md:text-2xl text-text-h1/70">
-        Discover, track, and find where to stream over{" "}
+        Discover, Track, and Find Where to Stream Over{" "}
         <span className="tabular-nums text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary font-semibold">
           <CountUp
             end={total_results}
@@ -23,7 +23,7 @@ const HeroSection = ({ total_results }: Props) => {
             separator={separatorSymbol}
           />
         </span>{" "}
-        movies and TV shows.
+        Movies and TV Shows.
       </p>
 
     </div>

@@ -81,6 +81,10 @@
   :root { --navbar-height: 8rem; }  /* 128px = mt-32 */
 }
 
+body {
+  overflow-x: hidden;
+}
+
 @layer scrollbar {
   * {
     @apply scrollbar-thin scrollbar-thumb-accent-primary scrollbar-track-transparent;

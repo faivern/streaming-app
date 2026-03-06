@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { Film } from "lucide-react";
+
 type BackdropProps = {
   path?: string;
   alt: string;
@@ -13,12 +16,17 @@ export default function Backdrop({
   sizes = "100vw",
   priority = false,
 }: BackdropProps) {
-  if (!path) { 
+  const [imageError, setImageError] = useState(false);
+
+  if (!path || imageError) {
     return (
       <div
-        className={`aspect-video rounded-lg bg-white/5 ${className}`}
-        aria-label="Backdrop placeholder"
-      />
+        className={`flex items-center justify-center bg-white/5 text-accent-primary aspect-video rounded-lg ${className}`}
+        aria-label={alt}
+        role="img"
+      >
+        <Film className="w-1/4 h-1/4" />
+      </div>
     );
   }
 
@@ -32,6 +40,7 @@ export default function Backdrop({
       srcSet={`${base}/w300${path} 300w, ${base}/w780${path} 780w, ${base}/w1280${path} 1280w, ${base}/original${path} 1920w`}
       sizes={sizes}
       alt={alt}
+      onError={() => setImageError(true)}
     />
   );
 }

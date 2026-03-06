@@ -28,7 +28,6 @@ export default function useMediaGrid(): UseMediaGridReturn {
       const mediaWithDetails = await getTrendingMediaWithDetails(mediaType);
       setItems(mediaWithDetails);
     } catch (err) {
-      console.error("Failed to fetch media grid:", err);
       setError(err instanceof Error ? err.message : "Failed to fetch media");
       setItems([]);
     } finally {

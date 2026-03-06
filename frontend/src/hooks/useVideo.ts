@@ -25,11 +25,9 @@ export function useVideo(
     fetch(`${getBaseUrl()}/api/Movies/${mediaType}/${id}/trailer`)
       .then((res) => res.json())
       .then((data) => {
-        console.log("Video data:", data);
         setVideoUrl(data?.url ?? null);
       })
-      .catch((err) => {
-        console.error("Video fetch error", err);
+      .catch(() => {
         setVideoUrl(null);
       })
       .finally(() => setLoading(false));

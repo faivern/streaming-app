@@ -136,7 +136,7 @@ export default function Header() {
             </div>
 
             {/* CENTER: Search Bar (hidden on mobile) - truly centered */}
-            <div className="hidden md:block w-2xl">
+            <div className="hidden md:block w-2xl max-w-[min(42rem,calc(100vw-14rem))]">
               <SearchBar />
             </div>
 

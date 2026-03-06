@@ -112,8 +112,6 @@ export function useSearch() {
       // Don't update state if the request was intentionally cancelled
       if (axios.isCancel(err)) return;
 
-      console.error("Search error:", err);
-
       let errorMessage = "Something went wrong with the search.";
 
       if (axios.isAxiosError(err)) {

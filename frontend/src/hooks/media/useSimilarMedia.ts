@@ -20,15 +20,8 @@ export function useSimilarMedia(mediaType: MediaType, mediaId: number) {
       });
 
       if (!needsEnrichment) {
-        console.log(
-          "✅ Similar media already has detailed data, no enrichment needed"
-        );
         return similarMedia;
       }
-
-      console.log(
-        `🔍 Enriching ${mediaType} similar media with detailed data...`
-      );
 
       // Enrich with detailed data for first few items
       const enrichedMedia = await Promise.all(
@@ -41,26 +34,14 @@ export function useSimilarMedia(mediaType: MediaType, mediaId: number) {
                 : !item.number_of_seasons || !item.number_of_episodes;
 
             if (needsEnrichmentForItem) {
-              console.log(
-                `🎯 Enriching ${mediaType} ${item.id}: "${
-                  item.title || item.name
-                }"`
-              );
-
               const detailed = await getMediaDetails(mediaType, item.id);
 
               if (mediaType === "movie") {
-                console.log(
-                  `✅ Got runtime for "${item.title}": ${detailed.runtime} min`
-                );
                 return {
                   ...item,
                   runtime: detailed.runtime,
                 };
               } else {
-                console.log(
-                  `✅ Got TV details for "${item.name}": ${detailed.number_of_seasons} seasons, ${detailed.number_of_episodes} episodes`
-                );
                 return {
                   ...item,
                   number_of_seasons: detailed.number_of_seasons,
@@ -70,36 +51,16 @@ export function useSimilarMedia(mediaType: MediaType, mediaId: number) {
             }
 
             return item; // Item already has the data it needs
-          } catch (error) {
-            console.warn(
-              `❌ Failed to enrich similar media ${item.id}:`,
-              error
-            );
+          } catch {
             return item; // Return original item if enrichment fails
           }
         })
       );
 
-      const finalResult = [
+      return [
         ...enrichedMedia,
         ...similarMedia.slice(8), // Keep remaining items as-is for performance
       ];
-
-      console.log("🎉 Similar media enrichment complete:", {
-        total: finalResult.length,
-        enriched: 8,
-        mediaType,
-        sampleEnriched:
-          mediaType === "movie"
-            ? { title: finalResult[0]?.title, runtime: finalResult[0]?.runtime }
-            : {
-                name: finalResult[0]?.name,
-                seasons: finalResult[0]?.number_of_seasons,
-                episodes: finalResult[0]?.number_of_episodes,
-              },
-      });
-
-      return finalResult;
     },
     enabled: Boolean(mediaType && mediaId),
     staleTime: 5 * 60 * 1000,
