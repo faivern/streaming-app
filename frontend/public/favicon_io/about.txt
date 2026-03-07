@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Noto Serif Lao
+- Font Author: undefined
+- Font Source: https://fonts.gstatic.com/s/notoseriflao/v28/3y9C6bYwcCjmsU8JEzCMxEwQfEBLk3f0rlSqCdaM_LlSNZ59oNw0BWH8VeMKrvOjlmyhHHQ.ttf
+- Font License: undefined)

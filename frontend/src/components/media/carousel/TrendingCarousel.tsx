@@ -157,9 +157,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                              flex flex-col gap-3
                              w-[calc(100%-2rem)] sm:w-[min(75%,36rem)] max-w-2xl
                              px-4 sm:px-6 py-4 sm:py-6
-                             sm:rounded-xl
-                             sm:backdrop-blur-sm
-                             sm:shadow-lg
+                             
                              "
                     >
                       {/* Title / Logo */}

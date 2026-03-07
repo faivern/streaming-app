@@ -76,7 +76,7 @@ services:
     volumes:
       - ./frontend:/app
       - frontend-node-modules:/app/node_modules
-    command: sh -c "npm install && npm run dev -- --host --port 3000"
+    command: sh -c "[ -f /app/node_modules/.package-lock.json ] || npm install && npm run dev -- --host --port 3000"
     depends_on:
       - backend
     networks:

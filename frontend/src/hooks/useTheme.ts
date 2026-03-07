@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export type ThemePreset = "blizzard" | "netflix" | "sleek";
+export type ThemePreset = "blizzard" | "netflix" | "frost";
 
 export interface ThemeOption {
   value: ThemePreset;
@@ -11,11 +11,11 @@ export interface ThemeOption {
 export const THEME_OPTIONS: ThemeOption[] = [
   { value: "blizzard", label: "Arctic", description: "Sky blue accents" },
   { value: "netflix", label: "Volcanic", description: "Classic red" },
-  { value: "sleek", label: "Astro", description: "Teal & purple" },
+  { value: "frost", label: "Frost", description: "Arctic blue on dark gray" },
 ];
 
 const STORAGE_KEY = "cinelas-theme";
-const DEFAULT_THEME: ThemePreset = "blizzard";
+const DEFAULT_THEME: ThemePreset = "frost";
 
 function getStoredTheme(): ThemePreset {
   if (typeof window === "undefined") return DEFAULT_THEME;

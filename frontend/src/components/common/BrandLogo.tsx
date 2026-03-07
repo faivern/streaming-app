@@ -1,4 +1,4 @@
-import brandEmblem from "../../../public/logo/brandEmblem.svg";
+// import brandEmblem from "../../../public/logo/cinelas-prototype-1.svg";
 
 interface BrandLogoProps {
   icon?: boolean;
@@ -7,13 +7,13 @@ interface BrandLogoProps {
 }
 
 export default function BrandLogo({
-  icon = true,
-  gradient = false,
+  icon: _icon = true,
+  gradient: _gradient = false,
   className = "",
 }: BrandLogoProps) {
   return (
     <span className={`flex items-center gap-3 ${className}`}>
-      {icon && (
+      {/* {_icon && (
         <span
           aria-label="brandEmblem"
           role="img"
@@ -29,13 +29,9 @@ export default function BrandLogo({
             maskPosition: "center",
           }}
         />
-      )}
+      )} */}
       <span
-        className={`text-xl lg:text-2xl whitespace-nowrap leading-none ${
-          gradient
-            ? "text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary"
-            : "text-white"
-        }`}
+        className="text-xl lg:text-2xl whitespace-nowrap leading-none text-[var(--accent-primary)]"
         style={{ fontFamily: "International" }}
       >
         Cinelas
