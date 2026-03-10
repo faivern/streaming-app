@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
-import { Dialog, Transition, Switch } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import { FaTimes } from "react-icons/fa";
 import type { List } from "../../../types/list";
 
@@ -20,20 +20,18 @@ export default function EditListModal({
 }: EditListModalProps) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
     if (list) {
       setName(list.name);
       setDescription(list.description || "");
-      setIsPublic(list.isPublic);
     }
   }, [list]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim()) return;
-    onSave({ name: name.trim(), description: description.trim(), isPublic });
+    onSave({ name: name.trim(), description: description.trim(), isPublic: false });
   };
 
   const handleClose = () => {
@@ -121,31 +119,6 @@ export default function EditListModal({
                       rows={3}
                       className="w-full px-3 py-2 bg-input border border-outline rounded-lg text-[var(--text-h1)] placeholder-[var(--subtle)] focus:outline-none focus:border-accent-primary focus:ring-2 focus:ring-accent-primary/20 resize-none"
                     />
-                  </div>
-
-                  {/* Public toggle */}
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-sm font-medium text-[var(--subtle)]">
-                        Make list public
-                      </span>
-                      <p className="text-xs text-[var(--subtle)] mt-0.5">
-                        Others can view this list
-                      </p>
-                    </div>
-                    <Switch
-                      checked={isPublic}
-                      onChange={setIsPublic}
-                      className={`${
-                        isPublic ? "bg-accent-primary" : "bg-[var(--action-hover)]"
-                      } relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent-primary/50`}
-                    >
-                      <span
-                        className={`${
-                          isPublic ? "translate-x-6" : "translate-x-1"
-                        } inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
-                      />
-                    </Switch>
                   </div>
 
                   {/* Actions */}
