@@ -1,11 +1,10 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { X, List, Palette, LogOut, Check } from "lucide-react";
 import { useUser } from "../../hooks/user/useUser";
 import { useLogout } from "../../hooks/user/useLogout";
 import { useTheme, THEME_OPTIONS } from "../../hooks/useTheme";
-import type { ThemePreset } from "../../hooks/useTheme";
 
 interface MobileProfileDrawerProps {
   isOpen: boolean;
@@ -86,38 +85,64 @@ export default function MobileProfileDrawer({
                 onClick={onClose}
                 className="p-3 text-subtle hover:text-text-h1 transition"
               >
-                <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Body — scrollable */}
-            <div className="flex-1 overflow-y-auto px-5 py-4">
-              <p className="text-sm text-subtle mb-3">Theme</p>
-              <div className="grid grid-cols-3 gap-2">
-                {THEME_OPTIONS.map((option) => (
+            <div className="flex-1 overflow-y-auto">
+              {/* My Lists */}
+              <Link
+                to="/lists"
+                onClick={onClose}
+                className="w-full flex items-center gap-4 px-5 py-3 min-h-[48px] text-text-h1 active:bg-[var(--action-primary)] transition-colors"
+              >
+                <List className="w-5 h-5" />
+                <span className="text-sm font-medium">My Lists</span>
+              </Link>
+
+              <div className="border-t border-border" />
+
+              {/* Theme section */}
+              <div className="flex items-center gap-2 px-5 pt-4 pb-2">
+                <Palette className="w-4 h-4 text-subtle" />
+                <span className="text-xs uppercase tracking-wider text-subtle font-medium">
+                  Theme
+                </span>
+              </div>
+
+              {THEME_OPTIONS.map((option) => {
+                const isActive = theme === option.value;
+                return (
                   <button
                     key={option.value}
-                    onClick={() => setTheme(option.value as ThemePreset)}
-                    className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors border ${
-                      theme === option.value
-                        ? "border-accent-primary bg-accent-primary/20 text-text-h1"
-                        : "border-outline bg-input text-subtle hover:text-text-h1"
-                    }`}
+                    onClick={() => setTheme(option.value)}
+                    className="w-full flex items-center gap-4 px-5 py-3 min-h-[48px] text-text-h1 active:bg-[var(--action-primary)] transition-colors"
                   >
-                    {option.label}
+                    <div className="flex flex-col items-start flex-1 min-w-0">
+                      <span className="text-sm font-medium">{option.label}</span>
+                      <span className="text-xs text-subtle">{option.description}</span>
+                    </div>
+                    {isActive && (
+                      <Check className="w-5 h-5 text-accent-primary flex-shrink-0" />
+                    )}
                   </button>
-                ))}
-              </div>
-            </div>
+                );
+              })}
 
-            {/* Footer */}
-            <div className="px-5 py-4 border-t border-border pb-safe-or-4">
+              <div className="border-t border-border" />
+
+              {/* Log out */}
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-3 rounded-xl transition"
+                className="w-full flex items-center gap-4 px-5 py-3 min-h-[48px] text-red-400 active:bg-red-500/10 transition-colors"
               >
-                Log out
+                <LogOut className="w-5 h-5" />
+                <span className="text-sm font-medium">Log out</span>
               </button>
+
+              {/* Safe area bottom padding */}
+              <div className="pb-safe-or-4" />
             </div>
           </Dialog.Panel>
         </Transition.Child>

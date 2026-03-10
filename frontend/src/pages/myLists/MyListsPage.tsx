@@ -440,7 +440,7 @@ export default function MyListsPage() {
       <button
         onClick={() => setAddMediaModalOpen(true)}
         aria-label="Discover & add media"
-        className="lg:hidden fixed bottom-6 right-6 z-(--z-sticky) w-14 h-14 flex items-center justify-center rounded-full bg-accent-primary text-white shadow-lg shadow-accent-primary/30 active:scale-95 transition-transform"
+        className="lg:hidden fixed bottom-22 right-6 z-(--z-sticky) w-14 h-14 flex items-center justify-center rounded-full bg-accent-primary text-white shadow-lg shadow-accent-primary/30 active:scale-95 transition-transform"
       >
         <FaPlus className="text-lg" />
       </button>

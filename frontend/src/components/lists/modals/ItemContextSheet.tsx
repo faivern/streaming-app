@@ -69,7 +69,11 @@ export default function ItemContextSheet({
         icon: <CheckCircle2 className="w-5 h-5" />,
         label: "Mark as Watched",
         onClick: () => {
-          onMarkStatus(item, "Watched");
+          if (onEditEntry) {
+            onEditEntry({ ...item, status: "Watched" });
+          } else {
+            onMarkStatus(item, "Watched");
+          }
           onClose();
         },
       };
@@ -79,7 +83,11 @@ export default function ItemContextSheet({
       icon: <CheckCircle2 className="w-5 h-5" />,
       label: "Mark as Watched",
       onClick: () => {
-        onMarkStatus(item, "Watched");
+        if (onEditEntry) {
+          onEditEntry({ ...item, status: "Watched" });
+        } else {
+          onMarkStatus(item, "Watched");
+        }
         onClose();
       },
     };

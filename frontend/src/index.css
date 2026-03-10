@@ -58,7 +58,7 @@
   --z-raised:    10;   /* cards on hover, inline elevated elements */
   --z-dropdown:  20;   /* dropdowns, listbox options */
   --z-sticky:    50;   /* sticky navbar */
-  --z-overlay:   60;   /* mobile filter drawer backdrop */
+  --z-overlay:   60;   /* overlay backdrops (non-dialog) */
   --z-drawer:    100;  /* mobile nav drawer / genre panel */
   --z-searchbar: 110;  /* search overlay */
   --z-modal:     140;  /* Headless UI dialog backdrop */
