@@ -442,18 +442,23 @@ export default function DiscoverModal({
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
           </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-end sm:items-center justify-center sm:p-4">
+          <div className="fixed inset-0">
+            <div className="flex h-full items-end sm:items-center justify-center sm:p-4">
               <Transition.Child
                 as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
+                enter="transform transition ease-out duration-300"
+                enterFrom="translate-y-full sm:translate-y-0 sm:scale-95 opacity-0"
+                enterTo="translate-y-0 sm:scale-100 opacity-100"
+                leave="transform transition ease-in duration-200"
+                leaveFrom="translate-y-0 sm:scale-100 opacity-100"
+                leaveTo="translate-y-full sm:translate-y-0 sm:scale-95 opacity-0"
               >
-                <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline shadow-xl transition-all max-h-[95dvh] sm:max-h-[90dvh] flex flex-col">
+                <Dialog.Panel className="w-full max-w-6xl transform overflow-hidden rounded-t-2xl sm:rounded-2xl bg-component-primary border border-outline shadow-xl transition-all max-h-[95dvh] sm:max-h-[90dvh] flex flex-col pb-safe sm:pb-0">
+                  {/* Mobile drag handle */}
+                  <div className="flex justify-center pt-2 pb-1 sm:hidden">
+                    <div className="w-10 h-1 bg-outline rounded-full" />
+                  </div>
+
                   {/* Header */}
                   <div className="flex items-center justify-between p-4 border-b border-outline">
                     <div>
@@ -577,6 +582,7 @@ export default function DiscoverModal({
                                       vote_average={result.vote_average}
                                       releaseDate={result.release_date || result.first_air_date}
                                       disableHoverModal
+                                      showQuickAdd={false}
                                       onClick={() => handleCardClick(result)}
                                     />
                                   </div>

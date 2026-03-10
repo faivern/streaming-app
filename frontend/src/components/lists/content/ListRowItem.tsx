@@ -110,7 +110,7 @@ export default function ListRowItem({
               </Link>
               {/* Status badge - icon only, shown on hover (always in layout to prevent jump) */}
               {showStatus && item.status && (
-                <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex-shrink-0 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                   <WatchStatusBadge status={item.status} variant="icon" />
                 </div>
               )}
@@ -179,7 +179,7 @@ export default function ListRowItem({
             }`}
           >
             <div className="overflow-hidden">
-              <div className="ml-10 sm:ml-20 pt-2 pb-1 space-y-3">
+              <div className="ml-20 pt-2 pb-1 space-y-3">
                 {/* TMDB + user average ratings */}
                 <div className="flex items-center gap-4">
                   {item.voteAverage && (

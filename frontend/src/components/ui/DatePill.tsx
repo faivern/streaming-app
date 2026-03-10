@@ -11,7 +11,9 @@ export default function DatePill({
 }: { date?: string; className?: string; longDate?: boolean }) {
   return (
     <Pill className={className} icon={<Calendar className="h-4 w-4" />} title="Release year">
-      {date ? (longDate ? dateFormatLong(date) : dateFormatYear(date)) : "No date"}
+      <span className="text-white/90">
+        {date ? (longDate ? dateFormatLong(date) : dateFormatYear(date)) : "No date"}
+      </span>
     </Pill>
   );
 }

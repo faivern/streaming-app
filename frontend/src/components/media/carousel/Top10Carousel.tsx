@@ -112,8 +112,9 @@ export default function Top10Carousel({
                           style={{
                             fontFamily: "Poppins, sans-serif",
                             fontWeight: 700,
-                            fontSize: "8rem",
-                            WebkitTextStroke: "2px var(--accent-primary",
+                            fontSize: "clamp(3rem, 8vw, 8rem)",
+                            WebkitTextStroke:
+                              "clamp(1px, 0.15vw, 2px) var(--accent-primary)",
                             paintOrder: "stroke fill",
                           }}
                         >

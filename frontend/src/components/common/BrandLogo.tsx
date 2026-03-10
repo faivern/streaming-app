@@ -31,8 +31,8 @@ export default function BrandLogo({
         />
       )} */}
       <span
-        className="text-xl lg:text-2xl whitespace-nowrap leading-none text-[var(--accent-primary)]"
-        style={{ fontFamily: "International" }}
+        className="text-xl lg:text-2xl whitespace-nowrap leading-none text-white"
+        style={{ fontFamily: "International", WebkitFontSmoothing: "antialiased" }}
       >
         Cinelas
       </span>

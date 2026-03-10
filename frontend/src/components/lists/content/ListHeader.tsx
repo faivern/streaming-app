@@ -96,7 +96,7 @@ export default function ListHeader({
             <button
               onClick={onEditToggle}
               aria-label={isEditMode ? "Done editing" : "Edit list"}
-              className={`flex items-center gap-2 p-2 sm:px-4 sm:py-2 text-sm font-medium rounded-lg transition-colors ${
+              className={`flex items-center justify-center gap-2 p-2 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 sm:px-4 sm:py-2 text-sm font-medium rounded-lg transition-colors ${
                 isEditMode
                   ? "bg-accent-primary text-white hover:bg-accent-primary/80"
                   : "bg-[var(--action-primary)] border border-[var(--border)] text-[var(--subtle)] hover:text-[var(--text-h1)] hover:border-[var(--border)]"
@@ -111,7 +111,7 @@ export default function ListHeader({
             <button
               onClick={onAddMedia}
               aria-label="Add media"
-              className="flex items-center gap-2 p-2 sm:px-4 sm:py-2 bg-accent-primary hover:bg-accent-primary/80 text-white text-sm font-medium rounded-lg transition-colors"
+              className="flex items-center justify-center gap-2 p-2 min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 sm:px-4 sm:py-2 bg-accent-primary hover:bg-accent-primary/80 text-white text-sm font-medium rounded-lg transition-colors"
             >
               <FontAwesomeIcon icon={faPlus} className="text-xs" />
               <span className="hidden sm:inline">Add Media</span>
@@ -163,12 +163,12 @@ export default function ListHeader({
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Listbox.Options className="absolute z-20 mt-1 max-h-60 w-full overflow-auto rounded-lg bg-[var(--action-primary)] border border-[var(--border)] px-1 py-1 text-sm shadow-lg focus:outline-none">
+                <Listbox.Options className="absolute z-[60] mt-1 max-h-60 w-full overflow-auto rounded-lg bg-[var(--action-primary)] border border-[var(--border)] px-1 py-1 text-sm shadow-lg focus:outline-none">
                   {LISTS_SORT_OPTIONS.map((option) => (
                     <Listbox.Option
                       key={option.value}
                       className={({ active }) =>
-                        `relative cursor-pointer select-none rounded-md py-3 pl-10 pr-4 ${
+                        `relative cursor-pointer select-none rounded-md py-3 pl-8 pr-3 ${
                           active
                             ? "bg-accent-primary/20 text-[var(--text-h1)]"
                             : "text-[var(--subtle)]"

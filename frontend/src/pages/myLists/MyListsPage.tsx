@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaSignInAlt, FaGoogle } from "react-icons/fa";
+import { FaSignInAlt, FaGoogle, FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 import { useUser } from "../../hooks/user/useUser";
@@ -292,7 +292,7 @@ export default function MyListsPage() {
       </aside>
 
       {/* Mobile tabs + content column */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
         {/* Mobile Tab Bar — sticky below navbar */}
         <div className="lg:hidden sticky top-[var(--navbar-height)] z-(--z-sticky) bg-[var(--background)]/95 backdrop-blur-sm border-b border-[var(--border)]/30">
           <MobileListTabs
@@ -383,6 +383,15 @@ export default function MyListsPage() {
         currentCount={lists.length}
         maxCount={LIST_LIMITS.MAX_LISTS_PER_USER}
       />
+
+      {/* Mobile FAB — always-visible entry point to discover & add media */}
+      <button
+        onClick={() => setAddMediaModalOpen(true)}
+        aria-label="Discover & add media"
+        className="lg:hidden fixed bottom-6 right-6 z-(--z-sticky) w-14 h-14 flex items-center justify-center rounded-full bg-accent-primary text-white shadow-lg shadow-accent-primary/30 active:scale-95 transition-transform"
+      >
+        <FaPlus className="text-lg" />
+      </button>
     </div>
   );
 }
