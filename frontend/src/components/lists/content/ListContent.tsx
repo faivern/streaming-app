@@ -15,6 +15,8 @@ import { useListsSorting } from "../../../hooks/lists/useListsSorting";
 import ListHeader from "./ListHeader";
 import ListGridView from "./ListGridView";
 import ListRowView from "./ListRowView";
+import MobileListHeader from "./MobileListHeader";
+import MobileListRowView from "./MobileListRowView";
 import EmptyListState from "./EmptyListState";
 import TitleMid from "../../media/title/TitleMid";
 
@@ -30,6 +32,9 @@ type ListContentProps = {
   onAddMedia: () => void;
   onEditEntry: (item: DisplayItem) => void;
   onRemoveItem: (item: DisplayItem) => void;
+  onContextMenu?: (item: DisplayItem) => void;
+  onSwipeRight?: (item: DisplayItem) => void;
+  onSwipeLeft?: (item: DisplayItem) => void;
   isLoading?: boolean;
 };
 
@@ -51,6 +56,9 @@ export default function ListContent({
   onAddMedia,
   onEditEntry,
   onRemoveItem,
+  onContextMenu,
+  onSwipeRight,
+  onSwipeLeft,
   isLoading,
 }: ListContentProps) {
   // Toggle for showing status badges in custom lists (default ON for better sync visibility)
@@ -140,10 +148,72 @@ export default function ListContent({
   if (sortedItems.length === 0) {
     return (
       <div>
+        {/* Mobile header */}
+        <div className="lg:hidden">
+          <MobileListHeader
+            title={title}
+            movieCount={0}
+            tvCount={0}
+            description={description}
+            sortOption={sortOption}
+            onSortChange={onSortChange}
+          />
+        </div>
+        {/* Desktop header */}
+        <div className="hidden lg:block">
+          <ListHeader
+            title={title}
+            movieCount={0}
+            tvCount={0}
+            description={description}
+            viewMode={viewMode}
+            sortOption={sortOption}
+            onViewModeChange={onViewModeChange}
+            onSortChange={onSortChange}
+            onAddMedia={onAddMedia}
+            showAddButton={isCustomList}
+            showStatusToggle={isCustomList}
+            statusBadgesVisible={showStatusBadges}
+            onStatusToggle={() => setShowStatusBadges(!showStatusBadges)}
+            isEditMode={isEditMode}
+            onEditToggle={() => setIsEditMode(!isEditMode)}
+          />
+        </div>
+        <EmptyListState
+          type={activeView === "status" ? "status" : "list"}
+          title={title}
+          onAddMedia={isCustomList ? onAddMedia : undefined}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      {/* Mobile header + list view */}
+      <div className="lg:hidden">
+        <MobileListHeader
+          title={title}
+          movieCount={movieCount}
+          tvCount={tvCount}
+          description={description}
+          sortOption={sortOption}
+          onSortChange={onSortChange}
+        />
+        <MobileListRowView
+          items={sortedItems}
+          onContextMenu={onContextMenu}
+          onSwipeRight={onSwipeRight}
+          onSwipeLeft={onSwipeLeft}
+        />
+      </div>
+
+      {/* Desktop header + grid/list view */}
+      <div className="hidden lg:block">
         <ListHeader
           title={title}
-          movieCount={0}
-          tvCount={0}
+          movieCount={movieCount}
+          tvCount={tvCount}
           description={description}
           viewMode={viewMode}
           sortOption={sortOption}
@@ -157,52 +227,25 @@ export default function ListContent({
           isEditMode={isEditMode}
           onEditToggle={() => setIsEditMode(!isEditMode)}
         />
-        <EmptyListState
-          type={activeView === "status" ? "status" : "list"}
-          title={title}
-          onAddMedia={isCustomList ? onAddMedia : undefined}
-        />
+
+        {viewMode === "grid" ? (
+          <ListGridView
+            items={sortedItems}
+            isEditMode={isEditMode}
+            onRemoveItem={onRemoveItem}
+            onEditItem={onEditEntry}
+            showStatus={isCustomList}
+          />
+        ) : (
+          <ListRowView
+            items={sortedItems}
+            isEditMode={isEditMode}
+            onRemoveItem={onRemoveItem}
+            onEditItem={onEditEntry}
+            showStatus={isCustomList}
+          />
+        )}
       </div>
-    );
-  }
-
-  return (
-    <div>
-      <ListHeader
-        title={title}
-        movieCount={movieCount}
-        tvCount={tvCount}
-        description={description}
-        viewMode={viewMode}
-        sortOption={sortOption}
-        onViewModeChange={onViewModeChange}
-        onSortChange={onSortChange}
-        onAddMedia={onAddMedia}
-        showAddButton={isCustomList}
-        showStatusToggle={isCustomList}
-        statusBadgesVisible={showStatusBadges}
-        onStatusToggle={() => setShowStatusBadges(!showStatusBadges)}
-        isEditMode={isEditMode}
-        onEditToggle={() => setIsEditMode(!isEditMode)}
-      />
-
-      {viewMode === "grid" ? (
-        <ListGridView
-          items={sortedItems}
-          isEditMode={isEditMode}
-          onRemoveItem={onRemoveItem}
-          onEditItem={onEditEntry}
-          showStatus={isCustomList}
-        />
-      ) : (
-        <ListRowView
-          items={sortedItems}
-          isEditMode={isEditMode}
-          onRemoveItem={onRemoveItem}
-          onEditItem={onEditEntry}
-          showStatus={isCustomList}
-        />
-      )}
     </div>
   );
 }

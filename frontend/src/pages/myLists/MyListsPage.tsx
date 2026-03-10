@@ -34,6 +34,7 @@ import DeleteConfirmModal from "../../components/lists/modals/DeleteConfirmModal
 import LimitReachedModal from "../../components/lists/modals/LimitReachedModal";
 import DiscoverModal from "../../components/discover/DiscoverModal";
 import MediaEntryModal from "../../components/lists/modals/MediaEntryModal";
+import ItemContextSheet from "../../components/lists/modals/ItemContextSheet";
 
 export default function MyListsPage() {
   const { data: user, isLoading: isLoadingUser } = useUser();
@@ -79,6 +80,8 @@ export default function MyListsPage() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [addMediaModalOpen, setAddMediaModalOpen] = useState(false);
   const [entryModalOpen, setEntryModalOpen] = useState(false);
+  const [contextSheetOpen, setContextSheetOpen] = useState(false);
+  const [contextSheetItem, setContextSheetItem] = useState<DisplayItem | null>(null);
   const [selectedList, setSelectedList] = useState<List | null>(null);
   const [selectedEntry, setSelectedEntry] = useState<DisplayItem | null>(null);
 
@@ -170,6 +173,40 @@ export default function MyListsPage() {
       } catch {
         toast.error("Failed to remove from tracking");
       }
+    }
+  };
+
+  // Handle opening context sheet (mobile)
+  const handleContextMenu = (item: DisplayItem) => {
+    setContextSheetItem(item);
+    setContextSheetOpen(true);
+  };
+
+  // Handle marking an item with a specific watch status (swipe or context sheet)
+  const handleMarkStatus = async (item: DisplayItem, status: WatchStatus) => {
+    // Find existing entry by tmdbId + mediaType
+    const matchingEntry = mediaEntries.find(
+      (e) => e.tmdbId === item.tmdbId && e.mediaType === item.mediaType,
+    );
+
+    if (matchingEntry) {
+      try {
+        await updateMediaEntryMutation.mutateAsync({
+          id: matchingEntry.id,
+          data: { status },
+        });
+        const statusLabel =
+          status === "Watched"
+            ? "Watched"
+            : status === "Watching"
+              ? "Watching"
+              : "Want to Watch";
+        toast.success(`"${item.title}" marked as ${statusLabel}`);
+      } catch {
+        toast.error("Failed to update status");
+      }
+    } else {
+      toast.error("No tracking entry found. Track this item first.");
     }
   };
 
@@ -267,7 +304,7 @@ export default function MyListsPage() {
   const existingTmdbIds = new Set(currentList?.items.map((i) => i.tmdbId) || []);
 
   return (
-    <div className="flex min-h-dvh mt-navbar-offset">
+    <div className="flex min-h-dvh lg:mt-navbar-offset">
       {/* Desktop Sidebar */}
       <aside className="hidden lg:block w-64 xl:w-72 border-r border-[var(--border)]/50 bg-[var(--background)]/50">
         <ListsSidebar
@@ -292,7 +329,7 @@ export default function MyListsPage() {
       </aside>
 
       {/* Mobile tabs + content column */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-x-clip">
         {/* Mobile Tab Bar — sticky below navbar */}
         <div className="lg:hidden sticky top-[var(--navbar-height)] z-(--z-sticky) bg-[var(--background)]/95 backdrop-blur-sm border-b border-[var(--border)]/30">
           <MobileListTabs
@@ -322,6 +359,9 @@ export default function MyListsPage() {
             onAddMedia={() => setAddMediaModalOpen(true)}
             onEditEntry={handleEditEntry}
             onRemoveItem={handleRemoveItem}
+            onContextMenu={handleContextMenu}
+            onSwipeRight={(item) => handleMarkStatus(item, "Watched")}
+            onSwipeLeft={handleRemoveItem}
             isLoading={isLoading}
           />
         </main>
@@ -373,6 +413,18 @@ export default function MyListsPage() {
         onSave={handleSaveEntry}
         item={selectedEntry}
         isLoading={updateMediaEntryMutation.isPending}
+      />
+
+      <ItemContextSheet
+        isOpen={contextSheetOpen}
+        onClose={() => {
+          setContextSheetOpen(false);
+          setContextSheetItem(null);
+        }}
+        item={contextSheetItem}
+        onMarkStatus={handleMarkStatus}
+        onEditEntry={handleEditEntry}
+        onRemove={handleRemoveItem}
       />
 
       <LimitReachedModal
