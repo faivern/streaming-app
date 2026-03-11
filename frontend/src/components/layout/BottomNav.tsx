@@ -25,7 +25,7 @@ export default function BottomNav() {
       {/* ── Bottom tab bar ── */}
       <nav
         aria-label="Mobile navigation"
-        className="md:hidden fixed bottom-0 inset-x-0 z-(--z-sticky) bg-primary/95 backdrop-blur-lg border-t border-gray-700 pb-safe-or-4"
+        className="md:hidden fixed bottom-0 inset-x-0 z-(--z-sticky) bg-primary/95 backdrop-blur-lg border-t border-gray-700 pb-safe"
       >
         <div className="flex items-center justify-around h-16">
           {/* Home */}

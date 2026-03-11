@@ -78,22 +78,24 @@ export default function SignInModal() {
                 </div>
 
                 {/* Header */}
-                <div className="flex items-center justify-between px-5 pt-2 sm:pt-5 pb-2">
-                  <div>
-                    <Dialog.Title className="text-lg font-semibold text-text-h1">
-                      Sign in to Cinelas
-                    </Dialog.Title>
-                    <p className="text-sm text-subtle mt-0.5">
-                      Track, rate, and organize what you watch
-                    </p>
-                  </div>
+                <div className="relative px-5 pt-2 sm:pt-5 pb-2">
+                  <Dialog.Title className="sr-only">
+                    Sign in to Cinelas
+                  </Dialog.Title>
                   <button
                     type="button"
                     onClick={closeSignInModal}
-                    className="p-2 min-w-11 min-h-11 flex items-center justify-center text-subtle hover:text-text-h1 rounded-lg transition-colors flex-shrink-0"
+                    className="absolute top-2 sm:top-5 right-5 p-2 min-w-11 min-h-11 flex items-center justify-center text-subtle hover:text-text-h1 rounded-lg transition-colors"
                   >
                     <X className="w-5 h-5" />
                   </button>
+                  <div className="flex justify-center pt-4 pb-2">
+                    <img
+                      src="/logo/brandEmblem.svg"
+                      alt="Cinelas"
+                      className="w-16 h-16 invert"
+                    />
+                  </div>
                 </div>
 
                 {/* Provider buttons */}

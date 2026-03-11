@@ -30,14 +30,19 @@ export default function MobileListHeader({
     <div className="mb-4">
       {/* Title */}
       <div className="mb-3">
-        <h1 className="text-2xl font-bold text-[var(--text-h1)] line-clamp-2">
-          {title}
-        </h1>
-        {description && (
-          <p className="text-sm text-[var(--subtle)] mt-0.5 line-clamp-1">
-            {description}
-          </p>
-        )}
+        <div className="flex flex-row items-stretch">
+          <span className="mr-3 bg-gradient-to-b from-accent-primary to-accent-secondary w-1 rounded" />
+          <div>
+            <h1 className="text-2xl font-bold text-[var(--text-h1)] line-clamp-2">
+              {title}
+            </h1>
+            {description && (
+              <p className="text-sm text-[var(--subtle)] mt-0.5 line-clamp-1">
+                {description}
+              </p>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Count + sort row */}
