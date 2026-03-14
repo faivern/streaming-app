@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
-    public class MediaEntryService
+    public class MediaEntryService : IMediaEntryService
     {
         private readonly AppDbContext _db;
         private readonly ILogger<MediaEntryService> _logger;
 
-        public const int reviewTxtMax = 5000; // arbitrary limit
-        public const double ratingValueMin = 0.0;
-        public const double ratingValueMax = 10.0;
+        public const int ReviewTextMax = 5000;
+        public const double RatingValueMin = 0.0;
+        public const double RatingValueMax = 10.0;
 
         public MediaEntryService(AppDbContext db, ILogger<MediaEntryService> logger)
         {
@@ -118,7 +118,7 @@ namespace backend.Services
         private static void ValidateRating(double? value, string fieldName, List<string> invalid)
         {
             if (value.HasValue && (double.IsNaN(value.Value) || double.IsInfinity(value.Value)
-                || value.Value < ratingValueMin || value.Value > ratingValueMax))
+                || value.Value < RatingValueMin || value.Value > RatingValueMax))
             {
                 invalid.Add(fieldName);
             }
@@ -128,7 +128,7 @@ namespace backend.Services
         public static bool ValidateText(string? text)
         {
             if (string.IsNullOrEmpty(text)) return true;
-            if (text.Length > reviewTxtMax) return false;
+            if (text.Length > ReviewTextMax) return false;
             return true;
         }
 

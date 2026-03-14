@@ -12,10 +12,10 @@ namespace backend.Controllers
     [Authorize]
     public class ListController : ControllerBase
     {
-        private readonly ListService _listService;
-        private readonly TmdbService _tmdbService;
+        private readonly IListService _listService;
+        private readonly ITmdbService _tmdbService;
 
-        public ListController(ListService listService, TmdbService tmdbService)
+        public ListController(IListService listService, ITmdbService tmdbService)
         {
             _listService = listService;
             _tmdbService = tmdbService;
@@ -26,30 +26,16 @@ namespace backend.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserLists()
         {
-            try
-            {
-                var lists = await _listService.GetUserListsAsync(GetUserId());
-                return Ok(lists);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            var lists = await _listService.GetUserListsAsync(GetUserId());
+            return Ok(lists);
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            try
-            {
-                var list = await _listService.GetByIdAsync(id, GetUserId());
-                if (list is null) return NotFound();
-                return Ok(list);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            var list = await _listService.GetByIdAsync(id, GetUserId());
+            if (list is null) return NotFound();
+            return Ok(list);
         }
 
         [HttpPost]
@@ -58,138 +44,98 @@ namespace backend.Controllers
             var (valid, error) = ListService.ValidateListName(request.Name);
             if (!valid) return BadRequest(error);
 
-            try
-            {
-                var userId = GetUserId();
-                var listCount = await _listService.GetUserListCountAsync(userId);
-                if (listCount >= ListService.MaxListsPerUser)
-                    return Conflict($"You've reached the maximum of {ListService.MaxListsPerUser} lists.");
+            var userId = GetUserId();
+            var listCount = await _listService.GetUserListCountAsync(userId);
+            if (listCount >= ListService.MaxListsPerUser)
+                return Conflict($"You've reached the maximum of {ListService.MaxListsPerUser} lists.");
 
-                var list = new Models.List
-                {
-                    UserId = userId,
-                    Name = request.Name,
-                    Description = request.Description,
-                    IsPublic = request.IsPublic
-                };
-
-                var created = await _listService.CreateAsync(list);
-                return Ok(created);
-            }
-            catch (Exception)
+            var list = new Models.List
             {
-                return StatusCode(500);
-            }
+                UserId = userId,
+                Name = request.Name,
+                Description = request.Description,
+                IsPublic = request.IsPublic
+            };
+
+            var created = await _listService.CreateAsync(list);
+            return Ok(created);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateListRequest request)
         {
-            try
+            var list = await _listService.GetByIdAsync(id, GetUserId());
+            if (list is null) return NotFound();
+
+            if (request.Name is not null)
             {
-                var list = await _listService.GetByIdAsync(id, GetUserId());
-                if (list is null) return NotFound();
-
-                if (request.Name is not null)
-                {
-                    var (valid, error) = ListService.ValidateListName(request.Name);
-                    if (!valid) return BadRequest(error);
-                    list.Name = request.Name;
-                }
-
-                if (request.Description is not null) list.Description = request.Description;
-                if (request.IsPublic.HasValue) list.IsPublic = request.IsPublic.Value;
-
-                var updated = await _listService.UpdateAsync(list);
-                return Ok(updated);
+                var (valid, error) = ListService.ValidateListName(request.Name);
+                if (!valid) return BadRequest(error);
+                list.Name = request.Name;
             }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+
+            if (request.Description is not null) list.Description = request.Description;
+            if (request.IsPublic.HasValue) list.IsPublic = request.IsPublic.Value;
+
+            var updated = await _listService.UpdateAsync(list);
+            return Ok(updated);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            try
-            {
-                var deleted = await _listService.DeleteAsync(id, GetUserId());
-                if (!deleted) return NotFound();
-                return NoContent();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            var deleted = await _listService.DeleteAsync(id, GetUserId());
+            if (!deleted) return NotFound();
+            return NoContent();
         }
 
         [HttpPost("{id}/items")]
         public async Task<IActionResult> AddItem(int id, [FromBody] AddListItemRequest request)
         {
-            if(request.MediaType != "movie" && request.MediaType != "tv")
-            {
+            if (!MediaTypes.IsValid(request.MediaType))
                 return BadRequest("MediaType must be either 'movie' or 'tv'.");
-            }
 
-            try
+            var list = await _listService.GetByIdAsync(id, GetUserId());
+            if (list is null) return NotFound();
+
+            if (list.Items.Count >= ListService.MaxItemsPerList)
+                return Conflict($"This list has reached the maximum of {ListService.MaxItemsPerList:N0} items.");
+
+            var item = new ListItem
             {
-                var list = await _listService.GetByIdAsync(id, GetUserId());
-                if (list is null) return NotFound();
+                MediaType = request.MediaType,
+                TmdbId = request.TmdbId
+            };
 
-                if (list.Items.Count >= ListService.MaxItemsPerList)
-                    return Conflict($"This list has reached the maximum of {ListService.MaxItemsPerList:N0} items.");
-
-                var item = new ListItem
-                {
-                    MediaType = request.MediaType,
-                    TmdbId = request.TmdbId
-                };
-
-                // Server-side TMDB fetch
-                if (request.MediaType == "movie")
-                {
-                    var details = await _tmdbService.GetMovieDetailsTypedAsync(request.TmdbId);
-                    if (details is not null) TmdbFieldMapper.ApplyMovieDetails(item, details);
-                }
-                else
-                {
-                    var details = await _tmdbService.GetTvDetailsTypedAsync(request.TmdbId);
-                    if (details is not null) TmdbFieldMapper.ApplyTvDetails(item, details);
-                }
-
-                list.Items.Add(item);
-                await _listService.UpdateAsync(list);
-                return Ok(list);
-            }
-            catch (Exception)
+            // Server-side TMDB fetch
+            if (request.MediaType == MediaTypes.Movie)
             {
-                return StatusCode(500);
+                var details = await _tmdbService.GetMovieDetailsTypedAsync(request.TmdbId);
+                if (details is not null) TmdbFieldMapper.ApplyMovieDetails(item, details);
             }
+            else
+            {
+                var details = await _tmdbService.GetTvDetailsTypedAsync(request.TmdbId);
+                if (details is not null) TmdbFieldMapper.ApplyTvDetails(item, details);
+            }
+
+            list.Items.Add(item);
+            await _listService.UpdateAsync(list);
+            return Ok(list);
         }
-
-
-
 
         [HttpDelete("{id}/items/{itemId}")]
         public async Task<IActionResult> RemoveItem(int id, int itemId)
         {
-            try
-            {
-                var list = await _listService.GetByIdAsync(id, GetUserId());
-                if (list is null) return NotFound();
+            var list = await _listService.GetByIdAsync(id, GetUserId());
+            if (list is null) return NotFound();
 
-                var item = list.Items.FirstOrDefault(i => i.Id == itemId);
-                if (item is null) return NotFound();
+            var item = list.Items.FirstOrDefault(i => i.Id == itemId);
+            if (item is null) return NotFound();
 
-                list.Items.Remove(item);
-                await _listService.UpdateAsync(list);
-                return NoContent();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            list.Items.Remove(item);
+            await _listService.UpdateAsync(list);
+            return NoContent();
         }
     }
 }

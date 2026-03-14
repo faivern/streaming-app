@@ -1,14 +1,11 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using backend.Models;
+﻿using backend.Models;
 using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace backend.Services
 {
     public enum MediaType { Movie, Tv }
-    public partial class TmdbService
+    public partial class TmdbService : ITmdbService
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
@@ -118,31 +115,23 @@ namespace backend.Services
         //---------------------------------TRENDING----------------------------------------
 
         //ALL
-        public async Task<string> GetTrendingAllDaily()
+        public async Task<string> GetTrendingAllDailyAsync()
         {
             var url = $"https://api.themoviedb.org/3/trending/all/day?api_key={_apiKey}";
             return await FetchWithCacheAsync("trending_all", url, TimeSpan.FromHours(6));
         }
-        //MOVIES
-        public async Task<string> GetTrendingMoviesWeekly(int page = 1)
+
+        public async Task<string> GetTrendingMoviesDailyAsync(int page = 1)
         {
             var url = $"https://api.themoviedb.org/3/trending/movie/day?api_key={_apiKey}&page={page}";
             return await FetchWithCacheAsync($"trending_movies_page_{page}", url, TimeSpan.FromHours(6));
         }
-        //TV
-        public async Task<string> GetTrendingTvWeekly(int page = 1)
+
+        public async Task<string> GetTrendingTvDailyAsync(int page = 1)
         {
             var url = $"https://api.themoviedb.org/3/trending/tv/day?api_key={_apiKey}&page={page}";
             return await FetchWithCacheAsync($"trending_tv_page_{page}", url, TimeSpan.FromHours(6));
         }
-        /*
-         *maybe later - generic method for trending - how would it work with swagger? can i send parameters?
-        public async Task<string> GetTrendingMedia(int page = 1, string mediatype, string timewindow)
-        {
-            var url = $"https://api.themoviedb.org/3/trending/{mediatype}/{timewindow}?api_key={_apiKey}&page={page}";
-
-        }
-        */
         //----------------------------------------------------------------------------
 
 
@@ -156,10 +145,10 @@ namespace backend.Services
             return await FetchWithCacheAsync($"movie_details_{movieId}", url, TimeSpan.FromHours(6));
         }
 
-        public async Task<string> GetShowDetailsAsync(int series_id)
+        public async Task<string> GetShowDetailsAsync(int seriesId)
         {
-            var url = $"https://api.themoviedb.org/3/tv/{series_id}?api_key={_apiKey}&append_to_response=external_ids";
-            return await FetchWithCacheAsync($"show_details_{series_id}", url, TimeSpan.FromHours(6));
+            var url = $"https://api.themoviedb.org/3/tv/{seriesId}?api_key={_apiKey}&append_to_response=external_ids";
+            return await FetchWithCacheAsync($"show_details_{seriesId}", url, TimeSpan.FromHours(6));
         }
         //----------------------------------------------------------------------------
 
@@ -183,7 +172,7 @@ namespace backend.Services
 
             var json = await FetchWithCacheAsync(cacheKey, url, CacheDurationVideos);
 
-            Console.WriteLine($"Raw JSON for {type} {id}:\n{json}");
+            _logger.LogDebug("Raw JSON for {Type} {Id}: {Json}", type, id, json);
 
             var videoResponse = JsonSerializer.Deserialize<TmdbVideoResponse>(json);
 
@@ -192,11 +181,11 @@ namespace backend.Services
 
             if (firstYoutubeVideo == null)
             {
-                Console.WriteLine($"No YouTube video found for {type} ID {id}");
+                _logger.LogDebug("No YouTube video found for {Type} ID {Id}", type, id);
                 return (null, null);
             }
 
-            Console.WriteLine($"Found video: {firstYoutubeVideo.Name} ({firstYoutubeVideo.Key})");
+            _logger.LogDebug("Found video: {Name} ({Key})", firstYoutubeVideo.Name, firstYoutubeVideo.Key);
             return (
                 firstYoutubeVideo.Name,
                 $"https://www.youtube.com/embed/{firstYoutubeVideo.Key}?modestbranding=1"
@@ -257,21 +246,21 @@ namespace backend.Services
 
         
         //-------------------------------PERSON------------------------------------------
-        public async Task<string> GetPersonDetails(int person_id)
+        public async Task<string> GetPersonDetailsAsync(int personId)
         {
-            var url = $"https://api.themoviedb.org/3/person/{person_id}?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"person_details_{person_id}", url, TimeSpan.FromHours(6));
+            var url = $"https://api.themoviedb.org/3/person/{personId}?api_key={_apiKey}";
+            return await FetchWithCacheAsync($"person_details_{personId}", url, TimeSpan.FromHours(6));
         }
 
         //------------------------------DISCOVER--------------------------------------------
         //Movie
-        public async Task<string> GetDiscoverMovie()
+        public async Task<string> GetDiscoverMovieAsync()
         {
             var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&include_adult=false";
             return await FetchWithCacheAsync("discover_movies", url, TimeSpan.FromHours(6));
         }
-        //Show
-        public async Task<string> GetDiscoverTv()
+
+        public async Task<string> GetDiscoverTvAsync()
         {
             var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&include_adult=false";
             return await FetchWithCacheAsync("discover_tv", url, TimeSpan.FromHours(6));
@@ -279,22 +268,22 @@ namespace backend.Services
         //-----------------------------------------------------------------------------------
 
         //------------------------------COMBINED CREDITS - PERSON--------------------------------------------
-        public async Task<string> GetCombinedCredits(int person_id)
+        public async Task<string> GetCombinedCreditsAsync(int personId)
         {
-            var url = $"https://api.themoviedb.org/3/person/{person_id}/combined_credits?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"combined_credits_{person_id}", url, TimeSpan.FromHours(6));
+            var url = $"https://api.themoviedb.org/3/person/{personId}/combined_credits?api_key={_apiKey}";
+            return await FetchWithCacheAsync($"combined_credits_{personId}", url, TimeSpan.FromHours(6));
         }
         //-----------------------------------------------------------------------------------
 
         //------------------------------GENRES--------------------------------------------
         //MOVIE
-        public async Task<string> GetMovieGenre()
+        public async Task<string> GetMovieGenreAsync()
         {
             var url = $"https://api.themoviedb.org/3/genre/movie/list?api_key={_apiKey}";
             return await FetchWithCacheAsync("movie_genre", url, TimeSpan.FromHours(6));
         }
-        //TV
-        public async Task<string> GetTvGenre()
+
+        public async Task<string> GetTvGenreAsync()
         {
             var url = $"https://api.themoviedb.org/3/genre/tv/list?api_key={_apiKey}";
             return await FetchWithCacheAsync("tv_genre", url, TimeSpan.FromHours(6));
@@ -341,7 +330,7 @@ namespace backend.Services
             }
 
             // Year range - use appropriate date fields based on media type
-            var dateField = mediaType == "movie" ? "primary_release_date" : "first_air_date";
+            var dateField = mediaType == MediaTypes.Movie ? "primary_release_date" : "first_air_date";
             if (primaryReleaseYearGte.HasValue)
             {
                 queryParams.Add($"{dateField}.gte={primaryReleaseYearGte.Value}-01-01");
@@ -358,7 +347,7 @@ namespace backend.Services
             }
 
             // Runtime (movies only - TV uses episode runtime which is different)
-            if (mediaType == "movie")
+            if (mediaType == MediaTypes.Movie)
             {
                 if (runtimeGte.HasValue)
                 {
@@ -416,25 +405,18 @@ namespace backend.Services
             return FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(24));
         }
 
-        // COLLECTION DETAILS
-        public async Task<string> GetCollectionDetailsAsync(int collectionId)
+//------------------------------IMAGES--------------------------------------------
+        public async Task<string> GetMovieImagesAsync(int movieId)
         {
-            var url = $"https://api.themoviedb.org/3/collection/{collectionId}?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"collection_details_{collectionId}", url, TimeSpan.FromHours(6));
-        }
-
-        //------------------------------IMAGES--------------------------------------------
-        public async Task<string> GetMovieImagesAsync(int movie_id)
-        {
-            var url = $"https://api.themoviedb.org/3/movie/{movie_id}/images?api_key={_apiKey}";
-            var cacheKey = $"movie_images_{movie_id}";
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}/images?api_key={_apiKey}";
+            var cacheKey = $"movie_images_{movieId}";
             return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
         }
 
-        public async Task<string> GetSeriesImagesAsync(int series_id)
+        public async Task<string> GetSeriesImagesAsync(int seriesId)
         {
-            var url = $"https://api.themoviedb.org/3/tv/{series_id}/images?api_key={_apiKey}";
-            var cacheKey = $"movie_images_{series_id}";
+            var url = $"https://api.themoviedb.org/3/tv/{seriesId}/images?api_key={_apiKey}";
+            var cacheKey = $"tv_images_{seriesId}";
             return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
         }
 

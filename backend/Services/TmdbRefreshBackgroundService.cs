@@ -1,6 +1,7 @@
 using backend.Data;
 using backend.Models;
 using Microsoft.EntityFrameworkCore;
+using static backend.Models.MediaTypes;
 
 namespace backend.Services
 {
@@ -48,7 +49,7 @@ namespace backend.Services
         {
             using var scope = _scopeFactory.CreateScope();
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-            var tmdb = scope.ServiceProvider.GetRequiredService<TmdbService>();
+            var tmdb = scope.ServiceProvider.GetRequiredService<ITmdbService>();
 
             var cutoff = DateTime.UtcNow - StaleThreshold;
 
@@ -80,19 +81,19 @@ namespace backend.Services
 
                 try
                 {
-                    if (mediaType == "movie")
+                    if (mediaType == Movie)
                     {
                         var details = await tmdb.GetMovieDetailsTypedAsync(tmdbId);
                         if (details is not null)
                         {
                             var entries = await db.MediaEntries
-                                .Where(e => e.TmdbId == tmdbId && e.MediaType == "movie")
+                                .Where(e => e.TmdbId == tmdbId && e.MediaType == Movie)
                                 .ToListAsync(ct);
                             foreach (var entry in entries)
                                 TmdbFieldMapper.ApplyMovieDetails(entry, details);
 
                             var items = await db.ListItems
-                                .Where(i => i.TmdbId == tmdbId && i.MediaType == "movie")
+                                .Where(i => i.TmdbId == tmdbId && i.MediaType == Movie)
                                 .ToListAsync(ct);
                             foreach (var item in items)
                                 TmdbFieldMapper.ApplyMovieDetails(item, details);
@@ -104,13 +105,13 @@ namespace backend.Services
                         if (details is not null)
                         {
                             var entries = await db.MediaEntries
-                                .Where(e => e.TmdbId == tmdbId && e.MediaType == "tv")
+                                .Where(e => e.TmdbId == tmdbId && e.MediaType == Tv)
                                 .ToListAsync(ct);
                             foreach (var entry in entries)
                                 TmdbFieldMapper.ApplyTvDetails(entry, details);
 
                             var items = await db.ListItems
-                                .Where(i => i.TmdbId == tmdbId && i.MediaType == "tv")
+                                .Where(i => i.TmdbId == tmdbId && i.MediaType == Tv)
                                 .ToListAsync(ct);
                             foreach (var item in items)
                                 TmdbFieldMapper.ApplyTvDetails(item, details);

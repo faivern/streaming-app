@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
 {
-    public class ListService
+    public class ListService : IListService
     {
         private readonly AppDbContext _db;
         private readonly ILogger<ListService> _logger;

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace backend.Models
 {
-    public class MediaEntry
+    public class MediaEntry : ITmdbSyncable
     {
         [Key]
         public int Id { get; set; }

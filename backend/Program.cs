@@ -1,3 +1,4 @@
+using backend.Filters;
 using backend.Services;
 using backend.Data;
 using backend.Models;
@@ -34,7 +35,10 @@ var cookieSecurePolicy = requireSecureCookies
     ? CookieSecurePolicy.Always
     : CookieSecurePolicy.SameAsRequest;
 
-builder.Services.AddControllers()
+builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add<GlobalExceptionFilter>();
+    })
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
@@ -61,9 +65,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMemoryCache();
-builder.Services.AddHttpClient<TmdbService>();
-builder.Services.AddScoped<ListService>();
-builder.Services.AddScoped<MediaEntryService>();
+builder.Services.AddHttpClient<ITmdbService, TmdbService>();
+builder.Services.AddScoped<IListService, ListService>();
+builder.Services.AddScoped<IMediaEntryService, MediaEntryService>();
 builder.Services.AddHostedService<TmdbRefreshBackgroundService>();
 
 builder.Services.AddDbContext<AppDbContext>(o =>
