@@ -57,7 +57,7 @@ export async function getAdvancedDiscover(
   }
 
   const { data } = await api.get<Paged<DetailMedia>>(
-    "/api/Movies/discover/advanced",
+    "/api/discover/advanced",
     {
       params: queryParams,
       paramsSerializer: {

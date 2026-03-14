@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using backend.Constants;
 
-namespace backend.Models
+namespace backend.Models.Entities
 {
     public class List
     {
@@ -15,15 +16,15 @@ namespace backend.Models
         public AppUser User { get; set; } = null!;
 
         [Required]
-        [MaxLength(200)]
+        [MaxLength(FieldLimits.ListNameMaxLength)]
         public string Name { get; set; } = null!;
 
-        [MaxLength(2000)]
+        [MaxLength(FieldLimits.ListDescriptionMaxLength)]
         public string? Description { get; set; }
 
         public bool IsPublic { get; set; } = false;
 
-        [MaxLength(500)]
+        [MaxLength(FieldLimits.UrlPathMaxLength)]
         public string? ThumbnailPath { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

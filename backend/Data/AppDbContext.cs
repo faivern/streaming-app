@@ -1,4 +1,6 @@
-using backend.Models;
+using backend.Constants;
+using backend.Models.Entities;
+using backend.Models.Enums;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +21,8 @@ namespace backend.Data
 
             builder.Entity<AppUser>(entity =>
             {
-                entity.Property(u => u.DisplayName).HasMaxLength(100);
-                entity.Property(u => u.AvatarUrl).HasMaxLength(500);
+                entity.Property(u => u.DisplayName).HasMaxLength(FieldLimits.DisplayNameMaxLength);
+                entity.Property(u => u.AvatarUrl).HasMaxLength(FieldLimits.UrlPathMaxLength);
             });
 
             // MediaEntry configuration
@@ -40,8 +42,8 @@ namespace backend.Data
                 entity.Property(e => e.Status)
                     .HasDefaultValue(WatchStatus.WantToWatch);
 
-                entity.Property(e => e.BackdropPath).HasMaxLength(500);
-                entity.Property(e => e.Overview).HasMaxLength(2000);
+                entity.Property(e => e.BackdropPath).HasMaxLength(FieldLimits.UrlPathMaxLength);
+                entity.Property(e => e.Overview).HasMaxLength(FieldLimits.OverviewMaxLength);
             });
 
             // Review configuration - 1:1 relationship with MediaEntry
@@ -55,7 +57,7 @@ namespace backend.Data
                     .HasForeignKey<Review>(r => r.MediaEntryId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                entity.Property(r => r.Content).HasMaxLength(10000);
+                entity.Property(r => r.Content).HasMaxLength(FieldLimits.ReviewContentMaxLength);
             });
 
             // List configuration
@@ -69,7 +71,7 @@ namespace backend.Data
                     .OnDelete(DeleteBehavior.Cascade);
 
                 entity.Property(c => c.IsPublic).HasDefaultValue(false);
-                entity.Property(c => c.ThumbnailPath).HasMaxLength(500);
+                entity.Property(c => c.ThumbnailPath).HasMaxLength(FieldLimits.UrlPathMaxLength);
             });
 
             // ListItem configuration

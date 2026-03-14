@@ -1,4 +1,4 @@
-namespace backend.Models
+namespace backend.Models.Enums
 {
     public enum WatchStatus
     {

@@ -1,6 +1,7 @@
-using backend.Models;
+using backend.Models.Interfaces;
+using backend.Models.Tmdb;
 
-namespace backend.Services
+namespace backend.Services.Tmdb
 {
     public static class TmdbFieldMapper
     {

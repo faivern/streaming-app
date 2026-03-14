@@ -23,7 +23,7 @@ export async function getDiscoverGenre(params: {
   genreId: number;
   sortBy?: string;
 }): Promise<Paged<DetailMedia>> {
-  const endpoint = "/api/Movies/discover/by-genre";
+  const endpoint = "/api/discover/by-genre";
   const { data } = await api.get<Paged<DetailMedia>>(endpoint, { params });
   return data;
 }

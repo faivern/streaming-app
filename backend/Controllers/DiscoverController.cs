@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.Models;
+using backend.Constants;
+using backend.Models.Dtos;
+using backend.Models.Enums;
 using backend.Services;
+using backend.Services.Tmdb;
 using System.Text.Json.Nodes;
 
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("api/movies")]
+    [Route("api/discover")]
     public class DiscoverController : ControllerBase
     {
         private readonly ITmdbService _tmdbService;
@@ -16,21 +19,21 @@ namespace backend.Controllers
             _tmdbService = tmdbService;
         }
 
-        [HttpGet("discover/movie")]
+        [HttpGet("movie")]
         public async Task<IActionResult> GetDiscoverMovie()
         {
             var data = await _tmdbService.GetDiscoverMovieAsync();
             return Content(data, "application/json");
         }
 
-        [HttpGet("discover/tv")]
+        [HttpGet("tv")]
         public async Task<IActionResult> GetDiscoverTv()
         {
             var data = await _tmdbService.GetDiscoverTvAsync();
             return Content(data, "application/json");
         }
 
-        [HttpGet("discover/by-genre")]
+        [HttpGet("by-genre")]
         public async Task<IActionResult> DiscoverByGenre(
             [FromQuery] string mediaType,
             [FromQuery] int genreId,
@@ -48,7 +51,7 @@ namespace backend.Controllers
         /// Advanced discover endpoint with multiple filter parameters.
         /// Supports filtering by genres, year range, rating, runtime, language, watch providers, and sort order.
         /// </summary>
-        [HttpGet("discover/advanced")]
+        [HttpGet("advanced")]
         public async Task<IActionResult> AdvancedDiscover(
             [FromQuery] string mediaType = "movie",
             [FromQuery] int[]? genreIds = null,
@@ -66,11 +69,11 @@ namespace backend.Controllers
             if (!MediaTypes.IsValid(mediaType))
                 return BadRequest("Invalid mediaType. Use 'movie' or 'tv'.");
 
-            if (page < 1 || page > 500)
-                return BadRequest("Page must be between 1 and 500.");
+            if (page < ValidationLimits.MinPageNumber || page > ValidationLimits.MaxPageNumber)
+                return BadRequest($"Page must be between {ValidationLimits.MinPageNumber} and {ValidationLimits.MaxPageNumber}.");
 
-            if (voteAverageGte.HasValue && (voteAverageGte < 0 || voteAverageGte > 10))
-                return BadRequest("voteAverageGte must be between 0 and 10.");
+            if (voteAverageGte.HasValue && (voteAverageGte < ValidationLimits.MinVoteAverage || voteAverageGte > ValidationLimits.MaxVoteAverage))
+                return BadRequest($"voteAverageGte must be between {ValidationLimits.MinVoteAverage} and {ValidationLimits.MaxVoteAverage}.");
 
             var data = await _tmdbService.AdvancedDiscoverAsync(
                 mediaType,

@@ -35,9 +35,9 @@ function ProviderGroup({
   if (!providers || providers.length === 0) return null;
 
   return (
-    <div className="mb-5">
-      <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-3 font-semibold">{title}</h4>
-      <div className="flex flex-wrap gap-4">
+    <div className="mb-6 md:mb-5">
+      <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-3 font-semibold border-b border-accent-foreground/30 pb-2">{title}</h4>
+      <div className="flex flex-wrap gap-3 md:gap-4">
         {providers.map((provider) => {
           const content = (
             <>
@@ -48,7 +48,7 @@ function ProviderGroup({
                   className="w-12 h-12 rounded-xl object-cover border-2 border-badge-foreground group-hover:border-accent-primary transition-all group-hover:scale-105 shadow-md"
                 />
               </div>
-              <span className="text-xs text-gray-400 group-hover:text-white transition-colors text-center">
+              <span className="hidden md:block text-xs text-gray-400 group-hover:text-white transition-colors text-center max-w-[5rem] truncate">
                 {provider.provider_name}
               </span>
             </>
@@ -61,14 +61,15 @@ function ProviderGroup({
               target="_blank"
               rel="noopener noreferrer"
               title={`View ${provider.provider_name} options on JustWatch`}
-              className="group flex flex-col items-center gap-1.5 no-underline"
+              className="group flex flex-col items-center gap-1 md:gap-1.5 w-12 md:w-auto no-underline"
             >
               {content}
             </a>
           ) : (
             <div
               key={provider.provider_id}
-              className="group flex flex-col items-center gap-1.5"
+              title={provider.provider_name}
+              className="group flex flex-col items-center gap-1 md:gap-1.5 w-12 md:w-auto"
             >
               {content}
             </div>
@@ -139,8 +140,8 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
     : countryProviders?.link;
 
   return (
-    <div id="watch-providers" className="bg-component-primary rounded-xl p-6 border border-accent-foreground/60 shadow-lg">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div id="watch-providers" className="bg-component-primary rounded-xl p-4 md:p-6 border border-accent-foreground/60 shadow-lg">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
         <TitleMid>Where to Watch</TitleMid>
 
         {regionsLoading ? (
@@ -229,6 +230,7 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
         )}
       </div>
 
+      <div className="mt-5 md:mt-4">
       {providersLoading ? (
         <ProvidersSkeleton />
       ) : hasProviders ? (
@@ -254,29 +256,6 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
             justWatchLink={justWatchUrl}
           />
 
-          {justWatchUrl && (
-            <a
-              href={justWatchUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-accent-primary transition-colors mt-2"
-            >
-              <span>View on JustWatch</span>
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                />
-              </svg>
-            </a>
-          )}
         </>
       ) : (
         <p className="text-gray-400 text-sm">
@@ -284,11 +263,12 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
           {selectedRegion?.english_name || selectedCountry}.
         </p>
       )}
+      </div>
 
       <p className="text-xs text-gray-500 mt-4">
         Streaming data provided by{" "}
         <a
-          href="https://www.justwatch.com"
+          href={justWatchUrl || "https://www.justwatch.com"}
           target="_blank"
           rel="noopener noreferrer"
           className="text-accent-primary hover:underline"

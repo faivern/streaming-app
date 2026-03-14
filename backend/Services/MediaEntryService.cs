@@ -1,5 +1,6 @@
+using backend.Constants;
 using backend.Data;
-using backend.Models;
+using backend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services
@@ -96,7 +97,7 @@ namespace backend.Services
             .Select(r => r!.Value)
             .ToArray();
 
-            return ratings.Length > 0 ? Math.Round(ratings.Average(), 1) : null;
+            return ratings.Length > 0 ? Math.Round(ratings.Average(), ValidationLimits.RatingDecimalPlaces) : null;
         }
 
         /// <summary>

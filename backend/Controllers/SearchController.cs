@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Services;
+using backend.Services.Tmdb;
 
 namespace backend.Controllers
 {

@@ -1,7 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using backend.Constants;
+using backend.Models.Enums;
+using backend.Models.Interfaces;
 
-namespace backend.Models
+namespace backend.Models.Entities
 {
     public class MediaEntry : ITmdbSyncable
     {
@@ -18,29 +21,29 @@ namespace backend.Models
         public int TmdbId { get; set; }
 
         [Required]
-        [MaxLength(10)]
+        [MaxLength(FieldLimits.MediaTypeMaxLength)]
         public string MediaType { get; set; } = null!; // "movie" or "tv"
 
-        [MaxLength(500)]
+        [MaxLength(FieldLimits.UrlPathMaxLength)]
         public string? Title { get; set; }
 
-        [MaxLength(500)]
+        [MaxLength(FieldLimits.UrlPathMaxLength)]
         public string? PosterPath { get; set; }
 
-        [MaxLength(500)]
+        [MaxLength(FieldLimits.UrlPathMaxLength)]
         public string? BackdropPath { get; set; }
 
-        [MaxLength(2000)]
+        [MaxLength(FieldLimits.OverviewMaxLength)]
         public string? Overview { get; set; }
 
         public double? VoteAverage { get; set; }
 
         public int? Runtime { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(FieldLimits.DateStringMaxLength)]
         public string? ReleaseDate { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(FieldLimits.DateStringMaxLength)]
         public string? FirstAirDate { get; set; }
 
         public int? NumberOfSeasons { get; set; }

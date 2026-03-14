@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using backend.Constants;
 
-namespace backend.Models
+namespace backend.Models.Entities
 {
     public class Review
     {
@@ -15,7 +16,7 @@ namespace backend.Models
         public MediaEntry MediaEntry { get; set; } = null!;
 
         [Required]
-        [MaxLength(10000)]
+        [MaxLength(FieldLimits.ReviewContentMaxLength)]
         public string Content { get; set; } = null!;
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

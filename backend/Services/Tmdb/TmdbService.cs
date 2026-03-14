@@ -1,17 +1,19 @@
-﻿using backend.Models;
+﻿using backend.Constants;
+using backend.Models.Entities;
+using backend.Models.Enums;
+using backend.Models.Tmdb;
 using System.Text.Json;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace backend.Services
+namespace backend.Services.Tmdb
 {
-    public enum MediaType { Movie, Tv }
     public partial class TmdbService : ITmdbService
     {
         private readonly HttpClient _httpClient;
         private readonly string _apiKey;
         private readonly IMemoryCache _cache;
         private readonly ILogger<TmdbService> _logger;
-        private static readonly TimeSpan CacheDurationVideos = TimeSpan.FromHours(6);
+        private static readonly TimeSpan CacheDurationVideos = CacheDurations.Standard;
 
         public TmdbService(HttpClient httpClient, IConfiguration cfg, IMemoryCache cache, ILogger<TmdbService> logger)
         {
@@ -49,7 +51,7 @@ namespace backend.Services
         public async Task<string> SearchMultiAsync(string query)
         {
             var url = $"https://api.themoviedb.org/3/search/multi?api_key={_apiKey}&query={Uri.EscapeDataString(query)}&include_adult=false";
-            return await FetchWithCacheAsync($"search_multi_{query}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"search_multi_{query}", url, CacheDurations.Standard);
         }
         //----------------------------------------------------------------------------
 
@@ -58,13 +60,13 @@ namespace backend.Services
         public async Task<string> GetPopularMoviesAsync()
         {
             var url = $"https://api.themoviedb.org/3/movie/popular?api_key={_apiKey}";
-            return await FetchWithCacheAsync("popular_movies", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync("popular_movies", url, CacheDurations.Standard);
         }
 
         public async Task<string> GetPopularShowsAsync()
         {
             var url = $"https://api.themoviedb.org/3/tv/popular?api_key={_apiKey}";
-            return await FetchWithCacheAsync("popular_shows", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync("popular_shows", url, CacheDurations.Standard);
         }
         //----------------------------------------------------------------------------
 
@@ -77,14 +79,14 @@ namespace backend.Services
         {
             var today = DateTime.UtcNow.ToString("yyyy-MM-dd");
             var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&primary_release_date.gte={today}&sort_by=popularity.desc&include_adult=false";
-            return await FetchWithCacheAsync($"upcoming_movies_{today}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"upcoming_movies_{today}", url, CacheDurations.Standard);
         }
 
         public async Task<string> GetUpcomingTvAsync()
         {
             var today = DateTime.UtcNow.ToString("yyyy-MM-dd");
             var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&first_air_date.gte={today}&sort_by=popularity.desc&include_adult=false";
-            return await FetchWithCacheAsync($"upcoming_tv_{today}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"upcoming_tv_{today}", url, CacheDurations.Standard);
         }
         //----------------------------------------------------------------------------
 
@@ -98,13 +100,13 @@ namespace backend.Services
         public async Task<string> GetTopRatedMoviesAsync()
         {
             var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&sort_by=vote_average.desc&vote_count.gte={MinVoteCountForTopRatedMovies}&include_adult=false";
-            return await FetchWithCacheAsync("top_rated_movies", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync("top_rated_movies", url, CacheDurations.Standard);
         }
 
         public async Task<string> GetTopRatedTvAsync()
         {
             var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&sort_by=vote_average.desc&vote_count.gte={MinVoteCountForTopRatedShows}&include_adult=false";
-            return await FetchWithCacheAsync("top_rated_tv", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync("top_rated_tv", url, CacheDurations.Standard);
         }
         //--------------------------------------------------------------------------
 
@@ -118,19 +120,19 @@ namespace backend.Services
         public async Task<string> GetTrendingAllDailyAsync()
         {
             var url = $"https://api.themoviedb.org/3/trending/all/day?api_key={_apiKey}";
-            return await FetchWithCacheAsync("trending_all", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync("trending_all", url, CacheDurations.Standard);
         }
 
         public async Task<string> GetTrendingMoviesDailyAsync(int page = 1)
         {
             var url = $"https://api.themoviedb.org/3/trending/movie/day?api_key={_apiKey}&page={page}";
-            return await FetchWithCacheAsync($"trending_movies_page_{page}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"trending_movies_page_{page}", url, CacheDurations.Standard);
         }
 
         public async Task<string> GetTrendingTvDailyAsync(int page = 1)
         {
             var url = $"https://api.themoviedb.org/3/trending/tv/day?api_key={_apiKey}&page={page}";
-            return await FetchWithCacheAsync($"trending_tv_page_{page}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"trending_tv_page_{page}", url, CacheDurations.Standard);
         }
         //----------------------------------------------------------------------------
 
@@ -142,13 +144,13 @@ namespace backend.Services
         public async Task<string> GetMovieDetailsAsync(int movieId)
         {
             var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"movie_details_{movieId}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"movie_details_{movieId}", url, CacheDurations.Standard);
         }
 
         public async Task<string> GetShowDetailsAsync(int seriesId)
         {
             var url = $"https://api.themoviedb.org/3/tv/{seriesId}?api_key={_apiKey}&append_to_response=external_ids";
-            return await FetchWithCacheAsync($"show_details_{seriesId}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"show_details_{seriesId}", url, CacheDurations.Standard);
         }
         //----------------------------------------------------------------------------
 
@@ -201,14 +203,14 @@ namespace backend.Services
         public async Task<string> GetMovieKeywordsAsync(int movieId)
         {
             var url = $"https://api.themoviedb.org/3/movie/{movieId}/keywords?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"movie_keywords_{movieId}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"movie_keywords_{movieId}", url, CacheDurations.Standard);
         }
 
         // Get keywords for a TV show by its ID
         public async Task<string> GetShowKeywordsAsync(int seriesId)
         {
             var url = $"https://api.themoviedb.org/3/tv/{seriesId}/keywords?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"show_keywords_{seriesId}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"show_keywords_{seriesId}", url, CacheDurations.Standard);
         }
         //----------------------------------------------------------------------------
 
@@ -218,13 +220,13 @@ namespace backend.Services
         public async Task<string> GetShowCreditsAsync(int seriesId)
         {
             var url = $"https://api.themoviedb.org/3/tv/{seriesId}/aggregate_credits?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"show_credits_{seriesId}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"show_credits_{seriesId}", url, CacheDurations.Standard);
         }
         // Get credits for a movie by its ID
         public async Task<string> GetMovieCreditsAsync(int movieId)
         {
             var url = $"https://api.themoviedb.org/3/movie/{movieId}/credits?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"movie_credits_{movieId}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"movie_credits_{movieId}", url, CacheDurations.Standard);
         }
         //----------------------------------------------------------------------------
 
@@ -234,13 +236,13 @@ namespace backend.Services
         public async Task<string> GetSimilarMoviesAsync(int movieId)
         {
             var url = $"https://api.themoviedb.org/3/movie/{movieId}/similar?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"similar_movies_{movieId}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"similar_movies_{movieId}", url, CacheDurations.Standard);
         }
         // Get similar shows for a show by its ID
         public async Task<string> GetSimilarShowsAsync(int seriesId)
         {
             var url = $"https://api.themoviedb.org/3/tv/{seriesId}/similar?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"similar_shows_{seriesId}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"similar_shows_{seriesId}", url, CacheDurations.Standard);
         }
         //----------------------------------------------------------------------------
 
@@ -249,7 +251,7 @@ namespace backend.Services
         public async Task<string> GetPersonDetailsAsync(int personId)
         {
             var url = $"https://api.themoviedb.org/3/person/{personId}?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"person_details_{personId}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"person_details_{personId}", url, CacheDurations.Standard);
         }
 
         //------------------------------DISCOVER--------------------------------------------
@@ -257,13 +259,13 @@ namespace backend.Services
         public async Task<string> GetDiscoverMovieAsync()
         {
             var url = $"https://api.themoviedb.org/3/discover/movie?api_key={_apiKey}&include_adult=false";
-            return await FetchWithCacheAsync("discover_movies", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync("discover_movies", url, CacheDurations.Standard);
         }
 
         public async Task<string> GetDiscoverTvAsync()
         {
             var url = $"https://api.themoviedb.org/3/discover/tv?api_key={_apiKey}&include_adult=false";
-            return await FetchWithCacheAsync("discover_tv", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync("discover_tv", url, CacheDurations.Standard);
         }
         //-----------------------------------------------------------------------------------
 
@@ -271,7 +273,7 @@ namespace backend.Services
         public async Task<string> GetCombinedCreditsAsync(int personId)
         {
             var url = $"https://api.themoviedb.org/3/person/{personId}/combined_credits?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"combined_credits_{personId}", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync($"combined_credits_{personId}", url, CacheDurations.Standard);
         }
         //-----------------------------------------------------------------------------------
 
@@ -280,20 +282,20 @@ namespace backend.Services
         public async Task<string> GetMovieGenreAsync()
         {
             var url = $"https://api.themoviedb.org/3/genre/movie/list?api_key={_apiKey}";
-            return await FetchWithCacheAsync("movie_genre", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync("movie_genre", url, CacheDurations.Standard);
         }
 
         public async Task<string> GetTvGenreAsync()
         {
             var url = $"https://api.themoviedb.org/3/genre/tv/list?api_key={_apiKey}";
-            return await FetchWithCacheAsync("tv_genre", url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync("tv_genre", url, CacheDurations.Standard);
         }
 
         public async Task<string> DiscoverByGenreAsync(string mediaType, int genreId, int page, string sortBy = "popularity.desc")
         {
             var cacheKey = $"discover_{mediaType}_genre_{genreId}_sort_{sortBy}_page_{page}";
             var url = $"https://api.themoviedb.org/3/discover/{mediaType}?api_key={_apiKey}&with_genres={genreId}&sort_by={sortBy}&page={page}&include_adult=false";
-            return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync(cacheKey, url, CacheDurations.Standard);
         }
 
         /// <summary>
@@ -382,7 +384,7 @@ namespace backend.Services
             // Build cache key from all parameters for unique caching
             var cacheKey = $"advanced_discover_{mediaType}_g{string.Join("-", genreIds ?? Array.Empty<int>())}_y{primaryReleaseYearGte}-{primaryReleaseYearLte}_r{voteAverageGte}_rt{runtimeGte}-{runtimeLte}_l{language}_s{sortBy}_p{page}_wp{withWatchProviders}_wr{watchRegion}";
 
-            return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync(cacheKey, url, CacheDurations.Standard);
         }
 
         //------------------------------COLLECTION--------------------------------------------
@@ -394,7 +396,7 @@ namespace backend.Services
             var url =
                 $"https://api.themoviedb.org/3/search/collection?api_key={_apiKey}&query={q}&page={page}&include_adult=false&language={lang}";
             var cacheKey = $"search_collection::{lang}::p{page}::{query?.ToLowerInvariant()}";
-            return FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(12));
+            return FetchWithCacheAsync(cacheKey, url, CacheDurations.WatchProvider);
         }
 
         // GET a single collection (all movies in franchise)
@@ -402,7 +404,7 @@ namespace backend.Services
         {
             var url = $"https://api.themoviedb.org/3/collection/{collectionId}?api_key={_apiKey}&language={lang}";
             var cacheKey = $"collection_by_id::{lang}::{collectionId}";
-            return FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(24));
+            return FetchWithCacheAsync(cacheKey, url, CacheDurations.StaticReference);
         }
 
 //------------------------------IMAGES--------------------------------------------
@@ -410,14 +412,14 @@ namespace backend.Services
         {
             var url = $"https://api.themoviedb.org/3/movie/{movieId}/images?api_key={_apiKey}";
             var cacheKey = $"movie_images_{movieId}";
-            return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync(cacheKey, url, CacheDurations.Standard);
         }
 
         public async Task<string> GetSeriesImagesAsync(int seriesId)
         {
             var url = $"https://api.themoviedb.org/3/tv/{seriesId}/images?api_key={_apiKey}";
             var cacheKey = $"tv_images_{seriesId}";
-            return await FetchWithCacheAsync(cacheKey, url, TimeSpan.FromHours(6));
+            return await FetchWithCacheAsync(cacheKey, url, CacheDurations.Standard);
         }
 
         //------------------------------TYPED DETAIL FETCHERS--------------------------------------
@@ -438,33 +440,33 @@ namespace backend.Services
         public async Task<string> GetMovieWatchProvidersAsync(int movieId)
         {
             var url = $"https://api.themoviedb.org/3/movie/{movieId}/watch/providers?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"movie_watch_providers_{movieId}", url, TimeSpan.FromHours(12));
+            return await FetchWithCacheAsync($"movie_watch_providers_{movieId}", url, CacheDurations.WatchProvider);
         }
 
         public async Task<string> GetTvWatchProvidersAsync(int seriesId)
         {
             var url = $"https://api.themoviedb.org/3/tv/{seriesId}/watch/providers?api_key={_apiKey}";
-            return await FetchWithCacheAsync($"tv_watch_providers_{seriesId}", url, TimeSpan.FromHours(12));
+            return await FetchWithCacheAsync($"tv_watch_providers_{seriesId}", url, CacheDurations.WatchProvider);
         }
 
         public async Task<string> GetWatchProviderRegionsAsync()
         {
             var url = $"https://api.themoviedb.org/3/watch/providers/regions?api_key={_apiKey}";
-            return await FetchWithCacheAsync("watch_provider_regions", url, TimeSpan.FromHours(24));
+            return await FetchWithCacheAsync("watch_provider_regions", url, CacheDurations.StaticReference);
         }
 
         // Get list of all movie watch providers for a region
         public async Task<string> GetMovieWatchProvidersListAsync(string watchRegion = "US")
         {
             var url = $"https://api.themoviedb.org/3/watch/providers/movie?api_key={_apiKey}&watch_region={watchRegion}";
-            return await FetchWithCacheAsync($"movie_watch_providers_list_{watchRegion}", url, TimeSpan.FromHours(24));
+            return await FetchWithCacheAsync($"movie_watch_providers_list_{watchRegion}", url, CacheDurations.StaticReference);
         }
 
         // Get list of all TV watch providers for a region
         public async Task<string> GetTvWatchProvidersListAsync(string watchRegion = "US")
         {
             var url = $"https://api.themoviedb.org/3/watch/providers/tv?api_key={_apiKey}&watch_region={watchRegion}";
-            return await FetchWithCacheAsync($"tv_watch_providers_list_{watchRegion}", url, TimeSpan.FromHours(24));
+            return await FetchWithCacheAsync($"tv_watch_providers_list_{watchRegion}", url, CacheDurations.StaticReference);
         }
         //-----------------------------------------------------------------------------------
 

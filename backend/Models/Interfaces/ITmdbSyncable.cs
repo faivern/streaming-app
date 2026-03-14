@@ -1,4 +1,4 @@
-namespace backend.Models
+namespace backend.Models.Interfaces
 {
     public interface ITmdbSyncable
     {

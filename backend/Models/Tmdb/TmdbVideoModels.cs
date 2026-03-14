@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace backend.Models
+namespace backend.Models.Tmdb
 {
     public sealed class TmdbVideoResponse
     {

@@ -1,6 +1,7 @@
-using backend.Models;
+using backend.Models.Enums;
+using backend.Models.Tmdb;
 
-namespace backend.Services
+namespace backend.Services.Tmdb
 {
     public interface ITmdbService
     {

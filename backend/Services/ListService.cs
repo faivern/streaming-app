@@ -1,5 +1,6 @@
+using backend.Constants;
 using backend.Data;
-using backend.Models;
+using backend.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -27,7 +28,7 @@ namespace backend.Services
             return await _db.Lists.CountAsync(l => l.UserId == userId);
         }
 
-        public async Task<List<Models.List>> GetUserListsAsync(string userId)
+        public async Task<List<Models.Entities.List>> GetUserListsAsync(string userId)
         {
             return await _db.Lists
                 .Where(l => l.UserId == userId)
@@ -36,14 +37,14 @@ namespace backend.Services
                 .ToListAsync();
         }
 
-        public async Task<Models.List?> GetByIdAsync(int id, string userId)
+        public async Task<Models.Entities.List?> GetByIdAsync(int id, string userId)
         {
             return await _db.Lists
                 .Include(l => l.Items)
                 .FirstOrDefaultAsync(l => l.Id == id && l.UserId == userId);
         }
 
-        public async Task<Models.List> CreateAsync(Models.List list)
+        public async Task<Models.Entities.List> CreateAsync(Models.Entities.List list)
         {
             list.CreatedAt = DateTime.UtcNow;
             list.UpdatedAt = DateTime.UtcNow;
@@ -55,7 +56,7 @@ namespace backend.Services
             return list;
         }
 
-        public async Task<Models.List> UpdateAsync(Models.List list)
+        public async Task<Models.Entities.List> UpdateAsync(Models.Entities.List list)
         {
             list.UpdatedAt = DateTime.UtcNow;
             _db.Lists.Update(list);
@@ -94,7 +95,7 @@ namespace backend.Services
             if (!allowedExtensions.Any(ext => fileName.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                 return (false, "Invalid file extension. Only .jpg, .jpeg, and .png are allowed.");
 
-            if (fileStream.Length < 4)
+            if (fileStream.Length < ValidationLimits.MinValidImageFileBytes)
                 return (false, "File is too small to be a valid image.");
 
             var magicBytes = new byte[4];
@@ -116,8 +117,8 @@ namespace backend.Services
             if (string.IsNullOrWhiteSpace(listName))
                 return (false, "List name cannot be empty.");
 
-            if (listName.Length > 100)
-                return (false, "List name cannot exceed 100 characters.");
+            if (listName.Length > ValidationLimits.MaxListNameInputLength)
+                return (false, $"List name cannot exceed {ValidationLimits.MaxListNameInputLength} characters.");
 
             return (true, null);
         }

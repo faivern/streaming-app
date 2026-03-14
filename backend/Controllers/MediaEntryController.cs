@@ -1,6 +1,8 @@
-using backend.Models;
+using backend.Models.Entities;
+using backend.Models.Enums;
 using backend.Models.Dtos;
 using backend.Services;
+using backend.Services.Tmdb;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

@@ -154,7 +154,7 @@ namespace backend.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("backend.Models.AppUser", b =>
+            modelBuilder.Entity("backend.Models.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -226,7 +226,7 @@ namespace backend.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("backend.Models.List", b =>
+            modelBuilder.Entity("backend.Models.Entities.List", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -269,7 +269,7 @@ namespace backend.Data.Migrations
                     b.ToTable("Lists", (string)null);
                 });
 
-            modelBuilder.Entity("backend.Models.ListItem", b =>
+            modelBuilder.Entity("backend.Models.Entities.ListItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -338,7 +338,7 @@ namespace backend.Data.Migrations
                     b.ToTable("ListItems", (string)null);
                 });
 
-            modelBuilder.Entity("backend.Models.MediaEntry", b =>
+            modelBuilder.Entity("backend.Models.Entities.MediaEntry", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -431,7 +431,7 @@ namespace backend.Data.Migrations
                     b.ToTable("MediaEntries", (string)null);
                 });
 
-            modelBuilder.Entity("backend.Models.Review", b =>
+            modelBuilder.Entity("backend.Models.Entities.Review", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -472,7 +472,7 @@ namespace backend.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("backend.Models.AppUser", null)
+                    b.HasOne("backend.Models.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -481,7 +481,7 @@ namespace backend.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("backend.Models.AppUser", null)
+                    b.HasOne("backend.Models.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -496,7 +496,7 @@ namespace backend.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("backend.Models.AppUser", null)
+                    b.HasOne("backend.Models.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -505,16 +505,16 @@ namespace backend.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("backend.Models.AppUser", null)
+                    b.HasOne("backend.Models.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("backend.Models.List", b =>
+            modelBuilder.Entity("backend.Models.Entities.List", b =>
                 {
-                    b.HasOne("backend.Models.AppUser", "User")
+                    b.HasOne("backend.Models.Entities.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -523,9 +523,9 @@ namespace backend.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("backend.Models.ListItem", b =>
+            modelBuilder.Entity("backend.Models.Entities.ListItem", b =>
                 {
-                    b.HasOne("backend.Models.List", "List")
+                    b.HasOne("backend.Models.Entities.List", "List")
                         .WithMany("Items")
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -534,9 +534,9 @@ namespace backend.Data.Migrations
                     b.Navigation("List");
                 });
 
-            modelBuilder.Entity("backend.Models.MediaEntry", b =>
+            modelBuilder.Entity("backend.Models.Entities.MediaEntry", b =>
                 {
-                    b.HasOne("backend.Models.AppUser", "User")
+                    b.HasOne("backend.Models.Entities.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -545,23 +545,23 @@ namespace backend.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("backend.Models.Review", b =>
+            modelBuilder.Entity("backend.Models.Entities.Review", b =>
                 {
-                    b.HasOne("backend.Models.MediaEntry", "MediaEntry")
+                    b.HasOne("backend.Models.Entities.MediaEntry", "MediaEntry")
                         .WithOne("Review")
-                        .HasForeignKey("backend.Models.Review", "MediaEntryId")
+                        .HasForeignKey("backend.Models.Entities.Review", "MediaEntryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("MediaEntry");
                 });
 
-            modelBuilder.Entity("backend.Models.List", b =>
+            modelBuilder.Entity("backend.Models.Entities.List", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("backend.Models.MediaEntry", b =>
+            modelBuilder.Entity("backend.Models.Entities.MediaEntry", b =>
                 {
                     b.Navigation("Review");
                 });

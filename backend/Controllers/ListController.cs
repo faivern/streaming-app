@@ -1,6 +1,8 @@
-using backend.Models;
+using backend.Models.Entities;
+using backend.Models.Enums;
 using backend.Models.Dtos;
 using backend.Services;
+using backend.Services.Tmdb;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -49,7 +51,7 @@ namespace backend.Controllers
             if (listCount >= ListService.MaxListsPerUser)
                 return Conflict($"You've reached the maximum of {ListService.MaxListsPerUser} lists.");
 
-            var list = new Models.List
+            var list = new Models.Entities.List
             {
                 UserId = userId,
                 Name = request.Name,

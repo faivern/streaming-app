@@ -1,17 +1,25 @@
+using backend.Services.Tmdb;
 using backend.Data;
-using backend.Models;
+using backend.Models.Entities;
+using backend.Models.Enums;
+using backend.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using static backend.Models.MediaTypes;
+using static backend.Models.Enums.MediaTypes;
 
-namespace backend.Services
+namespace backend.BackgroundJobs
 {
     public class TmdbRefreshBackgroundService : BackgroundService
     {
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly ILogger<TmdbRefreshBackgroundService> _logger;
-        private static readonly TimeSpan RunInterval = TimeSpan.FromDays(7);
-        private static readonly TimeSpan StaleThreshold = TimeSpan.FromDays(7);
-        private static readonly TimeSpan ThrottleDelay = TimeSpan.FromMilliseconds(500);
+        private const int RefreshCycleDays = 7;
+        private const int StaleThresholdDays = 7;
+        private const int ThrottleDelayMs = 500;
+        private static readonly TimeSpan RunInterval = TimeSpan.FromDays(RefreshCycleDays);
+        private static readonly TimeSpan StaleThreshold = TimeSpan.FromDays(StaleThresholdDays);
+        private static readonly TimeSpan ThrottleDelay = TimeSpan.FromMilliseconds(ThrottleDelayMs);
+        private const int StartupDelayMinutes = 2;
+        private const int BatchSaveInterval = 50;
 
         public TmdbRefreshBackgroundService(
             IServiceScopeFactory scopeFactory,
@@ -24,7 +32,7 @@ namespace backend.Services
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             // Wait a bit after startup before first run
-            await Task.Delay(TimeSpan.FromMinutes(2), stoppingToken);
+            await Task.Delay(TimeSpan.FromMinutes(StartupDelayMinutes), stoppingToken);
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -119,7 +127,7 @@ namespace backend.Services
                     }
 
                     refreshed++;
-                    if (refreshed % 50 == 0)
+                    if (refreshed % BatchSaveInterval == 0)
                     {
                         await db.SaveChangesAsync(ct);
                         _logger.LogInformation("TMDB refresh: saved batch at {Count}/{Total}", refreshed, uniqueKeys.Count);

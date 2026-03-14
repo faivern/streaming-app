@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.Models;
+using backend.Models.Enums;
 using backend.Services;
+using backend.Services.Tmdb;
 
 namespace backend.Controllers
 {
@@ -84,7 +85,7 @@ namespace backend.Controllers
         [HttpGet("{mediaType}/{id:int}/trailer")]
         public async Task<IActionResult> GetTrailer(string mediaType, int id)
         {
-            if (!Enum.TryParse<backend.Services.MediaType>(mediaType, true, out var type))
+            if (!Enum.TryParse<MediaType>(mediaType, true, out var type))
                 return BadRequest("mediaType must be 'movie' or 'tv'.");
 
             var (name, url) = await _tmdbService.GetTrailerAsync(type, id);
@@ -94,7 +95,7 @@ namespace backend.Controllers
         [HttpGet("{mediaType}/{id:int}/videos/raw")]
         public async Task<IActionResult> GetVideosRaw(string mediaType, int id)
         {
-            if (!Enum.TryParse<backend.Services.MediaType>(mediaType, true, out var type))
+            if (!Enum.TryParse<MediaType>(mediaType, true, out var type))
                 return BadRequest("mediaType must be 'movie' or 'tv'.");
 
             var rawJson = await _tmdbService.GetVideosAsync(type, id);
