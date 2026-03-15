@@ -10,6 +10,7 @@ backend/bin/
 backend/obj/
 backend/backend.Tests/bin/
 backend/backend.Tests/obj/
+backend/TestResults/
 backend/*.db
 backend/secrets.json
 backend/.vs/
