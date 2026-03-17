@@ -4,6 +4,7 @@ frontend/.env
 frontend/.env.*
 frontend/dist/
 frontend/.vite/
+frontend/coverage/
 
 # backend
 backend/bin/

@@ -1,8 +1,6 @@
 // components/media/grid/MediaGridSimilar.tsx
 import MediaCard from "../cards/MediaCard";
 import MediaSimilarCard from "../cards/MediaSimilarCard";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import type { DetailMedia, MediaType } from "../../../types/tmdb";
 import TitleMid from "../title/TitleMid";
 

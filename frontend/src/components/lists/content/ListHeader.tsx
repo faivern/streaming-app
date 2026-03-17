@@ -5,7 +5,6 @@ import {
   faChevronDown,
   faCheck,
   faPlus,
-  faTag,
   faPen,
 } from "@fortawesome/free-solid-svg-icons";
 import ViewToggle from "./ViewToggle";
@@ -47,9 +46,9 @@ export default function ListHeader({
   onSortChange,
   onAddMedia,
   showAddButton = true,
-  showStatusToggle = false,
-  statusBadgesVisible = false,
-  onStatusToggle,
+  showStatusToggle: _showStatusToggle = false,
+  statusBadgesVisible: _statusBadgesVisible = false,
+  onStatusToggle: _onStatusToggle,
   isEditMode = false,
   onEditToggle,
 }: ListHeaderProps) {

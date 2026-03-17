@@ -10,8 +10,8 @@ type Collection = {
   id: number;
   name: string;
   overview?: string;
-  backdrop_path?: string;
-  poster_path?: string;
+  backdrop_path?: string | null;
+  poster_path?: string | null;
   parts: Array<any>;
   vote_average?: number;
 };

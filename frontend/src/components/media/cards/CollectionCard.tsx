@@ -14,7 +14,6 @@ export default function CollectionCard({
   id,
   title,
   backdrop_path,
-  poster_path,
 }: Props) {
   const { data: collection } = useCollectionById(id);
   const avgRating = avgCollectionRating(collection?.parts);

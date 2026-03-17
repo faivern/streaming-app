@@ -144,7 +144,7 @@ export default function PrivacyPolicy() {
           </ul>
           <p className="leading-relaxed mt-4">
             To exercise any of these rights, please contact us at{" "}
-            <span className="text-accent-primary">[INSERT CONTACT EMAIL]</span>.
+            <a href="mailto:cinelas.support@gmail.com" className="text-accent-primary hover:underline">cinelas.support@gmail.com</a>.
           </p>
           {/* TODO: Insert lawyer-approved "User Rights" clause (GDPR/CCPA compliant) here */}
         </section>
@@ -165,9 +165,8 @@ export default function PrivacyPolicy() {
           <h2 className="text-2xl font-bold text-text-h1 mb-4">8. Contact Us</h2>
           <p className="leading-relaxed">
             If you have any questions about this Privacy Policy, please contact us at:{" "}
-            <span className="text-accent-primary">[INSERT CONTACT EMAIL]</span>
+            <a href="mailto:cinelas.support@gmail.com" className="text-accent-primary hover:underline">cinelas.support@gmail.com</a>
           </p>
-          {/* TODO: Insert actual contact information here */}
         </section>
 
         {/* Back Link */}

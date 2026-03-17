@@ -51,7 +51,7 @@ const CreditsDetailPage = () => {
     mediaId ? Number(mediaId) : undefined
   );
 
-  const enrichedCredits = creditsData?.cast || [];
+  const enrichedCredits = (creditsData?.cast || []) as any[];
   const sortedCredits = useSortedMedia(enrichedCredits, sortOption);
 
   const { visibleItems, hasMore, loadMore, reset } = useClientChunkedData(sortedCredits, 20);

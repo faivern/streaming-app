@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getMediaCredits } from "../../api/credit.api";
-import type { Credit, CreditsResponse, MediaType } from "../../types/tmdb";
+import type { CreditsResponse, MediaType } from "../../types/tmdb";
 
 export function useMediaCredits(mediaType?: MediaType, id?: number) {
   return useQuery<CreditsResponse>({

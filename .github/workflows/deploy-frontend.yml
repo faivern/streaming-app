@@ -1,0 +1,61 @@
+name: Deploy Frontend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'frontend/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Type check
+        run: npm run typecheck
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and push image to ACR
+        run: |
+          az acr build \
+            --registry cinelasacr \
+            --image cinelas-frontend:${{ github.sha }} \
+            --build-arg VITE_AUTH_URL=https://www.cinelas.com \
+            ./frontend
+
+      - name: Deploy to Container App
+        run: |
+          az containerapp update \
+            --name cinelas-frontend \
+            --resource-group cinelas-rg \
+            --image cinelasacr.azurecr.io/cinelas-frontend:${{ github.sha }}

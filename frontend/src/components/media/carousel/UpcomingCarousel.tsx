@@ -203,7 +203,7 @@ export default function UpcomingCarousel({
               {scrollSnaps.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => emblaApi.scrollTo(i)}
+                  onClick={() => emblaApi?.scrollTo(i)}
                   aria-label={`Go to slide ${i + 1}`}
                   className={`h-2 rounded-full transition-all ${
                     i === selectedSnap ? "bg-accent-primary w-6" : "bg-[var(--outline)] w-2"

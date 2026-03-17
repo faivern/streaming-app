@@ -18,7 +18,6 @@ import ListRowView from "./ListRowView";
 import MobileListHeader from "./MobileListHeader";
 import MobileListRowView from "./MobileListRowView";
 import EmptyListState from "./EmptyListState";
-import TitleMid from "../../media/title/TitleMid";
 
 type ListContentProps = {
   activeView: ActiveView;

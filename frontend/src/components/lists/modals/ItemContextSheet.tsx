@@ -2,8 +2,6 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import {
-  Eye,
-  EyeOff,
   Clock,
   CheckCircle2,
   Pencil,

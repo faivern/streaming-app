@@ -12,3 +12,5 @@ docker-compose.yml
 Dockerfile
 .git
 .gitignore
+backend.Tests/
+backend.sln

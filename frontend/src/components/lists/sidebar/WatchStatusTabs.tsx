@@ -22,7 +22,7 @@ const TABS: { status: WatchStatus; label: string; icon: React.ReactNode }[] = [
 export default function WatchStatusTabs({
   selectedStatus,
   onStatusChange,
-  counts,
+  counts: _counts,
   isActive = true,
 }: WatchStatusTabsProps) {
   // Only show selection when status view is active; -1 means no selection
