@@ -1,8 +1,7 @@
 // components/media/cards/MediaSimilarCard.tsx
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import MediaCardModal from "../modals/MediaCardModal";
-import { usePrefetchMediaDetail } from "../../../hooks/media/useMediaDetail";
 import type { MediaType, DetailMedia } from "../../../types/tmdb";
 import { truncateText } from "../../../utils/truncateText";
 import { useDelayHover } from "../../../hooks/useDelayHover";
@@ -49,8 +48,7 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
     number_of_episodes,
   } = p;
 
-  const { hovered, onEnter, onLeave, setHovered } = useDelayHover(600);
-  const prefetch = usePrefetchMediaDetail();
+  const { hovered, onEnter, onLeave } = useDelayHover(600);
 
   const posterForCard = poster_path ?? backdrop_path ?? "";
   const displayTitle = title ?? name ?? "Untitled";

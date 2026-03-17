@@ -14,7 +14,7 @@ const mockProviders = {
   results: {
     US: {
       link: "https://example.com",
-      flatrate: [{ provider_id: 8, provider_name: "Netflix" }],
+      flatrate: [{ provider_id: 8, provider_name: "Netflix", logo_path: "/netflix.png", display_priority: 1 }],
     },
   },
 };

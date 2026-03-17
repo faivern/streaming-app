@@ -8,8 +8,8 @@ import { getSimilarMedia } from "../../api/similarMedia.api";
 import { useSimilarMedia } from "./useSimilarMedia";
 
 const mockSimilar = [
-  { id: 1, title: "Similar Movie", media_type: "movie", runtime: 120 },
-  { id: 2, title: "Another Movie", media_type: "movie", runtime: 95 },
+  { id: 1, title: "Similar Movie", media_type: "movie" as const, runtime: 120 },
+  { id: 2, title: "Another Movie", media_type: "movie" as const, runtime: 95 },
 ];
 
 beforeEach(() => {

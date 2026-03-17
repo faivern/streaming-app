@@ -33,14 +33,14 @@ describe("useListMutations", () => {
   // --- useCreateList ---
 
   it("useCreateList: success shows toast", async () => {
-    vi.mocked(listsApi.create).mockResolvedValue({ id: 1, name: "My List" });
+    vi.mocked(listsApi.create).mockResolvedValue({ id: 1, name: "My List" } as any);
 
     const { result } = renderHook(() => useCreateList(), {
       wrapper: createWrapper(),
     });
 
     act(() => {
-      result.current.mutate({ name: "My List" });
+      result.current.mutate({ name: "My List", isPublic: false });
     });
 
     await waitFor(() => {
@@ -57,7 +57,7 @@ describe("useListMutations", () => {
     });
 
     act(() => {
-      result.current.mutate({ name: "My List" });
+      result.current.mutate({ name: "My List", isPublic: false });
     });
 
     await waitFor(() => {
@@ -76,7 +76,7 @@ describe("useListMutations", () => {
     });
 
     act(() => {
-      result.current.mutate({ name: "My List" });
+      result.current.mutate({ name: "My List", isPublic: false });
     });
 
     await waitFor(() => {
@@ -89,7 +89,7 @@ describe("useListMutations", () => {
   // --- useUpdateList ---
 
   it("useUpdateList: success shows toast", async () => {
-    vi.mocked(listsApi.update).mockResolvedValue({});
+    vi.mocked(listsApi.update).mockResolvedValue({} as any);
 
     const { result } = renderHook(() => useUpdateList(), {
       wrapper: createWrapper(),
@@ -159,7 +159,7 @@ describe("useListMutations", () => {
   // --- useAddListItem ---
 
   it("useAddListItem: success shows toast (non-silent)", async () => {
-    vi.mocked(listsApi.addItem).mockResolvedValue({});
+    vi.mocked(listsApi.addItem).mockResolvedValue({} as any);
 
     const { result } = renderHook(() => useAddListItem(), {
       wrapper: createWrapper(),
@@ -178,7 +178,7 @@ describe("useListMutations", () => {
   });
 
   it("useAddListItem: silent mode suppresses toast", async () => {
-    vi.mocked(listsApi.addItem).mockResolvedValue({});
+    vi.mocked(listsApi.addItem).mockResolvedValue({} as any);
 
     const { result } = renderHook(() => useAddListItem(), {
       wrapper: createWrapper(),

@@ -32,7 +32,7 @@ const mockEntries = [
     title: "Test Show",
     status: "Watching",
   },
-];
+] as any;
 
 const mockEntry = mockEntries[0];
 

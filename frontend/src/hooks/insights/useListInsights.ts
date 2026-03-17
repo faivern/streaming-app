@@ -55,7 +55,7 @@ async function enrichListItems(items: ListItem[]): Promise<EnrichedListItem[]> {
   ]);
 
   // Merge results into enriched items
-  const enrichedItems: EnrichedListItem[] = items
+  const enrichedItems = items
     .map((item, index) => {
       const detailsResult = detailsResults[index];
       const creditsResult = creditsResults[index];
@@ -83,7 +83,7 @@ async function enrichListItems(items: ListItem[]): Promise<EnrichedListItem[]> {
         credits,
       };
     })
-    .filter((item): item is EnrichedListItem => item !== null);
+    .filter((item) => item !== null);
 
   return enrichedItems;
 }

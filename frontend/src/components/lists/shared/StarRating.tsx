@@ -22,7 +22,7 @@ export default function StarRating({
   showValue = true,
   className = "",
 }: StarRatingProps) {
-  const [hoverValue, setHoverValue] = useState<number | null>(null);
+  const [hoverValue] = useState<number | null>(null);
 
   // Convert the numeric value (0-maxValue) to star scale (0-maxStars)
   const starValue = value !== null ? (value / maxValue) * maxStars : 0;
@@ -34,24 +34,7 @@ export default function StarRating({
     lg: "text-2xl gap-1",
   };
 
-  const handleClick = (starIndex: number) => {
-    if (readOnly || !onChange) return;
-    // Convert star index (1-based) to numeric value (0-maxValue)
-    const newValue = (starIndex / maxStars) * maxValue;
-    onChange(newValue);
-  };
-
-  const handleMouseEnter = (starIndex: number) => {
-    if (readOnly) return;
-    setHoverValue(starIndex);
-  };
-
-  const handleMouseLeave = () => {
-    setHoverValue(null);
-  };
-
   const renderStar = (index: number) => {
-    const starPosition = index + 1;
     const fillAmount = displayValue - index;
 
     let StarIcon = FaRegStar;

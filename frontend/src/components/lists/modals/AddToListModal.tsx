@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect, useMemo } from "react";
-import { Dialog, Transition, Tab } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import {
   FaTimes,
   FaFilm,
@@ -323,10 +323,6 @@ export default function AddToListModal({
       // Error handled by mutation
     }
   };
-
-  const selectedStatusIndex = status
-    ? WATCH_STATUSES.findIndex((s) => s.value === status)
-    : -1;
 
   const isLoading = listsLoading || entryLoading;
   const isSaving =

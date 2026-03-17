@@ -6,6 +6,7 @@ vi.mock("../../api/media.api", () => ({
 }));
 
 import { getTrendingMediaWithDetails } from "../../api/media.api";
+import type { DetailMediaGenre } from "../../types/tmdb";
 import useMediaGrid from "./useMediaGrid";
 
 describe("useMediaGrid", () => {
@@ -18,8 +19,8 @@ describe("useMediaGrid", () => {
 
   it("fetches media grid items", async () => {
     vi.mocked(getTrendingMediaWithDetails).mockResolvedValue([
-      { id: 1, title: "Movie", media_type: "movie" },
-    ]);
+      { id: 1, title: "Movie", media_type: "movie", overview: "", poster_path: null },
+    ] as DetailMediaGenre[]);
     const { result } = renderHook(() => useMediaGrid());
     await act(async () => {
       await result.current.fetchMediaGrid("movie");
@@ -39,7 +40,9 @@ describe("useMediaGrid", () => {
   });
 
   it("clearMedia resets state", async () => {
-    vi.mocked(getTrendingMediaWithDetails).mockResolvedValue([{ id: 1 }]);
+    vi.mocked(getTrendingMediaWithDetails).mockResolvedValue([
+      { id: 1, overview: "", poster_path: null },
+    ] as DetailMediaGenre[]);
     const { result } = renderHook(() => useMediaGrid());
     await act(async () => {
       await result.current.fetchMediaGrid("movie");

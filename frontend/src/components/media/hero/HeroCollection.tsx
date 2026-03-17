@@ -1,12 +1,10 @@
 import Backdrop from "../shared/Backdrop";
-import Poster from "../shared/Poster";
 import { avgCollectionRating } from "../../../utils/avgCollectionRating";
 import { firstLastRelease } from "../../../utils/firstLastRelease";
 import { countMovies } from "../../../utils/countMovies";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { dateFormatYear } from "../../../utils/dateFormatYear";
-import { Clock, Calendar, Clapperboard } from "lucide-react";
+import { Calendar, Clapperboard } from "lucide-react";
 import Pill from "../../ui/Pill";
 
 type CollectionPart = {
@@ -20,8 +18,8 @@ type Props = {
   collection: {
     name: string;
     overview?: string;
-    backdrop_path?: string;
-    poster_path?: string;
+    backdrop_path?: string | null;
+    poster_path?: string | null;
     vote_average?: number;
     parts?: Array<CollectionPart>;
   };

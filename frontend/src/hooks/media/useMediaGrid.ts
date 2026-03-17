@@ -1,9 +1,11 @@
 import { useState, useCallback } from "react";
 import { getTrendingMediaWithDetails } from "../../api/media.api";
-import type { MediaGridItem, MediaType } from "../../api/media.api";
+import type { MediaGridItem } from "../../api/media.api";
+import type { MediaType } from "../../types/tmdb";
 
 // Re-export types for convenience
-export type { MediaGridItem, MediaType } from "../../api/media.api";
+export type { MediaGridItem } from "../../api/media.api";
+export type { MediaType } from "../../types/tmdb";
 
 interface UseMediaGridReturn {
   items: MediaGridItem[];

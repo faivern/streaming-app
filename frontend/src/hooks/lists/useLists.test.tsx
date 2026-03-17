@@ -19,7 +19,7 @@ import { useUserLists, useListById } from "./useLists";
 
 describe("useUserLists", () => {
   it("fetches user lists", async () => {
-    vi.mocked(listsApi.getUserLists).mockResolvedValue([{ id: 1, name: "Favorites", items: [] }]);
+    vi.mocked(listsApi.getUserLists).mockResolvedValue([{ id: 1, name: "Favorites", items: [] }] as any);
     const { result } = renderHook(() => useUserLists(), { wrapper: createWrapper() });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toHaveLength(1);
@@ -28,7 +28,7 @@ describe("useUserLists", () => {
 
 describe("useListById", () => {
   it("fetches list by id", async () => {
-    vi.mocked(listsApi.getById).mockResolvedValue({ id: 1, name: "Test", items: [] });
+    vi.mocked(listsApi.getById).mockResolvedValue({ id: 1, name: "Test", items: [] } as any);
     const { result } = renderHook(() => useListById(1), { wrapper: createWrapper() });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data?.name).toBe("Test");

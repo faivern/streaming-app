@@ -8,16 +8,16 @@ import type { MediaType } from "../../../types/tmdb";
 
 type CastMember = {
   id: number;
-  name: string;
+  name?: string;
   character?: string;
-  profile_path?: string;
+  profile_path?: string | null;
   order?: number;
 };
 
 type CrewMember = {
   id: number;
-  name: string;
-  job: string;
+  name?: string;
+  job?: string;
 };
 
 type ProductionCompany = {

@@ -12,7 +12,7 @@ import { useSearchCollections, useCollectionById, useFeaturedCollections } from 
 
 describe("useSearchCollections", () => {
   it("fetches collections by query", async () => {
-    const mockData = { page: 1, total_pages: 1, total_results: 1, results: [{ id: 1, name: "Star Wars" }] };
+    const mockData = { page: 1, total_pages: 1, total_results: 1, results: [{ id: 1, name: "Star Wars", overview: "", poster_path: null, backdrop_path: null, parts: [] }] };
     vi.mocked(searchCollections).mockResolvedValue(mockData);
     const { result } = renderHook(() => useSearchCollections("Star Wars"), { wrapper: createWrapper() });
     await waitFor(() => expect(result.current.isSuccess).toBe(true));

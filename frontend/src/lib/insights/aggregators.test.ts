@@ -16,7 +16,7 @@ import type { MediaEntry } from "../../types/mediaEntry";
 // Helpers to build test data
 // ---------------------------------------------------------------------------
 
-function makeItem(overrides: Partial<EnrichedListItem> = {}): EnrichedListItem {
+function makeItem(overrides: Record<string, any> = {}): EnrichedListItem {
   return {
     id: 1,
     listId: 1,
@@ -34,7 +34,7 @@ function makeItem(overrides: Partial<EnrichedListItem> = {}): EnrichedListItem {
     numberOfEpisodes: undefined,
     addedAt: "2024-01-15T00:00:00Z",
     ...overrides,
-  };
+  } as EnrichedListItem;
 }
 
 function makeMediaEntry(

@@ -1,5 +1,5 @@
 import { api } from "./http/axios";
-import type { Credit, CreditsResponse, MediaType } from "../types/tmdb";
+import type { CreditsResponse, MediaType } from "../types/tmdb";
 
 export async function getMediaCredits(
   mediaType: MediaType,

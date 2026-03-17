@@ -1,7 +1,6 @@
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
-import logo from "../../assets/react.svg";
 import { FaRegUser } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
 import SearchBar from "../layout/SearchBar";

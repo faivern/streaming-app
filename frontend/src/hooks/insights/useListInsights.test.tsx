@@ -93,7 +93,7 @@ describe("useListInsights", () => {
     vi.mocked(useListById).mockReturnValue({
       data: { ...mockList, items: [] },
       isLoading: false,
-    } as ReturnType<typeof useListById>);
+    } as unknown as ReturnType<typeof useListById>);
     vi.mocked(useMediaEntries).mockReturnValue({
       data: [],
     } as unknown as ReturnType<typeof useMediaEntries>);
@@ -109,7 +109,7 @@ describe("useListInsights", () => {
     vi.mocked(useListById).mockReturnValue({
       data: undefined,
       isLoading: true,
-    } as ReturnType<typeof useListById>);
+    } as unknown as ReturnType<typeof useListById>);
     vi.mocked(useMediaEntries).mockReturnValue({
       data: [],
     } as unknown as ReturnType<typeof useMediaEntries>);
@@ -125,7 +125,7 @@ describe("useListInsights", () => {
     vi.mocked(useListById).mockReturnValue({
       data: mockList,
       isLoading: false,
-    } as ReturnType<typeof useListById>);
+    } as unknown as ReturnType<typeof useListById>);
     vi.mocked(useMediaEntries).mockReturnValue({
       data: mockMediaEntries,
     } as unknown as ReturnType<typeof useMediaEntries>);
@@ -156,7 +156,7 @@ describe("useListInsights", () => {
     vi.mocked(useListById).mockReturnValue({
       data: mockList,
       isLoading: false,
-    } as ReturnType<typeof useListById>);
+    } as unknown as ReturnType<typeof useListById>);
     vi.mocked(useMediaEntries).mockReturnValue({
       data: [],
     } as unknown as ReturnType<typeof useMediaEntries>);
@@ -183,7 +183,7 @@ describe("useListInsights", () => {
     vi.mocked(useListById).mockReturnValue({
       data: mockList,
       isLoading: false,
-    } as ReturnType<typeof useListById>);
+    } as unknown as ReturnType<typeof useListById>);
     vi.mocked(useMediaEntries).mockReturnValue({
       data: [],
     } as unknown as ReturnType<typeof useMediaEntries>);

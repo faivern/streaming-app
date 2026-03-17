@@ -28,7 +28,7 @@ describe("useMediaEntryMutations", () => {
   });
 
   it("useCreateMediaEntry: success shows toast (non-silent)", async () => {
-    vi.mocked(mediaEntriesApi.create).mockResolvedValue({ id: 1 });
+    vi.mocked(mediaEntriesApi.create).mockResolvedValue({ id: 1 } as any);
 
     const { result } = renderHook(() => useCreateMediaEntry(), {
       wrapper: createWrapper(),
@@ -38,7 +38,7 @@ describe("useMediaEntryMutations", () => {
       result.current.mutate({
         tmdbId: 100,
         mediaType: "movie",
-        status: "watched",
+        status: "Watched",
       });
     });
 
