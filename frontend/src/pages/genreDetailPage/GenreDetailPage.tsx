@@ -195,14 +195,13 @@ export default function GenreDetailPage() {
         </div>
       </section>
 
-      <div className="grid grid-cols-3 items-center mb-6">
-        <div />
-        <div className="flex justify-center">
+      <div className="flex items-center justify-between mb-6">
+        <div>
           {supportsBoth && (
             <MediaTypeToggle selectedType={mediaType} onToggle={handleToggle} />
           )}
         </div>
-        <div className="flex justify-end">
+        <div>
           <SortByDropdown value={sortBy} onChange={setSortBy} />
         </div>
       </div>
