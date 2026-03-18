@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import BrandLogo from "../common/BrandLogo";
 const Footer = () => {
   return (
-    <footer className="bg-primary mt-16 border-t border-accent-foreground/70">
+    <footer className="bg-primary mt-16 border-t border-accent-foreground/70 pb-20 md:pb-0">
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
