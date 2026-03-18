@@ -103,7 +103,7 @@ export default function Top10Carousel({
                         <span
                           className="absolute bottom-0 right-0 pb-4 pr-4 z-10 leading-none select-none
                             transition-all duration-300 ease-out origin-bottom-right
-                            text-transparent
+                            text-accent-primary sm:text-transparent
                             group-hover/card:bg-gradient-to-br group-hover/card:from-accent-primary group-hover/card:to-accent-secondary group-hover/card:bg-clip-text
                             [--glow:color-mix(in_srgb,var(--accent-primary)_30%,transparent)]
                             drop-shadow-[0_0_8px_rgba(0,0,0,0.6)]

@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Backdrop from "../../media/shared/Backdrop";
 import RatingPill from "../../ui/RatingPill";
 import GenrePill from "../../ui/GenrePill";
+import { resolveGenreIds } from "../../../utils/genreMap";
 import DatePill from "../../ui/DatePill";
 import { useMediaLogo } from "../../../hooks/images/useMediaLogo";
 import Logo from "../shared/EnhancedTitle";
@@ -186,7 +187,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
 
                         {m.genre_ids?.length ? (
                           <div className="flex flex-wrap gap-2">
-                            {m.genre_ids.slice(0, 3).map((id) => (
+                            {resolveGenreIds(m.genre_ids, m.original_language).slice(0, 3).map((id) => (
                                 <GenrePill
                                   key={id}
                                   id={id}
