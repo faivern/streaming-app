@@ -44,6 +44,13 @@ namespace backend.Controllers
                 return BadRequest("Invalid mediaType. Use 'movie' or 'tv'.");
 
             var data = await _tmdbService.DiscoverByGenreAsync(mediaType, genreId, page, sortBy);
+
+            // Post-filter Animation (16): remove Japanese-language results so they only appear under Anime (7777)
+            if (genreId == CustomGenres.AnimationId)
+            {
+                data = FilterOutJapanese(data);
+            }
+
             return Content(data, "application/json");
         }
 
@@ -75,6 +82,16 @@ namespace backend.Controllers
             if (voteAverageGte.HasValue && (voteAverageGte < ValidationLimits.MinVoteAverage || voteAverageGte > ValidationLimits.MaxVoteAverage))
                 return BadRequest($"voteAverageGte must be between {ValidationLimits.MinVoteAverage} and {ValidationLimits.MaxVoteAverage}.");
 
+            // Handle Anime (7777) in genre filters
+            var hasAnime = genreIds?.Contains(CustomGenres.AnimeId) == true;
+            var hasAnimation = genreIds?.Contains(CustomGenres.AnimationId) == true;
+
+            if (hasAnime && genreIds != null)
+            {
+                genreIds = genreIds.Select(id => id == CustomGenres.AnimeId ? CustomGenres.AnimationId : id).Distinct().ToArray();
+                language = CustomGenres.JapaneseLanguage;
+            }
+
             var data = await _tmdbService.AdvancedDiscoverAsync(
                 mediaType,
                 genreIds,
@@ -88,6 +105,12 @@ namespace backend.Controllers
                 page,
                 withWatchProviders,
                 watchRegion);
+
+            // Post-filter Animation: remove Japanese results when Animation is selected without Anime
+            if (hasAnimation && !hasAnime)
+            {
+                data = FilterOutJapanese(data);
+            }
 
             // Post-filter by runtime: TMDB's with_runtime filter can be unreliable,
             // so we verify each movie's actual runtime from its detail endpoint.
@@ -141,6 +164,24 @@ namespace backend.Controllers
             }
 
             return Content(data, "application/json");
+        }
+
+        private static string FilterOutJapanese(string json)
+        {
+            var jsonNode = JsonNode.Parse(json);
+            var results = jsonNode?["results"]?.AsArray();
+            if (results == null) return json;
+
+            for (int i = results.Count - 1; i >= 0; i--)
+            {
+                var lang = results[i]?["original_language"]?.GetValue<string>();
+                if (lang == CustomGenres.JapaneseLanguage)
+                {
+                    results.RemoveAt(i);
+                }
+            }
+
+            return jsonNode!.ToJsonString();
         }
     }
 }

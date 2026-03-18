@@ -68,6 +68,7 @@ function getCandidates(results: DetailMedia[]): DetailMedia[] {
 // Hardcoded backdrops for genres where TMDB discover returns no backdrop images
 const FALLBACK_BACKDROPS: Record<number, string> = {
   10402: "/g7CHF8gTLGooTbP4GznIGwaqAGL.jpg", // Music → Coco (2017)
+  7777: "/DP3o6JKg0OiEco6jEwMtPxkHsBd.jpg", // Anime → Spirited Away
 };
 
 async function fetchDiscoverResults(

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using backend.Constants;
 using backend.Services;
 using backend.Services.Tmdb;
+using System.Text.Json.Nodes;
 
 namespace backend.Controllers
 {
@@ -19,14 +21,41 @@ namespace backend.Controllers
         public async Task<IActionResult> GetMovieGenre()
         {
             var data = await _tmdbService.GetMovieGenreAsync();
-            return Content(data, "application/json");
+            var enriched = InjectAnimeGenre(data);
+            return Content(enriched, "application/json");
         }
 
         [HttpGet("genre/tv/list")]
         public async Task<IActionResult> GetTvGenre()
         {
             var data = await _tmdbService.GetTvGenreAsync();
-            return Content(data, "application/json");
+            var enriched = InjectAnimeGenre(data);
+            return Content(enriched, "application/json");
+        }
+
+        private static string InjectAnimeGenre(string json)
+        {
+            var node = JsonNode.Parse(json);
+            var genres = node?["genres"]?.AsArray();
+            if (genres == null) return json;
+
+            genres.Add(new JsonObject
+            {
+                ["id"] = CustomGenres.AnimeId,
+                ["name"] = CustomGenres.AnimeName
+            });
+
+            // Sort genres alphabetically by name
+            var sorted = genres
+                .OrderBy(g => g?["name"]?.GetValue<string>() ?? "")
+                .Select(g => g!.DeepClone())
+                .ToList();
+
+            genres.Clear();
+            foreach (var g in sorted)
+                genres.Add(g);
+
+            return node!.ToJsonString();
         }
     }
 }

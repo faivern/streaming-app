@@ -28,6 +28,7 @@ export const GENRE_COLORS: Record<number, string> = {
     10766: "bg-gradient-to-br from-rose-200/80 via-pink-300/80 to-rose-400/80 ring-pink-300/60", // Soap
     10767: "bg-gradient-to-br from-indigo-200/80 via-sky-300/80 to-indigo-400/80 ring-indigo-300/60", // Talk
     10768: "bg-gradient-to-br from-red-200/80 via-amber-300/80 to-stone-400/80 ring-amber-300/60", // War & Politics
+    7777: "bg-gradient-to-br from-pink-200/80 via-fuchsia-300/80 to-purple-400/80 ring-fuchsia-300/60", // Anime
 };
 
 export const getGenreColor = (genreId: number): string => {

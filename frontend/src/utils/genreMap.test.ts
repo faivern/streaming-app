@@ -15,6 +15,10 @@ describe("genreMap", () => {
   });
 
   it("has the expected number of entries", () => {
-    expect(Object.keys(genreMap)).toHaveLength(53);
+    expect(Object.keys(genreMap)).toHaveLength(54);
+  });
+
+  it("maps 7777 to 'Anime'", () => {
+    expect(genreMap[7777]).toBe("Anime");
   });
 });

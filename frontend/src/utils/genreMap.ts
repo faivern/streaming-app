@@ -52,5 +52,13 @@ const genreMap: Record<number, string> = {
   10794: "Animated TV Movie",
   10795: "Animated Special",
   10796: "Animated Anthology",
+  7777: "Anime",
 };
 export default genreMap;
+
+export function resolveGenreIds(genreIds: number[], originalLanguage?: string): number[] {
+  return genreIds.map(id => {
+    if (id === 16 && originalLanguage === "ja") return 7777;
+    return id;
+  });
+}

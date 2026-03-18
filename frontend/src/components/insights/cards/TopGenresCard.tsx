@@ -22,6 +22,7 @@ const GENRE_PERSONAS: Record<string, string> = {
   Thriller: "living on the edge",
   War: "a witness to history",
   Western: "a lone rider",
+  Anime: "a true otaku",
 };
 
 type TopGenresCardProps = {

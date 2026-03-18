@@ -293,8 +293,17 @@ namespace backend.Services.Tmdb
 
         public async Task<string> DiscoverByGenreAsync(string mediaType, int genreId, int page, string sortBy = "popularity.desc")
         {
+            var actualGenreId = genreId;
+            var extraParams = "";
+
+            if (genreId == Constants.CustomGenres.AnimeId)
+            {
+                actualGenreId = Constants.CustomGenres.AnimationId;
+                extraParams = $"&with_original_language={Constants.CustomGenres.JapaneseLanguage}";
+            }
+
             var cacheKey = $"discover_{mediaType}_genre_{genreId}_sort_{sortBy}_page_{page}";
-            var url = $"https://api.themoviedb.org/3/discover/{mediaType}?api_key={_apiKey}&with_genres={genreId}&sort_by={sortBy}&page={page}&include_adult=false";
+            var url = $"https://api.themoviedb.org/3/discover/{mediaType}?api_key={_apiKey}&with_genres={actualGenreId}&sort_by={sortBy}&page={page}&include_adult=false{extraParams}";
             return await FetchWithCacheAsync(cacheKey, url, CacheDurations.Standard);
         }
 
