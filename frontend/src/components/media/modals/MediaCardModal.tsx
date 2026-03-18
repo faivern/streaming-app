@@ -1,7 +1,7 @@
 // components/media/modals/MediaCardModal.tsx
 import { Link } from "react-router-dom";
 import { useMediaDetail } from "../../../hooks/media/useMediaDetail";
-import genreMap from "../../../utils/genreMap";
+import genreMap, { resolveGenreIds } from "../../../utils/genreMap";
 import languageMap from "../../../utils/languageMap";
 import { Calendar, Clock } from "lucide-react";
 import { LuLanguages } from "react-icons/lu";
@@ -57,8 +57,9 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
     data?.poster_path ??
     initial?.poster_path;
   const lang = data?.original_language ?? initial?.original_language ?? "en";
-  const genres =
+  const rawGenres =
     data?.genre_ids ?? initial?.genre_ids ?? data?.genres?.map((g) => g.id);
+  const genres = rawGenres ? resolveGenreIds(rawGenres, lang) : undefined;
 
   // runtime: movies vs tv
   const runtimeMin =

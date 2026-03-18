@@ -30,6 +30,7 @@ export const GENRE_COLORS: Record<string, string> = {
   Soap: "#EC407A",
   Talk: "#26A69A",
   "War & Politics": "#78909C",
+  Anime: "#E040FB",
 };
 
 const FALLBACK_COLORS = [

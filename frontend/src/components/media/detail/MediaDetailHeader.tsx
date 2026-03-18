@@ -3,6 +3,7 @@ import { useState } from "react";
 import MediaPosterActions from "./MediaPosterActions";
 import MediaMetaChips from "../cards/MediaMetaChips";
 import MediaDetails from "./MediaDetails";
+import { resolveGenreIds } from "../../../utils/genreMap";
 import type { DetailMedia, Credit, MediaType } from "../../../types/tmdb";
 
 type Props = {
@@ -33,10 +34,11 @@ export default function MediaDetailHeader({
   const runtime = details.runtime ?? details.episode_run_time?.[0] ?? 0;
   const voteAverage = details.vote_average ?? 0;
   const voteCount = details.vote_count ?? 0;
-  const genreIds = details.genre_ids ?? details.genres?.map((g) => g.id) ?? [];
+  const rawGenreIds = details.genre_ids ?? details.genres?.map((g) => g.id) ?? [];
   const country =
     details.production_countries?.[0]?.name ?? details.origin_country?.[0] ?? "";
   const language = details.original_language ?? "";
+  const genreIds = resolveGenreIds(rawGenreIds, language);
   const companies = details.production_companies ?? [];
   const tagline = details.tagline ?? "";
   const seasons = details.number_of_seasons;

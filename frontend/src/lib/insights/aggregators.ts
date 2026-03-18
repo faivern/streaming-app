@@ -18,13 +18,15 @@ export function computeGenreDistribution(
   const genreCounts = new Map<string, number>();
   let totalGenres = 0;
 
-  // Count genres
+  // Count genres (remap Animation → Anime for Japanese-language media)
   items.forEach((item) => {
     const genres = item.details?.genres;
     if (genres && Array.isArray(genres)) {
+      const isJapanese = item.details?.original_language === "ja";
       genres.forEach((genre) => {
         if (genre.name) {
-          genreCounts.set(genre.name, (genreCounts.get(genre.name) || 0) + 1);
+          const name = genre.name === "Animation" && isJapanese ? "Anime" : genre.name;
+          genreCounts.set(name, (genreCounts.get(name) || 0) + 1);
           totalGenres++;
         }
       });
