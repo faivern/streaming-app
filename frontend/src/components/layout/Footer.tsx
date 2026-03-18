@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Coffee } from "lucide-react";
 import BrandLogo from "../common/BrandLogo";
 const Footer = () => {
   return (
@@ -10,7 +11,7 @@ const Footer = () => {
               <BrandLogo icon={true} />
             </a>
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-6">
             <div>
               <h2 className="mb-6 text-sm font-semibold text-white uppercase">
                 Resources
@@ -41,22 +42,6 @@ const Footer = () => {
             </div>
             <div>
               <h2 className="mb-6 text-sm font-semibold text-white uppercase">
-                Follow us
-              </h2>
-              <ul className="text-[var(--subtle)] font-medium">
-                <li className="mb-4">
-                  <a
-                    href="https://github.com/faivern/streaming-app"
-                    target="_blank"
-                    className="hover:underline "
-                  >
-                    Github
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h2 className="mb-6 text-sm font-semibold text-white uppercase">
                 Legal
               </h2>
               <ul className="text-[var(--subtle)] font-medium">
@@ -75,6 +60,24 @@ const Footer = () => {
                   >
                     Terms of Service
                   </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="mb-6 text-sm font-semibold text-white uppercase">
+                Support
+              </h2>
+              <ul className="text-[var(--subtle)] font-medium">
+                <li>
+                  <a
+                    href="https://buymeacoffee.com/cinelas"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline inline-flex items-center gap-1.5"
+                  >
+                    <Coffee className="size-4" />
+                    Buy Me a Coffee
+                  </a>
                 </li>
               </ul>
             </div>

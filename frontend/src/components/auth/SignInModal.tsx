@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { X } from "lucide-react";
-import { FaGoogle, FaApple } from "react-icons/fa";
+import { FaGoogle /* FaApple */ } from "react-icons/fa";
 import { GOOGLE_LOGIN_URL } from "../../lib/config";
 import { useSignInModal } from "../../context/SignInModalContext";
 
@@ -16,15 +16,15 @@ interface AuthProvider {
 }
 
 const AUTH_PROVIDERS: AuthProvider[] = [
-  {
-    id: "apple",
-    label: "Continue with Apple",
-    icon: <FaApple className="text-lg" />,
-    // href: APPLE_LOGIN_URL, — uncomment when backend endpoint is ready
-    enabled: true,
-    className:
-      "bg-white text-black active:bg-gray-200 hover:bg-gray-100",
-  },
+  // {
+  //   id: "apple",
+  //   label: "Continue with Apple",
+  //   icon: <FaApple className="text-lg" />,
+  //   // href: APPLE_LOGIN_URL, — uncomment when backend endpoint is ready
+  //   enabled: true,
+  //   className:
+  //     "bg-white text-black active:bg-gray-200 hover:bg-gray-100",
+  // },
   {
     id: "google",
     label: "Continue with Google",
@@ -90,11 +90,12 @@ export default function SignInModal() {
                     <X className="w-5 h-5" />
                   </button>
                   <div className="flex justify-center pt-4 pb-2">
-                    <img
-                      src="/logo/brandEmblem.svg"
-                      alt="Cinelas"
-                      className="w-16 h-16 invert"
-                    />
+                    <span
+                      className="text-2xl whitespace-nowrap leading-none text-white"
+                      style={{ fontFamily: "International", WebkitFontSmoothing: "antialiased" }}
+                    >
+                      Cinelas
+                    </span>
                   </div>
                 </div>
 

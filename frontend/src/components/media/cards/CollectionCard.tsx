@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
 import Backdrop from "../shared/Backdrop";
+import Logo from "../shared/EnhancedTitle";
 import RatingPill from "../../ui/RatingPill";
 import { useCollectionById } from "../../../hooks/collections/useCollections";
+import { useMediaLogo } from "../../../hooks/images/useMediaLogo";
 import { avgCollectionRating } from "../../../utils/avgCollectionRating";
 type Props = {
   id: number;
@@ -17,6 +19,8 @@ export default function CollectionCard({
 }: Props) {
   const { data: collection } = useCollectionById(id);
   const avgRating = avgCollectionRating(collection?.parts);
+  const firstMovieId = collection?.parts?.[0]?.id;
+  const { data: logoPath } = useMediaLogo("movie", firstMovieId);
 
   return (
     <Link
@@ -32,9 +36,13 @@ export default function CollectionCard({
       />
       <Backdrop path={backdrop_path ?? undefined} alt={title} className="w-full" sizes="780px" priority={true} />
 
-      {/* Hover gradient overlay with title */}
-      <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-3 pt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <h3 className="text-sm font-semibold text-white truncate">{title}</h3>
+      {/* Logo overlay */}
+      <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent px-3 pb-3 pt-8">
+        {logoPath ? (
+          <Logo path={logoPath} alt={title} className="max-h-8 max-w-[60%] drop-shadow-lg" sizes="160px" />
+        ) : (
+          <h3 className="text-sm font-semibold text-white truncate drop-shadow-lg">{title}</h3>
+        )}
       </div>
     </Link>
   );
