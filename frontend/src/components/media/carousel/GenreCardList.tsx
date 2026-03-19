@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import GenreCard from "../cards/GenreCard.tsx";
 import "../../../style/TitleHover.css";
@@ -9,6 +9,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import type { EnrichedGenre } from "../../../types/tmdb";
+import { usePreloadImages } from "../../../hooks/images/usePreloadImages";
 
 type Props = {
   genres: EnrichedGenre[];
@@ -16,6 +17,15 @@ type Props = {
 };
 
 export default function GenreCardList({ genres, loading = false }: Props) {
+  const backdropUrls = useMemo(
+    () =>
+      genres
+        .filter((g) => g.backdropPath)
+        .map((g) => `https://image.tmdb.org/t/p/w780${g.backdropPath}`),
+    [genres]
+  );
+  usePreloadImages(backdropUrls);
+
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "start" });
 
   const [prevBtnEnabled, setPrevBtnEnabled] = useState(false);

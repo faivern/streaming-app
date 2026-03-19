@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MediaTypeToggle from "../../components/media/grid/MediaTypeToggle";
 import MediaGrid from "../../components/media/grid/MediaGrid";
 import HeroSection from "../../components/media/hero/HeroSection";
@@ -50,18 +50,14 @@ const topRated = useSortByBayesian(topRatedRaw);
   const { data: watchProviders = [], isLoading: providersLoading } =
     useWatchProvidersList(providerRegion);
 
-  // Use the new MediaGrid hook
+  // Prefetch both media types on mount — switching is instant from cache, no race condition
+  const movieGrid = useMediaGrid("movie");
+  const tvGrid = useMediaGrid("tv");
   const {
-    items: mediaItems,
-    loading: mediaLoading,
+    data: mediaItems = [],
+    isLoading: mediaLoading,
     error: mediaError,
-    fetchMediaGrid,
-  } = useMediaGrid();
-
-  // Fetch media grid data when mediaType changes
-  useEffect(() => {
-    fetchMediaGrid(mediaType);
-  }, [mediaType, fetchMediaGrid]);
+  } = mediaType === "movie" ? movieGrid : tvGrid;
 
   const totalMedia = sumDiscoverMedia(movies, tv);
 
@@ -86,7 +82,7 @@ const topRated = useSortByBayesian(topRatedRaw);
           media_type={mediaType}
           items={mediaItems}
           loading={mediaLoading}
-          error={mediaError}
+          error={mediaError?.message ?? null}
         />
         <Top10Carousel
           items={topRated}

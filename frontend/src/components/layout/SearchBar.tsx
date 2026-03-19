@@ -72,6 +72,8 @@ export default function SearchBar({
     if (isMobile) {
       onToggle?.();
     }
+    setQuery("");
+    clearSearch();
     const path =
       val.media_type === "person"
         ? `/person/${val.id}/${(val.name || "unknown")

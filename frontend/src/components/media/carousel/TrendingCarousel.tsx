@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { TrendingMedia } from "../../../types/tmdb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -25,6 +25,13 @@ function SlideTitleArea({ m, isActive }: { m: TrendingMedia; isActive: boolean }
     m.media_type === "movie" || m.media_type === "tv" ? m.media_type : undefined;
   const { data: logoPath } = useMediaLogo(mediaType, m.id);
 
+  useEffect(() => {
+    if (!logoPath) return;
+    const img = new Image();
+    img.src = `https://image.tmdb.org/t/p/w342${logoPath}`;
+    return () => { img.src = ""; };
+  }, [logoPath]);
+
   if (!isActive) return null;
 
   return logoPath ? (
@@ -46,9 +53,13 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
   const intervalRef = useRef<number | null>(null);
   const intervalTime = 6000;
   // only movie/tv with backdrop
-  const filtered = (items ?? []).filter(
-    (m) =>
-      (m.media_type === "movie" || m.media_type === "tv") && m.backdrop_path
+  const filtered = useMemo(
+    () =>
+      (items ?? []).filter(
+        (m) =>
+          (m.media_type === "movie" || m.media_type === "tv") && m.backdrop_path
+      ),
+    [items]
   );
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
@@ -82,6 +93,20 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, [loading, emblaApi, filtered.length]);
+
+  // preload all backdrop images so carousel transitions are instant
+  useEffect(() => {
+    if (filtered.length === 0) return;
+    const base = "https://image.tmdb.org/t/p";
+    const preloaded = filtered.map((m) => {
+      const img = new Image();
+      img.src = `${base}/w1280${m.backdrop_path}`;
+      return img;
+    });
+    return () => {
+      preloaded.forEach((img) => { img.src = ""; });
+    };
+  }, [filtered]);
 
   return (
     <div className="w-full">

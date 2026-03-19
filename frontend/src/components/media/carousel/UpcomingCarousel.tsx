@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import type { TrendingMedia } from "../../../types/tmdb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,6 +6,7 @@ import TitleMid from "../title/TitleMid.tsx";
 import Backdrop from "../shared/Backdrop";
 import RatingPill from "../../ui/RatingPill";
 import { useSortChronological } from "../../../hooks/sorting/useSortChronological.ts";
+import { usePreloadImages } from "../../../hooks/images/usePreloadImages";
 import {
   faChevronLeft,
   faChevronRight,
@@ -35,6 +36,15 @@ export default function UpcomingCarousel({
   mediaType,
 }: Props) {
   const releaseDateSort = useSortChronological(items);
+
+  const backdropUrls = useMemo(
+    () =>
+      releaseDateSort
+        .filter((m) => m.backdrop_path)
+        .map((m) => `https://image.tmdb.org/t/p/w780${m.backdrop_path}`),
+    [releaseDateSort]
+  );
+  usePreloadImages(backdropUrls);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,

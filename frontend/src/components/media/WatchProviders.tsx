@@ -5,11 +5,11 @@ import { faChevronDown, faCheck, faSearch } from "@fortawesome/free-solid-svg-ic
 import { useWatchProviders, useWatchProviderRegions } from "../../hooks/media/useWatchProviders";
 import type { MediaType, WatchProvider, WatchProviderRegion } from "../../types/tmdb";
 import TitleMid from "./title/TitleMid";
+import { getProviderHomepage } from "../../utils/providerHomepages";
 
 type Props = {
   mediaType: MediaType;
   mediaId: number;
-  title?: string;
 };
 
 const STORAGE_KEY = "watchProviders_selectedCountry";
@@ -26,11 +26,9 @@ function getDefaultCountry(): string {
 function ProviderGroup({
   title,
   providers,
-  justWatchLink,
 }: {
   title: string;
   providers?: WatchProvider[];
-  justWatchLink?: string;
 }) {
   if (!providers || providers.length === 0) return null;
 
@@ -39,6 +37,8 @@ function ProviderGroup({
       <h4 className="text-xs uppercase tracking-widest text-gray-500 mb-3 font-semibold border-b border-accent-foreground/30 pb-2">{title}</h4>
       <div className="flex flex-wrap gap-3 md:gap-4">
         {providers.map((provider) => {
+          const homepage = getProviderHomepage(provider.provider_id);
+
           const content = (
             <>
               <div className="relative">
@@ -54,13 +54,13 @@ function ProviderGroup({
             </>
           );
 
-          return justWatchLink ? (
+          return homepage ? (
             <a
               key={provider.provider_id}
-              href={justWatchLink}
+              href={homepage}
               target="_blank"
               rel="noopener noreferrer"
-              title={`View ${provider.provider_name} options on JustWatch`}
+              title={`Go to ${provider.provider_name}`}
               className="group flex flex-col items-center gap-1 md:gap-1.5 w-12 md:w-auto no-underline"
             >
               {content}
@@ -99,7 +99,7 @@ function ProvidersSkeleton() {
   );
 }
 
-export default function WatchProviders({ mediaType, mediaId, title }: Props) {
+export default function WatchProviders({ mediaType, mediaId }: Props) {
   const [selectedCountry, setSelectedCountry] = useState(getDefaultCountry);
   const [countrySearch, setCountrySearch] = useState("");
 
@@ -134,10 +134,6 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
       countryProviders.rent?.length ||
       countryProviders.buy?.length ||
       countryProviders.ads?.length);
-
-  const justWatchUrl = title
-    ? `https://www.justwatch.com/${selectedCountry.toLowerCase()}/search?q=${encodeURIComponent(title)}`
-    : countryProviders?.link;
 
   return (
     <div id="watch-providers" className="bg-component-primary rounded-xl p-4 md:p-6 border border-accent-foreground/60 shadow-lg">
@@ -238,22 +234,18 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
           <ProviderGroup
             title="Stream"
             providers={countryProviders?.flatrate}
-            justWatchLink={justWatchUrl}
           />
           <ProviderGroup
             title="Rent"
             providers={countryProviders?.rent}
-            justWatchLink={justWatchUrl}
           />
           <ProviderGroup
             title="Buy"
             providers={countryProviders?.buy}
-            justWatchLink={justWatchUrl}
           />
           <ProviderGroup
             title="Free with Ads"
             providers={countryProviders?.ads}
-            justWatchLink={justWatchUrl}
           />
 
         </>
@@ -268,7 +260,7 @@ export default function WatchProviders({ mediaType, mediaId, title }: Props) {
       <p className="text-xs text-gray-500 mt-4">
         Streaming data provided by{" "}
         <a
-          href={justWatchUrl || "https://www.justwatch.com"}
+          href="https://www.justwatch.com"
           target="_blank"
           rel="noopener noreferrer"
           className="text-accent-primary hover:underline"

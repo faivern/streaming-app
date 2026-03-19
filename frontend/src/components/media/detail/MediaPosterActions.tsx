@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay, faListUl, faShare } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faShare } from "@fortawesome/free-solid-svg-icons";
+import { Plus } from "lucide-react";
 import useShare from "../../../hooks/useShare";
 import { useUser } from "../../../hooks/user/useUser";
 import { useSignInModal } from "../../../context/SignInModalContext";
@@ -55,7 +56,7 @@ export default function MediaPosterActions({
         onClick={() => user ? setAddToListModalOpen(true) : openSignInModal()}
         className="bg-action-primary hover:bg-action-hover text-white py-2 md:py-4 px-2 rounded-lg md:rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex flex-col items-center justify-center gap-0.5 md:gap-1 border border-slate-600/50 hover:cursor-pointer md:flex-row md:gap-2"
       >
-        <FontAwesomeIcon icon={faListUl} className="text-base" />
+        <Plus className="size-4 md:size-5" />
         <span className="text-xs md:text-md">Add</span>
       </button>
 
