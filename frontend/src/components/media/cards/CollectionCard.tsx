@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Backdrop from "../shared/Backdrop";
 import Logo from "../shared/EnhancedTitle";
@@ -21,6 +22,15 @@ export default function CollectionCard({
   const avgRating = avgCollectionRating(collection?.parts);
   const firstMovieId = collection?.parts?.[0]?.id;
   const { data: logoPath } = useMediaLogo("movie", firstMovieId);
+
+  useEffect(() => {
+    if (!logoPath) return;
+    const img = new Image();
+    img.src = `https://image.tmdb.org/t/p/w342${logoPath}`;
+    return () => {
+      img.src = "";
+    };
+  }, [logoPath]);
 
   return (
     <Link

@@ -15,6 +15,7 @@ import type {
   WatchProvider,
   WatchProviderRegion,
 } from "../../../types/tmdb";
+import { getProviderHomepage } from "../../../utils/providerHomepages";
 
 type Props = {
   mediaType: MediaType;
@@ -45,23 +46,44 @@ function ProviderGroup({
     <div className="mb-5">
       <h4 className="text-sm text-gray-400 mb-3 font-medium">{title}</h4>
       <div className="flex flex-wrap gap-4">
-        {providers.map((provider) => (
-          <div
-            key={provider.provider_id}
-            className="group flex flex-col items-center gap-1.5"
-          >
-            <div className="relative">
-              <img
-                src={`https://image.tmdb.org/t/p/w154${provider.logo_path}`}
-                alt={provider.provider_name}
-                className="w-12 h-12 rounded-xl object-cover border-2 border-gray-700 group-hover:border-sky-500 transition-all group-hover:scale-105 shadow-md"
-              />
+        {providers.map((provider) => {
+          const homepage = getProviderHomepage(provider.provider_id);
+          const content = (
+            <>
+              <div className="relative">
+                <img
+                  src={`https://image.tmdb.org/t/p/w154${provider.logo_path}`}
+                  alt={provider.provider_name}
+                  className="w-12 h-12 rounded-xl object-cover border-2 border-gray-700 group-hover:border-sky-500 transition-all group-hover:scale-105 shadow-md"
+                />
+              </div>
+              <span className="text-xs text-gray-400 group-hover:text-white transition-colors text-center">
+                {provider.provider_name}
+              </span>
+            </>
+          );
+
+          return homepage ? (
+            <a
+              key={provider.provider_id}
+              href={homepage}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={`Go to ${provider.provider_name}`}
+              className="group flex flex-col items-center gap-1.5 no-underline"
+            >
+              {content}
+            </a>
+          ) : (
+            <div
+              key={provider.provider_id}
+              title={provider.provider_name}
+              className="group flex flex-col items-center gap-1.5"
+            >
+              {content}
             </div>
-            <span className="text-xs text-gray-400 group-hover:text-white transition-colors text-center">
-              {provider.provider_name}
-            </span>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
@@ -230,29 +252,6 @@ export default function WatchProviders({ mediaType, mediaId }: Props) {
             providers={countryProviders?.ads}
           />
 
-          {countryProviders?.link && (
-            <a
-              href={countryProviders.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-sky-400 transition-colors mt-2"
-            >
-              <span>View on JustWatch</span>
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                />
-              </svg>
-            </a>
-          )}
         </>
       ) : (
         <p className="text-gray-400 text-sm">

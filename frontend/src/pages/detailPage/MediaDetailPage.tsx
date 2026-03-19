@@ -109,7 +109,7 @@ export default function MediaDetailPage() {
 
           {/* col 1, row 2 — watch providers */}
           <div className="order-3 md:order-none py-2 md:py-4 min-w-0">
-            <WatchProviders mediaType={media_type} mediaId={numericId} title={details.title ?? details.name} />
+            <WatchProviders mediaType={media_type} mediaId={numericId} />
           </div>
 
           {/* col 1, row 3 — cast carousel */}

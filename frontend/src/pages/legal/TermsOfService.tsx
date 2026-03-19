@@ -38,7 +38,6 @@ export default function TermsOfService() {
             . If you are using the service on behalf of an organization, you agree to these
             Terms on behalf of that organization.
           </p>
-          {/* TODO: Insert lawyer-approved "Acceptance of Terms" clause here */}
         </section>
 
         {/* Description of Service */}
@@ -57,7 +56,6 @@ export default function TermsOfService() {
             Movie and TV show data is provided by The Movie Database (TMDB). Streaming
             availability data is provided by JustWatch.
           </p>
-          {/* TODO: Insert lawyer-approved "Service Description" clause here */}
         </section>
 
         {/* User Accounts */}
@@ -72,7 +70,6 @@ export default function TermsOfService() {
             <li>All activities that occur under your account</li>
             <li>Notifying us immediately of any unauthorized use</li>
           </ul>
-          {/* TODO: Insert lawyer-approved "User Accounts" clause here */}
         </section>
 
         {/* User Conduct */}
@@ -90,7 +87,6 @@ export default function TermsOfService() {
             <li>Use automated systems to access the service without permission</li>
             <li>Collect user data without consent</li>
           </ul>
-          {/* TODO: Insert lawyer-approved "Prohibited Activities" clause here */}
         </section>
 
         {/* Intellectual Property */}
@@ -102,7 +98,6 @@ export default function TermsOfService() {
             other intellectual property laws. Movie and TV show data, images, and metadata are
             provided by TMDB and are subject to their terms of use.
           </p>
-          {/* TODO: Insert lawyer-approved "Intellectual Property" clause here */}
         </section>
 
         {/* Account Termination */}
@@ -119,7 +114,6 @@ export default function TermsOfService() {
             or is harmful to other users, us, or third parties, or for any other reason at our
             sole discretion.
           </p>
-          {/* TODO: Insert lawyer-approved "Termination" clause here */}
         </section>
 
         {/* Disclaimer of Warranties */}
@@ -135,7 +129,6 @@ export default function TermsOfService() {
             We do not guarantee the accuracy, completeness, or timeliness of movie/TV show data
             or streaming availability information, as this data is provided by third-party services.
           </p>
-          {/* TODO: Insert lawyer-approved "Disclaimer" clause here */}
         </section>
 
         {/* Limitation of Liability */}
@@ -148,7 +141,6 @@ export default function TermsOfService() {
             LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES RESULTING FROM YOUR USE OF
             THE SERVICE.
           </p>
-          {/* TODO: Insert lawyer-approved "Limitation of Liability" clause here */}
         </section>
 
         {/* Indemnification */}
@@ -159,18 +151,18 @@ export default function TermsOfService() {
             claims, damages, losses, liabilities, and expenses (including legal fees) arising
             out of your use of the service or violation of these Terms.
           </p>
-          {/* TODO: Insert lawyer-approved "Indemnification" clause here */}
         </section>
 
         {/* Governing Law */}
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-text-h1 mb-4">10. Governing Law</h2>
           <p className="leading-relaxed">
-            These Terms shall be governed by and construed in accordance with the laws of{" "}
-            <span className="text-accent-primary">[INSERT JURISDICTION]</span>, without regard
-            to its conflict of law provisions.
+            These Terms shall be governed by and construed in accordance with the laws of
+            Sweden, without regard to its conflict of law provisions. Any disputes arising
+            from these Terms shall be subject to the exclusive jurisdiction of the courts of
+            Sweden. If you are a consumer residing in the EU, you may also be entitled to
+            invoke the mandatory consumer protection provisions of your country of residence.
           </p>
-          {/* TODO: Insert lawyer-approved "Governing Law" clause with actual jurisdiction */}
         </section>
 
         {/* Changes to Terms */}
@@ -182,7 +174,6 @@ export default function TermsOfService() {
             date. Your continued use of the service after such modifications constitutes your
             acceptance of the updated Terms.
           </p>
-          {/* TODO: Insert lawyer-approved "Changes to Terms" clause here */}
         </section>
 
         {/* Contact */}

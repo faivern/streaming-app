@@ -1,56 +1,39 @@
 import { describe, it, expect, vi } from "vitest";
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, waitFor } from "@testing-library/react";
+import { createWrapper } from "../../test/queryWrapper";
 
 vi.mock("../../api/media.api", () => ({
-  getTrendingMediaWithDetails: vi.fn(),
+  getTrendingMediaGrid: vi.fn(),
 }));
 
-import { getTrendingMediaWithDetails } from "../../api/media.api";
+import { getTrendingMediaGrid } from "../../api/media.api";
 import type { DetailMediaGenre } from "../../types/tmdb";
 import useMediaGrid from "./useMediaGrid";
 
 describe("useMediaGrid", () => {
-  it("starts with empty state", () => {
-    const { result } = renderHook(() => useMediaGrid());
-    expect(result.current.items).toEqual([]);
-    expect(result.current.loading).toBe(false);
-    expect(result.current.error).toBeNull();
-  });
-
-  it("fetches media grid items", async () => {
-    vi.mocked(getTrendingMediaWithDetails).mockResolvedValue([
+  it("fetches trending movies", async () => {
+    vi.mocked(getTrendingMediaGrid).mockResolvedValue([
       { id: 1, title: "Movie", media_type: "movie", overview: "", poster_path: null },
     ] as DetailMediaGenre[]);
-    const { result } = renderHook(() => useMediaGrid());
-    await act(async () => {
-      await result.current.fetchMediaGrid("movie");
-    });
-    expect(result.current.items).toHaveLength(1);
-    expect(result.current.loading).toBe(false);
+    const { result } = renderHook(() => useMediaGrid("movie"), { wrapper: createWrapper() });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(result.current.data).toHaveLength(1);
+    expect(getTrendingMediaGrid).toHaveBeenCalledWith("movie", "day", [1, 2]);
+  });
+
+  it("fetches trending TV shows", async () => {
+    vi.mocked(getTrendingMediaGrid).mockResolvedValue([
+      { id: 2, name: "TV Show", media_type: "tv", overview: "", poster_path: null },
+    ] as DetailMediaGenre[]);
+    const { result } = renderHook(() => useMediaGrid("tv"), { wrapper: createWrapper() });
+    await waitFor(() => expect(result.current.isSuccess).toBe(true));
+    expect(getTrendingMediaGrid).toHaveBeenCalledWith("tv", "day", [1, 2]);
   });
 
   it("handles fetch error", async () => {
-    vi.mocked(getTrendingMediaWithDetails).mockRejectedValue(new Error("Network error"));
-    const { result } = renderHook(() => useMediaGrid());
-    await act(async () => {
-      await result.current.fetchMediaGrid("movie");
-    });
-    expect(result.current.error).toBe("Network error");
-    expect(result.current.items).toEqual([]);
-  });
-
-  it("clearMedia resets state", async () => {
-    vi.mocked(getTrendingMediaWithDetails).mockResolvedValue([
-      { id: 1, overview: "", poster_path: null },
-    ] as DetailMediaGenre[]);
-    const { result } = renderHook(() => useMediaGrid());
-    await act(async () => {
-      await result.current.fetchMediaGrid("movie");
-    });
-    act(() => {
-      result.current.clearMedia();
-    });
-    expect(result.current.items).toEqual([]);
-    expect(result.current.error).toBeNull();
+    vi.mocked(getTrendingMediaGrid).mockRejectedValue(new Error("Network error"));
+    const { result } = renderHook(() => useMediaGrid("movie"), { wrapper: createWrapper() });
+    await waitFor(() => expect(result.current.isError).toBe(true));
+    expect(result.current.error?.message).toBe("Network error");
   });
 });

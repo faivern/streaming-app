@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Coffee } from "lucide-react";
+import { Coffee, Mail } from "lucide-react";
 import BrandLogo from "../common/BrandLogo";
 const Footer = () => {
   return (
@@ -77,6 +77,24 @@ const Footer = () => {
                   >
                     <Coffee className="size-4" />
                     Buy Me a Coffee
+                  </a>
+                </li>
+                <li className="mt-4">
+                  <a
+                    href="mailto:cinelas.support@gmail.com?subject=Bug Report"
+                    className="hover:underline inline-flex items-center gap-1.5"
+                  >
+                    <Mail className="size-4" />
+                    Report a Bug
+                  </a>
+                </li>
+                <li className="mt-4">
+                  <a
+                    href="mailto:cinelas.support@gmail.com?subject=Feature Suggestion"
+                    className="hover:underline inline-flex items-center gap-1.5"
+                  >
+                    <Mail className="size-4" />
+                    Suggest a Feature
                   </a>
                 </li>
               </ul>

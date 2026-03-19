@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Link } from "react-router-dom";
 import type { TrendingMedia } from "../../../types/tmdb";
@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TitleMid from "../title/TitleMid.tsx";
 import Backdrop from "../shared/Backdrop";
 import RatingPill from "../../ui/RatingPill";
+import { usePreloadImages } from "../../../hooks/images/usePreloadImages";
 import {
   faChevronLeft,
   faChevronRight,
@@ -56,7 +57,16 @@ export default function Top10Carousel({
   }, [mediaType, emblaApi]);
 
   // Only take top 10 items
-  const top10Items = items.slice(0, 10);
+  const top10Items = useMemo(() => items.slice(0, 10), [items]);
+
+  const backdropUrls = useMemo(
+    () =>
+      top10Items
+        .filter((m) => m.backdrop_path)
+        .map((m) => `https://image.tmdb.org/t/p/w780${m.backdrop_path}`),
+    [top10Items]
+  );
+  usePreloadImages(backdropUrls);
 
   const renderItems = loading
     ? Array.from({ length: 10 }).map((_, i) => ({ id: i }) as TrendingMedia)
