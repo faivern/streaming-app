@@ -2,11 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import type { TrendingMedia } from "../../../types/tmdb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Plus } from "lucide-react";
 import TitleMid from "../title/TitleMid.tsx";
-import Backdrop from "../shared/Backdrop";
+import Poster from "../shared/Poster";
 import RatingPill from "../../ui/RatingPill";
+import AddToListModal from "../../lists/modals/AddToListModal";
 import { useSortChronological } from "../../../hooks/sorting/useSortChronological.ts";
 import { usePreloadImages } from "../../../hooks/images/usePreloadImages";
+import { useUser } from "../../../hooks/user/useUser";
 import {
   faChevronLeft,
   faChevronRight,
@@ -35,16 +38,19 @@ export default function UpcomingCarousel({
   loading = false,
   mediaType,
 }: Props) {
+  const { data: user } = useUser();
+  const [addToListMedia, setAddToListMedia] = useState<TrendingMedia | null>(null);
+
   const releaseDateSort = useSortChronological(items);
 
-  const backdropUrls = useMemo(
+  const posterUrls = useMemo(
     () =>
       releaseDateSort
-        .filter((m) => m.backdrop_path)
-        .map((m) => `https://image.tmdb.org/t/p/w780${m.backdrop_path}`),
+        .filter((m) => m.poster_path)
+        .map((m) => `https://image.tmdb.org/t/p/w342${m.poster_path}`),
     [releaseDateSort]
   );
-  usePreloadImages(backdropUrls);
+  usePreloadImages(posterUrls);
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: false,
@@ -109,14 +115,14 @@ export default function UpcomingCarousel({
           role="region"
           aria-label="Upcoming releases carousel"
         >
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             {loading
-              ? Array.from({ length: 8 }).map((_, i) => (
+              ? Array.from({ length: 10 }).map((_, i) => (
                   <div
                     key={i}
-                    className="flex-[0_0_100%] sm:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)] min-w-0 shrink-0"
+                    className="flex-[0_0_calc(100%/2-8px)] sm:flex-[0_0_calc(100%/3-10.67px)] md:flex-[0_0_calc(100%/4-12px)] lg:flex-[0_0_calc(100%/5-12.8px)] xl:flex-[0_0_calc(100%/6-13.34px)] 2xl:flex-[0_0_calc(100%/7-13.72px)] 3xl:flex-[0_0_calc(100%/8-14px)] 4xl:flex-[0_0_calc(100%/9-14.22px)] min-w-0 shrink-0"
                   >
-                    <div className="aspect-video rounded-2xl bg-white/10 animate-pulse" />
+                    <div className="aspect-[2/3] rounded-2xl bg-white/10 animate-pulse" />
                   </div>
                 ))
               : releaseDateSort.map((item, index) => {
@@ -125,43 +131,58 @@ export default function UpcomingCarousel({
                     mediaType === "movie"
                       ? item.release_date
                       : item.first_air_date;
-                  const backdropPath = item.backdrop_path || "";
-                  const shouldPrioritize = index < 4;
+                  const posterPath = item.poster_path || "";
+                  const shouldPrioritize = index < 5;
 
                   return (
                     <div
                       key={item.id}
-                      className="flex-[0_0_100%] sm:flex-[0_0_calc(33.333%-16px)] lg:flex-[0_0_calc(25%-18px)] min-w-0 shrink-0"
+                      className="flex-[0_0_calc(100%/2-8px)] sm:flex-[0_0_calc(100%/3-10.67px)] md:flex-[0_0_calc(100%/4-12px)] lg:flex-[0_0_calc(100%/5-12.8px)] xl:flex-[0_0_calc(100%/6-13.34px)] 2xl:flex-[0_0_calc(100%/7-13.72px)] 3xl:flex-[0_0_calc(100%/8-14px)] 4xl:flex-[0_0_calc(100%/9-14.22px)] min-w-0 shrink-0"
                     >
                       <Link to={`/media/${mediaType}/${item.id}`}>
-                        <div
-                          className="bg-[var(--component-primary)]
-                            rounded-2xl border border-[var(--border)] overflow-hidden shadow-lg
-                            hover:shadow-xl hover:scale-103 hover:border-accent-primary/75
-                            transition-all duration-300 relative group cursor-pointer"
-                        >
-                          <RatingPill
-                            rating={item.vote_average}
-                            className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            showOutOfTen={false}
-                          />
-                          <Backdrop
-                            path={backdropPath}
-                            alt={itemTitle}
-                            className="w-full aspect-video object-cover"
-                            sizes="780px"
-                            priority={shouldPrioritize}
-                          />
-
-                          {/* Hover gradient overlay with title + release date */}
-                          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-3 pt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <h3 className="text-sm font-semibold text-white truncate">
-                              {itemTitle}
-                            </h3>
-                            <div className="flex gap-2 text-xs text-accent-primary mt-1">
+                        <div className="group cursor-pointer">
+                          <div
+                            className="bg-[var(--component-primary)]
+                              rounded-2xl border border-[var(--border)] overflow-hidden shadow-lg
+                              hover:shadow-xl hover:scale-103 hover:border-accent-primary/75
+                              transition-all duration-300 relative"
+                          >
+                            <RatingPill
+                              rating={item.vote_average}
+                              className="absolute top-2 right-2 z-10 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              showOutOfTen={false}
+                            />
+                            {user && (
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  setAddToListMedia(item);
+                                }}
+                                aria-label="Add to list"
+                                className="absolute top-1 left-1 z-10 p-3 rounded-xl bg-primary/40 border border-badge-foreground/40 backdrop-blur-sm text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:bg-primary/70 hover:border-accent-primary/75 transition-all duration-300 cursor-pointer"
+                              >
+                                <Plus className="w-5 h-5" />
+                              </button>
+                            )}
+                            <Poster
+                              path={posterPath}
+                              alt={itemTitle}
+                              className="w-full"
+                              priority={shouldPrioritize}
+                            />
+                            {/* Desktop-only: title on hover inside card */}
+                            <div className="hidden lg:block absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-3 pt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                              <h3 className="text-sm font-semibold text-white truncate">
+                                {itemTitle}
+                              </h3>
+                            </div>
+                          </div>
+                          <div className="px-1 mt-1">
+                            <div className="flex items-center gap-1.5 text-xs text-accent-primary">
                               <FontAwesomeIcon
                                 icon={faCalendar}
-                                className="text-accent-secondary"
+                                className="text-accent-secondary text-[10px]"
                               />
                               <span className="font-medium">
                                 {formatDate(releaseDate)}
@@ -224,6 +245,21 @@ export default function UpcomingCarousel({
           </div>
         )}
       </div>
+
+      {addToListMedia && (
+        <AddToListModal
+          isOpen={!!addToListMedia}
+          onClose={() => setAddToListMedia(null)}
+          media={{
+            tmdbId: addToListMedia.id,
+            mediaType,
+            title: addToListMedia.title || addToListMedia.name || "Untitled",
+            posterPath: addToListMedia.poster_path ?? null,
+            overview: addToListMedia.overview ?? null,
+            voteAverage: addToListMedia.vote_average ?? null,
+          }}
+        />
+      )}
     </section>
   );
 }

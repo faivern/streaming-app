@@ -33,7 +33,7 @@ export default function MediaDetailPage() {
 
   const { data: details, isLoading, isError, } = useMediaDetail(media_type, numericId);
   const { data: credits } = useMediaCredits(media_type, numericId);
-  const { data: similarMedia = [] } = useSimilarMedia(media_type, numericId);
+  const { data: similarMedia = [], isLoading: isSimilarLoading } = useSimilarMedia(media_type, numericId);
   const { data: keywords = [] } = useMediaKeywords(media_type, numericId);
 
   if (isLoading) {
@@ -104,7 +104,7 @@ export default function MediaDetailPage() {
 
           {/* col 2, rows 1-3 — similar media sidebar (pushed to end on mobile) */}
           <div className="order-6 md:order-none mt-4 md:mt-0 md:row-span-3 md:col-start-2 min-w-0">
-            <MediaGridSimilar similarMedia={similarMedia} parentType={media_type} />
+            <MediaGridSimilar similarMedia={similarMedia} parentType={media_type} isLoading={isSimilarLoading} />
           </div>
 
           {/* col 1, row 2 — watch providers */}

@@ -5,14 +5,16 @@ type MediaType = "movie" | "tv";
 type MediaTypeToggleProps = {
   selectedType: MediaType;
   onToggle: (type: MediaType) => void;
+  compact?: boolean;
 };
 
 export default function MediaTypeToggle({
   selectedType,
   onToggle,
+  compact = false,
 }: MediaTypeToggleProps) {
   return (
-<div className="flex justify-center space-x-8 !text-2xl font-semibold mb-6">
+<div className={compact ? "flex space-x-6 text-lg font-semibold" : "flex justify-center space-x-8 !text-2xl font-semibold mb-6"}>
   <button
     onClick={() => onToggle("movie")}
     className={`pb-1 transition-colors duration-300 ${

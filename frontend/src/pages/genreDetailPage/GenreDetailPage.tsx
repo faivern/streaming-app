@@ -195,10 +195,10 @@ export default function GenreDetailPage() {
         </div>
       </section>
 
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 px-2">
         <div>
           {supportsBoth && (
-            <MediaTypeToggle selectedType={mediaType} onToggle={handleToggle} />
+            <MediaTypeToggle selectedType={mediaType} onToggle={handleToggle} compact />
           )}
         </div>
         <div>

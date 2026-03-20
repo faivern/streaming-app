@@ -118,7 +118,7 @@ const CreditsPage = () => {
           <>
             <TitleMid>Actors</TitleMid>
             {cast.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-4 sm:gap-6">
+              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-x-3 gap-y-6 sm:gap-x-5 sm:gap-y-8">
                 {cast
                   .slice()
                   .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))
@@ -146,7 +146,7 @@ const CreditsPage = () => {
                   .map(([department, members]) => (
                     <div key={department}>
                       <TitleMid>{department}</TitleMid>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7 gap-4 sm:gap-6">
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-7 2xl:grid-cols-8 gap-x-3 gap-y-6 sm:gap-x-5 sm:gap-y-8">
                         {members.map((person) => (
                           <MediaCastCard
                             key={`${person.id}-${person.job}`}

@@ -36,7 +36,11 @@ namespace backend.Controllers
         {
             var result = await HttpContext.AuthenticateAsync("External");
             if (!result.Succeeded || result.Principal is null)
+            {
+                // Clean up external cookie so it doesn't accumulate on retry
+                await HttpContext.SignOutAsync("External");
                 return Redirect($"{_frontendUrl}?auth=failed");
+            }
 
             var ext = result.Principal;
             var email = ext.FindFirst(ClaimTypes.Email)?.Value;
@@ -44,7 +48,10 @@ namespace backend.Controllers
             var picture = ext.FindFirst("picture")?.Value;
 
             if (string.IsNullOrEmpty(email))
+            {
+                await HttpContext.SignOutAsync("External");
                 return Redirect($"{_frontendUrl}?auth=failed&reason=no_email");
+            }
 
             // Find or create user in database
             var user = await _userManager.FindByEmailAsync(email);
@@ -61,7 +68,10 @@ namespace backend.Controllers
 
                 var createResult = await _userManager.CreateAsync(user);
                 if (!createResult.Succeeded)
+                {
+                    await HttpContext.SignOutAsync("External");
                     return Redirect($"{_frontendUrl}?auth=failed&reason=create_failed");
+                }
             }
             else
             {

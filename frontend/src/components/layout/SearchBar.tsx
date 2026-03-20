@@ -32,6 +32,8 @@ export default function SearchBar({
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const showOptions = loading || error !== null || hasSearched;
+
   // Auto-focus when expanded on mobile
   useEffect(() => {
     if (isMobile && isExpanded && inputRef.current) {
@@ -57,6 +59,27 @@ export default function SearchBar({
       document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [isMobile, isExpanded, onToggle]);
+
+  // Desktop: close dropdown on outside click
+  useEffect(() => {
+    if (isMobile) return;
+    if (!showOptions) return;
+
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setQuery("");
+        clearSearch();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside, {
+      passive: true,
+    });
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, [isMobile, showOptions, clearSearch]);
 
   // Scroll active option into view
   useEffect(() => {
@@ -121,8 +144,6 @@ export default function SearchBar({
       inputRef.current?.blur();
     }
   };
-
-  const showOptions = loading || error !== null || hasSearched;
 
   // Mobile: Just return search icon when collapsed
   if (isMobile && !isExpanded) {
@@ -216,9 +237,9 @@ export default function SearchBar({
                             aria-selected={activeIndex === index}
                             onClick={() => handleChange(r)}
                             onMouseEnter={() => setActiveIndex(index)}
-                            className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors duration-150 ${
+                            className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-all duration-200 ${
                               activeIndex === index
-                                ? "bg-accent-primary/20 text-text-h1"
+                                ? "bg-action-hover"
                                 : "text-subtle"
                             }`}
                           >
@@ -232,7 +253,7 @@ export default function SearchBar({
                               <p
                                 className={`font-medium truncate ${
                                   activeIndex === index
-                                    ? "text-text-h1"
+                                    ? "text-accent-primary"
                                     : "text-subtle"
                                 }`}
                               >
@@ -346,9 +367,9 @@ export default function SearchBar({
                       aria-selected={activeIndex === index}
                       onClick={() => handleChange(r)}
                       onMouseEnter={() => setActiveIndex(index)}
-                      className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-colors duration-150 ${
+                      className={`flex items-center gap-3 px-4 py-2 cursor-pointer transition-all duration-200 ${
                         activeIndex === index
-                          ? "bg-accent-primary/20 text-text-h1"
+                          ? "bg-action-hover"
                           : "text-subtle"
                       }`}
                     >
@@ -362,7 +383,7 @@ export default function SearchBar({
                         <p
                           className={`font-medium truncate ${
                             activeIndex === index
-                              ? "text-text-h1"
+                              ? "text-accent-primary"
                               : "text-subtle"
                           }`}
                         >

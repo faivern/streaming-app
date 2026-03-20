@@ -15,13 +15,13 @@ export default function WatchProviderCard({
   region,
 }: WatchProviderCardProps) {
   return (
-    <div className="group relative">
+    <div className="group">
       <Link
         to={`/provider/${providerId}?name=${encodeURIComponent(providerName)}&region=${region}`}
-        className="block"
+        className="flex flex-col items-center gap-2"
       >
         <div
-          className="relative h-28 w-28 rounded-2xl overflow-hidden
+          className="relative aspect-square w-full max-w-28 rounded-2xl overflow-hidden
                      border border-[var(--border)] shadow-lg
                      transition-all duration-300
                      group-hover:scale-105 group-hover:border-accent-primary/75
@@ -33,13 +33,10 @@ export default function WatchProviderCard({
             className="w-full h-full object-cover"
             loading="lazy"
           />
-
-          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-3 pt-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <p className="text-center text-sm text-white font-medium truncate">
-              {providerName}
-            </p>
-          </div>
         </div>
+        <p className="text-center text-xs text-gray-300 font-medium line-clamp-2 w-full max-w-28">
+          {providerName}
+        </p>
       </Link>
     </div>
   );
