@@ -190,8 +190,8 @@ export default function ProviderPage() {
         <span>{totalMediaCount} Total</span>
       </div>
 
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <MediaTypeToggle selectedType={mediaType} onToggle={handleToggle} />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 px-2">
+        <MediaTypeToggle selectedType={mediaType} onToggle={handleToggle} compact />
 
         <div className="flex items-center gap-3">
           <SortByDropdown value={sortBy} onChange={setSortBy} />

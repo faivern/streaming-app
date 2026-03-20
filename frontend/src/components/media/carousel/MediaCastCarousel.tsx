@@ -37,7 +37,9 @@ const MediaCastCarousel = ({ cast }: Props) => {
             aria-label="Cast and crew carousel"
           >
             {cast.slice(mediaCastStart, mediaCastEnd).map((person) => (
-              <MediaCastCard key={person.id} cast={person} />
+              <div key={person.id} className="min-w-[120px] w-[120px] flex-shrink-0">
+                <MediaCastCard cast={person} />
+              </div>
             ))}
           </div>
           {/* Right-edge fade — pointer-events-none so it does not block touch scroll */}

@@ -91,7 +91,7 @@ namespace backend.Configuration
                 o.Scope.Add("openid");
                 o.Scope.Add("profile");
                 o.Scope.Add("email");
-                o.SaveTokens = true;
+                o.SaveTokens = false;
                 o.ClaimActions.MapJsonKey("picture", "picture");
                 o.ClaimActions.MapJsonKey("locale", "locale");
             });

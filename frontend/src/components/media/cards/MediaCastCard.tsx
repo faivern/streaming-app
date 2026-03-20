@@ -31,25 +31,25 @@ const MediaCastCard = ({ cast }: Props) => {
   );
 
   return (
-    <div className="flex flex-col items-center min-w-[120px] w-[120px] flex-shrink-0 text-center mb-4">
+    <div className="flex flex-col items-center w-full text-center">
       {castId ? (
         <Link
           to={`/person/${castId}/${name.toLowerCase().split(" ").join("-")}?from=${media_type}&mediaId=${mediaId}`}
           className="flex flex-col items-center"
         >
-          <div className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-sm flex items-center justify-center hover:border-2 border-accent-primary hover:scale-105 transition-transform duration-200 cursor-pointer">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-sm flex items-center justify-center hover:border-2 border-accent-primary hover:scale-105 transition-transform duration-200 cursor-pointer">
             {profileImage}
           </div>
-          <h3 className="mt-2 text-lg font-semibold">{name}</h3>
-          {characterName && <p className="text-sm text-subtle italic">{characterName}</p>}
+          <h3 className="mt-2 text-sm sm:text-base font-semibold leading-tight line-clamp-2">{name}</h3>
+          {characterName && <p className="text-xs sm:text-sm text-subtle italic leading-tight line-clamp-2">{characterName}</p>}
         </Link>
       ) : (
         <div className="flex flex-col items-center">
-          <div className="w-24 h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-sm flex items-center justify-center">
+          <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-sm flex items-center justify-center">
             {profileImage}
           </div>
-          <h3 className="mt-2 text-lg font-semibold">{name}</h3>
-          {characterName && <p className="text-sm text-subtle italic">{characterName}</p>}
+          <h3 className="mt-2 text-sm sm:text-base font-semibold leading-tight line-clamp-2">{name}</h3>
+          {characterName && <p className="text-xs sm:text-sm text-subtle italic leading-tight line-clamp-2">{characterName}</p>}
         </div>
       )}
     </div>

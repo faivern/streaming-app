@@ -378,7 +378,7 @@ export default function Header() {
                   {showMobileGenres && (
                     <div
                       id="mobile-genres-panel"
-                      className="mt-3 max-h-72 overflow-y-auto pr-1 space-y-1 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent"
+                      className="mt-3 pr-1 space-y-1"
                     >
                       <GenreList genres={genres} />
                     </div>

@@ -3,13 +3,15 @@ import MediaCard from "../cards/MediaCard";
 import MediaSimilarCard from "../cards/MediaSimilarCard";
 import type { DetailMedia, MediaType } from "../../../types/tmdb";
 import TitleMid from "../title/TitleMid";
+import Loading from "../../feedback/Loading";
 
 type Props = {
   similarMedia: DetailMedia[];
   parentType: MediaType; // "movie" | "tv" from the current detail page
+  isLoading?: boolean;
 };
 
-const MediaGridSimilar = ({ similarMedia, parentType }: Props) => {
+const MediaGridSimilar = ({ similarMedia, parentType, isLoading }: Props) => {
   const start = 0, end = 8;
 
   // helper: infer type if TMDB item doesn't include it
@@ -74,7 +76,13 @@ const MediaGridSimilar = ({ similarMedia, parentType }: Props) => {
               );
             })}
 
-            {!similarMedia.length && (
+            {isLoading && (
+              <div className="py-4">
+                <Loading />
+              </div>
+            )}
+
+            {!isLoading && !similarMedia.length && (
               <p className="text-gray-400 text-sm text-center py-4">
                 No similar titles found
               </p>

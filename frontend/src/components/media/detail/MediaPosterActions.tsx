@@ -47,7 +47,7 @@ export default function MediaPosterActions({
                    md:col-span-2 md:flex-row md:gap-2"
       >
         <FontAwesomeIcon icon={faPlay} className="text-white text-base" />
-        <span className="text-xs md:text-md tracking-wide">Watch</span>
+        <span className="text-xs md:text-lg tracking-wide">Watch</span>
       </button>
       {/*testchange */}
       <button
@@ -57,7 +57,7 @@ export default function MediaPosterActions({
         className="bg-action-primary hover:bg-action-hover text-white py-2 md:py-4 px-2 rounded-lg md:rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex flex-col items-center justify-center gap-0.5 md:gap-1 border border-slate-600/50 hover:cursor-pointer md:flex-row md:gap-2"
       >
         <Plus className="size-4 md:size-5" />
-        <span className="text-xs md:text-md">Add</span>
+        <span className="text-xs md:text-lg">Add</span>
       </button>
 
       <button
@@ -67,7 +67,7 @@ export default function MediaPosterActions({
         className="bg-action-primary hover:bg-action-hover text-white py-2 md:py-4 px-2 rounded-lg md:rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex flex-col items-center justify-center gap-0.5 md:gap-1 border border-accent-foreground hover:cursor-pointer md:flex-row md:gap-2"
       >
         <FontAwesomeIcon icon={faShare} className="text-base" />
-        <span className="text-xs md:text-md">Share</span>
+        <span className="text-xs md:text-lg">Share</span>
       </button>
 
       <AddToListModal

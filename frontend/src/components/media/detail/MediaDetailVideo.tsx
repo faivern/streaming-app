@@ -1,5 +1,5 @@
 import { FaPlay } from "react-icons/fa";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Backdrop from "../shared/Backdrop";
 import type { MediaType } from "../../../types/tmdb";
 import { useVideo } from "../../../hooks/useVideo";
@@ -36,6 +36,7 @@ export default function MediaDetailVideo({
   const [shouldFetchVideo, setShouldFetchVideo] = useState<boolean>(false);
   const [showCTA, setShowCTA] = useState(false);
   const ctaTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
   // Only fetch video when user clicks play
   const { videoUrl, loading: trailerLoading } = useVideo(
@@ -78,8 +79,15 @@ export default function MediaDetailVideo({
     if (!videoUrl || !isPlaying) return videoUrl;
 
     const separator = videoUrl.includes("?") ? "&" : "?";
-    return `${videoUrl}${separator}autoplay=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=0`;
+    return `${videoUrl}${separator}autoplay=1&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&disablekb=0&enablejsapi=1`;
   }, [videoUrl, isPlaying]);
+
+  const pauseVideo = useCallback(() => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: "command", func: "pauseVideo", args: "" }),
+      "https://www.youtube.com",
+    );
+  }, []);
 
   const showTrailer = isPlaying && !!videoUrl;
   const showLoading = shouldFetchVideo && trailerLoading;
@@ -97,6 +105,7 @@ export default function MediaDetailVideo({
       <div className="aspect-video w-full rounded-lg overflow-hidden bg-black">
         {showTrailer && (
           <iframe
+            ref={iframeRef}
             src={autoplayVideoUrl!}
             title={`${mediaTitle} Trailer`}
             className="w-full h-full"
@@ -156,6 +165,7 @@ export default function MediaDetailVideo({
           visible={showCTA}
           onScrollToWatchProviders={onScrollToWatchProviders ?? (() => {})}
           onAddToList={onAddToList ?? (() => {})}
+          onPauseVideo={pauseVideo}
         />
       )}
 
