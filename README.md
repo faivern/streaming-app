@@ -4,6 +4,16 @@
 
 ![Cinelas Banner](./screenshots/banner.png)
 
+## About
+
+Cinelas is a full-stack media tracking and discovery platform built for people who take their watchlists seriously. It connects to the TMDB database to give you access to over 1.3 million movies and TV shows, and lets you do far more than just bookmark them.
+
+At its core, Cinelas is about ownership of your media experience. You can search and browse an enormous catalog, see exactly where something is streaming in your country, build custom collections, and track everything you've watched, are watching, or want to watch — all in one place. When you finish something, you can rate it across four dimensions (Acting, Story, Visuals, Soundtrack) and write a review, giving you a personal record that's actually meaningful.
+
+The backend is a .NET 8 API backed by PostgreSQL, with a caching layer that keeps TMDB responses fast without hammering the upstream API. The frontend is React 19 with TypeScript, built with Vite and styled with Tailwind. Authentication runs through Google OAuth with secure cookie sessions.
+
+Everything is containerized with Docker, making local setup straightforward. The app is deployed to Azure Container Apps in production.
+
 ## Tech Stack
 
 ### Frontend
