@@ -165,6 +165,7 @@ export default function AddToListModal({
 
   const handleSave = async () => {
     const hasSelectedLists = selectedListIds.size > 0;
+    const hasSelectedStatus = status !== null;
 
     try {
       // Check item limits before adding
