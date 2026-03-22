@@ -6,7 +6,6 @@ type Props = {
   count?: number;
   className?: string;
   showOutOfTen?: boolean;
-  imdbId?: string;
 };
 
 export default function RatingPillUser({
@@ -14,16 +13,15 @@ export default function RatingPillUser({
   count,
   className = "",
   showOutOfTen = true,
-  imdbId,
 }: Props) {
-  const pillClass = `font-medium ${imdbId ? "cursor-pointer" : ""} ${!rating ? "invisible" : ""} ${className}`;
+  const pillClass = `font-medium ${!rating ? "invisible" : ""} ${className}`;
   return (
     <Pill
       className={pillClass}
       icon={
         <FontAwesomeIcon icon={faStar} className="text-accent-primary mr-1" />
       }
-      title={imdbId ? "View on IMDB" : "Your average rating"}
+      title="Your average rating"
     >
       {rating ? (
         <>

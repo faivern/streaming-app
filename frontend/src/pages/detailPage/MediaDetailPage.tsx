@@ -1,9 +1,11 @@
 // src/pages/media/MediaDetailPage.tsx
 import { useState, useCallback } from "react";
+import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import { useMediaDetail } from "../../hooks/media/useMediaDetail";
 import type { MediaType } from "../../types/tmdb";
 import { useMediaCredits } from "../../hooks/people/useMediaCredits";
+import { mediaUrl } from "../../utils/urlBuilder";
 
 import BackLink from "../../components/media/breadcrumbs/BackLink";
 import MediaDetailVideoSkeleton from "../../components/media/skeleton/MediaDetailVideoSkeleton";
@@ -17,9 +19,9 @@ import useToWatch from "../../hooks/useToWatch";
 import { useSimilarMedia } from "../../hooks/media/useSimilarMedia";
 import { useMediaKeywords } from "../../hooks/media/useMediaKeywords";
 
-export default function MediaDetailPage() {
-  const { media_type, id } = useParams<{ media_type: MediaType; id: string }>();
-  const numericId = Number(id); // important: route param -> number
+export default function MediaDetailPage({ mediaType: media_type }: { mediaType: MediaType }) {
+  const { id } = useParams<{ id: string }>();
+  const numericId = parseInt(id || "", 10);
   const { isPlaying, handleWatchNow } = useToWatch();
   const [addToListModalOpen, setAddToListModalOpen] = useState(false);
 
@@ -49,11 +51,76 @@ export default function MediaDetailPage() {
 
   if (isError || !details) return <div>Error loading media details.</div>;
 
+  const mediaTitle = details.title ?? details.name ?? "Unknown";
+  const year = (details.release_date ?? details.first_air_date ?? "").slice(0, 4);
+  const pageTitle = year ? `${mediaTitle} (${year}) — Cinelas` : `${mediaTitle} — Cinelas`;
+  const description = details.overview
+    ? details.overview.slice(0, 160)
+    : `Find where to stream ${mediaTitle} and more on Cinelas.`;
+  const posterUrl = details.poster_path
+    ? `https://image.tmdb.org/t/p/w500${details.poster_path}`
+    : undefined;
+
   const logoPath =
     details.production_companies?.find((pc) => pc.logo_path)?.logo_path ?? "";
 
+  const jsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": media_type === "tv" ? "TVSeries" : "Movie",
+    name: mediaTitle,
+    url: `https://cinelas.com${mediaUrl(media_type, numericId, mediaTitle)}`,
+    ...(details.overview && { description: details.overview }),
+    ...(posterUrl && { image: posterUrl }),
+    ...(details.release_date && { datePublished: details.release_date }),
+    ...(details.first_air_date && { datePublished: details.first_air_date }),
+    ...(details.genres?.length && {
+      genre: details.genres.map((g) => g.name),
+    }),
+    ...(details.production_companies?.length && {
+      productionCompany: details.production_companies.map((pc) => ({
+        "@type": "Organization",
+        name: pc.name,
+      })),
+    }),
+    ...(details.vote_average != null &&
+      details.vote_count != null &&
+      details.vote_count > 0 && {
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: details.vote_average.toFixed(1),
+          bestRating: "10",
+          ratingCount: details.vote_count,
+        },
+      }),
+    ...(media_type === "movie" && details.runtime && {
+      duration: `PT${details.runtime}M`,
+    }),
+    ...(media_type === "tv" && details.number_of_seasons && {
+      numberOfSeasons: details.number_of_seasons,
+    }),
+    ...(details.created_by?.length && {
+      creator: details.created_by.map((c) => ({
+        "@type": "Person",
+        name: c.name,
+      })),
+    }),
+  };
+
   return (
     <main>
+      <Helmet>
+        <title>{pageTitle}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={`https://cinelas.com${mediaUrl(media_type, numericId, mediaTitle)}`} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={description} />
+        <meta property="og:url" content={`https://cinelas.com${mediaUrl(media_type, numericId, mediaTitle)}`} />
+        <meta property="og:type" content="video.movie" />
+        {posterUrl && <meta property="og:image" content={posterUrl} />}
+        <meta name="twitter:card" content="summary_large_image" />
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
+      </Helmet>
+
       {/* BackLink — always has navbar offset now that hero backdrop is removed */}
       <div className="px-4 md:px-[8%] 4xl:px-[12%] mt-navbar-offset">
         <BackLink />

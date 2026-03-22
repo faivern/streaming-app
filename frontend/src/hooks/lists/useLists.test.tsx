@@ -14,6 +14,10 @@ vi.mock("../../api/lists.api", () => ({
   },
 }));
 
+vi.mock("../user/useUser", () => ({
+  useUser: () => ({ data: { id: "test-user", name: "Test" } }),
+}));
+
 import { listsApi } from "../../api/lists.api";
 import { useUserLists, useListById } from "./useLists";
 

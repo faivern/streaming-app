@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import MediaCardModal from "../modals/MediaCardModal";
 import type { MediaType, DetailMedia } from "../../../types/tmdb";
+import { mediaUrl } from "../../../utils/urlBuilder";
 import { truncateText } from "../../../utils/truncateText";
 import { useDelayHover } from "../../../hooks/useDelayHover";
 import Poster from "../shared/Poster";
@@ -103,7 +104,7 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
       onMouseEnter={onEnter}
       onMouseLeave={onLeave}
     >
-      <Link to={`/media/${media_type}/${id}`}>
+      <Link to={mediaUrl(media_type, id, displayTitle)}>
         <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-action-hover transition-all duration-200 bg-transparent h-full w-full">
           <div className="flex-shrink-0">
             <Poster

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useParams, useNavigate } from "react-router-dom";
 import CreditsDetailHeader from "../../components/media/detail/CreditsDetailHeader";
 import CreditsDetailGrid from "../../components/media/grid/CreditsDetailGrid";
@@ -8,13 +9,14 @@ import { useCombinedCredits } from "../../hooks/people/useCombinedCredits";
 import { useSortedMedia, type SortOption } from "../../hooks/sorting";
 import { useClientChunkedData } from "../../hooks/infinite";
 import InfiniteScrollWrapper from "../../components/ui/InfiniteScrollWrapper";
+import { personUrl } from "../../utils/urlBuilder";
 
 const CreditsDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [sortOption, setSortOption] = useState<SortOption>("bayesian");
 
-  const personId = Number(id);
+  const personId = parseInt(id || "", 10);
   if (!id || isNaN(personId)) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
@@ -70,6 +72,18 @@ const CreditsDetailPage = () => {
   }
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
+      <Helmet>
+        <title>{`${person?.name ?? "Person"} — Filmography | Cinelas`}</title>
+        <meta name="description" content={`Explore the filmography of ${person?.name ?? "this person"}. See all movies and TV shows on Cinelas.`} />
+        <link rel="canonical" href={`https://cinelas.com${personUrl(personId, person?.name ?? "")}`} />
+        <meta property="og:title" content={`${person?.name ?? "Person"} — Filmography | Cinelas`} />
+        <meta property="og:description" content={`Explore the filmography of ${person?.name ?? "this person"}.`} />
+        <meta property="og:url" content={`https://cinelas.com${personUrl(personId, person?.name ?? "")}`} />
+        <meta property="og:type" content="profile" />
+        {person?.profile_path && <meta property="og:image" content={`https://image.tmdb.org/t/p/w500${person.profile_path}`} />}
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       <button
         onClick={() => navigate(-1)}
         className="text-sm text-gray-400 hover:text-accent-primary cursor-pointer mb-6"

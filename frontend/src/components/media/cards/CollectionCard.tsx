@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { collectionUrl } from "../../../utils/urlBuilder";
 import Backdrop from "../shared/Backdrop";
 import Logo from "../shared/EnhancedTitle";
 import RatingPill from "../../ui/RatingPill";
@@ -34,7 +35,7 @@ export default function CollectionCard({
 
   return (
     <Link
-      to={`/collections/${id}`}
+      to={collectionUrl(id, title)}
       className="w-full group block rounded-2xl shadow-lg duration-300 border border-[var(--border)] bg-[var(--component-primary)]
          hover:scale-103 hover:border-accent-primary/75 relative overflow-hidden"
       aria-label={title}

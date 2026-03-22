@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { mediaUrl } from "../../../utils/urlBuilder";
 import { MoreVertical } from "lucide-react";
 import { FaStar } from "react-icons/fa";
 import { IoChevronDown } from "react-icons/io5";
@@ -86,7 +87,7 @@ export default function MobileListRowItem({
         <div className="flex items-center gap-3 w-full p-3">
           {/* Poster — navigates to detail page */}
           <Link
-            to={`/media/${item.mediaType}/${item.tmdbId}`}
+            to={mediaUrl(item.mediaType, item.tmdbId, item.title)}
             onClick={(e) => e.stopPropagation()}
             className="flex-shrink-0"
           >

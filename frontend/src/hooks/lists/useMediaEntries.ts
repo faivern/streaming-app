@@ -6,6 +6,7 @@ import {
   type UpsertReviewRequest,
 } from "../../api/mediaEntries.api";
 import type { MediaEntry, WatchStatus } from "../../types/mediaEntry";
+import { useUser } from "../user/useUser";
 
 export const mediaEntryKeys = {
   all: ["mediaEntries"] as const,
@@ -18,9 +19,11 @@ export const mediaEntryKeys = {
  * Fetch all media entries for the current user
  */
 export function useMediaEntries() {
+  const { data: user } = useUser();
   return useQuery<MediaEntry[]>({
     queryKey: mediaEntryKeys.all,
     queryFn: mediaEntriesApi.getUserEntries,
+    enabled: !!user,
   });
 }
 
@@ -48,10 +51,11 @@ export function useMediaEntry(id?: number) {
  * Fetch a media entry by TMDB ID and media type
  */
 export function useMediaEntryByTmdb(tmdbId?: number, mediaType?: string) {
+  const { data: user } = useUser();
   return useQuery<MediaEntry>({
     queryKey: mediaEntryKeys.byTmdb(tmdbId!, mediaType!),
     queryFn: () => mediaEntriesApi.getByTmdbId(tmdbId!, mediaType!),
-    enabled: Boolean(tmdbId) && Boolean(mediaType),
+    enabled: Boolean(tmdbId) && Boolean(mediaType) && !!user,
   });
 }
 

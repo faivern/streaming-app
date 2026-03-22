@@ -101,7 +101,7 @@ export default function MediaDetailHeader({
           number_of_seasons={seasons}
           number_of_episodes={episodes}
           genre_ids={genreIds}
-          imdb_id={details.imdb_id ?? details.external_ids?.imdb_id}
+          tmdb_id={details.id}
         />
 
         {details.overview && (

@@ -5,6 +5,7 @@ import { useSearch } from "../../hooks/useSearch";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import Poster from "../media/shared/Poster";
+import { mediaUrl, personUrl } from "../../utils/urlBuilder";
 
 type SearchBarProps = {
   isMobile?: boolean;
@@ -99,11 +100,8 @@ export default function SearchBar({
     clearSearch();
     const path =
       val.media_type === "person"
-        ? `/person/${val.id}/${(val.name || "unknown")
-            .toLowerCase()
-            .split(" ")
-            .join("-")}`
-        : `/media/${val.media_type}/${val.id}`;
+        ? personUrl(val.id, val.name || "unknown")
+        : mediaUrl(val.media_type, val.id, val.title || val.name || "");
     navigate(path);
   };
 

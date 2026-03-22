@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useParams } from "react-router-dom";
 import Header from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import BottomNav from "./components/layout/BottomNav";
@@ -26,6 +26,24 @@ const ProvidersPage = lazy(() => import("./pages/providersPage/ProvidersPage"));
 const PrivacyPolicy = lazy(() => import("./pages/legal/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/legal/TermsOfService"));
 
+// Legacy redirect components for old URL patterns
+function LegacyMediaRedirect() {
+  const { media_type, id } = useParams();
+  return <Navigate to={`/${media_type}/${id}`} replace />;
+}
+function LegacyMediaCreditsRedirect() {
+  const { media_type, id } = useParams();
+  return <Navigate to={`/${media_type}/${id}/credits`} replace />;
+}
+function LegacyPersonRedirect() {
+  const { id, name } = useParams();
+  return <Navigate to={`/person/${id}${name ? `-${name}` : ""}`} replace />;
+}
+function LegacyCollectionRedirect() {
+  const { collectionId } = useParams();
+  return <Navigate to={`/collection/${collectionId}`} replace />;
+}
+
 function App() {
   // Theme is managed by useTheme hook (persisted to localStorage)
   useTheme();
@@ -48,12 +66,12 @@ function App() {
               </div>
             }
           />
-          <Route path="/media/:media_type/:id" element={<MediaDetailPage />} />
-          <Route
-            path="/media/:media_type/:id/credits"
-            element={<CreditsPage />}
-          />
-          <Route path="/person/:id/:name" element={<CreditsDetailPage />} />
+          {/* SEO-friendly routes */}
+          <Route path="/movie/:id" element={<MediaDetailPage mediaType="movie" />} />
+          <Route path="/movie/:id/credits" element={<CreditsPage mediaType="movie" />} />
+          <Route path="/tv/:id" element={<MediaDetailPage mediaType="tv" />} />
+          <Route path="/tv/:id/credits" element={<CreditsPage mediaType="tv" />} />
+          <Route path="/person/:id" element={<CreditsDetailPage />} />
 
           <Route path="/lists" element={<MyListsPage />} />
           <Route path="/list/:id/insights" element={<ListInsightsPage />} />
@@ -66,13 +84,16 @@ function App() {
               </div>
             }
           />
-          <Route path="/genre/:genreId" element={<GenreDetailPage />} />
-          <Route
-            path="/collections/:collectionId"
-            element={<CollectionPage />}
-          />
+          <Route path="/genre/:genreId/:mediaType?" element={<GenreDetailPage />} />
+          <Route path="/collection/:collectionId" element={<CollectionPage />} />
           <Route path="/provider/:providerId" element={<ProviderPage />} />
           <Route path="/providers" element={<ProvidersPage />} />
+
+          {/* Legacy redirects for old URL patterns */}
+          <Route path="/media/:media_type/:id" element={<LegacyMediaRedirect />} />
+          <Route path="/media/:media_type/:id/credits" element={<LegacyMediaCreditsRedirect />} />
+          <Route path="/person/:id/:name" element={<LegacyPersonRedirect />} />
+          <Route path="/collections/:collectionId" element={<LegacyCollectionRedirect />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
         </Routes>

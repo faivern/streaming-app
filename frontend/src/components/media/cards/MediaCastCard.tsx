@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { User } from "lucide-react";
 import type { Credit } from "../../../types/tmdb";
+import { personUrl } from "../../../utils/urlBuilder";
 
 type Props = {
   cast?: Credit;
@@ -12,7 +13,7 @@ const MediaCastCard = ({ cast }: Props) => {
   const characterName = cast?.character;
   const castId = cast?.id;
   const profilePath = cast?.profile_path;
-  const slug = name.toLowerCase().split(" ").join("-");
+  // slug is now handled by personUrl
 
   const profileImage = profilePath ? (
     <img
@@ -34,7 +35,7 @@ const MediaCastCard = ({ cast }: Props) => {
     <div className="flex flex-col items-center w-full text-center">
       {castId ? (
         <Link
-          to={`/person/${castId}/${slug}`}
+          to={personUrl(castId, name)}
           className="flex flex-col items-center"
         >
           <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-sm flex items-center justify-center hover:border-2 border-accent-primary hover:scale-105 transition-transform duration-200 cursor-pointer">

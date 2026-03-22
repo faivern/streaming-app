@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from 'react-helmet-async';
 import MediaTypeToggle from "../../components/media/grid/MediaTypeToggle";
 import MediaGrid from "../../components/media/grid/MediaGrid";
 import HeroSection from "../../components/media/hero/HeroSection";
@@ -70,6 +71,17 @@ const topRated = useSortByBayesian(topRatedRaw);
 
   return (
     <main className="mt-navbar-offset">
+      <Helmet>
+        <title>Cinelas — Discover Where to Stream Movies & TV Shows</title>
+        <meta name="description" content="Explore over 1.3 million movies and TV shows. Find where to stream, track what you've watched, and discover your next favorite." />
+        <link rel="canonical" href="https://cinelas.com" />
+        <meta property="og:title" content="Cinelas — Discover Where to Stream Movies & TV Shows" />
+        <meta property="og:description" content="Explore over 1.3 million movies and TV shows. Find where to stream, track what you've watched, and discover your next favorite." />
+        <meta property="og:url" content="https://cinelas.com" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       {/* Hero carousel - full bleed for cinematic effect */}
       <TrendingCarousel items={trending} loading={trendingLoading} />
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from 'react-helmet-async';
 import { FaSignInAlt, FaGoogle, FaPlus } from "react-icons/fa";
 import toast from "react-hot-toast";
 
@@ -305,6 +306,17 @@ export default function MyListsPage() {
 
   return (
     <div className="flex min-h-dvh lg:mt-navbar-offset">
+      <Helmet>
+        <title>My Lists — Cinelas</title>
+        <meta name="description" content="Manage your movie and TV show lists, track what you've watched, and organize your viewing." />
+        <link rel="canonical" href="https://cinelas.com/lists" />
+        <meta property="og:title" content="My Lists — Cinelas" />
+        <meta property="og:description" content="Manage your movie and TV show lists, track what you've watched, and organize your viewing." />
+        <meta property="og:url" content="https://cinelas.com/lists" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       {/* Desktop Sidebar */}
       <aside className="hidden lg:block w-64 xl:w-72 border-r border-[var(--border)]/50 bg-[var(--background)]/50">
         <ListsSidebar

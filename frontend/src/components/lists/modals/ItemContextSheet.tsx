@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import Poster from "../../media/shared/Poster";
+import { mediaUrl } from "../../../utils/urlBuilder";
 import type { DisplayItem } from "../../../types/lists.view";
 import type { WatchStatus } from "../../../types/mediaEntry";
 import toast from "react-hot-toast";
@@ -92,7 +93,7 @@ export default function ItemContextSheet({
   };
 
   const handleShare = async () => {
-    const url = `${window.location.origin}/media/${item.mediaType}/${item.tmdbId}`;
+    const url = `${window.location.origin}${mediaUrl(item.mediaType, item.tmdbId, item.title)}`;
     if (navigator.share) {
       try {
         await navigator.share({ title: item.title, url });
@@ -138,7 +139,7 @@ export default function ItemContextSheet({
       icon: <ExternalLink className="w-5 h-5" />,
       label: "View Details",
       onClick: () => {
-        navigate(`/media/${item.mediaType}/${item.tmdbId}`);
+        navigate(mediaUrl(item.mediaType, item.tmdbId, item.title));
         onClose();
       },
     },

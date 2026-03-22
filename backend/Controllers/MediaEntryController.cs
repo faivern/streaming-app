@@ -13,7 +13,6 @@ namespace backend.Controllers
     [ApiController]
     [Route("api/media-entries")]
     [Authorize]
-    [EnableRateLimiting("mutation")]
     public class MediaEntryController : ControllerBase
     {
         private readonly IMediaEntryService _mediaEntryService;
@@ -27,7 +26,8 @@ namespace backend.Controllers
 
         private string GetUserId() => User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
-[HttpGet]
+        [HttpGet]
+        [EnableRateLimiting("standard")]
         public async Task<IActionResult> GetUserEntries()
         {
             var entries = await _mediaEntryService.GetUserEntriesAsync(GetUserId());
@@ -35,6 +35,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("{id}")]
+        [EnableRateLimiting("standard")]
         public async Task<IActionResult> GetById(int id)
         {
             var entry = await _mediaEntryService.GetByIdAsync(id, GetUserId());
@@ -43,6 +44,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("tmdb/{tmdbId}/{mediaType}")]
+        [EnableRateLimiting("standard")]
         public async Task<IActionResult> GetByTmdbId(int tmdbId, string mediaType)
         {
             if (!MediaTypes.IsValid(mediaType))
@@ -54,6 +56,7 @@ namespace backend.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("mutation")]
         public async Task<IActionResult> Create([FromBody] CreateMediaEntryRequest request)
         {
             if (!MediaTypes.IsValid(request.MediaType))
@@ -84,6 +87,7 @@ namespace backend.Controllers
         }
 
         [HttpPut("{id}")]
+        [EnableRateLimiting("mutation")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateMediaEntryRequest request)
         {
             var entry = await _mediaEntryService.GetByIdAsync(id, GetUserId());
@@ -105,6 +109,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{id}")]
+        [EnableRateLimiting("mutation")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _mediaEntryService.DeleteAsync(id, GetUserId());
@@ -113,6 +118,7 @@ namespace backend.Controllers
         }
 
         [HttpPut("{id}/review")]
+        [EnableRateLimiting("mutation")]
         public async Task<IActionResult> UpsertReview(int id, [FromBody] UpsertReviewRequest request)
         {
             if (!MediaEntryService.ValidateText(request.Content))
@@ -140,6 +146,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{id}/review")]
+        [EnableRateLimiting("mutation")]
         public async Task<IActionResult> DeleteReview(int id)
         {
             var entry = await _mediaEntryService.GetByIdAsync(id, GetUserId());

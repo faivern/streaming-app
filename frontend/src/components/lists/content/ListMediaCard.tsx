@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { mediaUrl } from "../../../utils/urlBuilder";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import Poster from "../../media/shared/Poster";
 import WatchStatusBadge from "../shared/WatchStatusBadge";
@@ -35,7 +36,7 @@ const avgRating = calculateAverageRating(item);
   return (
     <div className={containerClass}>
       <div className={cardClass}>
-        <Link to={`/media/${item.mediaType}/${item.tmdbId}`}>
+        <Link to={mediaUrl(item.mediaType, item.tmdbId, item.title)}>
           <RatingPillUser
             rating={avgRating || 0}
             className="absolute top-1 right-1 text-accent-primary bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl"

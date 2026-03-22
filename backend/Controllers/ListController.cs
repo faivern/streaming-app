@@ -13,7 +13,6 @@ namespace backend.Controllers
     [ApiController]
     [Route("api/list")]
     [Authorize]
-    [EnableRateLimiting("mutation")]
     public class ListController : ControllerBase
     {
         private readonly IListService _listService;
@@ -28,6 +27,7 @@ namespace backend.Controllers
         private string GetUserId() => User.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
         [HttpGet]
+        [EnableRateLimiting("standard")]
         public async Task<IActionResult> GetUserLists()
         {
             var lists = await _listService.GetUserListsAsync(GetUserId());
@@ -35,6 +35,7 @@ namespace backend.Controllers
         }
 
         [HttpGet("{id}")]
+        [EnableRateLimiting("standard")]
         public async Task<IActionResult> GetById(int id)
         {
             var list = await _listService.GetByIdAsync(id, GetUserId());
@@ -43,6 +44,7 @@ namespace backend.Controllers
         }
 
         [HttpPost]
+        [EnableRateLimiting("mutation")]
         public async Task<IActionResult> Create([FromBody] CreateListRequest request)
         {
             var (valid, error) = ListService.ValidateListName(request.Name);
@@ -66,6 +68,7 @@ namespace backend.Controllers
         }
 
         [HttpPut("{id}")]
+        [EnableRateLimiting("mutation")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateListRequest request)
         {
             var list = await _listService.GetByIdAsync(id, GetUserId());
@@ -86,6 +89,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{id}")]
+        [EnableRateLimiting("mutation")]
         public async Task<IActionResult> Delete(int id)
         {
             var deleted = await _listService.DeleteAsync(id, GetUserId());
@@ -94,6 +98,7 @@ namespace backend.Controllers
         }
 
         [HttpPost("{id}/items")]
+        [EnableRateLimiting("mutation")]
         public async Task<IActionResult> AddItem(int id, [FromBody] AddListItemRequest request)
         {
             if (!MediaTypes.IsValid(request.MediaType))
@@ -129,6 +134,7 @@ namespace backend.Controllers
         }
 
         [HttpDelete("{id}/items/{itemId}")]
+        [EnableRateLimiting("mutation")]
         public async Task<IActionResult> RemoveItem(int id, int itemId)
         {
             var list = await _listService.GetByIdAsync(id, GetUserId());
