@@ -90,7 +90,7 @@ export default function MediaCard(props: MediaCardProps) {
               <>
                 <RatingPill
                   rating={vote_average}
-                  className="absolute top-1 right-1 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out z-10"
+                  className="absolute top-1 left-1 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out z-10"
                   showOutOfTen={false}
                 />
 
@@ -98,7 +98,7 @@ export default function MediaCard(props: MediaCardProps) {
                   <button
                     onClick={handleAddToList}
                     aria-label="Add to list"
-                    className="absolute top-1 left-1 z-10 p-3 rounded-xl bg-primary/40 border border-badge-foreground/40 backdrop-blur-sm text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:bg-primary/70 hover:border-accent-primary/75 transition-all duration-500 ease-out hover:cursor-pointer"
+                    className="absolute top-1 right-1 z-10 p-3 rounded-xl bg-primary/40 border border-badge-foreground/40 backdrop-blur-sm text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:bg-primary/70 hover:border-accent-primary/75 transition-all duration-500 ease-out hover:cursor-pointer"
                   >
                     <Plus className="w-6 h-6" />
                   </button>

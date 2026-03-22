@@ -6,20 +6,19 @@ import {
   ResponsiveContainer,
   Tooltip,
   CartesianGrid,
+  Cell,
 } from "recharts";
 
 type BarChartProps = {
   data: Array<{ label: string; value: number }>;
-  color?: string;
   height?: number;
+  highlightIndex?: number;
 };
-
-const DEFAULT_COLOR = "hsl(197, 100%, 50%)"; // accent-primary
 
 export default function BarChart({
   data,
-  color = DEFAULT_COLOR,
   height = 280,
+  highlightIndex,
 }: BarChartProps) {
   // Handle empty data
   if (!data || data.length === 0) {
@@ -36,6 +35,16 @@ export default function BarChart({
   return (
     <ResponsiveContainer width="100%" height={height}>
       <RechartsBarChart data={data}>
+        <defs>
+          <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--accent-primary)" stopOpacity={1} />
+            <stop offset="100%" stopColor="var(--accent-secondary)" stopOpacity={0.6} />
+          </linearGradient>
+          <linearGradient id="barGradientHighlight" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="var(--accent-primary)" stopOpacity={1} />
+            <stop offset="100%" stopColor="var(--accent-secondary)" stopOpacity={0.9} />
+          </linearGradient>
+        </defs>
         <CartesianGrid
           strokeDasharray="3 3"
           stroke="hsl(240, 1%, 24%)"
@@ -44,12 +53,12 @@ export default function BarChart({
         <XAxis
           dataKey="label"
           stroke="white"
-          tick={{ fill: "white" }}
+          tick={{ fill: "white", fontSize: 12 }}
           tickLine={{ stroke: "white" }}
         />
         <YAxis
           stroke="white"
-          tick={{ fill: "white" }}
+          tick={{ fill: "white", fontSize: 12 }}
           tickLine={{ stroke: "white" }}
           allowDecimals={false}
         />
@@ -65,7 +74,28 @@ export default function BarChart({
           }}
           cursor={{ fill: "hsl(240, 1%, 20%)" }}
         />
-        <Bar dataKey="value" fill={color} radius={[4, 4, 0, 0]} />
+        <Bar
+          dataKey="value"
+          radius={[4, 4, 0, 0]}
+          animationDuration={1000}
+          animationBegin={200}
+        >
+          {data.map((_, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={
+                highlightIndex !== undefined && index === highlightIndex
+                  ? "url(#barGradientHighlight)"
+                  : "url(#barGradient)"
+              }
+              opacity={
+                highlightIndex !== undefined && index !== highlightIndex
+                  ? 0.5
+                  : 1
+              }
+            />
+          ))}
+        </Bar>
       </RechartsBarChart>
     </ResponsiveContainer>
   );

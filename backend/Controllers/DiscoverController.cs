@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using backend.Constants;
 using backend.Models.Dtos;
 using backend.Models.Enums;
@@ -10,6 +11,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/discover")]
+    [EnableRateLimiting("standard")]
     public class DiscoverController : ControllerBase
     {
         private readonly ITmdbService _tmdbService;

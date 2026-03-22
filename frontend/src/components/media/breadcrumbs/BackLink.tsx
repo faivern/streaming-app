@@ -10,7 +10,8 @@ const BackLink = ({ media_type, id, title }: Props) => {
   const navigate = useNavigate();
 
   // If media context, show full breadcrumb
-  if (media_type && id && title) {
+  const validMediaTypes = ["movie", "tv"];
+  if (media_type && validMediaTypes.includes(media_type) && id && title) {
     return (
       <div className="text-sm text-gray-400 space-x-2 mb-6">
         <Link to="/" className="hover:text-accent-primary">Home</Link>

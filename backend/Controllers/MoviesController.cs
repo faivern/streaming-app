@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using backend.Models.Enums;
 using backend.Services;
 using backend.Services.Tmdb;
@@ -7,6 +8,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [EnableRateLimiting("standard")]
     public class MoviesController : ControllerBase
     {
         private readonly ITmdbService _tmdbService;

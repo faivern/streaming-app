@@ -1,24 +1,18 @@
 import { useState, useEffect } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import CreditsDetailHeader from "../../components/media/detail/CreditsDetailHeader";
 import CreditsDetailGrid from "../../components/media/grid/CreditsDetailGrid";
-import BackLink from "../../components/media/breadcrumbs/BackLink";
 import SortingDropdown from "../../components/ui/SortingDropdown";
 import { usePerson } from "../../hooks/people/usePerson";
 import { useCombinedCredits } from "../../hooks/people/useCombinedCredits";
-import { useMediaDetail } from "../../hooks/media/useMediaDetail";
 import { useSortedMedia, type SortOption } from "../../hooks/sorting";
 import { useClientChunkedData } from "../../hooks/infinite";
 import InfiniteScrollWrapper from "../../components/ui/InfiniteScrollWrapper";
-import type { MediaType } from "../../types/tmdb";
 
 const CreditsDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [sortOption, setSortOption] = useState<SortOption>("bayesian");
-
-  const fromMediaType = searchParams.get("from") as MediaType | null;
-  const mediaId = searchParams.get("mediaId");
 
   const personId = Number(id);
   if (!id || isNaN(personId)) {
@@ -42,14 +36,6 @@ const CreditsDetailPage = () => {
     isLoading: creditsLoading,
     error: creditsError,
   } = useCombinedCredits(personId);
-
-  // Extract cast from the credits response
-
-  // Fetch media details if we have context (optional)
-  const { data: mediaDetails } = useMediaDetail(
-    fromMediaType || undefined,
-    mediaId ? Number(mediaId) : undefined
-  );
 
   const enrichedCredits = (creditsData?.cast || []) as any[];
   const sortedCredits = useSortedMedia(enrichedCredits, sortOption);
@@ -84,11 +70,12 @@ const CreditsDetailPage = () => {
   }
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
-      <BackLink
-        media_type={fromMediaType || undefined}
-        id={mediaId || undefined}
-        title={mediaDetails?.title || mediaDetails?.name || "Media"}
-      />
+      <button
+        onClick={() => navigate(-1)}
+        className="text-sm text-gray-400 hover:text-accent-primary cursor-pointer mb-6"
+      >
+        ← Back
+      </button>
       <CreditsDetailHeader
         id={person.id}
         name={person.name}

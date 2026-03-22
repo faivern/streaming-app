@@ -1,17 +1,28 @@
 const card =
-  "bg-component-primary/60 backdrop-blur-md border border-border/40 rounded-2xl p-6 shadow-xl animate-pulse";
+  "relative overflow-hidden bg-component-primary/60 backdrop-blur-md border border-border/40 rounded-2xl p-6 shadow-xl animate-pulse";
 const s = "bg-border/40 rounded";
+const gradientStrip = (
+  <div
+    className="absolute top-0 left-0 right-0 h-[2px] rounded-t-2xl"
+    style={{ background: "var(--gradient)" }}
+  />
+);
 
 export default function InsightsSkeleton() {
   return (
     <>
       {/* IdentityIntroCard skeleton */}
-      <div className={`${card} mb-8`}>
-        <div className={`h-2.5 w-32 ${s} mb-5`} />
-        <div className="grid grid-cols-3 gap-4">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className={`aspect-[2/3] rounded-2xl ${s}`} />
-          ))}
+      <div
+        className="rounded-2xl p-[1px] mb-8 animate-pulse"
+        style={{ background: "var(--gradient)" }}
+      >
+        <div className="bg-component-primary/90 rounded-2xl p-8">
+          <div className={`h-2.5 w-32 ${s} mb-5`} />
+          <div className="grid grid-cols-3 gap-4">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className={`aspect-[2/3] rounded-2xl ${s}`} />
+            ))}
+          </div>
         </div>
       </div>
 
@@ -19,6 +30,7 @@ export default function InsightsSkeleton() {
 
       {/* HeroStatCard */}
       <div className={`${card} md:col-span-2 md:row-span-2 h-64`}>
+        {gradientStrip}
         <div className="flex flex-col items-center justify-center h-full gap-2">
           <div className={`w-9 h-9 rounded-full ${s} mb-2`} />
           <div className={`h-3 w-24 ${s}`} />
@@ -32,6 +44,7 @@ export default function InsightsSkeleton() {
 
       {/* GenreDonutCard */}
       <div className={`${card} md:col-span-2 md:row-span-2 lg:col-span-4 h-64`}>
+        {gradientStrip}
         <div className={`h-3 w-16 ${s} mb-3`} />
         <div className="flex items-center gap-2 mb-4">
           <div className="w-2.5 h-2.5 rounded-full bg-border/40 flex-shrink-0" />
@@ -49,6 +62,7 @@ export default function InsightsSkeleton() {
 
       {/* TopPeopleCard */}
       <div className={`${card} md:col-span-2 lg:col-span-3 h-48`}>
+        {gradientStrip}
         <div className={`h-3 w-24 ${s} mb-1`} />
         <div className={`h-3 w-44 ${s} mb-4`} />
         <div>
@@ -69,6 +83,7 @@ export default function InsightsSkeleton() {
 
       {/* TopGenresCard */}
       <div className={`${card} md:col-span-2 lg:col-span-3 h-48`}>
+        {gradientStrip}
         <div className={`h-3 w-20 ${s} mb-1`} />
         <div className={`h-3 w-44 ${s} mb-4`} />
         <div className="space-y-2">
@@ -89,6 +104,7 @@ export default function InsightsSkeleton() {
 
       {/* RatingComparisonCard */}
       <div className={`${card} md:col-span-2 h-48`}>
+        {gradientStrip}
         <div className={`h-3 w-36 ${s} mb-3`} />
         <div className="flex items-center justify-around gap-4 py-2">
           <div className="flex flex-col items-center gap-1.5">
@@ -110,6 +126,7 @@ export default function InsightsSkeleton() {
 
       {/* ActiveMonthCard */}
       <div className={`${card} md:col-span-2 h-48`}>
+        {gradientStrip}
         <div className={`h-3 w-32 ${s} mb-3`} />
         <div className="flex items-center gap-4 py-2">
           <div className="w-14 h-14 rounded-full bg-border/40 flex-shrink-0" />
@@ -125,6 +142,7 @@ export default function InsightsSkeleton() {
 
       {/* ReleaseYearCard */}
       <div className={`${card} md:col-span-4 lg:col-span-2 h-48`}>
+        {gradientStrip}
         <div className={`h-3 w-24 ${s} mb-1`} />
         <div className={`h-3 w-44 ${s} mb-4`} />
         <div className="flex items-end gap-2 h-20 px-1">

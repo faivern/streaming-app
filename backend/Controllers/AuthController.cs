@@ -4,12 +4,14 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Claims;
 
 namespace backend.Controllers
 {
     [ApiController]
     [Route("api/auth")]
+    [EnableRateLimiting("auth")]
     public class AuthController : Controller
     {
         private readonly string _frontendUrl;

@@ -4,6 +4,7 @@ using backend.Models.Enums;
 using backend.Services.Tmdb;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -12,6 +13,7 @@ namespace backend.Controllers
     [ApiController]
     [Route("api/dev")]
     [Authorize]
+    [EnableRateLimiting("mutation")]
     public class SeedController : ControllerBase
     {
         private readonly AppDbContext _db;
