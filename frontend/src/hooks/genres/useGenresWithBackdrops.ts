@@ -95,17 +95,23 @@ export function useGenresWithBackdrops() {
     queryFn: async (): Promise<EnrichedGenre[]> => {
       if (!genres || genres.length === 0) return [];
 
-      // Step 1: Fetch discover results for ALL genres in parallel
-      const genreDiscoverData = await Promise.all(
-        genres.map(async (genre) => {
-          const mediaType = genre.supportedMediaTypes.includes("movie")
-            ? "movie"
-            : "tv";
-          const results = await fetchDiscoverResults(genre.id, mediaType);
-          const candidates = getCandidates(results);
-          return { genre, candidates };
-        }),
-      );
+      // Step 1: Fetch discover results in batches of 5 to avoid request bursts
+      const genreDiscoverData: { genre: typeof genres[number]; candidates: DetailMedia[] }[] = [];
+      const batchSize = 5;
+      for (let i = 0; i < genres.length; i += batchSize) {
+        const batch = genres.slice(i, i + batchSize);
+        const batchResults = await Promise.all(
+          batch.map(async (genre) => {
+            const mediaType = genre.supportedMediaTypes.includes("movie")
+              ? "movie"
+              : "tv";
+            const results = await fetchDiscoverResults(genre.id, mediaType);
+            const candidates = getCandidates(results);
+            return { genre, candidates };
+          }),
+        );
+        genreDiscoverData.push(...batchResults);
+      }
 
       // Step 2: Assign unique backdrops sequentially
       const usedBackdrops = new Set<string>();

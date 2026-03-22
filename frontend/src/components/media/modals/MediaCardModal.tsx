@@ -1,6 +1,7 @@
 // components/media/modals/MediaCardModal.tsx
 import { Link } from "react-router-dom";
 import { useMediaDetail } from "../../../hooks/media/useMediaDetail";
+import { mediaUrl } from "../../../utils/urlBuilder";
 import genreMap, { resolveGenreIds } from "../../../utils/genreMap";
 import languageMap from "../../../utils/languageMap";
 import { Calendar, Clock } from "lucide-react";
@@ -79,7 +80,7 @@ const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
   });
 
   return (
-    <Link to={`/media/${media_type}/${id}`}>
+    <Link to={mediaUrl(media_type, id, title)}>
       <div
         className="backdrop-blur-md bg-component-primary/80 w-96 p-4 shadow-2xl rounded-lg border border-outline/70 text-text-h1"
       >

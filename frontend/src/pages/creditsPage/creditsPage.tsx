@@ -1,21 +1,18 @@
 import { useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useParams, Link } from "react-router-dom";
 import MediaCastCard from "../../components/media/cards/MediaCastCard";
 import TitleMid from "../../components/media/title/TitleMid";
 import type { MediaType, CreditsResponse } from "../../types/tmdb";
 import { useMediaCredits } from "../../hooks/people/useMediaCredits";
 import { useMediaDetail } from "../../hooks/media/useMediaDetail";
+import { mediaUrl, mediaCreditsUrl } from "../../utils/urlBuilder";
 
-type RouteParams = {
-  media_type: MediaType;
-  id: string;
-};
-
-const CreditsPage = () => {
+const CreditsPage = ({ mediaType: media_type = "movie" }: { mediaType?: MediaType }) => {
   const [activeTab, setActiveTab] = useState<"cast" | "crew">("cast");
 
-  const { media_type = "movie", id: idParam } = useParams<RouteParams>();
-  const id = Number(idParam);
+  const { id: idParam } = useParams<{ id: string }>();
+  const id = parseInt(idParam || "", 10);
   const isValidId = Number.isFinite(id) && id > 0;
 
   const {
@@ -71,12 +68,23 @@ const CreditsPage = () => {
 
   return (
     <div className="min-h-dvh bg-[var(--background)]">
+      <Helmet>
+        <title>{`${mediaTitle} — Cast & Crew | Cinelas`}</title>
+        <meta name="description" content={`Full cast and crew for ${mediaTitle}. See actors, directors, and more on Cinelas.`} />
+        <link rel="canonical" href={`https://cinelas.com${mediaCreditsUrl(media_type, id, mediaTitle)}`} />
+        <meta property="og:title" content={`${mediaTitle} — Cast & Crew | Cinelas`} />
+        <meta property="og:description" content={`Full cast and crew for ${mediaTitle}.`} />
+        <meta property="og:url" content={`https://cinelas.com${mediaCreditsUrl(media_type, id, mediaTitle)}`} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-8 mt-navbar-offset">
 
         {/* Header */}
         <div className="mb-6 sm:mb-10">
           <Link
-            to={`/media/${media_type}/${id}`}
+            to={mediaUrl(media_type, id, mediaTitle)}
             className="text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] mb-4 inline-block transition-colors text-sm"
           >
             ← Back to {mediaTitle}

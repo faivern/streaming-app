@@ -8,7 +8,8 @@ type Props = {
   count?: number;
   className?: string;
   showOutOfTen?: boolean;
-  imdbId?: string;
+  tmdbId?: number;
+  mediaType?: "movie" | "tv";
   showWhenEmpty?: boolean;
 };
 
@@ -17,15 +18,17 @@ export default function RatingPill({
   count,
   className = "",
   showOutOfTen = true,
-  imdbId,
+  tmdbId,
+  mediaType,
   showWhenEmpty = false,
 }: Props) {
   const hasRating = rating != null && rating > 0;
+  const hasLink = tmdbId != null && mediaType != null;
   const visibilityClass = !hasRating && !showWhenEmpty ? "invisible" : "";
 
   const content = (
     <Pill
-      className={`font-medium ${imdbId && hasRating ? "hover:bg-amber-500/20 transition-colors cursor-pointer" : ""} ${visibilityClass} ${className}`}
+      className={`font-medium ${hasLink && hasRating ? "hover:bg-amber-500/20 transition-colors cursor-pointer" : ""} ${visibilityClass} ${className}`}
       icon={
         <FontAwesomeIcon
           icon={faStar}
@@ -35,8 +38,8 @@ export default function RatingPill({
       title={
         !hasRating
           ? "No rating available yet"
-          : imdbId
-          ? "View on IMDB"
+          : hasLink
+          ? "View on TMDB"
           : "Average TMDB rating"
       }
     >
@@ -56,10 +59,10 @@ export default function RatingPill({
     </Pill>
   );
 
-  if (imdbId) {
+  if (hasLink) {
     return (
       <a
-        href={`https://www.imdb.com/title/${imdbId}/ratings/?ref_=tt_ov_rat`}
+        href={`https://www.themoviedb.org/${mediaType}/${tmdbId}`}
         target="_blank"
         rel="noopener noreferrer"
         className="no-underline"

@@ -2,10 +2,10 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faShare } from "@fortawesome/free-solid-svg-icons";
 import { Plus } from "lucide-react";
-import useShare from "../../../hooks/useShare";
 import { useUser } from "../../../hooks/user/useUser";
 import { useSignInModal } from "../../../context/SignInModalContext";
 import AddToListModal from "../../lists/modals/AddToListModal";
+import ShareModal from "./ShareModal";
 
 type Props = {
   onWatchNow: () => void;
@@ -28,10 +28,10 @@ export default function MediaPosterActions({
   overview,
   voteAverage,
 }: Props) {
-  const handleShare = useShare();
   const { data: user } = useUser();
   const { openSignInModal } = useSignInModal();
   const [addToListModalOpen, setAddToListModalOpen] = useState(false);
+  const [shareModalOpen, setShareModalOpen] = useState(false);
 
   return (
     <div className="mt-3 md:mt-6 grid grid-cols-2 gap-2 md:gap-3">
@@ -61,7 +61,7 @@ export default function MediaPosterActions({
       </button>
 
       <button
-        onClick={handleShare}
+        onClick={() => setShareModalOpen(true)}
         aria-label="Share"
         title="Share"
         className="bg-action-primary hover:bg-action-hover text-white py-2 md:py-4 px-2 rounded-lg md:rounded-xl font-medium shadow-md transition-all duration-200 hover:scale-105 flex flex-col items-center justify-center gap-0.5 md:gap-1 border border-accent-foreground hover:cursor-pointer md:flex-row md:gap-2"
@@ -69,6 +69,12 @@ export default function MediaPosterActions({
         <FontAwesomeIcon icon={faShare} className="text-base" />
         <span className="text-xs md:text-lg">Share</span>
       </button>
+
+      <ShareModal
+        isOpen={shareModalOpen}
+        onClose={() => setShareModalOpen(false)}
+        title={title}
+      />
 
       <AddToListModal
         isOpen={addToListModalOpen}

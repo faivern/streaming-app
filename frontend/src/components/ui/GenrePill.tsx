@@ -2,6 +2,7 @@
 import { Link } from "react-router-dom";
 import Pill from "./Pill";
 import genreMap from "../../utils/genreMap";
+import { genreUrl } from "../../utils/urlBuilder";
 
 export default function GenrePill({
   id,
@@ -20,7 +21,7 @@ export default function GenrePill({
 
   return (
     <Link
-      to={`/genre/${id}`}
+      to={genreUrl(id, label)}
       className="hover:opacity-80 transition-opacity"
     >
       {pill}

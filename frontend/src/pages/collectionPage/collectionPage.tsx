@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useParams } from "react-router-dom";
 import BackLink from "../../components/media/breadcrumbs/BackLink";
 import MediaDetailVideoSkeleton from "../../components/media/skeleton/MediaDetailVideoSkeleton";
 import HeroCollection from "../../components/media/hero/HeroCollection";
 import CollectionPartsSection from "../../components/media/grid/CollectionPartsSection";
 import { getCollectionById } from "../../api/collections.api";
+import { collectionUrl as buildCollectionUrl } from "../../utils/urlBuilder";
 
 type Collection = {
   id: number;
@@ -28,7 +30,7 @@ const CollectionPage = () => {
       try {
         setLoading(true);
         setError(false);
-        const data = await getCollectionById(Number(collectionId));
+        const data = await getCollectionById(parseInt(collectionId, 10));
         setCollection(data);
       } catch (err) {
         console.error("Failed to fetch collection media:", err);
@@ -76,6 +78,17 @@ const CollectionPage = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
+      <Helmet>
+        <title>{`${collection?.name ?? "Collection"} — Cinelas`}</title>
+        <meta name="description" content={collection?.overview?.slice(0, 160) ?? `Explore this movie collection on Cinelas.`} />
+        <link rel="canonical" href={`https://cinelas.com${buildCollectionUrl(collection.id, collection.name)}`} />
+        <meta property="og:title" content={`${collection?.name ?? "Collection"} — Cinelas`} />
+        <meta property="og:description" content={collection?.overview?.slice(0, 160) ?? "Explore this movie collection on Cinelas."} />
+        <meta property="og:url" content={`https://cinelas.com${buildCollectionUrl(collection.id, collection.name)}`} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       <BackLink />
       <HeroCollection collection={collection} />
       <CollectionPartsSection parts={collection.parts} />

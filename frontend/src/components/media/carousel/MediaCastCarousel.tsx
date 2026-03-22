@@ -1,5 +1,5 @@
 import MediaCastCard from "../cards/MediaCastCard.tsx";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import "../../../style/TitleHover.css";
 import type { Credit } from "../../../types/tmdb.ts";
 import TitleMid from "../title/TitleMid.tsx";
@@ -9,7 +9,9 @@ type Props = {
 };
 
 const MediaCastCarousel = ({ cast }: Props) => {
-  const { media_type, id } = useParams<{ media_type: string; id: string }>();
+  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const media_type = location.pathname.startsWith("/tv") ? "tv" : "movie";
 
   const mediaCastStart = 0;
   const mediaCastEnd = 12;
@@ -21,7 +23,7 @@ const MediaCastCarousel = ({ cast }: Props) => {
           <div className="[&>div]:mb-0">
             <TitleMid>Cast & Crew</TitleMid>
           </div>
-          <Link to={`/media/${media_type}/${id}/credits`}>
+          <Link to={`/${media_type}/${id}/credits`}>
             <span className="underline-hover text-gray-400">
               View all
               <span className="underline-bar"></span>

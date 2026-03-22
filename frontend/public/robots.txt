@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://YOURDOMAIN.com/sitemap.xml
+Sitemap: https://cinelas.com/sitemap.xml

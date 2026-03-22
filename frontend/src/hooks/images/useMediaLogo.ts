@@ -7,6 +7,7 @@ export function useMediaLogo(mediaType?: "movie" | "tv", id?: number) {
     queryKey: ["mediaLogo", mediaType, id],
     enabled: !!mediaType && !!id,
     staleTime: 60 * 60 * 1000,
+    retry: false,
     queryFn: async () => {
       const data = await getLogoImages(mediaType!, id!);
       const logos = data?.logos ?? [];

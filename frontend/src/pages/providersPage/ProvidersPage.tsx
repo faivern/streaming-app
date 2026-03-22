@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from 'react-helmet-async';
 import { useSearchParams, useNavigate } from "react-router-dom";
 
 import BackLink from "../../components/media/breadcrumbs/BackLink";
@@ -66,6 +67,17 @@ export default function ProvidersPage() {
 
   return (
     <main className="mt-navbar-offset max-w-7xl mx-auto px-4 py-8">
+      <Helmet>
+        <title>Streaming Services — Cinelas</title>
+        <meta name="description" content="Browse all streaming services and see what's available on each platform." />
+        <link rel="canonical" href="https://cinelas.com/providers" />
+        <meta property="og:title" content="Streaming Services — Cinelas" />
+        <meta property="og:description" content="Browse all streaming services and see what's available on each platform." />
+        <meta property="og:url" content="https://cinelas.com/providers" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       <BackLink />
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">

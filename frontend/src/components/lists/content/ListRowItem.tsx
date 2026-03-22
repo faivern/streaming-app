@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { mediaUrl } from "../../../utils/urlBuilder";
 import { FaTrash, FaEdit, FaStar } from "react-icons/fa";
 import { IoChevronDown } from "react-icons/io5";
 import Poster from "../../media/shared/Poster";
@@ -86,7 +87,7 @@ export default function ListRowItem({
         <div className="flex items-center gap-4">
           {/* Poster */}
           <Link
-            to={`/media/${item.mediaType}/${item.tmdbId}`}
+            to={mediaUrl(item.mediaType, item.tmdbId, item.title)}
             onClick={(e) => e.stopPropagation()}
             className="flex-shrink-0"
           >
@@ -102,7 +103,7 @@ export default function ListRowItem({
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 min-w-0">
               <Link
-                to={`/media/${item.mediaType}/${item.tmdbId}`}
+                to={mediaUrl(item.mediaType, item.tmdbId, item.title)}
                 onClick={(e) => e.stopPropagation()}
                 className="font-medium text-white hover:text-accent-primary transition-colors line-clamp-1"
               >

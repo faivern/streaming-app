@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { mediaUrl } from "../../../utils/urlBuilder";
 import type { TrendingMedia } from "../../../types/tmdb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Plus } from "lucide-react";
@@ -139,7 +140,7 @@ export default function UpcomingCarousel({
                       key={item.id}
                       className="flex-[0_0_calc(100%/2-8px)] sm:flex-[0_0_calc(100%/3-10.67px)] md:flex-[0_0_calc(100%/4-12px)] lg:flex-[0_0_calc(100%/5-12.8px)] xl:flex-[0_0_calc(100%/6-13.34px)] 2xl:flex-[0_0_calc(100%/7-13.72px)] 3xl:flex-[0_0_calc(100%/8-14px)] 4xl:flex-[0_0_calc(100%/9-14.22px)] min-w-0 shrink-0"
                     >
-                      <Link to={`/media/${mediaType}/${item.id}`}>
+                      <Link to={mediaUrl(mediaType, item.id, item.title || item.name || "")}>
                         <div className="group cursor-pointer">
                           <div
                             className="bg-[var(--component-primary)]

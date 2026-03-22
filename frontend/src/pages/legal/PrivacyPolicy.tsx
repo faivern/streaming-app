@@ -3,10 +3,22 @@
 // by a qualified legal professional to ensure compliance with GDPR, CCPA, and other regulations.
 
 import { Link } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
 
 export default function PrivacyPolicy() {
   return (
     <main className="min-h-dvh bg-background mt-navbar-offset">
+      <Helmet>
+        <title>Privacy Policy — Cinelas</title>
+        <meta name="description" content="Cinelas privacy policy. Learn how we handle your data." />
+        <link rel="canonical" href="https://cinelas.com/privacy-policy" />
+        <meta property="og:title" content="Privacy Policy — Cinelas" />
+        <meta property="og:description" content="Cinelas privacy policy. Learn how we handle your data." />
+        <meta property="og:url" content="https://cinelas.com/privacy-policy" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       <article className="max-w-4xl mx-auto px-page py-8 text-gray-300">
         {/* Header */}
         <header className="mb-12">

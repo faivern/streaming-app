@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
+import { mediaUrl } from "../../../utils/urlBuilder";
 
 type Props = {
   media_type?: string;
-  id?: string;
+  id?: string | number;
   title?: string;
 };
 
@@ -12,11 +13,12 @@ const BackLink = ({ media_type, id, title }: Props) => {
   // If media context, show full breadcrumb
   const validMediaTypes = ["movie", "tv"];
   if (media_type && validMediaTypes.includes(media_type) && id && title) {
+    const numId = typeof id === "string" ? parseInt(id, 10) : id;
     return (
       <div className="text-sm text-gray-400 space-x-2 mb-6">
         <Link to="/" className="hover:text-accent-primary">Home</Link>
         <span>/</span>
-        <Link to={`/media/${media_type}/${id}`} className="hover:text-accent-primary">
+        <Link to={mediaUrl(media_type, numId, title)} className="hover:text-accent-primary">
           ← Back to {title}
         </Link>
       </div>

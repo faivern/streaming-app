@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { getGenreColor } from "../../../theme/genreColors";
 import type { MediaType } from "../../../types/tmdb";
+import { genreUrl } from "../../../utils/urlBuilder";
 
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w780";
 
@@ -26,7 +27,7 @@ const GenreCard = ({ id, name, supportedMediaTypes, backdropPath }: GenreCardPro
                  transition-transform duration-300 hover:scale-105 hover:border-accent-primary/75`}
     > 
       <Link
-        to={`/genre/${id}?mediaType=${defaultMediaType}&name=${encodeURIComponent(name)}`}
+        to={genreUrl(id, name, defaultMediaType)}
         className="block h-full w-full"
       >
         {/* Backdrop image */}

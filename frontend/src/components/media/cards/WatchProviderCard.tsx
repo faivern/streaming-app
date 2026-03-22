@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { providerUrl } from "../../../utils/urlBuilder";
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w154";
 
 type WatchProviderCardProps = {
@@ -17,7 +18,7 @@ export default function WatchProviderCard({
   return (
     <div className="group">
       <Link
-        to={`/provider/${providerId}?name=${encodeURIComponent(providerName)}&region=${region}`}
+        to={`${providerUrl(providerId, providerName)}?region=${region}`}
         className="flex flex-col items-center gap-2"
       >
         <div

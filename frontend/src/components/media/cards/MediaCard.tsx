@@ -6,6 +6,7 @@ import Poster from "../../media/shared/Poster";
 import RatingPill from "../../ui/RatingPill";
 import AddToListModal from "../../lists/modals/AddToListModal";
 import type { MediaType } from "../../../types/tmdb";
+import { mediaUrl } from "../../../utils/urlBuilder";
 import { useDelayHover } from "../../../hooks/useDelayHover";
 import { useUser } from "../../../hooks/user/useUser";
 import {
@@ -133,7 +134,7 @@ export default function MediaCard(props: MediaCardProps) {
                 {cardContent}
               </div>
             ) : (
-              <Link to={`/media/${media_type}/${id}`}>{cardContent}</Link>
+              <Link to={mediaUrl(media_type, id, title)}>{cardContent}</Link>
             );
           })()}
         </div>

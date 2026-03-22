@@ -1,6 +1,7 @@
 // pages/genres/GenreDetailPage.tsx
 import { useEffect, useMemo, useState } from "react";
-import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Film, Tv } from "lucide-react";
 
@@ -21,15 +22,15 @@ import InfiniteScrollWrapper from "../../components/ui/InfiniteScrollWrapper";
 import SortByDropdown from "../../components/discover/filters/SortByDropdown";
 import Backdrop from "../../components/media/shared/Backdrop";
 import type { MediaType } from "../../types/tmdb";
+import { genreUrl as buildGenreUrl } from "../../utils/urlBuilder";
 
 export default function GenreDetailPage() {
-  const { genreId } = useParams();
-  const [searchParams] = useSearchParams();
+  const { genreId, mediaType: urlMediaType } = useParams<{ genreId: string; mediaType?: string }>();
   const navigate = useNavigate();
 
   // guard invalid/absent id while keeping hooks stable
   const genreIdNum = useMemo(() => {
-    const n = Number(genreId);
+    const n = parseInt(genreId || "", 10);
     return Number.isFinite(n) ? n : undefined;
   }, [genreId]);
 
@@ -43,9 +44,8 @@ export default function GenreDetailPage() {
 
   const genreName = genre?.name ?? "Unknown Genre";
 
-  // Get media type from URL, fallback to defaultMediaType
-  const urlMediaType = searchParams.get("mediaType") as MediaType | null;
-  const [mediaType, setMediaType] = useState<MediaType>("movie");
+  // Get media type from URL path param, fallback to defaultMediaType
+  const [mediaType, setMediaType] = useState<MediaType>((urlMediaType as MediaType) || "movie");
   const [sortBy, setSortBy] = useState<string>("popularity.desc");
 
   // Sync media type with URL and validate against supported types
@@ -57,42 +57,40 @@ export default function GenreDetailPage() {
     if (genre) {
       const isUrlTypeValid =
         urlMediaType &&
-        genre.supportedMediaTypes.includes(urlMediaType);
+        genre.supportedMediaTypes.includes(urlMediaType as MediaType);
 
       if (isUrlTypeValid) {
-        setMediaType(urlMediaType);
+        setMediaType(urlMediaType as MediaType);
       } else {
         // URL has invalid or missing media type - redirect to valid one
         const validType = defaultMediaType;
         setMediaType(validType);
 
         // Update URL to reflect the valid media type
-        const newParams = new URLSearchParams(searchParams);
-        newParams.set("mediaType", validType);
-        navigate(`/genre/${genreIdNum}?${newParams.toString()}`, {
+        navigate(buildGenreUrl(genreIdNum, genreName, validType), {
           replace: true,
         });
       }
     } else {
       // Genre not found in our data, use URL type or default
-      setMediaType(urlMediaType || "movie");
+      setMediaType((urlMediaType as MediaType) || "movie");
     }
   }, [
     genre,
     genreLoading,
     genreIdNum,
+    genreName,
     urlMediaType,
     defaultMediaType,
     navigate,
-    searchParams,
   ]);
 
   const handleToggle = (type: MediaType) => {
     setMediaType(type);
     // Update URL when toggling
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("mediaType", type);
-    navigate(`/genre/${genreIdNum}?${newParams.toString()}`, { replace: true });
+    if (genreIdNum) {
+      navigate(buildGenreUrl(genreIdNum, genreName, type), { replace: true });
+    }
   };
 
   const { data: genresWithBackdrops } = useGenresWithBackdrops();
@@ -160,6 +158,17 @@ export default function GenreDetailPage() {
 
   return (
     <main className="mt-navbar-offset max-w-7xl mx-auto px-4 py-8">
+      <Helmet>
+        <title>{`${genreName} Movies & Shows — Cinelas`}</title>
+        <meta name="description" content={`Discover ${genreName} movies and TV shows. Browse popular and top-rated ${genreName} titles on Cinelas.`} />
+        <link rel="canonical" href={`https://cinelas.com${buildGenreUrl(genreIdNum!, genreName, mediaType)}`} />
+        <meta property="og:title" content={`${genreName} Movies & Shows — Cinelas`} />
+        <meta property="og:description" content={`Discover ${genreName} movies and TV shows on Cinelas.`} />
+        <meta property="og:url" content={`https://cinelas.com${buildGenreUrl(genreIdNum!, genreName, mediaType)}`} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       <BackLink />
 
       {/* Hero section */}

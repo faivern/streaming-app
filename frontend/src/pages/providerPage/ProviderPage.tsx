@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Film, Tv } from "lucide-react";
@@ -18,10 +19,12 @@ import TitleMid from "../../components/media/title/TitleMid";
 
 import { useInfiniteDiscoverByProvider } from "../../hooks/discover/useInfiniteDiscoverByProvider";
 import { useWatchProviderRegions } from "../../hooks/media/useWatchProviders";
+import { useWatchProvidersList } from "../../hooks/media/useWatchProvidersList";
 import { getAdvancedDiscover } from "../../api/advancedDiscover.api";
 import InfiniteScrollWrapper from "../../components/ui/InfiniteScrollWrapper";
 import SortByDropdown from "../../components/discover/filters/SortByDropdown";
 import type { MediaType } from "../../types/tmdb";
+import { providerUrl as buildProviderUrl } from "../../utils/urlBuilder";
 
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
@@ -30,13 +33,12 @@ export default function ProviderPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const providerName = searchParams.get("name") || "Unknown Provider";
   const urlRegion = searchParams.get("region");
   const urlMediaType = searchParams.get("mediaType") as MediaType | null;
 
   // Parse provider ID
   const providerIdNum = useMemo(() => {
-    const n = Number(providerId);
+    const n = parseInt(providerId || "", 10);
     return Number.isFinite(n) ? n : undefined;
   }, [providerId]);
 
@@ -52,25 +54,23 @@ export default function ProviderPage() {
     useWatchProviderRegions();
   const regions = regionsData?.results ?? [];
 
-  // Get logo from URL params (stable reference, doesn't need to be in effect deps)
-  const providerLogo = searchParams.get("logo");
+  // Fetch provider list to get name and logo by ID
+  const { data: providersList } = useWatchProvidersList(selectedRegion);
+  const providerInfo = providersList?.find((p) => p.provider_id === providerIdNum);
+  const providerName = providerInfo?.provider_name ?? "Unknown Provider";
+  const providerLogo = providerInfo?.logo_path ?? null;
 
   // Sync URL with state changes
   useEffect(() => {
     if (!providerIdNum) return;
 
-    // Build params from state directly, not from searchParams (avoids circular dependency)
     const newParams = new URLSearchParams();
-    newParams.set("name", providerName);
     newParams.set("region", selectedRegion);
     newParams.set("mediaType", mediaType);
-    if (providerLogo) {
-      newParams.set("logo", providerLogo);
-    }
 
-    const newUrl = `/provider/${providerIdNum}?${newParams.toString()}`;
+    const newUrl = `${buildProviderUrl(providerIdNum, providerName)}?${newParams.toString()}`;
     navigate(newUrl, { replace: true });
-  }, [selectedRegion, mediaType, providerIdNum, providerName, providerLogo, navigate]);
+  }, [selectedRegion, mediaType, providerIdNum, providerName, navigate]);
 
   // Persist region to localStorage
   useEffect(() => {
@@ -149,6 +149,17 @@ export default function ProviderPage() {
 
   return (
     <main className="mt-navbar-offset max-w-7xl mx-auto px-4 py-8">
+      <Helmet>
+        <title>{`${providerName} — Streaming Catalog | Cinelas`}</title>
+        <meta name="description" content={`Browse movies and TV shows available on ${providerName}. Find what to watch on Cinelas.`} />
+        <link rel="canonical" href={`https://cinelas.com${buildProviderUrl(providerIdNum!, providerName)}`} />
+        <meta property="og:title" content={`${providerName} — Streaming Catalog | Cinelas`} />
+        <meta property="og:description" content={`Browse movies and TV shows available on ${providerName}.`} />
+        <meta property="og:url" content={`https://cinelas.com${buildProviderUrl(providerIdNum!, providerName)}`} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
+
       <BackLink />
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">

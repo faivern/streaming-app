@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Link } from "react-router-dom";
+import { mediaUrl } from "../../../utils/urlBuilder";
 import type { TrendingMedia } from "../../../types/tmdb";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TitleMid from "../title/TitleMid.tsx";
@@ -105,7 +106,7 @@ export default function Top10Carousel({
                     <div className="aspect-video rounded-2xl bg-white/10 animate-pulse" />
                   ) : (
                     <Link
-                      to={`/media/${mediaType}/${item.id}`}
+                      to={mediaUrl(mediaType, item.id, item.title || item.name || "")}
                       className="block group group/card"
                     >
                       <div className="relative flex items-center">

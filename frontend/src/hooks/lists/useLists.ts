@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { listsApi, type CreateListRequest, type UpdateListRequest, type AddListItemRequest } from "../../api/lists.api";
 import type { List } from "../../types/list";
+import { useUser } from "../user/useUser";
 
 export const listKeys = {
   all: ["lists"] as const,
@@ -11,9 +12,11 @@ export const listKeys = {
  * Fetch all lists for the current user
  */
 export function useUserLists() {
+  const { data: user } = useUser();
   return useQuery<List[]>({
     queryKey: listKeys.all,
     queryFn: listsApi.getUserLists,
+    enabled: !!user,
   });
 }
 

@@ -1,6 +1,7 @@
 {/*Re-usable popover wrapper for the navbar.*/}
 import { useNavigate } from 'react-router-dom';
 import type { EnrichedGenre, MediaType } from '../../types/tmdb';
+import { genreUrl } from '../../utils/urlBuilder';
 
 type Props = {
     genres?: EnrichedGenre[];
@@ -31,7 +32,7 @@ export default function GenreList({ genres }: Props) {
                     <li
                         key={genre.id}
                         onClick={() =>
-                            navigate(`/genre/${genre.id}?mediaType=${getDefaultMediaType(genre)}&name=${encodeURIComponent(genre.name)}`)
+                            navigate(genreUrl(genre.id, genre.name, getDefaultMediaType(genre)))
                         }
                         className="text-subtle hover:text-text-h1 hover:bg-accent-primary/20 px-2 py-2 rounded-md cursor-pointer transition-colors text-sm"
                     >

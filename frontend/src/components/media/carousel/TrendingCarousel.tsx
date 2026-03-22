@@ -6,6 +6,7 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { mediaUrl } from "../../../utils/urlBuilder";
 import Backdrop from "../../media/shared/Backdrop";
 import RatingPill from "../../ui/RatingPill";
 import GenrePill from "../../ui/GenrePill";
@@ -23,7 +24,11 @@ type Props = {
 function SlideTitleArea({ m, isActive }: { m: TrendingMedia; isActive: boolean }) {
   const mediaType =
     m.media_type === "movie" || m.media_type === "tv" ? m.media_type : undefined;
-  const { data: logoPath } = useMediaLogo(mediaType, m.id);
+  // Only fetch logo for the active slide to avoid 20+ simultaneous /images calls
+  const { data: logoPath } = useMediaLogo(
+    isActive ? mediaType : undefined,
+    isActive ? m.id : undefined
+  );
 
   useEffect(() => {
     if (!logoPath) return;
@@ -166,7 +171,7 @@ export default function TrendingCarousel({ items, loading = false }: Props) {
                     key={m.id}
                     className="flex-[0_0_100%] min-w-0 relative"
                   >
-                    <Link to={`/media/${m.media_type}/${m.id}`}>
+                    <Link to={mediaUrl(m.media_type || "movie", m.id, m.title || m.name || "")}>
                       <div className="absolute bottom-0 left-0 w-full h-38 bg-gradient-to-t from-background via-background/70 to-transparent z-10"></div>
                       <Backdrop
                         path={m.backdrop_path || undefined}
