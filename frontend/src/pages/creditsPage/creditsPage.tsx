@@ -7,14 +7,14 @@ import { useMediaCredits } from "../../hooks/people/useMediaCredits";
 import { useMediaDetail } from "../../hooks/media/useMediaDetail";
 
 type RouteParams = {
-  mediaType: MediaType;
+  media_type: MediaType;
   id: string;
 };
 
 const CreditsPage = () => {
   const [activeTab, setActiveTab] = useState<"cast" | "crew">("cast");
 
-  const { mediaType = "movie", id: idParam } = useParams<RouteParams>();
+  const { media_type = "movie", id: idParam } = useParams<RouteParams>();
   const id = Number(idParam);
   const isValidId = Number.isFinite(id) && id > 0;
 
@@ -22,13 +22,13 @@ const CreditsPage = () => {
     data: credits,
     isLoading: creditsLoading,
     isError: creditsError,
-  } = useMediaCredits(mediaType, isValidId ? id : undefined);
+  } = useMediaCredits(media_type, isValidId ? id : undefined);
 
   const {
     data: details,
     isLoading: detailsLoading,
     isError: detailsError,
-  } = useMediaDetail(mediaType, isValidId ? id : undefined);
+  } = useMediaDetail(media_type, isValidId ? id : undefined);
 
   const cast = credits?.cast ?? [];
   const crew = credits?.crew ?? [];
@@ -76,7 +76,7 @@ const CreditsPage = () => {
         {/* Header */}
         <div className="mb-6 sm:mb-10">
           <Link
-            to={`/media/${mediaType}/${id}`}
+            to={`/media/${media_type}/${id}`}
             className="text-[var(--accent-primary)] hover:text-[var(--accent-secondary)] mb-4 inline-block transition-colors text-sm"
           >
             ← Back to {mediaTitle}

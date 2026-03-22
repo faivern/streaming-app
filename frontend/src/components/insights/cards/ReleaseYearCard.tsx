@@ -18,8 +18,8 @@ export default function ReleaseYearCard({ data }: ReleaseYearCardProps) {
     .map(([decade, count]) => ({ label: decade, value: count }))
     .sort((a, b) => parseInt(a.label) - parseInt(b.label));
 
-  const peakDecade = chartData.reduce<{ label: string; value: number } | null>(
-    (best, d) => (!best || d.value > best.value ? d : best),
+  const peakDecade = chartData.reduce<{ label: string; value: number; index: number } | null>(
+    (best, d, i) => (!best || d.value > best.value ? { ...d, index: i } : best),
     null
   );
 
@@ -30,11 +30,16 @@ export default function ReleaseYearCard({ data }: ReleaseYearCardProps) {
           {peakDecade && (
             <p className="text-sm text-subtle mb-3">
               You gravitate toward{" "}
-              <span className="font-semibold text-text-h1">{peakDecade.label}</span>{" "}
+              <span className="font-semibold text-accent-primary drop-shadow-[0_0_4px_var(--accent-primary)]">
+                {peakDecade.label}
+              </span>{" "}
               cinema
             </p>
           )}
-          <BarChart data={chartData} />
+          <BarChart
+            data={chartData}
+            highlightIndex={peakDecade?.index}
+          />
         </>
       ) : (
         <div className="flex items-center justify-center h-64 text-subtle">
