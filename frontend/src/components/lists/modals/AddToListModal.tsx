@@ -63,7 +63,7 @@ export default function AddToListModal({
   const [selectedListIds, setSelectedListIds] = useState<Set<number>>(
     new Set(),
   );
-  const [status, setStatus] = useState<WatchStatus | null>(null);
+  const [status, setStatus] = useState<WatchStatus>("WantToWatch");
   const [ratingActing, setRatingActing] = useState<number | null>(null);
   const [ratingStory, setRatingStory] = useState<number | null>(null);
   const [ratingVisuals, setRatingVisuals] = useState<number | null>(null);
@@ -151,14 +151,7 @@ export default function AddToListModal({
   };
 
   const handleAddClick = async () => {
-    const hasSelectedLists = selectedListIds.size > 0;
-    const hasSelectedStatus = status !== null;
     const needsRating = status === "Watching" || status === "Watched";
-
-    if (!hasSelectedLists && !hasSelectedStatus) {
-      toast.error("Select a list or status");
-      return;
-    }
 
     // If status needs rating and we're on select step, go to rating step
     if (needsRating && step === "select") {
@@ -172,7 +165,6 @@ export default function AddToListModal({
 
   const handleSave = async () => {
     const hasSelectedLists = selectedListIds.size > 0;
-    const hasSelectedStatus = status !== null;
 
     try {
       // Check item limits before adding
@@ -209,62 +201,60 @@ export default function AddToListModal({
         await Promise.all(promises);
       }
 
-      // Create or update media entry (silent)
-      if (hasSelectedStatus && status) {
-        if (existingEntry) {
-          // Update existing entry
-          await updateMediaEntry.mutateAsync({
-            id: existingEntry.id,
-            data: {
-              status,
-              ratingActing: ratingActing ?? undefined,
-              ratingStory: ratingStory ?? undefined,
-              ratingVisuals: ratingVisuals ?? undefined,
-              ratingSoundtrack: ratingSoundtrack ?? undefined,
-            },
+      // Always create or update media entry (status is mandatory)
+      if (existingEntry) {
+        // Update existing entry
+        await updateMediaEntry.mutateAsync({
+          id: existingEntry.id,
+          data: {
+            status,
+            ratingActing: ratingActing ?? undefined,
+            ratingStory: ratingStory ?? undefined,
+            ratingVisuals: ratingVisuals ?? undefined,
+            ratingSoundtrack: ratingSoundtrack ?? undefined,
+          },
+          silent: true,
+        });
+
+        // Update review if notes provided
+        if (notes.trim()) {
+          await upsertReview.mutateAsync({
+            entryId: existingEntry.id,
+            data: { content: notes.trim() },
             silent: true,
           });
+        }
+      } else {
+        // Create new entry
+        const newEntry = await createMediaEntry.mutateAsync({
+          tmdbId: media.tmdbId,
+          mediaType: media.mediaType,
+          status,
+          silent: true,
+        });
 
-          // Update review if notes provided
-          if (notes.trim()) {
-            await upsertReview.mutateAsync({
-              entryId: existingEntry.id,
-              data: { content: notes.trim() },
+        // Add ratings and review if provided
+        const hasRatings =
+          ratingActing || ratingStory || ratingVisuals || ratingSoundtrack;
+        if (hasRatings || notes.trim()) {
+          if (hasRatings) {
+            await updateMediaEntry.mutateAsync({
+              id: newEntry.id,
+              data: {
+                ratingActing: ratingActing ?? undefined,
+                ratingStory: ratingStory ?? undefined,
+                ratingVisuals: ratingVisuals ?? undefined,
+                ratingSoundtrack: ratingSoundtrack ?? undefined,
+              },
               silent: true,
             });
           }
-        } else {
-          // Create new entry
-          const newEntry = await createMediaEntry.mutateAsync({
-            tmdbId: media.tmdbId,
-            mediaType: media.mediaType,
-            status,
-            silent: true,
-          });
-
-          // Add ratings and review if provided
-          const hasRatings =
-            ratingActing || ratingStory || ratingVisuals || ratingSoundtrack;
-          if (hasRatings || notes.trim()) {
-            if (hasRatings) {
-              await updateMediaEntry.mutateAsync({
-                id: newEntry.id,
-                data: {
-                  ratingActing: ratingActing ?? undefined,
-                  ratingStory: ratingStory ?? undefined,
-                  ratingVisuals: ratingVisuals ?? undefined,
-                  ratingSoundtrack: ratingSoundtrack ?? undefined,
-                },
-                silent: true,
-              });
-            }
-            if (notes.trim()) {
-              await upsertReview.mutateAsync({
-                entryId: newEntry.id,
-                data: { content: notes.trim() },
-                silent: true,
-              });
-            }
+          if (notes.trim()) {
+            await upsertReview.mutateAsync({
+              entryId: newEntry.id,
+              data: { content: notes.trim() },
+              silent: true,
+            });
           }
         }
       }
@@ -422,9 +412,7 @@ export default function AddToListModal({
                               <button
                                 key={s.value}
                                 type="button"
-                                onClick={() =>
-                                  setStatus(isSelected ? null : s.value)
-                                }
+                                onClick={() => setStatus(s.value)}
                                 className={`p-3 rounded-lg border-2 transition-all ${
                                   isSelected
                                     ? `${colors.border} ${colors.bg}`

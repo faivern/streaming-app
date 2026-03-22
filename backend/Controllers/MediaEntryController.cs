@@ -5,6 +5,7 @@ using backend.Services;
 using backend.Services.Tmdb;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Security.Claims;
 
 namespace backend.Controllers
@@ -12,6 +13,7 @@ namespace backend.Controllers
     [ApiController]
     [Route("api/media-entries")]
     [Authorize]
+    [EnableRateLimiting("mutation")]
     public class MediaEntryController : ControllerBase
     {
         private readonly IMediaEntryService _mediaEntryService;

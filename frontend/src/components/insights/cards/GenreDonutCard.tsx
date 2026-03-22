@@ -13,6 +13,11 @@ export default function GenreDonutCard({ data }: GenreDonutCardProps) {
   const topGenre = data[0];
   const topColor = topGenre ? getGenreColor(topGenre.name, 0) : undefined;
 
+  const totalValue = data.reduce((sum, g) => sum + g.value, 0);
+  const topPercentage = topGenre && totalValue > 0
+    ? Math.round((topGenre.value / totalValue) * 100)
+    : 0;
+
   return (
     <BaseInsightCard title="Genre DNA">
       {chartData.length > 0 ? (
@@ -30,7 +35,12 @@ export default function GenreDonutCard({ data }: GenreDonutCardProps) {
               </span>
             </div>
           )}
-          <DonutChart data={chartData} colors={colors} />
+          <DonutChart
+            data={chartData}
+            colors={colors}
+            centerLabel={topGenre?.name}
+            centerSubLabel={topPercentage > 0 ? `${topPercentage}%` : undefined}
+          />
         </>
       ) : (
         <div className="flex items-center justify-center h-64 text-subtle">

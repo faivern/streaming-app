@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using backend.Constants;
 using backend.Services;
 using backend.Services.Tmdb;
@@ -8,6 +9,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/movies")]
+    [EnableRateLimiting("standard")]
     public class GenreController : ControllerBase
     {
         private readonly ITmdbService _tmdbService;
