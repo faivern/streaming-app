@@ -16,6 +16,10 @@ vi.mock("../../api/mediaEntries.api", () => ({
   },
 }));
 
+vi.mock("../user/useUser", () => ({
+  useUser: () => ({ data: { id: "test-user", name: "Test" } }),
+}));
+
 import { mediaEntriesApi } from "../../api/mediaEntries.api";
 import {
   useMediaEntries,
