@@ -1,17 +1,15 @@
 // components/media/cards/MediaSimilarCard.tsx
-import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import MediaCardModal from "../modals/MediaCardModal";
-import type { MediaType, DetailMedia } from "../../../types/tmdb";
+import type { MediaType } from "../../../types/tmdb";
 import { mediaUrl } from "../../../utils/urlBuilder";
 import { truncateText } from "../../../utils/truncateText";
-import { useDelayHover } from "../../../hooks/useDelayHover";
 import Poster from "../shared/Poster";
-import useMediaRuntime from "../../../hooks/media/useMediaRuntime";
+import MediaCardModal from "../modals/MediaCardModal";
+import { useDelayHover } from "../../../hooks/useDelayHover";
 
 type MediaSimilarCardProps = {
   id: number;
-  media_type: MediaType; // REQUIRED now
+  media_type: MediaType;
   title?: string;
   name?: string;
   poster_path?: string;
@@ -23,7 +21,6 @@ type MediaSimilarCardProps = {
   vote_count?: number;
   genre_ids?: number[];
   original_language?: string;
-  // optional UI extras
   runtime?: number;
   number_of_seasons?: number;
   number_of_episodes?: number;
@@ -41,12 +38,8 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
     first_air_date,
     overview,
     vote_average,
-    vote_count,
     genre_ids,
     original_language,
-    runtime,
-    number_of_seasons,
-    number_of_episodes,
   } = p;
 
   const { hovered, onEnter, onLeave } = useDelayHover(600);
@@ -54,47 +47,8 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
   const posterForCard = poster_path ?? backdrop_path ?? "";
   const displayTitle = title ?? name ?? "Untitled";
   const titleshort = truncateText(displayTitle);
-  const runtimeDisplay = useMediaRuntime({
-    mediaType: media_type,
-    runtimeMin: runtime,
-    seasons: number_of_seasons,
-    episodes: number_of_episodes,
-  });
-
-  const initial = useMemo<Partial<DetailMedia>>(
-    () => ({
-      title,
-      name,
-      overview,
-      vote_average,
-      vote_count,
-      genre_ids,
-      original_language,
-      poster_path: poster_path ?? undefined,
-      backdrop_path: backdrop_path ?? poster_path ?? undefined,
-      release_date,
-      first_air_date,
-      runtime,
-      number_of_seasons,
-      number_of_episodes,
-    }),
-    [
-      title,
-      name,
-      overview,
-      vote_average,
-      vote_count,
-      genre_ids,
-      original_language,
-      poster_path,
-      backdrop_path,
-      release_date,
-      first_air_date,
-      runtime,
-      number_of_seasons,
-      number_of_episodes,
-    ]
-  );
+  const year = (release_date ?? first_air_date ?? "Unknown").slice(0, 4);
+  const releaseDate = release_date ?? first_air_date;
 
   return (
     <div
@@ -119,18 +73,34 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
               {titleshort}
             </h3>
             <p className="text-xs text-[var(--subtle)] mt-1 truncate">
-              {[(release_date ?? first_air_date ?? "Unknown").slice(0, 4), runtimeDisplay]
-                .filter(Boolean)
-                .join(" • ")}
+              {year}
             </p>
           </div>
         </div>
       </Link>
 
+      {/* Floating hover modal — positioned to the left */}
       {hovered && (
-        <div className="absolute top-0 right-full mr-2 animate-[fadeIn_0.2s_ease-out]"
-             onMouseEnter={onEnter} onMouseLeave={onLeave}>
-          <MediaCardModal id={id} title={displayTitle} media_type={media_type} initial={initial} />
+        <div
+          className="hidden lg:block absolute top-0 right-full mr-2 animate-[fadeIn_0.15s_ease-out]"
+          onMouseEnter={onEnter}
+          onMouseLeave={onLeave}
+        >
+          <MediaCardModal
+            id={id}
+            media_type={media_type}
+            title={displayTitle}
+            posterPath={posterForCard}
+            overview={overview}
+            releaseDate={releaseDate}
+            vote_average={vote_average}
+            genre_ids={genre_ids}
+            original_language={original_language}
+            runtime={p.runtime}
+            number_of_seasons={p.number_of_seasons}
+            number_of_episodes={p.number_of_episodes}
+            compact
+          />
         </div>
       )}
     </div>

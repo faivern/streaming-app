@@ -25,6 +25,11 @@ const ProviderPage = lazy(() => import("./pages/providerPage/ProviderPage"));
 const ProvidersPage = lazy(() => import("./pages/providersPage/ProvidersPage"));
 const PrivacyPolicy = lazy(() => import("./pages/legal/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/legal/TermsOfService"));
+const NotFoundPage = lazy(() => import("./pages/notFound"));
+const BadRequestPage = lazy(() => import("./pages/status/BadRequestPage"));
+const UnauthorizedPage = lazy(() => import("./pages/status/UnauthorizedPage"));
+const ForbiddenPage = lazy(() => import("./pages/status/ForbiddenPage"));
+const ServiceUnavailablePage = lazy(() => import("./pages/status/ServiceUnavailablePage"));
 
 // Legacy redirect components for old URL patterns
 function LegacyMediaRedirect() {
@@ -96,6 +101,17 @@ function App() {
           <Route path="/collections/:collectionId" element={<LegacyCollectionRedirect />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
+
+          {/* Status pages — dev-only test routes */}
+          {import.meta.env.DEV && (
+            <>
+              <Route path="/status/400" element={<BadRequestPage />} />
+              <Route path="/status/401" element={<UnauthorizedPage />} />
+              <Route path="/status/403" element={<ForbiddenPage />} />
+              <Route path="/status/503" element={<ServiceUnavailablePage />} />
+            </>
+          )}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         </Suspense>
         </ErrorBoundary>
