@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: AI-Powered Discovery
-status: Ready to execute
-stopped_at: Completed 10-01-PLAN.md
-last_updated: "2026-03-26T00:30:42.550Z"
+status: Phase complete — ready for verification
+stopped_at: Phase 11 context gathered
+last_updated: "2026-03-26T14:11:05.101Z"
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -64,6 +64,7 @@ Plan: 2 of 2
 | Phase 09-global-polish P03 | 55 | 1 tasks | 5 files |
 | Phase 09-global-polish P04 | 88 | 2 tasks | 9 files |
 | Phase 10-db-and-infrastructure-foundation P01 | 268 | 2 tasks | 7 files |
+| Phase 10-db-and-infrastructure-foundation P02 | 240 | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -144,6 +145,7 @@ Recent decisions affecting current work:
 - [Phase 10-01]: pgvector/pgvector:pg16 Docker image replaces postgres:16-alpine — drop-in replacement that adds pgvector extension pre-installed
 - [Phase 10-01]: HNSW index with m=16, ef_construction=64 and vector_cosine_ops — EF Core Npgsql fluent API emits correct WITH parameters natively (no raw SQL needed)
 - [Phase 10-01]: Single atomic migration AddAiDiscoverySchema creates both tables plus indexes in one operation
+- [Phase 10-02]: ApiKeyCredential is in System.ClientModel namespace (not Azure) for Azure.AI.OpenAI v2.x — must use using System.ClientModel in ServiceRegistration.cs
 
 ### Pending Todos
 
@@ -158,6 +160,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-26T00:30:42.547Z
-Stopped at: Completed 10-01-PLAN.md
-Resume file: None
+Last session: 2026-03-26T14:11:05.098Z
+Stopped at: Phase 11 context gathered
+Resume file: .planning/phases/11-embedding-seed-pipeline/11-CONTEXT.md

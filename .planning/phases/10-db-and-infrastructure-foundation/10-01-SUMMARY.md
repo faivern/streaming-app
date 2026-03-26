@@ -126,6 +126,15 @@ External services require manual configuration before Phase 11 can run:
 - Confirm Azure OpenAI deployment names before Phase 11 config wiring (deployment name may differ from model name)
 - Confirm TPM quota before first seed run (reduce batch size if below 250K TPM)
 
+## Self-Check: PASSED
+
+- FOUND: backend/Models/Entities/MovieEmbedding.cs
+- FOUND: backend/Models/Entities/AiQueryLog.cs
+- FOUND: backend/Data/Migrations/20260326002704_AddAiDiscoverySchema.cs
+- FOUND: .planning/phases/10-db-and-infrastructure-foundation/10-01-SUMMARY.md
+- FOUND commit: 8004cd2 (Task 1)
+- FOUND commit: 15a85bc (Task 2)
+
 ---
 *Phase: 10-db-and-infrastructure-foundation*
 *Completed: 2026-03-26*
