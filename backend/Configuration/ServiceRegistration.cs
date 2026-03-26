@@ -3,6 +3,7 @@ using backend.Data;
 using backend.Services;
 using backend.Services.Tmdb;
 using Microsoft.EntityFrameworkCore;
+using Pgvector.EntityFrameworkCore;
 
 namespace backend.Configuration
 {
@@ -19,7 +20,9 @@ namespace backend.Configuration
             services.AddHostedService<TmdbRefreshBackgroundService>();
 
             services.AddDbContext<AppDbContext>(o =>
-                o.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+                o.UseNpgsql(
+                    configuration.GetConnectionString("DefaultConnection"),
+                    npgsqlOptions => npgsqlOptions.UseVector()));
 
             return services;
         }
