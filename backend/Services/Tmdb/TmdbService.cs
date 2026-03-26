@@ -445,6 +445,47 @@ namespace backend.Services.Tmdb
         }
         //-----------------------------------------------------------------------------------
 
+        //------------------------------SEED PIPELINE DETAIL FETCHERS--------------------------------------
+        // Seed-specific detail with append_to_response=keywords,credits (D-10)
+        // Uses distinct cache key prefix "movie_seed_" to avoid collision with regular detail cache
+        public async Task<string> GetMovieDetailsForSeedAsync(int movieId)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/{movieId}?api_key={_apiKey}&append_to_response=keywords,credits";
+            return await FetchWithCacheAsync($"movie_seed_{movieId}", url, CacheDurations.Standard);
+        }
+
+        public async Task<string> GetTvDetailsForSeedAsync(int seriesId)
+        {
+            var url = $"https://api.themoviedb.org/3/tv/{seriesId}?api_key={_apiKey}&append_to_response=keywords,credits";
+            return await FetchWithCacheAsync($"tv_seed_{seriesId}", url, CacheDurations.Standard);
+        }
+
+        public async Task<TmdbMovieDetails?> GetMovieDetailsForSeedTypedAsync(int movieId)
+        {
+            var json = await GetMovieDetailsForSeedAsync(movieId);
+            return string.IsNullOrEmpty(json) ? null : JsonSerializer.Deserialize<TmdbMovieDetails>(json);
+        }
+
+        public async Task<TmdbTvDetails?> GetTvDetailsForSeedTypedAsync(int seriesId)
+        {
+            var json = await GetTvDetailsForSeedAsync(seriesId);
+            return string.IsNullOrEmpty(json) ? null : JsonSerializer.Deserialize<TmdbTvDetails>(json);
+        }
+
+        // Paginated popular lists for seed pipeline (D-07, D-08)
+        public async Task<string> GetPopularMoviesPageAsync(int page)
+        {
+            var url = $"https://api.themoviedb.org/3/movie/popular?api_key={_apiKey}&page={page}";
+            return await FetchWithCacheAsync($"popular_movies_page_{page}", url, CacheDurations.Standard);
+        }
+
+        public async Task<string> GetPopularTvPageAsync(int page)
+        {
+            var url = $"https://api.themoviedb.org/3/tv/popular?api_key={_apiKey}&page={page}";
+            return await FetchWithCacheAsync($"popular_tv_page_{page}", url, CacheDurations.Standard);
+        }
+        //-----------------------------------------------------------------------------------
+
         //------------------------------WATCH PROVIDERS--------------------------------------------
         public async Task<string> GetMovieWatchProvidersAsync(int movieId)
         {

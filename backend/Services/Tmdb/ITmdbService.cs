@@ -31,6 +31,14 @@ namespace backend.Services.Tmdb
         Task<TmdbMovieDetails?> GetMovieDetailsTypedAsync(int movieId);
         Task<TmdbTvDetails?> GetTvDetailsTypedAsync(int seriesId);
 
+        // Seed pipeline methods (use append_to_response for keywords+credits in single call per D-10)
+        Task<string> GetMovieDetailsForSeedAsync(int movieId);
+        Task<string> GetTvDetailsForSeedAsync(int seriesId);
+        Task<TmdbMovieDetails?> GetMovieDetailsForSeedTypedAsync(int movieId);
+        Task<TmdbTvDetails?> GetTvDetailsForSeedTypedAsync(int seriesId);
+        Task<string> GetPopularMoviesPageAsync(int page);
+        Task<string> GetPopularTvPageAsync(int page);
+
         // Videos
         Task<string> GetVideosAsync(MediaType type, int id);
         Task<(string? Name, string? Url)> GetTrailerAsync(MediaType type, int id);
