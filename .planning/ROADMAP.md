@@ -76,7 +76,7 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
   4. The pipeline handles Azure OpenAI 429 rate limit responses with exponential backoff and continues without crashing
 **Plans**: 3 plans
 - [ ] 11-01-PLAN.md — TMDB model extensions, seed fetch methods, EmbeddingContentBuilder with unit tests
-- [ ] 11-02-PLAN.md — EmbeddingSeedService pipeline logic, BackgroundService, DI registration, unit tests
+- [x] 11-02-PLAN.md — EmbeddingSeedService pipeline logic, BackgroundService, DI registration, unit tests
 - [ ] 11-03-PLAN.md — /health/seed endpoint with SeedStatusDto and unit tests
 
 ### Phase 12: RAG Query Service and API
@@ -119,6 +119,6 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 | 8. Secondary Pages | v1.1 | 4/4 | Complete | 2026-02-22 |
 | 9. Global Polish | v1.1 | 4/4 | Complete | 2026-02-25 |
 | 10. DB and Infrastructure Foundation | v2.0 | 1/2 | In Progress|  |
-| 11. Embedding Seed Pipeline | v2.0 | 0/3 | Not started | - |
+| 11. Embedding Seed Pipeline | v2.0 | 1/3 | In Progress|  |
 | 12. RAG Query Service and API | v2.0 | 0/? | Not started | - |
 | 13. Frontend Discovery UI and CTA | v2.0 | 0/? | Not started | - |

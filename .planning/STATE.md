@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: AI-Powered Discovery
 status: Phase complete — ready for verification
-stopped_at: Phase 11 context gathered
-last_updated: "2026-03-26T14:11:05.101Z"
+stopped_at: Completed 11-02-PLAN.md
+last_updated: "2026-03-26T20:26:54.529Z"
 progress:
   total_phases: 4
-  completed_phases: 1
-  total_plans: 2
-  completed_plans: 2
+  completed_phases: 0
+  total_plans: 3
+  completed_plans: 3
 ---
 
 # Project State
@@ -65,6 +65,7 @@ Plan: 2 of 2
 | Phase 09-global-polish P04 | 88 | 2 tasks | 9 files |
 | Phase 10-db-and-infrastructure-foundation P01 | 268 | 2 tasks | 7 files |
 | Phase 10-db-and-infrastructure-foundation P02 | 240 | 2 tasks | 4 files |
+| Phase 11 P02 | 273 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -146,6 +147,9 @@ Recent decisions affecting current work:
 - [Phase 10-01]: HNSW index with m=16, ef_construction=64 and vector_cosine_ops — EF Core Npgsql fluent API emits correct WITH parameters natively (no raw SQL needed)
 - [Phase 10-01]: Single atomic migration AddAiDiscoverySchema creates both tables plus indexes in one operation
 - [Phase 10-02]: ApiKeyCredential is in System.ClientModel namespace (not Azure) for Azure.AI.OpenAI v2.x — must use using System.ClientModel in ServiceRegistration.cs
+- [Phase 11]: EmbeddingSeedService is Scoped (not Singleton) — depends on AppDbContext which is scoped; BackgroundService creates scope per cycle via IServiceScopeFactory
+- [Phase 11]: 429 rate-limit errors caught at batch level, logged as ERROR, batch skipped without crashing — pipeline continues (D-13, D-14)
+- [Phase 11]: Checkpoint resume: startPage = (existingCount / 20) + 1 from DB row counts — may re-process last partial page, safe due to upsert semantics
 
 ### Pending Todos
 
@@ -160,6 +164,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-26T14:11:05.098Z
-Stopped at: Phase 11 context gathered
-Resume file: .planning/phases/11-embedding-seed-pipeline/11-CONTEXT.md
+Last session: 2026-03-26T20:26:54.527Z
+Stopped at: Completed 11-02-PLAN.md
+Resume file: None
