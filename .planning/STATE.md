@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: AI-Powered Discovery
-status: Phase complete — ready for verification
-stopped_at: Completed 11-02-PLAN.md
-last_updated: "2026-03-26T20:26:54.529Z"
+status: Ready to execute
+stopped_at: Completed 11-01-PLAN.md
+last_updated: "2026-03-26T19:04:20.692Z"
 progress:
   total_phases: 4
-  completed_phases: 0
-  total_plans: 3
+  completed_phases: 1
+  total_plans: 5
   completed_plans: 3
 ---
 
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-25)
 
 **Core value:** Users can effortlessly discover movies and TV shows — whether browsing, searching, or describing what they're in the mood for in natural language.
-**Current focus:** Phase 10 — db-and-infrastructure-foundation
+**Current focus:** Phase 11 — embedding-seed-pipeline
 
 ## Current Position
 
-Phase: 10 (db-and-infrastructure-foundation) — EXECUTING
-Plan: 2 of 2
+Phase: 11 (embedding-seed-pipeline) — EXECUTING
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -65,7 +65,8 @@ Plan: 2 of 2
 | Phase 09-global-polish P04 | 88 | 2 tasks | 9 files |
 | Phase 10-db-and-infrastructure-foundation P01 | 268 | 2 tasks | 7 files |
 | Phase 10-db-and-infrastructure-foundation P02 | 240 | 2 tasks | 4 files |
-| Phase 11 P02 | 273 | 2 tasks | 5 files |
+| Phase 11 P03 | 136 | 2 tasks | 4 files |
+| Phase 11 P01 | 277 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -147,9 +148,11 @@ Recent decisions affecting current work:
 - [Phase 10-01]: HNSW index with m=16, ef_construction=64 and vector_cosine_ops — EF Core Npgsql fluent API emits correct WITH parameters natively (no raw SQL needed)
 - [Phase 10-01]: Single atomic migration AddAiDiscoverySchema creates both tables plus indexes in one operation
 - [Phase 10-02]: ApiKeyCredential is in System.ClientModel namespace (not Azure) for Azure.AI.OpenAI v2.x — must use using System.ClientModel in ServiceRegistration.cs
-- [Phase 11]: EmbeddingSeedService is Scoped (not Singleton) — depends on AppDbContext which is scoped; BackgroundService creates scope per cycle via IServiceScopeFactory
-- [Phase 11]: 429 rate-limit errors caught at batch level, logged as ERROR, batch skipped without crashing — pipeline continues (D-13, D-14)
-- [Phase 11]: Checkpoint resume: startPage = (existingCount / 20) + 1 from DB row counts — may re-process last partial page, safe due to upsert semantics
+- [Phase 11]: InMemory EF Core provider works for MovieEmbedding count queries — Embedding vector column is Ignored in non-Npgsql providers per existing DbContext configuration
+- [Phase 11]: Phase thresholds for /health/seed: movies < 10K → 'movies'; tv < 5K → 'tv'; both met → 'complete' with 15K total target
+- [Phase 11]: TmdbMovieDetails/TmdbTvDetails are sealed class (not record) — tests use manual object construction rather than with expressions
+- [Phase 11]: TV keywords use Results property (not Keywords) due to TMDB API response inconsistency
+- [Phase 11]: Distinct cache key prefixes movie_seed_ and tv_seed_ avoid collision with regular detail cache
 
 ### Pending Todos
 
@@ -164,6 +167,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-26T20:26:54.527Z
-Stopped at: Completed 11-02-PLAN.md
+Last session: 2026-03-26T19:04:20.689Z
+Stopped at: Completed 11-01-PLAN.md
 Resume file: None
