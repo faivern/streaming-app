@@ -180,12 +180,12 @@ export default function UpcomingCarousel({
                             </div>
                           </div>
                           <div className="px-1 mt-1">
-                            <div className="flex items-center gap-1.5 text-xs text-accent-primary">
+                            <div className="flex items-center gap-1.5 text-xs text-gray-400">
                               <FontAwesomeIcon
                                 icon={faCalendar}
-                                className="text-accent-secondary text-[10px]"
+                                className="text-gray-500 text-[10px]"
                               />
-                              <span className="font-medium">
+                              <span className="font-medium text-white/80">
                                 {formatDate(releaseDate)}
                               </span>
                             </div>

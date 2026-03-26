@@ -3,6 +3,7 @@ using backend.Models.Entities;
 using backend.Models.Enums;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Pgvector.EntityFrameworkCore;
 
 namespace backend.Data
 {
@@ -14,10 +15,14 @@ namespace backend.Data
         public DbSet<Review> Reviews => Set<Review>();
         public DbSet<List> Lists => Set<List>();
         public DbSet<ListItem> ListItems => Set<ListItem>();
+        public DbSet<MovieEmbedding> MovieEmbeddings => Set<MovieEmbedding>();
+        public DbSet<AiQueryLog> AiQueryLogs => Set<AiQueryLog>();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.HasPostgresExtension("vector");
 
             builder.Entity<AppUser>(entity =>
             {
@@ -86,6 +91,46 @@ namespace backend.Data
                     .WithMany(c => c.Items)
                     .HasForeignKey(ci => ci.ListId)
                     .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            // MovieEmbedding configuration (AI Discovery - Phase 10)
+            builder.Entity<MovieEmbedding>(entity =>
+            {
+                entity.ToTable("movie_embeddings");
+                entity.Property(e => e.TmdbId).HasColumnName("tmdb_id");
+                entity.Property(e => e.MediaType).HasColumnName("media_type").HasMaxLength(10);
+                entity.Property(e => e.Title).HasColumnName("title").HasMaxLength(500);
+                entity.Property(e => e.Overview).HasColumnName("overview");
+                entity.Property(e => e.Genres).HasColumnName("genres");
+                entity.Property(e => e.Keywords).HasColumnName("keywords");
+                entity.Property(e => e.CastCrew).HasColumnName("cast_crew");
+                entity.Property(e => e.ReleaseYear).HasColumnName("release_year");
+                entity.Property(e => e.VoteAverage).HasColumnName("vote_average");
+                entity.Property(e => e.ContentText).HasColumnName("content_text");
+                entity.Property(e => e.Embedding).HasColumnName("embedding");
+                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
+                entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
+
+                // Unique constraint: one row per (tmdb_id, media_type) — per D-19
+                entity.HasIndex(e => new { e.TmdbId, e.MediaType }).IsUnique();
+
+                // HNSW index for cosine similarity — m=16, ef_construction=64 (per D-16)
+                entity.HasIndex(e => e.Embedding)
+                    .HasMethod("hnsw")
+                    .HasOperators("vector_cosine_ops")
+                    .HasStorageParameter("m", 16)
+                    .HasStorageParameter("ef_construction", 64);
+            });
+
+            // AiQueryLog configuration (AI Discovery - Phase 10)
+            builder.Entity<AiQueryLog>(entity =>
+            {
+                entity.ToTable("ai_query_logs");
+                entity.Property(e => e.UserId).HasColumnName("user_id").HasMaxLength(450);
+                entity.Property(e => e.QueryText).HasColumnName("query_text");
+                entity.Property(e => e.ResultTmdbIds).HasColumnName("result_tmdb_ids");
+                entity.Property(e => e.ResponseTimeMs).HasColumnName("response_time_ms");
+                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             });
         }
     }
