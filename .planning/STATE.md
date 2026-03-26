@@ -2,15 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: AI-Powered Discovery
-status: planning
-stopped_at: Phase 10 context gathered
-last_updated: "2026-03-25T23:50:53.370Z"
-last_activity: 2026-03-25 — v2.0 roadmap created (4 phases, 23 requirements mapped)
+status: Ready to execute
+stopped_at: Completed 10-01-PLAN.md
+last_updated: "2026-03-26T00:30:42.550Z"
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_plans: 2
+  completed_plans: 1
 ---
 
 # Project State
@@ -20,16 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-25)
 
 **Core value:** Users can effortlessly discover movies and TV shows — whether browsing, searching, or describing what they're in the mood for in natural language.
-**Current focus:** v2.0 AI-Powered Discovery
+**Current focus:** Phase 10 — db-and-infrastructure-foundation
 
 ## Current Position
 
-Phase: 10 — DB and Infrastructure Foundation
-Plan: —
-Status: Roadmap defined, ready for Phase 10 planning
-Last activity: 2026-03-25 — v2.0 roadmap created (4 phases, 23 requirements mapped)
-
-Progress: [##########··········] Phase 10 of 13
+Phase: 10 (db-and-infrastructure-foundation) — EXECUTING
+Plan: 2 of 2
 
 ## Performance Metrics
 
@@ -68,6 +63,7 @@ Progress: [##########··········] Phase 10 of 13
 | Phase 09-global-polish P02 | checkpoint | 1 tasks | 0 files |
 | Phase 09-global-polish P03 | 55 | 1 tasks | 5 files |
 | Phase 09-global-polish P04 | 88 | 2 tasks | 9 files |
+| Phase 10-db-and-infrastructure-foundation P01 | 268 | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -145,6 +141,9 @@ Recent decisions affecting current work:
 - [v2.0 Roadmap]: Personalization (PERS-01, PERS-02) folded into Phase 12 — application-code filtering post-vector-retrieval preserves HNSW index; never filter in SQL
 - [v2.0 Roadmap]: Guardrails (GUARD-01, GUARD-02, GUARD-03) assigned to Phase 12 — input validation and system prompt constraints are intrinsic to the query pipeline, not a separate layer
 - [v2.0 Roadmap]: ENTRY requirements assigned to Phase 13 — floating CTA and auth gate are frontend concerns that require the API to be stable before implementation
+- [Phase 10-01]: pgvector/pgvector:pg16 Docker image replaces postgres:16-alpine — drop-in replacement that adds pgvector extension pre-installed
+- [Phase 10-01]: HNSW index with m=16, ef_construction=64 and vector_cosine_ops — EF Core Npgsql fluent API emits correct WITH parameters natively (no raw SQL needed)
+- [Phase 10-01]: Single atomic migration AddAiDiscoverySchema creates both tables plus indexes in one operation
 
 ### Pending Todos
 
@@ -159,6 +158,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-25T23:50:53.366Z
-Stopped at: Phase 10 context gathered
-Resume file: .planning/phases/10-db-and-infrastructure-foundation/10-CONTEXT.md
+Last session: 2026-03-26T00:30:42.547Z
+Stopped at: Completed 10-01-PLAN.md
+Resume file: None
