@@ -46,7 +46,7 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 ### v2.0 AI-Powered Discovery (Phases 10–13)
 
 - [ ] **Phase 10: DB and Infrastructure Foundation** — pgvector enabled, schema migrated, Azure OpenAI SDK wired into DI
-- [ ] **Phase 11: Embedding Seed Pipeline** — 10,000 TMDB titles embedded and queryable in pgvector
+- [x] **Phase 11: Embedding Seed Pipeline** — 10,000 TMDB titles embedded and queryable in pgvector (completed 2026-03-26)
 - [ ] **Phase 12: RAG Query Service and API** — end-to-end query pipeline live: embed → search → personalize → rank → validate → respond
 - [ ] **Phase 13: Frontend Discovery UI and CTA** — AI Discovery page and floating CTA shipped and hardened
 
@@ -119,6 +119,6 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 | 8. Secondary Pages | v1.1 | 4/4 | Complete | 2026-02-22 |
 | 9. Global Polish | v1.1 | 4/4 | Complete | 2026-02-25 |
 | 10. DB and Infrastructure Foundation | v2.0 | 1/2 | In Progress|  |
-| 11. Embedding Seed Pipeline | v2.0 | 1/3 | In Progress|  |
+| 11. Embedding Seed Pipeline | v2.0 | 1/3 | Complete    | 2026-03-26 |
 | 12. RAG Query Service and API | v2.0 | 0/? | Not started | - |
 | 13. Frontend Discovery UI and CTA | v2.0 | 0/? | Not started | - |
