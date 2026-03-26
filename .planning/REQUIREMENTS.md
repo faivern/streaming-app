@@ -9,10 +9,10 @@ Requirements for AI-Powered Discovery milestone. Each maps to roadmap phases.
 
 ### Infrastructure
 
-- [ ] **INFRA-01**: Embedding pipeline seeds 10,000 TMDB titles into pgvector with text-embedding-3-small embeddings
+- [x] **INFRA-01**: Embedding pipeline seeds 10,000 TMDB titles into pgvector with text-embedding-3-small embeddings
 - [x] **INFRA-02**: pgvector extension enabled on PostgreSQL via Docker image swap
 - [x] **INFRA-03**: HNSW index on embedding column for cosine similarity search
-- [ ] **INFRA-04**: Embedding pipeline runs as background service with checkpoint/restart support
+- [x] **INFRA-04**: Embedding pipeline runs as background service with checkpoint/restart support
 
 ### RAG Pipeline
 
@@ -88,8 +88,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | INFRA-02 | Phase 10 | Complete |
 | INFRA-03 | Phase 10 | Complete |
-| INFRA-01 | Phase 11 | Pending |
-| INFRA-04 | Phase 11 | Pending |
+| INFRA-01 | Phase 11 | Complete |
+| INFRA-04 | Phase 11 | Complete |
 | RAG-01 | Phase 12 | Pending |
 | RAG-02 | Phase 12 | Pending |
 | RAG-03 | Phase 12 | Pending |
