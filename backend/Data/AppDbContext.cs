@@ -22,7 +22,10 @@ namespace backend.Data
         {
             base.OnModelCreating(builder);
 
-            builder.HasPostgresExtension("vector");
+            var isNpgsql = Database.ProviderName?.Contains("Npgsql") == true;
+
+            if (isNpgsql)
+                builder.HasPostgresExtension("vector");
 
             builder.Entity<AppUser>(entity =>
             {
@@ -107,19 +110,27 @@ namespace backend.Data
                 entity.Property(e => e.ReleaseYear).HasColumnName("release_year");
                 entity.Property(e => e.VoteAverage).HasColumnName("vote_average");
                 entity.Property(e => e.ContentText).HasColumnName("content_text");
-                entity.Property(e => e.Embedding).HasColumnName("embedding");
                 entity.Property(e => e.CreatedAt).HasColumnName("created_at");
                 entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
 
                 // Unique constraint: one row per (tmdb_id, media_type) — per D-19
                 entity.HasIndex(e => new { e.TmdbId, e.MediaType }).IsUnique();
 
-                // HNSW index for cosine similarity — m=16, ef_construction=64 (per D-16)
-                entity.HasIndex(e => e.Embedding)
-                    .HasMethod("hnsw")
-                    .HasOperators("vector_cosine_ops")
-                    .HasStorageParameter("m", 16)
-                    .HasStorageParameter("ef_construction", 64);
+                if (isNpgsql)
+                {
+                    entity.Property(e => e.Embedding).HasColumnName("embedding");
+
+                    // HNSW index for cosine similarity — m=16, ef_construction=64 (per D-16)
+                    entity.HasIndex(e => e.Embedding)
+                        .HasMethod("hnsw")
+                        .HasOperators("vector_cosine_ops")
+                        .HasStorageParameter("m", 16)
+                        .HasStorageParameter("ef_construction", 64);
+                }
+                else
+                {
+                    entity.Ignore(e => e.Embedding);
+                }
             });
 
             // AiQueryLog configuration (AI Discovery - Phase 10)
@@ -130,6 +141,8 @@ namespace backend.Data
                 entity.Property(e => e.QueryText).HasColumnName("query_text");
                 entity.Property(e => e.ResultTmdbIds).HasColumnName("result_tmdb_ids");
                 entity.Property(e => e.ResponseTimeMs).HasColumnName("response_time_ms");
+                entity.Property(e => e.PromptTokens).HasColumnName("prompt_tokens");
+                entity.Property(e => e.CompletionTokens).HasColumnName("completion_tokens");
                 entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             });
         }
