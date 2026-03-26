@@ -66,7 +66,7 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 - [ ] 10-02-PLAN.md — Azure OpenAI DI registration, /health/ai endpoint, unit tests
 
 ### Phase 11: Embedding Seed Pipeline
-**Goal**: 10,000 TMDB titles are embedded and stored in pgvector; the pipeline is observable, restartable, and alignment-verified
+**Goal**: 15,000 TMDB titles (10,000 movies + 5,000 TV) are embedded and stored in pgvector; the pipeline is observable, restartable, and alignment-verified
 **Depends on**: Phase 10
 **Requirements**: INFRA-01, INFRA-04
 **Success Criteria** (what must be TRUE):
@@ -74,7 +74,10 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
   2. Stopping and restarting the backend mid-seed resumes from the checkpoint rather than restarting from zero
   3. A spot-check query ("Bill Murray time loop comedy") returns Groundhog Day in the top 5 cosine similarity results, confirming alignment and content text quality
   4. The pipeline handles Azure OpenAI 429 rate limit responses with exponential backoff and continues without crashing
-**Plans**: TBD
+**Plans**: 3 plans
+- [ ] 11-01-PLAN.md — TMDB model extensions, seed fetch methods, EmbeddingContentBuilder with unit tests
+- [ ] 11-02-PLAN.md — EmbeddingSeedService pipeline logic, BackgroundService, DI registration, unit tests
+- [ ] 11-03-PLAN.md — /health/seed endpoint with SeedStatusDto and unit tests
 
 ### Phase 12: RAG Query Service and API
 **Goal**: Authenticated users can submit natural language queries via the API and receive ranked, personalized, validated results with per-result explanations
@@ -116,6 +119,6 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 | 8. Secondary Pages | v1.1 | 4/4 | Complete | 2026-02-22 |
 | 9. Global Polish | v1.1 | 4/4 | Complete | 2026-02-25 |
 | 10. DB and Infrastructure Foundation | v2.0 | 1/2 | In Progress|  |
-| 11. Embedding Seed Pipeline | v2.0 | 0/? | Not started | - |
+| 11. Embedding Seed Pipeline | v2.0 | 0/3 | Not started | - |
 | 12. RAG Query Service and API | v2.0 | 0/? | Not started | - |
 | 13. Frontend Discovery UI and CTA | v2.0 | 0/? | Not started | - |
