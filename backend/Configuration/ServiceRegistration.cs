@@ -21,6 +21,8 @@ namespace backend.Configuration
             services.AddScoped<IListService, ListService>();
             services.AddScoped<IMediaEntryService, MediaEntryService>();
             services.AddHostedService<TmdbRefreshBackgroundService>();
+            services.AddScoped<IEmbeddingSeedService, EmbeddingSeedService>();
+            services.AddHostedService<EmbeddingSeedBackgroundService>();
 
             services.AddDbContext<AppDbContext>(o =>
                 o.UseNpgsql(
