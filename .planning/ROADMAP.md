@@ -123,5 +123,5 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 | 9. Global Polish | v1.1 | 4/4 | Complete | 2026-02-25 |
 | 10. DB and Infrastructure Foundation | v2.0 | 1/2 | In Progress|  |
 | 11. Embedding Seed Pipeline | v2.0 | 1/3 | Complete    | 2026-03-26 |
-| 12. RAG Query Service and API | v2.0 | 4/4 | Complete   | 2026-03-28 |
+| 12. RAG Query Service and API | v2.0 | 4/4 | Complete    | 2026-03-28 |
 | 13. Frontend Discovery UI and CTA | v2.0 | 0/? | Not started | - |
