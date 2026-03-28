@@ -82,11 +82,11 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 ### Phase 12: RAG Query Service and API
 **Goal**: Authenticated users can submit natural language queries via the API and receive ranked, personalized, validated results with per-result explanations
 **Depends on**: Phase 11
-**Requirements**: RAG-01, RAG-02, RAG-03, RAG-04, RAG-05, PERS-01, PERS-02, GUARD-01, GUARD-02, GUARD-03
+**Requirements**: RAG-01, RAG-02, RAG-03, RAG-05, PERS-01, GUARD-01, GUARD-02, GUARD-03 (RAG-04 descoped per D-11; PERS-02 deferred per D-07)
 **Success Criteria** (what must be TRUE):
   1. A POST to `/api/ai-discover` with a natural language query returns 5 results with TMDB IDs, match scores, and per-result explanation text within 25 seconds
-  2. A user with 20 watched titles receives results that contain none of those titles; preferred genres appear higher in the ranking than unpreferred genres
-  3. When the LLM call fails or returns malformed JSON, the endpoint returns vector similarity results rather than a 503 error
+  2. A user with 20 watched titles receives results that contain none of those titles (genre boosting deferred per D-07 — watched-title filtering only in Phase 12)
+  3. When the LLM call fails or returns malformed JSON, the endpoint returns HTTP 503 with Retry-After header (per D-11 — clean unavailability signal preferred over degraded vector-only results)
   4. The 21st request within an hour from the same user returns HTTP 429 with a `Retry-After` header; unauthenticated requests return 401
   5. Queries with off-topic input ("how do I cook pasta") receive a friendly redirect response rather than movie results; input exceeding 500 characters is rejected with 400
   6. Each query is logged to `ai_query_logs` with pipeline step timing; repeated identical queries by the same user within 30 minutes return a cached response
