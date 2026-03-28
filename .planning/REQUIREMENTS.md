@@ -16,11 +16,11 @@ Requirements for AI-Powered Discovery milestone. Each maps to roadmap phases.
 
 ### RAG Pipeline
 
-- [ ] **RAG-01**: User query is embedded and matched against corpus via cosine similarity (top 20 candidates)
-- [ ] **RAG-02**: GPT-4o-mini ranks and filters candidates, returning top 5 with per-result explanations
-- [ ] **RAG-03**: Output validation verifies all returned TMDB IDs exist in corpus
+- [x] **RAG-01**: User query is embedded and matched against corpus via cosine similarity (top 20 candidates)
+- [x] **RAG-02**: GPT-4o-mini ranks and filters candidates, returning top 5 with per-result explanations
+- [x] **RAG-03**: Output validation verifies all returned TMDB IDs exist in corpus
 - [x] **RAG-04**: Pipeline falls back to raw vector results when LLM call fails
-- [ ] **RAG-05**: Query results cached per-user for 30 minutes (keyed by userId:SHA256(query))
+- [x] **RAG-05**: Query results cached per-user for 30 minutes (keyed by userId:SHA256(query))
 
 ### Discovery UI
 
@@ -34,7 +34,7 @@ Requirements for AI-Powered Discovery milestone. Each maps to roadmap phases.
 
 ### Personalization
 
-- [ ] **PERS-01**: User's watched titles filtered from AI results
+- [x] **PERS-01**: User's watched titles filtered from AI results
 - [ ] **PERS-02**: User's preferred genres and cast boosted in LLM ranking prompt
 
 ### Entry Points
@@ -44,7 +44,7 @@ Requirements for AI-Powered Discovery milestone. Each maps to roadmap phases.
 
 ### Guardrails & Observability
 
-- [ ] **GUARD-01**: Input validation (non-empty, 500 char max, rate limit 20/hr per user)
+- [x] **GUARD-01**: Input validation (non-empty, 500 char max, rate limit 20/hr per user)
 - [x] **GUARD-02**: System prompt constrains LLM to movie/TV domain with off-topic redirect
 - [x] **GUARD-03**: Query and results logged to ai_query_logs table with pipeline timing
 
@@ -90,14 +90,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFRA-03 | Phase 10 | Complete |
 | INFRA-01 | Phase 11 | Complete |
 | INFRA-04 | Phase 11 | Complete |
-| RAG-01 | Phase 12 | Pending |
-| RAG-02 | Phase 12 | Pending |
-| RAG-03 | Phase 12 | Pending |
+| RAG-01 | Phase 12 | Complete |
+| RAG-02 | Phase 12 | Complete |
+| RAG-03 | Phase 12 | Complete |
 | RAG-04 | Phase 12 | Complete |
-| RAG-05 | Phase 12 | Pending |
-| PERS-01 | Phase 12 | Pending |
+| RAG-05 | Phase 12 | Complete |
+| PERS-01 | Phase 12 | Complete |
 | PERS-02 | Phase 12 | Pending |
-| GUARD-01 | Phase 12 | Pending |
+| GUARD-01 | Phase 12 | Complete |
 | GUARD-02 | Phase 12 | Complete |
 | GUARD-03 | Phase 12 | Complete |
 | UI-01 | Phase 13 | Pending |
