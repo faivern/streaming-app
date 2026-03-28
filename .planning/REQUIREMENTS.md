@@ -19,7 +19,7 @@ Requirements for AI-Powered Discovery milestone. Each maps to roadmap phases.
 - [x] **RAG-01**: User query is embedded and matched against corpus via cosine similarity (top 20 candidates)
 - [x] **RAG-02**: GPT-4o-mini ranks and filters candidates, returning top 5 with per-result explanations
 - [x] **RAG-03**: Output validation verifies all returned TMDB IDs exist in corpus
-- [x] **RAG-04**: Pipeline falls back to raw vector results when LLM call fails
+- [~] **RAG-04**: ~~Pipeline falls back to raw vector results when LLM call fails~~ Descoped (D-11): LLM failure returns 503 instead of degraded vector-only results
 - [x] **RAG-05**: Query results cached per-user for 30 minutes (keyed by userId:SHA256(query))
 
 ### Discovery UI
@@ -35,7 +35,7 @@ Requirements for AI-Powered Discovery milestone. Each maps to roadmap phases.
 ### Personalization
 
 - [x] **PERS-01**: User's watched titles filtered from AI results
-- [ ] **PERS-02**: User's preferred genres and cast boosted in LLM ranking prompt
+- [ ] **PERS-02**: User's preferred genres and cast boosted in LLM ranking prompt (deferred from Phase 12 per D-07; future phase)
 
 ### Entry Points
 
@@ -93,10 +93,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RAG-01 | Phase 12 | Complete |
 | RAG-02 | Phase 12 | Complete |
 | RAG-03 | Phase 12 | Complete |
-| RAG-04 | Phase 12 | Complete |
+| RAG-04 | Phase 12 | Descoped (D-11) |
 | RAG-05 | Phase 12 | Complete |
 | PERS-01 | Phase 12 | Complete |
-| PERS-02 | Phase 12 | Pending |
+| PERS-02 | Deferred | Deferred (D-07) |
 | GUARD-01 | Phase 12 | Complete |
 | GUARD-02 | Phase 12 | Complete |
 | GUARD-03 | Phase 12 | Complete |
@@ -112,7 +112,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 **Coverage:**
 - v2.0 requirements: 23 total
-- Mapped to phases: 23
+- Mapped to phases: 22
+- Descoped: 1 (RAG-04 per D-11)
 - Unmapped: 0
 
 ---
