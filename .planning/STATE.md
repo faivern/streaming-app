@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: AI-Powered Discovery
-status: Ready to execute
-stopped_at: Completed 12-01-PLAN.md
-last_updated: "2026-03-28T17:44:37.470Z"
+status: Phase complete — ready for verification
+stopped_at: Completed 12-02-PLAN.md
+last_updated: "2026-03-28T17:48:26.250Z"
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 8
-  completed_plans: 5
+  completed_plans: 7
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-25)
 ## Current Position
 
 Phase: 12 (rag-query-service-and-api) — EXECUTING
-Plan: 2 of 3
+Plan: 3 of 3
 
 ## Performance Metrics
 
@@ -68,6 +68,8 @@ Plan: 2 of 3
 | Phase 11 P03 | 136 | 2 tasks | 4 files |
 | Phase 11 P01 | 277 | 2 tasks | 5 files |
 | Phase 12-rag-query-service-and-api P01 | 240 | 2 tasks | 9 files |
+| Phase 12-rag-query-service-and-api P03 | 5 | 2 tasks | 3 files |
+| Phase 12-rag-query-service-and-api P02 | 81 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -157,6 +159,9 @@ Recent decisions affecting current work:
 - [Phase 12-01]: IDesignTimeDbContextFactory added to bypass Azure OpenAI startup validation during EF migrations
 - [Phase 12-01]: AiServiceUnavailableException is shared contract for Plans 02/03 — D-11 overrides RAG-04, both embedding and LLM failures return 503
 - [Phase 12-01]: System prompt grounding: ONLY recommend from CANDIDATES list per D-03; off-topic queries redirected via JSON response
+- [Phase 12-03]: Rate limit partition key uses userId from auth claims (not IP) — enforces per-user quota even behind shared proxies
+- [Phase 12-03]: Retry-After: 30 set on 503 response header per D-12 — signals clients to retry after 30 seconds on AI service unavailability
+- [Phase 12-02]: CosineDistance LINQ extension used for vector search — Pgvector.EntityFrameworkCore provides this natively, avoids raw SQL interpolation complexity
 
 ### Pending Todos
 
@@ -171,6 +176,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-28T17:44:37.467Z
-Stopped at: Completed 12-01-PLAN.md
+Last session: 2026-03-28T17:48:26.247Z
+Stopped at: Completed 12-02-PLAN.md
 Resume file: None

@@ -47,7 +47,7 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 
 - [ ] **Phase 10: DB and Infrastructure Foundation** — pgvector enabled, schema migrated, Azure OpenAI SDK wired into DI
 - [x] **Phase 11: Embedding Seed Pipeline** — 10,000 TMDB titles embedded and queryable in pgvector (completed 2026-03-26)
-- [ ] **Phase 12: RAG Query Service and API** — end-to-end query pipeline live: embed → search → personalize → rank → validate → respond
+- [x] **Phase 12: RAG Query Service and API** — end-to-end query pipeline live: embed → search → personalize → rank → validate → respond (completed 2026-03-28)
 - [ ] **Phase 13: Frontend Discovery UI and CTA** — AI Discovery page and floating CTA shipped and hardened
 
 ## Phase Details
@@ -92,8 +92,8 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
   6. Each query is logged to `ai_query_logs` with pipeline step timing; repeated identical queries by the same user within 30 minutes return a cached response
 **Plans**: 3 plans
 - [x] 12-01-PLAN.md — Schema migration, DTOs, IAiDiscoveryService interface, system prompt constants
-- [ ] 12-02-PLAN.md — AiDiscoveryService RAG pipeline implementation and DI registration
-- [ ] 12-03-PLAN.md — AiDiscoverController, "ai" rate limit policy, unit tests
+- [x] 12-02-PLAN.md — AiDiscoveryService RAG pipeline implementation and DI registration
+- [x] 12-03-PLAN.md — AiDiscoverController, "ai" rate limit policy, unit tests
 
 ### Phase 13: Frontend Discovery UI and CTA
 **Goal**: Users can discover movies and TV shows through natural language on the AI Discovery page and reach it from any page via the floating CTA
@@ -123,5 +123,5 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 | 9. Global Polish | v1.1 | 4/4 | Complete | 2026-02-25 |
 | 10. DB and Infrastructure Foundation | v2.0 | 1/2 | In Progress|  |
 | 11. Embedding Seed Pipeline | v2.0 | 1/3 | Complete    | 2026-03-26 |
-| 12. RAG Query Service and API | v2.0 | 1/3 | In Progress|  |
+| 12. RAG Query Service and API | v2.0 | 3/3 | Complete   | 2026-03-28 |
 | 13. Frontend Discovery UI and CTA | v2.0 | 0/? | Not started | - |
