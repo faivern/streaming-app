@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: AI-Powered Discovery
-status: Phase complete — ready for verification
-stopped_at: Completed 12-02-PLAN.md
-last_updated: "2026-03-28T17:48:26.250Z"
+status: Ready to execute
+stopped_at: Completed 12-04-PLAN.md
+last_updated: "2026-03-28T20:56:05.776Z"
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 8
-  completed_plans: 7
+  total_plans: 9
+  completed_plans: 8
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-03-25)
 ## Current Position
 
 Phase: 12 (rag-query-service-and-api) — EXECUTING
-Plan: 3 of 3
+Plan: 2 of 4
 
 ## Performance Metrics
 
@@ -70,6 +70,7 @@ Plan: 3 of 3
 | Phase 12-rag-query-service-and-api P01 | 240 | 2 tasks | 9 files |
 | Phase 12-rag-query-service-and-api P03 | 5 | 2 tasks | 3 files |
 | Phase 12-rag-query-service-and-api P02 | 81 | 2 tasks | 2 files |
+| Phase 12-rag-query-service-and-api P04 | 114 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -162,6 +163,10 @@ Recent decisions affecting current work:
 - [Phase 12-03]: Rate limit partition key uses userId from auth claims (not IP) — enforces per-user quota even behind shared proxies
 - [Phase 12-03]: Retry-After: 30 set on 503 response header per D-12 — signals clients to retry after 30 seconds on AI service unavailability
 - [Phase 12-02]: CosineDistance LINQ extension used for vector search — Pgvector.EntityFrameworkCore provides this natively, avoids raw SQL interpolation complexity
+- [Phase Phase 12-04]: ROADMAP SC-2 now reflects D-07: watched-title filtering only in Phase 12; genre boosting deferred to future phase
+- [Phase Phase 12-04]: ROADMAP SC-3 now reflects D-11: HTTP 503 + Retry-After on LLM failure, not vector fallback
+- [Phase Phase 12-04]: REQUIREMENTS RAG-04 marked Descoped (D-11) — 503 on LLM failure is correct behavior; requirement was wrongly marked Complete
+- [Phase Phase 12-04]: REQUIREMENTS PERS-02 traceability updated to Deferred (D-07) — moves out of Phase 12 scope to future phase
 
 ### Pending Todos
 
@@ -176,6 +181,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-28T17:48:26.247Z
-Stopped at: Completed 12-02-PLAN.md
+Last session: 2026-03-28T20:56:05.772Z
+Stopped at: Completed 12-04-PLAN.md
 Resume file: None
