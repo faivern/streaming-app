@@ -91,7 +91,7 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
   5. Queries with off-topic input ("how do I cook pasta") receive a friendly redirect response rather than movie results; input exceeding 500 characters is rejected with 400
   6. Each query is logged to `ai_query_logs` with pipeline step timing; repeated identical queries by the same user within 30 minutes return a cached response
 **Plans**: 3 plans
-- [ ] 12-01-PLAN.md — Schema migration, DTOs, IAiDiscoveryService interface, system prompt constants
+- [x] 12-01-PLAN.md — Schema migration, DTOs, IAiDiscoveryService interface, system prompt constants
 - [ ] 12-02-PLAN.md — AiDiscoveryService RAG pipeline implementation and DI registration
 - [ ] 12-03-PLAN.md — AiDiscoverController, "ai" rate limit policy, unit tests
 
@@ -123,5 +123,5 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 | 9. Global Polish | v1.1 | 4/4 | Complete | 2026-02-25 |
 | 10. DB and Infrastructure Foundation | v2.0 | 1/2 | In Progress|  |
 | 11. Embedding Seed Pipeline | v2.0 | 1/3 | Complete    | 2026-03-26 |
-| 12. RAG Query Service and API | v2.0 | 0/3 | Not started | - |
+| 12. RAG Query Service and API | v2.0 | 1/3 | In Progress|  |
 | 13. Frontend Discovery UI and CTA | v2.0 | 0/? | Not started | - |

@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: AI-Powered Discovery
-status: Ready to plan
-stopped_at: Phase 12 context gathered
-last_updated: "2026-03-28T17:05:37.009Z"
+status: Ready to execute
+stopped_at: Completed 12-01-PLAN.md
+last_updated: "2026-03-28T17:44:37.470Z"
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 5
-  completed_plans: 4
+  total_plans: 8
+  completed_plans: 5
 ---
 
 # Project State
@@ -19,12 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-25)
 
 **Core value:** Users can effortlessly discover movies and TV shows — whether browsing, searching, or describing what they're in the mood for in natural language.
-**Current focus:** Phase 11 — embedding-seed-pipeline
+**Current focus:** Phase 12 — rag-query-service-and-api
 
 ## Current Position
 
-Phase: 12
-Plan: Not started
+Phase: 12 (rag-query-service-and-api) — EXECUTING
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -67,6 +67,7 @@ Plan: Not started
 | Phase 10-db-and-infrastructure-foundation P02 | 240 | 2 tasks | 4 files |
 | Phase 11 P03 | 136 | 2 tasks | 4 files |
 | Phase 11 P01 | 277 | 2 tasks | 5 files |
+| Phase 12-rag-query-service-and-api P01 | 240 | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -153,6 +154,9 @@ Recent decisions affecting current work:
 - [Phase 11]: TmdbMovieDetails/TmdbTvDetails are sealed class (not record) — tests use manual object construction rather than with expressions
 - [Phase 11]: TV keywords use Results property (not Keywords) due to TMDB API response inconsistency
 - [Phase 11]: Distinct cache key prefixes movie_seed_ and tv_seed_ avoid collision with regular detail cache
+- [Phase 12-01]: IDesignTimeDbContextFactory added to bypass Azure OpenAI startup validation during EF migrations
+- [Phase 12-01]: AiServiceUnavailableException is shared contract for Plans 02/03 — D-11 overrides RAG-04, both embedding and LLM failures return 503
+- [Phase 12-01]: System prompt grounding: ONLY recommend from CANDIDATES list per D-03; off-topic queries redirected via JSON response
 
 ### Pending Todos
 
@@ -167,6 +171,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-28T17:05:37.006Z
-Stopped at: Phase 12 context gathered
-Resume file: .planning/phases/12-rag-query-service-and-api/12-CONTEXT.md
+Last session: 2026-03-28T17:44:37.467Z
+Stopped at: Completed 12-01-PLAN.md
+Resume file: None
