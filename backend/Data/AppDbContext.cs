@@ -143,6 +143,7 @@ namespace backend.Data
                 entity.Property(e => e.ResponseTimeMs).HasColumnName("response_time_ms");
                 entity.Property(e => e.PromptTokens).HasColumnName("prompt_tokens");
                 entity.Property(e => e.CompletionTokens).HasColumnName("completion_tokens");
+                entity.Property(e => e.ResponseText).HasColumnName("response_text");
                 entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             });
         }
