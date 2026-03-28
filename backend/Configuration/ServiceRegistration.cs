@@ -20,6 +20,7 @@ namespace backend.Configuration
             services.AddHttpClient<ITmdbService, TmdbService>();
             services.AddScoped<IListService, ListService>();
             services.AddScoped<IMediaEntryService, MediaEntryService>();
+            services.AddScoped<IAiDiscoveryService, AiDiscoveryService>();
             services.AddHostedService<TmdbRefreshBackgroundService>();
             services.AddScoped<IEmbeddingSeedService, EmbeddingSeedService>();
             services.AddHostedService<EmbeddingSeedBackgroundService>();
