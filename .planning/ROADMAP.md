@@ -106,7 +106,11 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
   4. Quick-action refinement buttons ("More like these", "TV shows instead", "Something darker") generate new independent queries without clearing the input
   5. All error states display distinct messages: 503 shows a service-unavailable message, 429 shows a rate-limit message with countdown, 400 shows an input-error message, empty results show a no-results message
   6. A floating CTA button ("Don't know what to watch?") is visible on every page for logged-in users, positioned above the bottom navigation bar on mobile; unauthenticated users see an auth gate with a value explanation rather than a blank login demand
-**Plans**: TBD
+**Plans**: 3 plans
+Plans:
+- [ ] 13-01-PLAN.md — TypeScript types, API service, and useAiDiscover mutation hook
+- [ ] 13-02-PLAN.md — AI Discovery page and all child components (search input, quick prompts, explanation, results grid, quick actions)
+- [ ] 13-03-PLAN.md — Floating CTA button, route wiring in App.tsx, human verification
 **UI hint**: yes
 
 ## Progress
@@ -124,4 +128,4 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 | 10. DB and Infrastructure Foundation | v2.0 | 1/2 | In Progress|  |
 | 11. Embedding Seed Pipeline | v2.0 | 1/3 | Complete    | 2026-03-26 |
 | 12. RAG Query Service and API | v2.0 | 4/4 | Complete    | 2026-03-28 |
-| 13. Frontend Discovery UI and CTA | v2.0 | 0/? | Not started | - |
+| 13. Frontend Discovery UI and CTA | v2.0 | 0/3 | Not started | - |
