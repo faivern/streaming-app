@@ -20,33 +20,32 @@ namespace backend.Configuration
             services.AddHttpClient<ITmdbService, TmdbService>();
             services.AddScoped<IListService, ListService>();
             services.AddScoped<IMediaEntryService, MediaEntryService>();
-            services.AddScoped<IAiDiscoveryService, AiDiscoveryService>();
             services.AddHostedService<TmdbRefreshBackgroundService>();
-            services.AddScoped<IEmbeddingSeedService, EmbeddingSeedService>();
-            services.AddHostedService<EmbeddingSeedBackgroundService>();
 
             services.AddDbContext<AppDbContext>(o =>
                 o.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection"),
                     npgsqlOptions => npgsqlOptions.UseVector()));
 
-            // Azure OpenAI (v2.0 AI Discovery)
-            var azureOpenAiEndpoint = configuration["AzureOpenAI:Endpoint"]
-                ?? throw new InvalidOperationException(
-                    "Azure OpenAI configuration is missing. Set AZURE_OPENAI_ENDPOINT in environment.");
+            // Azure OpenAI (v2.0 AI Discovery) — optional; app starts without it
+            var azureOpenAiEndpoint = configuration["AzureOpenAI:Endpoint"];
+            var azureOpenAiApiKey = configuration["AzureOpenAI:ApiKey"];
 
-            var azureOpenAiApiKey = configuration["AzureOpenAI:ApiKey"]
-                ?? throw new InvalidOperationException(
-                    "Azure OpenAI configuration is missing. Set AZURE_OPENAI_API_KEY in environment.");
+            if (!string.IsNullOrEmpty(azureOpenAiEndpoint) && !string.IsNullOrEmpty(azureOpenAiApiKey))
+            {
+                services.AddSingleton(new AzureOpenAIClient(
+                    new Uri(azureOpenAiEndpoint),
+                    new ApiKeyCredential(azureOpenAiApiKey)));
 
-            services.AddSingleton(new AzureOpenAIClient(
-                new Uri(azureOpenAiEndpoint),
-                new ApiKeyCredential(azureOpenAiApiKey)));
+                services.AddSingleton(new AzureOpenAIOptions(
+                    EmbeddingDeployment: configuration["AzureOpenAI:EmbeddingDeployment"] ?? "text-embedding-3-small",
+                    ChatDeployment: configuration["AzureOpenAI:ChatDeployment"] ?? "gpt-4o-mini"
+                ));
 
-            services.AddSingleton(new AzureOpenAIOptions(
-                EmbeddingDeployment: configuration["AzureOpenAI:EmbeddingDeployment"] ?? "text-embedding-3-small",
-                ChatDeployment: configuration["AzureOpenAI:ChatDeployment"] ?? "gpt-4o-mini"
-            ));
+                services.AddScoped<IAiDiscoveryService, AiDiscoveryService>();
+                services.AddScoped<IEmbeddingSeedService, EmbeddingSeedService>();
+                services.AddHostedService<EmbeddingSeedBackgroundService>();
+            }
 
             return services;
         }
