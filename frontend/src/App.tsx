@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import { useTheme } from "./hooks/useTheme";
 import { SignInModalProvider } from "./context/SignInModalContext";
 import SignInModal from "./components/auth/SignInModal";
+import AiDiscoverCta from "./components/aiDiscover/AiDiscoverCta";
 
 // Lazy-loaded page components (route-based code splitting)
 const HomePage = lazy(() => import("./pages/home/HomePage"));
@@ -25,6 +26,7 @@ const ProviderPage = lazy(() => import("./pages/providerPage/ProviderPage"));
 const ProvidersPage = lazy(() => import("./pages/providersPage/ProvidersPage"));
 const PrivacyPolicy = lazy(() => import("./pages/legal/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/legal/TermsOfService"));
+const AiDiscoverPage = lazy(() => import("./pages/aiDiscover/AiDiscoverPage"));
 const NotFoundPage = lazy(() => import("./pages/notFound"));
 const BadRequestPage = lazy(() => import("./pages/status/BadRequestPage"));
 const UnauthorizedPage = lazy(() => import("./pages/status/UnauthorizedPage"));
@@ -93,6 +95,7 @@ function App() {
           <Route path="/collection/:collectionId" element={<CollectionPage />} />
           <Route path="/provider/:providerId" element={<ProviderPage />} />
           <Route path="/providers" element={<ProvidersPage />} />
+          <Route path="/discover/ai" element={<AiDiscoverPage />} />
 
           {/* Legacy redirects for old URL patterns */}
           <Route path="/media/:media_type/:id" element={<LegacyMediaRedirect />} />
@@ -117,6 +120,7 @@ function App() {
         </ErrorBoundary>
       </main>
       <BottomNav />
+      <AiDiscoverCta />
       <Footer />
       <Toaster
         position="bottom-center"
