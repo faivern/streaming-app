@@ -39,8 +39,8 @@ Requirements for AI-Powered Discovery milestone. Each maps to roadmap phases.
 
 ### Entry Points
 
-- [ ] **ENTRY-01**: Floating CTA button on all pages for logged-in users ("Don't know what to watch?")
-- [ ] **ENTRY-02**: Auth gate with value explanation for unauthenticated users
+- [x] **ENTRY-01**: Floating CTA button on all pages for logged-in users ("Don't know what to watch?")
+- [x] **ENTRY-02**: Auth gate with value explanation for unauthenticated users
 
 ### Guardrails & Observability
 
@@ -107,8 +107,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UI-05 | Phase 13 | Complete |
 | UI-06 | Phase 13 | Complete |
 | UI-07 | Phase 13 | Complete |
-| ENTRY-01 | Phase 13 | Pending |
-| ENTRY-02 | Phase 13 | Pending |
+| ENTRY-01 | Phase 13 | Complete |
+| ENTRY-02 | Phase 13 | Complete |
 
 **Coverage:**
 - v2.0 requirements: 23 total

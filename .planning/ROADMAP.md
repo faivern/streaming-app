@@ -48,7 +48,7 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 - [ ] **Phase 10: DB and Infrastructure Foundation** — pgvector enabled, schema migrated, Azure OpenAI SDK wired into DI
 - [x] **Phase 11: Embedding Seed Pipeline** — 10,000 TMDB titles embedded and queryable in pgvector (completed 2026-03-26)
 - [x] **Phase 12: RAG Query Service and API** — end-to-end query pipeline live: embed → search → personalize → rank → validate → respond (completed 2026-03-28)
-- [ ] **Phase 13: Frontend Discovery UI and CTA** — AI Discovery page and floating CTA shipped and hardened
+- [x] **Phase 13: Frontend Discovery UI and CTA** — AI Discovery page and floating CTA shipped and hardened (completed 2026-03-29)
 
 ## Phase Details
 
@@ -110,7 +110,7 @@ Full phase details: `.planning/milestones/v1.1-ROADMAP.md`
 Plans:
 - [x] 13-01-PLAN.md — TypeScript types, API service, and useAiDiscover mutation hook
 - [x] 13-02-PLAN.md — AI Discovery page and all child components (search input, quick prompts, explanation, results grid, quick actions)
-- [ ] 13-03-PLAN.md — Floating CTA button, route wiring in App.tsx, human verification
+- [x] 13-03-PLAN.md — Floating CTA button, route wiring in App.tsx, human verification
 **UI hint**: yes
 
 ## Progress
@@ -128,4 +128,4 @@ Plans:
 | 10. DB and Infrastructure Foundation | v2.0 | 1/2 | In Progress|  |
 | 11. Embedding Seed Pipeline | v2.0 | 1/3 | Complete    | 2026-03-26 |
 | 12. RAG Query Service and API | v2.0 | 4/4 | Complete    | 2026-03-28 |
-| 13. Frontend Discovery UI and CTA | v2.0 | 2/3 | In Progress|  |
+| 13. Frontend Discovery UI and CTA | v2.0 | 3/3 | Complete   | 2026-03-29 |
