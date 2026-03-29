@@ -24,12 +24,12 @@ Requirements for AI-Powered Discovery milestone. Each maps to roadmap phases.
 
 ### Discovery UI
 
-- [ ] **UI-01**: AI Discovery page at `/discover/ai` with natural language search input (500 char max)
+- [x] **UI-01**: AI Discovery page at `/discover/ai` with natural language search input (500 char max)
 - [ ] **UI-02**: 5 quick prompt chips that auto-submit on tap
 - [ ] **UI-03**: Results displayed as 5-card grid using existing MediaCard with match score badge
 - [ ] **UI-04**: AI explanation bubble summarizing why results match the query
 - [ ] **UI-05**: Quick action refinement buttons ("More like these", "TV shows instead", "Something darker")
-- [ ] **UI-06**: All error/edge states handled (loading skeleton, empty, 503, 429, 400)
+- [x] **UI-06**: All error/edge states handled (loading skeleton, empty, 503, 429, 400)
 - [ ] **UI-07**: Corpus scope disclosure near search bar ("Searching across 10,000 popular titles")
 
 ### Personalization
@@ -100,12 +100,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | GUARD-01 | Phase 12 | Complete |
 | GUARD-02 | Phase 12 | Complete |
 | GUARD-03 | Phase 12 | Complete |
-| UI-01 | Phase 13 | Pending |
+| UI-01 | Phase 13 | Complete |
 | UI-02 | Phase 13 | Pending |
 | UI-03 | Phase 13 | Pending |
 | UI-04 | Phase 13 | Pending |
 | UI-05 | Phase 13 | Pending |
-| UI-06 | Phase 13 | Pending |
+| UI-06 | Phase 13 | Complete |
 | UI-07 | Phase 13 | Pending |
 | ENTRY-01 | Phase 13 | Pending |
 | ENTRY-02 | Phase 13 | Pending |
