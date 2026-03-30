@@ -7,6 +7,7 @@ import {
   faMasksTheater,
   faListUl,
   faTimes,
+  faWandMagicSparkles,
 } from "@fortawesome/free-solid-svg-icons";
 import { useGenres } from "../../hooks/genres/useGenres";
 import GenreList from "../filters/GenreList";
@@ -46,6 +47,15 @@ export default function BottomNav() {
             <FontAwesomeIcon icon={faMasksTheater} className="text-lg" />
             <span>Genres</span>
           </button>
+
+          {/* Ask AI */}
+          <NavLink
+            to="/discover/ai"
+            className={({ isActive }) => tabClass(isActive)}
+          >
+            <FontAwesomeIcon icon={faWandMagicSparkles} className="text-lg" />
+            <span>Ask AI</span>
+          </NavLink>
 
           {/* My Lists */}
           <NavLink

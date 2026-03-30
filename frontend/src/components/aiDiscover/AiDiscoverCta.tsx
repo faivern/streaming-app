@@ -34,14 +34,14 @@ export default function AiDiscoverCta() {
   return (
     <button
       onClick={handleClick}
-      className="fixed bottom-20 right-4 md:bottom-6 z-(--z-overlay) flex items-center gap-2 bg-[var(--action-primary)] hover:bg-[var(--action-hover)] text-white font-semibold text-sm rounded-full pl-4 pr-2 py-3 min-h-11 shadow-lg transition-colors duration-200 animate-[fadeIn_0.15s_ease-out]"
+      className="fixed bottom-20 right-4 md:bottom-6 z-(--z-overlay) flex items-center gap-2 backdrop-blur-xl bg-[var(--accent-primary)]/8 border border-[var(--accent-primary)]/15 hover:bg-[var(--accent-primary)]/15 text-white font-semibold text-sm rounded-full pl-4 pr-2 py-3 min-h-11 transition-colors duration-200 animate-[scaleIn_0.4s_ease-out] [animation:scaleIn_0.4s_ease-out,glowPulse_3s_ease-in-out_infinite]"
     >
-      <Sparkles size={16} className="text-[var(--accent-primary)]" />
+      <Sparkles size={16} className="text-[var(--accent-primary)] animate-[float_3s_ease-in-out_infinite]" />
       Don't know what to watch?
       <span
         role="button"
         onClick={handleDismiss}
-        className="ml-1 p-1 rounded-full hover:bg-white/15 transition-colors duration-150"
+        className="ml-1 p-1 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors duration-150"
       >
         <X size={14} />
       </span>

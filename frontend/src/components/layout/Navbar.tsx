@@ -18,6 +18,7 @@ import {
   faMasksTheater,
   faSearch,
   faUser,
+  faWandMagicSparkles,
 } from "@fortawesome/free-solid-svg-icons";
 import BrandLogo from "../common/BrandLogo";
 import MobileProfileDrawer from "./MobileProfileDrawer";
@@ -105,6 +106,13 @@ export default function Header() {
                   <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center gap-2">
                     <FontAwesomeIcon icon={faListUl} className="text-sm" />
                     Lists
+                    <span className="underline-bar"></span>
+                  </span>
+                </Link>
+                <Link to="/discover/ai">
+                  <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center gap-2">
+                    <FontAwesomeIcon icon={faWandMagicSparkles} className="text-sm" />
+                    Ask AI
                     <span className="underline-bar"></span>
                   </span>
                 </Link>
@@ -341,6 +349,14 @@ export default function Header() {
                   >
                     <FontAwesomeIcon icon={faListUl} className="text-sm w-5" />
                     My Lists
+                  </Link>
+                  <Link
+                    to="/discover/ai"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 w-full text-left text-base font-medium text-text-h1 hover:text-accent-primary transition"
+                  >
+                    <FontAwesomeIcon icon={faWandMagicSparkles} className="text-sm w-5" />
+                    Ask AI
                   </Link>
                 </div>
 
