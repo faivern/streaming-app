@@ -18,15 +18,17 @@ export default function AiQuickActions({
   };
 
   const handleTvShows = () => {
-    onRefine(`${currentQuery} (TV shows only)`);
+    const stripped = currentQuery.replace(/\s*\(TV shows only\)/g, "");
+    onRefine(`${stripped} (TV shows only)`);
   };
 
   const handleDarker = () => {
-    onRefine(`Something darker: ${currentQuery}`);
+    const stripped = currentQuery.replace(/^(Something darker:\s*)+/i, "");
+    onRefine(`Something darker: ${stripped}`);
   };
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex flex-wrap justify-center gap-2">
       <button type="button" onClick={handleMoreLikeThese} className={CHIP_CLASS}>
         More like these
       </button>

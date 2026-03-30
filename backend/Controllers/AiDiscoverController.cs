@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 using backend.Models.Dtos;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -11,10 +12,13 @@ namespace backend.Controllers;
 [Route("api/ai-discover")]
 [Authorize]
 [EnableRateLimiting("ai")]
-public class AiDiscoverController : ControllerBase
+public partial class AiDiscoverController : ControllerBase
 {
     private readonly IAiDiscoveryService _aiService;
     private readonly ILogger<AiDiscoverController> _logger;
+
+    [GeneratedRegex("<[^>]*>")]
+    private static partial Regex HtmlTagRegex();
 
     public AiDiscoverController(IAiDiscoveryService aiService, ILogger<AiDiscoverController> logger)
     {
@@ -34,13 +38,19 @@ public class AiDiscoverController : ControllerBase
         if (request.Query.Length > 500)
             return BadRequest(new { error = "Query must be 500 characters or fewer." });
 
+        // Sanitize: strip HTML tags and trim
+        var sanitizedQuery = HtmlTagRegex().Replace(request.Query, "").Trim();
+
+        if (string.IsNullOrWhiteSpace(sanitizedQuery))
+            return BadRequest(new { error = "Query cannot be empty." });
+
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (string.IsNullOrEmpty(userId))
             return Unauthorized();
 
         try
         {
-            var response = await _aiService.DiscoverAsync(request.Query, userId, cancellationToken);
+            var response = await _aiService.DiscoverAsync(sanitizedQuery, userId, cancellationToken);
             return Ok(response);
         }
         catch (AiServiceUnavailableException ex)

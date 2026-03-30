@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAiDiscover } from "../../hooks/aiDiscover/useAiDiscover";
 import { useUser } from "../../hooks/user/useUser";
 import { useSignInModal } from "../../context/SignInModalContext";
@@ -15,6 +15,14 @@ export default function AiDiscoverPage() {
   const { mutate, data, isPending, error } = useAiDiscover();
   const { data: user } = useUser();
   const { openSignInModal } = useSignInModal();
+
+  const resultsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (data && window.innerWidth < 1024) {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [data]);
 
   const errorStatus = error?.response?.status;
   const retryAfterSeconds = error?.response?.headers?.["retry-after"]
@@ -94,17 +102,17 @@ export default function AiDiscoverPage() {
             />
           </div>
 
-          <div className="mt-6">
+          <div className="mt-6" ref={resultsRef}>
             {isPending && (
               <>
                 {/* Explanation skeleton */}
                 <div className="border-l-4 border-[var(--accent-primary)] bg-[var(--component-primary)] rounded-r-xl px-4 py-3 animate-pulse h-20" />
                 {/* Card skeletons */}
-                <div className="mt-6 flex gap-6 overflow-hidden lg:grid lg:grid-cols-5 lg:gap-4">
+                <div className="mt-6 flex gap-3 overflow-hidden lg:grid lg:grid-cols-5 lg:gap-4">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <div
                       key={i}
-                      className="flex-[0_0_calc(50%-12px)] min-w-0 lg:flex-none"
+                      className="flex-[0_0_calc(50%-6px)] min-w-0 lg:flex-none"
                     >
                       <MediaCardSkeleton />
                     </div>
@@ -170,7 +178,7 @@ export default function AiDiscoverPage() {
             )}
 
             {!isPending && !error && data && data.results.length > 0 && (
-              <>
+              <div className="animate-[fadeIn_0.15s_ease-out]">
                 <div className="mt-6">
                   <AiExplanation message={data.message} />
                 </div>
@@ -184,7 +192,7 @@ export default function AiDiscoverPage() {
                     resultTitles={data.results.map((r) => r.title)}
                   />
                 </div>
-              </>
+              </div>
             )}
           </div>
         </div>

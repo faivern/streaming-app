@@ -39,7 +39,10 @@ namespace backend.Configuration
 
                 services.AddSingleton(new AzureOpenAIOptions(
                     EmbeddingDeployment: configuration["AzureOpenAI:EmbeddingDeployment"] ?? "text-embedding-3-small",
-                    ChatDeployment: configuration["AzureOpenAI:ChatDeployment"] ?? "gpt-4o-mini"
+                    ChatDeployment: configuration["AzureOpenAI:ChatDeployment"] ?? "gpt-4o-mini",
+                    Temperature: float.TryParse(configuration["AzureOpenAI:Temperature"], out var temp) ? temp : 0.3f,
+                    MaxTokens: int.TryParse(configuration["AzureOpenAI:MaxTokens"], out var mt) ? mt : 1024,
+                    SystemPromptOverride: configuration["AzureOpenAI:SystemPromptOverride"] ?? ""
                 ));
 
                 services.AddScoped<IAiDiscoveryService, AiDiscoveryService>();

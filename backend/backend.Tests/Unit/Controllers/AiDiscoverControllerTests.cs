@@ -103,6 +103,33 @@ public class AiDiscoverControllerTests
     }
 
     [Fact]
+    public async Task Discover_HtmlInQuery_StripsTagsBeforeService()
+    {
+        var request = new AiDiscoverRequestDto("<script>alert(1)</script>time loop comedy");
+        var expectedResponse = new AiDiscoverResponseDto(
+            new List<AiDiscoverResultDto>(),
+            "Here are some matches",
+            100
+        );
+        // After sanitization the service should receive "alert(1)time loop comedy"
+        _mockService.Setup(s => s.DiscoverAsync("alert(1)time loop comedy", "test-user-id", It.IsAny<CancellationToken>()))
+            .ReturnsAsync(expectedResponse);
+
+        var result = await _controller.Discover(request, CancellationToken.None);
+        Assert.IsType<OkObjectResult>(result);
+        _mockService.Verify(s => s.DiscoverAsync("alert(1)time loop comedy", "test-user-id", It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Fact]
+    public async Task Discover_OnlyHtmlTags_Returns400()
+    {
+        var request = new AiDiscoverRequestDto("<b></b><i></i>");
+        var result = await _controller.Discover(request, CancellationToken.None);
+        var badRequest = Assert.IsType<BadRequestObjectResult>(result);
+        Assert.Equal(400, badRequest.StatusCode);
+    }
+
+    [Fact]
     public async Task Discover_NoUserClaim_ReturnsUnauthorized()
     {
         // Override with unauthenticated context

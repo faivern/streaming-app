@@ -17,9 +17,9 @@ export default function AiResultsGrid({ results }: AiResultsGridProps) {
     <>
       {/* Mobile: Embla horizontal scroll */}
       <div className="lg:hidden overflow-hidden" ref={emblaRef}>
-        <div className="flex gap-6">
+        <div className="flex gap-3">
           {results.map((r) => (
-            <div key={`${r.mediaType}-${r.tmdbId}`} className="flex-[0_0_calc(50%-12px)] min-w-0">
+            <div key={`${r.mediaType}-${r.tmdbId}`} className="flex-[0_0_calc(50%-6px)] min-w-0">
               <MediaCard
                 id={r.tmdbId}
                 media_type={r.mediaType}

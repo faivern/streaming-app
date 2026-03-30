@@ -138,10 +138,17 @@ public class AiDiscoveryService : IAiDiscoveryService
         try
         {
             var chatClient = _aiClient.GetChatClient(_aiOptions.ChatDeployment);
-            var chatOptions = new ChatCompletionOptions { Temperature = 0.3f };
+            var chatOptions = new ChatCompletionOptions
+            {
+                Temperature = _aiOptions.Temperature,
+                MaxOutputTokenCount = _aiOptions.MaxTokens
+            };
+            var systemPrompt = string.IsNullOrWhiteSpace(_aiOptions.SystemPromptOverride)
+                ? AiDiscoveryPrompts.SystemPrompt
+                : _aiOptions.SystemPromptOverride;
             var messages = new List<ChatMessage>
             {
-                new SystemChatMessage(AiDiscoveryPrompts.SystemPrompt),
+                new SystemChatMessage(systemPrompt),
                 new UserChatMessage(userMessage)
             };
 
@@ -233,6 +240,8 @@ public class AiDiscoveryService : IAiDiscoveryService
         return $"ai_discover:{userId}:{hash}";
     }
 
+    private const int MaxStoredJsonLength = 10_000;
+
     private void FireAndForgetLog(
         string userId,
         string query,
@@ -241,6 +250,10 @@ public class AiDiscoveryService : IAiDiscoveryService
         int promptTokens,
         int completionTokens)
     {
+        var truncatedJson = rawLlmJson.Length > MaxStoredJsonLength
+            ? rawLlmJson[..MaxStoredJsonLength]
+            : rawLlmJson;
+
         _ = Task.Run(async () =>
         {
             try
@@ -255,7 +268,7 @@ public class AiDiscoveryService : IAiDiscoveryService
                     ResponseTimeMs = (int)response.ResponseTimeMs,
                     PromptTokens = promptTokens,
                     CompletionTokens = completionTokens,
-                    ResponseText = rawLlmJson
+                    ResponseText = truncatedJson
                 });
                 await db.SaveChangesAsync();
             }
@@ -263,7 +276,9 @@ public class AiDiscoveryService : IAiDiscoveryService
             {
                 _logger.LogError(ex, "Failed to log AI query for user {UserId}", userId);
             }
-        });
+        }).ContinueWith(
+            t => _logger.LogError(t.Exception, "Unobserved exception in AI query logging"),
+            TaskContinuationOptions.OnlyOnFaulted);
     }
 
     // Private records for LLM JSON deserialization
