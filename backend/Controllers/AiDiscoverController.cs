@@ -35,8 +35,8 @@ public partial class AiDiscoverController : ControllerBase
         if (string.IsNullOrWhiteSpace(request.Query))
             return BadRequest(new { error = "Query cannot be empty." });
 
-        if (request.Query.Length > 500)
-            return BadRequest(new { error = "Query must be 500 characters or fewer." });
+        if (request.Query.Length > 300)
+            return BadRequest(new { error = "Query must be 300 characters or fewer." });
 
         // Sanitize: strip HTML tags and trim
         var sanitizedQuery = HtmlTagRegex().Replace(request.Query, "").Trim();
