@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
+import { Helmet } from "react-helmet-async";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
 import { RotateCcw } from "lucide-react";
 import { useAiDiscover } from "../../hooks/aiDiscover/useAiDiscover";
 import { useUser } from "../../hooks/user/useUser";
@@ -21,6 +21,14 @@ const ROTATING_PHRASES = [
   "a vibe or feeling",
   "a movie you loved",
   "something you saw as a kid",
+  "an actor you can't get enough of",
+  "a genre you're craving",
+  "a place you want to escape to",
+  "a soundtrack that stuck with you",
+  "a story that made you cry",
+  "something weird and wonderful",
+  "a film your friend recommended",
+  "a classic you never got around to",
 ];
 
 let msgId = 0;
@@ -121,116 +129,155 @@ export default function AiDiscoverPage() {
   );
 
   return (
-    <div className="fixed inset-0 z-[var(--z-overlay)] flex flex-col bg-background">
+    <div className="flex flex-col overflow-x-hidden h-[calc(100dvh-var(--navbar-height)-var(--bottom-nav-height))] md:h-[calc(100dvh-var(--navbar-height))]">
+      <Helmet>
+        <title>AI Discover | Cinelas</title>
+        <meta name="description" content="Describe what you're in the mood for and get personalized movie and TV show recommendations powered by AI." />
+        <meta property="og:title" content="AI Discover | Cinelas" />
+        <meta property="og:description" content="Describe what you're in the mood for and get personalized movie and TV show recommendations powered by AI." />
+        <meta property="og:url" content="https://cinelas.com/discover/ai" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Helmet>
       <AiCinematicBackground />
 
-      {/* Minimal navbar */}
-      <header className="relative z-[1] flex items-center justify-between px-4 lg:px-8 py-4 shrink-0">
-        <Link to="/">
-          <span
-            className="text-xl lg:text-2xl whitespace-nowrap leading-none text-white hover:text-[var(--accent-primary)] transition-colors duration-200"
-            style={{ fontFamily: "International", WebkitFontSmoothing: "antialiased" }}
-          >
-            Cinelas
-          </span>
-        </Link>
-
-        {user && !isIdle && (
-          <button
-            type="button"
-            onClick={handleClearChat}
-            className="flex items-center gap-2 text-sm text-[var(--subtle)] hover:text-white transition-colors duration-200"
-          >
-            <RotateCcw size={14} />
-            New chat
-          </button>
-        )}
-      </header>
-
       {!user ? (
-        /* Auth gate */
-        <div className="flex-1 flex flex-col items-center justify-center px-page relative z-[1]">
-          <h1 className="text-2xl sm:text-3xl font-semibold text-white text-center">
-            Discover movies with AI
-          </h1>
-          <p className="text-base text-[var(--subtle)] text-center mt-4 max-w-md">
-            Sign in to describe what you're in the mood for and get personalized
-            recommendations powered by AI.
-          </p>
-          <button
-            type="button"
-            onClick={() => openSignInModal()}
-            className="mt-6 bg-[var(--action-primary)] hover:bg-[var(--action-hover)] text-white font-semibold rounded-xl px-6 py-3 min-h-11 transition-colors duration-200"
+        /* Auth gate — reuses the idle hero with rotating phrases */
+        <div className="flex-1 flex flex-col items-center justify-center relative z-[1] px-page">
+          <motion.div
+            key="auth-gate"
+            variants={idleEntranceVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col items-center text-center w-full"
           >
-            Sign in to get started
-          </button>
+            <h1 className="text-[clamp(1.55rem,5.5vw,3rem)] sm:text-4xl md:text-5xl font-bold text-text-h1 whitespace-nowrap">
+              Don't Know What to Watch?
+            </h1>
+            <div className="mt-3 flex flex-col items-center">
+              <p className="text-base sm:text-lg md:text-xl text-text-h1/70">
+                Describe
+              </p>
+              <div className="h-8 flex items-center">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={phraseIndex}
+                    className="text-base sm:text-lg md:text-xl text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary font-semibold"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {ROTATING_PHRASES[phraseIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
+            </div>
+            <p className="mt-4 text-sm sm:text-base text-text-h1/60 max-w-md">
+              We will find the best recommendations for you.
+            </p>
+            <button
+              type="button"
+              onClick={() => openSignInModal()}
+              className="mt-6 bg-[var(--action-primary)] hover:bg-[var(--action-hover)] text-white font-semibold rounded-xl px-6 py-3 min-h-11 transition-colors duration-200"
+            >
+              Sign in to get started
+            </button>
+          </motion.div>
         </div>
       ) : (
         <>
-          {/* Scrollable chat area */}
-          <div ref={scrollRef} className="flex-1 overflow-y-auto relative z-[1]">
-            <AnimatePresence mode="wait">
-              {isIdle ? (
-                <motion.div
-                  key="idle"
-                  variants={idleEntranceVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  className="flex flex-col items-center text-center h-full justify-center px-page"
-                >
-                  <h1 className="text-2xl sm:text-3xl font-semibold text-white">
-                    Don't know what to watch?
-                  </h1>
-                  <p className="text-base text-[var(--subtle)] mt-4 max-w-lg">
-                    Describe:{" "}
-                    <AnimatePresence mode="wait">
-                      <motion.span
-                        key={phraseIndex}
-                        className="inline-block text-white font-medium"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        {ROTATING_PHRASES[phraseIndex]}
-                      </motion.span>
-                    </AnimatePresence>
-                  </p>
-                  <div className="mt-6">
-                    <AiQuickPrompts visible={true} onSelect={handleQuickPrompt} />
-                  </div>
-                  <p className="text-sm text-[var(--subtle)] mt-3">
-                    Searching across 10,000 popular titles
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="chat"
-                  variants={messageContainerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="max-w-2xl mx-auto space-y-4 pt-6 pb-4 px-page"
-                >
-                  {messages.map((msg, i) => (
-                    <AiChatBubble
-                      key={msg.id}
-                      message={msg}
-                      onRefine={i === lastAiIndex ? handleRefine : undefined}
-                    />
-                  ))}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
+          <AnimatePresence mode="wait">
+            {isIdle ? (
+              /* Idle hero — fills viewport, no scroll needed */
+              <>
+                <div className="flex-1 flex flex-col items-center justify-center relative z-[1] px-page">
+                  <motion.div
+                    key="idle"
+                    variants={idleEntranceVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    className="flex flex-col items-center text-center w-full"
+                  >
+                    <h1 className="text-[clamp(1.55rem,5.5vw,3rem)] sm:text-4xl md:text-5xl font-bold text-text-h1 whitespace-nowrap">
+                      Don't Know What to Watch?
+                    </h1>
+                    <div className="mt-3 flex flex-col items-center">
+                      <p className="text-base sm:text-lg md:text-xl text-text-h1/70">
+                        Describe
+                      </p>
+                      <div className="h-8 flex items-center">
+                        <AnimatePresence mode="wait">
+                          <motion.span
+                            key={phraseIndex}
+                            className="text-base sm:text-lg md:text-xl text-transparent bg-clip-text bg-gradient-to-r from-accent-primary to-accent-secondary font-semibold"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            {ROTATING_PHRASES[phraseIndex]}
+                          </motion.span>
+                        </AnimatePresence>
+                      </div>
+                    </div>
+                    <div className="mt-6 w-full max-w-full">
+                      <AiQuickPrompts visible={true} onSelect={handleQuickPrompt} />
+                    </div>
+                  </motion.div>
+                </div>
 
-          {/* Input anchored at bottom */}
-          <AiSearchInput
-            query={query}
-            onQueryChange={setQuery}
-            onSubmit={handleSubmit}
-            isPending={isPending}
-          />
+                {/* Input anchored at bottom */}
+                <AiSearchInput
+                  query={query}
+                  onQueryChange={setQuery}
+                  onSubmit={handleSubmit}
+                  isPending={isPending}
+                />
+              </>
+            ) : (
+              /* Active chat — scrollable */
+              <>
+                <div ref={scrollRef} className="flex-1 overflow-y-auto relative z-[1]">
+                  <div className="max-w-2xl mx-auto flex justify-end px-page pt-4 pb-2">
+                    <button
+                      type="button"
+                      onClick={handleClearChat}
+                      className="flex items-center gap-2 text-sm text-[var(--subtle)] hover:text-white transition-colors duration-200"
+                    >
+                      <RotateCcw size={14} />
+                      Clear chat and restart
+                    </button>
+                  </div>
+
+                  <motion.div
+                    key="chat"
+                    variants={messageContainerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="max-w-2xl mx-auto space-y-4 pt-2 pb-4 px-page"
+                  >
+                    {messages.map((msg, i) => (
+                      <AiChatBubble
+                        key={msg.id}
+                        message={msg}
+                        onRefine={i === lastAiIndex ? handleRefine : undefined}
+                      />
+                    ))}
+                  </motion.div>
+                </div>
+
+                {/* Input anchored at bottom */}
+                <AiSearchInput
+                  query={query}
+                  onQueryChange={setQuery}
+                  onSubmit={handleSubmit}
+                  isPending={isPending}
+                />
+              </>
+            )}
+          </AnimatePresence>
         </>
       )}
     </div>

@@ -53,7 +53,7 @@ export default function MediaDetailPage({ mediaType: media_type }: { mediaType: 
 
   const mediaTitle = details.title ?? details.name ?? "Unknown";
   const year = (details.release_date ?? details.first_air_date ?? "").slice(0, 4);
-  const pageTitle = year ? `${mediaTitle} (${year}) — Cinelas` : `${mediaTitle} — Cinelas`;
+  const pageTitle = year ? `${mediaTitle} (${year}) | Cinelas` : `${mediaTitle} | Cinelas`;
   const description = details.overview
     ? details.overview.slice(0, 160)
     : `Find where to stream ${mediaTitle} and more on Cinelas.`;

@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate, useParams, useLocation } from "react-router-dom";
 import Header from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import BottomNav from "./components/layout/BottomNav";
@@ -52,8 +52,9 @@ function LegacyCollectionRedirect() {
 }
 
 function App() {
-  // Theme is managed by useTheme hook (persisted to localStorage)
   useTheme();
+  const { pathname } = useLocation();
+  const hideFooter = pathname === "/discover/ai";
 
   return (
     <SignInModalProvider>
@@ -121,7 +122,7 @@ function App() {
       </main>
       <BottomNav />
       <AiDiscoverCta />
-      <Footer />
+      {!hideFooter && <Footer />}
       <Toaster
         position="bottom-center"
         containerStyle={{

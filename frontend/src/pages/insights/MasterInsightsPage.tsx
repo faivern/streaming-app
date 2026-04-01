@@ -89,10 +89,10 @@ export default function MasterInsightsPage() {
   return (
     <div className="px-4 md:px-8 py-6 mt-navbar-offset max-w-7xl mx-auto">
       <Helmet>
-        <title>Viewing Insights — Cinelas</title>
+        <title>Viewing Insights | Cinelas</title>
         <meta name="description" content="Discover insights about your movie and TV show viewing habits." />
         <link rel="canonical" href="https://cinelas.com/lists/insights" />
-        <meta property="og:title" content="Viewing Insights — Cinelas" />
+        <meta property="og:title" content="Viewing Insights | Cinelas" />
         <meta property="og:description" content="Discover insights about your movie and TV show viewing habits." />
         <meta property="og:url" content="https://cinelas.com/lists/insights" />
         <meta property="og:type" content="website" />

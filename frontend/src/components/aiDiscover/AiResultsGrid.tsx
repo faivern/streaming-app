@@ -16,7 +16,7 @@ export default function AiResultsGrid({ results }: AiResultsGridProps) {
   return (
     <>
       {/* Mobile: Embla horizontal scroll */}
-      <div className="lg:hidden overflow-hidden" ref={emblaRef}>
+      <div className="lg:hidden overflow-hidden min-w-0" ref={emblaRef}>
         <div className="flex gap-3">
           {results.map((r) => (
             <div key={`${r.mediaType}-${r.tmdbId}`} className="flex-[0_0_calc(50%-6px)] min-w-0">

@@ -80,7 +80,7 @@ export default function StatusPage({
       className="mt-navbar-offset flex flex-col items-center justify-center min-h-[60dvh] px-page text-center select-none"
     >
       <Helmet>
-        <title>{`${code} — ${title} | Cinelas`}</title>
+        <title>{`${code} | ${title} | Cinelas`}</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

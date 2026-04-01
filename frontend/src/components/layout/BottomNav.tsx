@@ -7,8 +7,8 @@ import {
   faMasksTheater,
   faListUl,
   faTimes,
-  faWandMagicSparkles,
 } from "@fortawesome/free-solid-svg-icons";
+import { Sparkles } from "lucide-react";
 import { useGenres } from "../../hooks/genres/useGenres";
 import GenreList from "../filters/GenreList";
 
@@ -53,7 +53,7 @@ export default function BottomNav() {
             to="/discover/ai"
             className={({ isActive }) => tabClass(isActive)}
           >
-            <FontAwesomeIcon icon={faWandMagicSparkles} className="text-lg" />
+            <Sparkles size={20} />
             <span>Ask AI</span>
           </NavLink>
 
@@ -107,7 +107,8 @@ export default function BottomNav() {
                 <div className="flex flex-col items-center pt-3 pb-2 border-b border-border/25">
                   <div className="w-10 h-1 rounded-full bg-gray-500 mb-3" />
                   <div className="flex items-center justify-between w-full px-5">
-                    <Dialog.Title className="text-lg font-semibold text-text-h1">
+                    <Dialog.Title className="text-lg font-semibold text-text-h1 flex items-center gap-2">
+                      <FontAwesomeIcon icon={faMasksTheater} />
                       Genres
                     </Dialog.Title>
                     <button

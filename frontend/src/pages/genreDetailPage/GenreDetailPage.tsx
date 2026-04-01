@@ -159,10 +159,10 @@ export default function GenreDetailPage() {
   return (
     <main className="mt-navbar-offset max-w-7xl mx-auto px-4 py-8">
       <Helmet>
-        <title>{`${genreName} Movies & Shows — Cinelas`}</title>
+        <title>{`${genreName} Movies & Shows | Cinelas`}</title>
         <meta name="description" content={`Discover ${genreName} movies and TV shows. Browse popular and top-rated ${genreName} titles on Cinelas.`} />
         <link rel="canonical" href={`https://cinelas.com${buildGenreUrl(genreIdNum!, genreName, mediaType)}`} />
-        <meta property="og:title" content={`${genreName} Movies & Shows — Cinelas`} />
+        <meta property="og:title" content={`${genreName} Movies & Shows | Cinelas`} />
         <meta property="og:description" content={`Discover ${genreName} movies and TV shows on Cinelas.`} />
         <meta property="og:url" content={`https://cinelas.com${buildGenreUrl(genreIdNum!, genreName, mediaType)}`} />
         <meta property="og:type" content="website" />

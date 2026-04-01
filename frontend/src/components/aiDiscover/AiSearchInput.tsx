@@ -20,6 +20,7 @@ export default function AiSearchInput({
   const [isClapping, setIsClapping] = useState(false);
   const charsRemaining = 250 - query.length;
   const isDisabled = isPending || query.trim().length === 0;
+  const textBoxPlaceholder = "A movie where a guy relives the same day over and over again...";
 
   const autoGrow = useCallback(() => {
     const el = textareaRef.current;
@@ -55,9 +56,9 @@ export default function AiSearchInput({
             }}
             onKeyDown={handleKeyDown}
             maxLength={250}
-            placeholder="A movie where a guy relives the same day..."
+            placeholder={textBoxPlaceholder}
             disabled={isPending}
-            className={`flex-1 bg-[var(--input)]/80 backdrop-blur-sm text-white text-base placeholder:text-[var(--subtle)] rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[var(--ring)] transition-shadow duration-150 resize-none ${
+            className={`flex-1 bg-white/[0.08] border border-white/[0.12] backdrop-blur-md shadow-[0_2px_12px_rgba(0,0,0,0.2)] text-white text-base placeholder:text-[var(--subtle)] rounded-2xl px-5 py-4 focus:outline-none focus:ring-2 focus:ring-[var(--ring)] transition-shadow duration-150 resize-none ${
               isPending ? "opacity-50 cursor-not-allowed" : ""
             }`}
           />
@@ -71,7 +72,7 @@ export default function AiSearchInput({
                 : "shadow-[0_0_12px_2px] shadow-[var(--accent-primary)]/25"
             }`}
           >
-            {isPending ? (
+            {isPending && !isClapping ? (
               <Loader2 className="animate-spin" size={20} />
             ) : (
               <Clapperboard

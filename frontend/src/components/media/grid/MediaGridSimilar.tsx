@@ -90,7 +90,7 @@ const MediaGridSimilar = ({ similarMedia, parentType, isLoading }: Props) => {
           </div>
           {/* Right-edge fade for mobile horizontal scroll */}
           <div
-            className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[var(--component-primary)] to-transparent pointer-events-none md:hidden"
+            className="absolute right-0 top-0 bottom-0 w-16 z-20 bg-gradient-to-l from-[var(--component-primary)] to-transparent pointer-events-none md:hidden"
             aria-hidden="true"
           />
         </div>

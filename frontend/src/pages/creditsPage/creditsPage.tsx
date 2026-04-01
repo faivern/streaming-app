@@ -69,10 +69,10 @@ const CreditsPage = ({ mediaType: media_type = "movie" }: { mediaType?: MediaTyp
   return (
     <div className="min-h-dvh bg-[var(--background)]">
       <Helmet>
-        <title>{`${mediaTitle} — Cast & Crew | Cinelas`}</title>
+        <title>{`${mediaTitle} | Cast & Crew | Cinelas`}</title>
         <meta name="description" content={`Full cast and crew for ${mediaTitle}. See actors, directors, and more on Cinelas.`} />
         <link rel="canonical" href={`https://cinelas.com${mediaCreditsUrl(media_type, id, mediaTitle)}`} />
-        <meta property="og:title" content={`${mediaTitle} — Cast & Crew | Cinelas`} />
+        <meta property="og:title" content={`${mediaTitle} | Cast & Crew | Cinelas`} />
         <meta property="og:description" content={`Full cast and crew for ${mediaTitle}.`} />
         <meta property="og:url" content={`https://cinelas.com${mediaCreditsUrl(media_type, id, mediaTitle)}`} />
         <meta property="og:type" content="website" />

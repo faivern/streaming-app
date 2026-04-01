@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Sparkles, AlertCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { messageBubbleVariants } from "./animations";
 import AiTypingIndicator from "./AiTypingIndicator";
 import AiResultsGrid from "./AiResultsGrid";
@@ -14,7 +14,7 @@ type AiChatBubbleProps = {
 function UserBubble({ text }: { text: string }) {
   return (
     <div className="flex justify-end">
-      <div className="max-w-[80%] bg-[var(--action-primary)] border border-[var(--outline)]/50 rounded-2xl rounded-br-md px-4 py-3">
+      <div className="max-w-[80%] bg-white/[0.08] border border-white/[0.12] backdrop-blur-md rounded-2xl rounded-br-md px-4 py-3 shadow-[0_2px_12px_rgba(0,0,0,0.2)]">
         <p className="text-white text-sm leading-relaxed">{text}</p>
       </div>
     </div>
@@ -23,14 +23,8 @@ function UserBubble({ text }: { text: string }) {
 
 function AiBubbleShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex justify-start">
-      <div className="w-full max-w-full border-l-2 border-[var(--accent-primary)]/40 bg-[var(--component-primary)]/60 backdrop-blur-sm rounded-2xl rounded-bl-md px-4 py-4">
-        <div className="flex items-center gap-2 mb-2">
-          <Sparkles size={14} className="text-[var(--accent-primary)]" />
-          <span className="text-xs font-semibold text-[var(--accent-primary)] uppercase tracking-wider">
-            AI Discovery
-          </span>
-        </div>
+    <div className="flex justify-start min-w-0">
+      <div className="w-full min-w-0 border-l-2 border-[var(--accent-primary)]/30 bg-white/[0.05] backdrop-blur-md rounded-2xl rounded-bl-md px-4 py-4 shadow-[0_2px_16px_rgba(0,0,0,0.15)]">
         {children}
       </div>
     </div>
