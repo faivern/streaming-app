@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: AI-Powered Discovery
-status: Ready to execute
-stopped_at: Checkpoint Task 3 - 13-03-PLAN.md awaiting human-verify
-last_updated: "2026-03-29T13:58:36.287Z"
+status: Operational — RAG end-to-end verified, fine-tuning phase
+stopped_at: AI-SETUP-HANDOFF.md (2026-04-26) — fine-tuning queue + Phase 12 HUMAN-UAT pending
+last_updated: "2026-04-27T00:00:00.000Z"
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 12
-  completed_plans: 11
+  completed_plans: 12
 ---
 
 # Project State
@@ -19,12 +19,13 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-25)
 
 **Core value:** Users can effortlessly discover movies and TV shows — whether browsing, searching, or describing what they're in the mood for in natural language.
-**Current focus:** Phase 13 — frontend-discovery-ui-and-cta
+**Current focus:** v2.0 fine-tuning — system prompt + temperature, embedding seed gap analysis, AI Discover UX polish, Phase 12 HUMAN-UAT completion
 
 ## Current Position
 
-Phase: 13 (frontend-discovery-ui-and-cta) — EXECUTING
-Plan: 3 of 3
+Milestone: v2.0 — All 4 phases shipped (Phase 13 completed 2026-03-29)
+Status: Operational — Azure OpenAI live, RAG end-to-end verified, first AI query logged 2026-04-26
+Active workstream: Fine-tuning (see `.planning/AI-SETUP-HANDOFF.md` for full queue)
 
 ## Performance Metrics
 
@@ -175,6 +176,12 @@ Recent decisions affecting current work:
 - [Phase 13]: Dual-container responsive pattern for AiResultsGrid — lg:hidden Embla (mobile) + hidden lg:grid (desktop) avoids media query JS
 - [Phase 13]: hasSubmitted boolean separates idle from results view in AiDiscoverPage
 - [Phase 13]: posterPath passes empty string to MediaCard — backend API does not return poster_path; MediaCard fallback handles gracefully per MVP
+- [v2.0 Setup 2026-04-26]: Chose Path B (full Docker stack) over Path A (host backend + Docker DB) — preserves existing Google OAuth `http://localhost:7123/signin-google` whitelist; tradeoff is slower hot-reload via in-container polling, accepted
+- [v2.0 Setup 2026-04-26]: Both `dotnet user-secrets` and root `.env` populated with Azure OpenAI credentials — `.env` is canonical for Docker; `user-secrets` is fallback for `dotnet watch run` on host without re-syncing
+- [v2.0 Setup 2026-04-26]: `AppDbContextFactory.cs` rewritten to read connection string from configuration (was hardcoded `Username=postgres` no password) — migrations work from either Docker or host path without manual swap
+- [v2.0 Setup 2026-04-26]: Postgres reset to canonical creds `cinelas`/`devpassword`/`cinelas`; migrations applied through `20260328174220_AddAiQueryLogResponseColumns`
+- [v2.0 Setup 2026-04-26]: Azure resource `cinelas-ai-rag` (swedencentral, S0) with deployments `text-embedding-3-small` and `gpt-4o-mini`
+- [v2.0 Tuning]: `AzureOpenAI:Temperature` and `AzureOpenAI:SystemPromptOverride` env vars enable runtime A/B without redeploy (`AzureOpenAIOptions.cs`, `ServiceRegistration.cs:45`) — defaults: temperature `0.3`, max tokens `1024`
 
 ### Pending Todos
 
@@ -182,13 +189,19 @@ Recent decisions affecting current work:
 
 ### Blockers/Concerns
 
-- [Phase 10]: Confirm actual Azure OpenAI deployment names before writing DI registration — deployment names may differ from model names (text-embedding-3-small, gpt-4o-mini)
-- [Phase 10]: Confirm whether TV show embeddings are in scope for v2.0 or movies-only — affects seed pipeline page count and total seed time
-- [Phase 11]: Confirm Azure OpenAI TPM quota before first seed run — reduce batch size from 100 to 50 if quota is below 250K TPM
-- [Phase 12]: If hallucinated TMDB ID rate exceeds 10% in early testing, run a focused spike on system prompt constraint patterns before finalizing the prompt
+- [Phase 12 HUMAN-UAT]: Caching behavior unverified — run same query twice within 30 min, confirm second is faster with no new `ai_query_logs` row (`12-HUMAN-UAT.md` test 2)
+- [Phase 12 HUMAN-UAT]: Rate limiting unverified at 21st request/hour — should return 429 with `Retry-After` header (test 3)
+- [Phase 12 HUMAN-UAT]: 5-result structured count not yet confirmed for first end-to-end query (test 1, partially confirmed — query succeeded but result count not validated)
+- [Embedding seed coverage]: 14,979 / 15,000 (99.86%); gap is items filtered by `EmbeddingContentBuilder` for missing overview/genres — only chase if specific popular titles missing from search results
+- [AI Discover UX]: Loading state during 1–2s LLM response (skeleton vs spinner vs nothing), empty/no-result copy, mobile chip wrap at narrow widths, scroll-to-results timing on submit — manual pass needed
+- [AI tuning surface]: Compare actual `ai_query_logs.response_text` against `backend/Services/AiDiscoveryPrompts.cs` system prompt; tune via env vars (no code changes needed)
+- [Parked]: `frontend/.env` has misleading `VITE_API_URL=https://localhost:7123` — Docker overrides in-container, no functional impact, confusing for host-Vite runs
+- [Parked]: Legacy `backend/docker-compose.yml` (uses `postgres:16` without pgvector) conflicts with root compose — recommend deletion
+- [Parked]: WSL2 bind mount strips exec bit on `node_modules/.bin/*` — re-run `chmod +x frontend/node_modules/.bin/*` if `vite: Permission denied`
 
 ## Session Continuity
 
-Last session: 2026-03-29T13:58:29.270Z
-Stopped at: Checkpoint Task 3 - 13-03-PLAN.md awaiting human-verify
-Resume file: None
+Last session: 2026-04-26
+Stopped at: RAG operational — fine-tuning queue + 3 Phase 12 HUMAN-UAT tests pending
+Resume file: `.planning/AI-SETUP-HANDOFF.md`
+Resume command: `docker compose up -d` from `/home/faivern/streaming-app` — open `http://localhost:3000`, sign in, AI Discover at `/discover/ai`

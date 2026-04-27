@@ -66,3 +66,18 @@ export const chipItem: Variants = {
     transition: { duration: 0.3, ease: "easeOut" },
   },
 };
+
+export const matchScoreBadge: Variants = {
+  hidden: { opacity: 0, scale: 0.6, rotate: -8 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    transition: {
+      delay: 0.4,
+      type: "spring",
+      stiffness: 300,
+      damping: 18,
+    },
+  },
+};

@@ -1,5 +1,8 @@
 import useEmblaCarousel from "embla-carousel-react";
-import MediaCard from "../media/cards/MediaCard";
+import { motion } from "framer-motion";
+import AiResultCard from "./AiResultCard";
+import { useMediaDetailsBatch } from "../../hooks/media/useMediaDetailsBatch";
+import { cardStaggerContainer, cardStaggerItem } from "./animations";
 import type { AiDiscoverResult } from "../../types/aiDiscover";
 
 type AiResultsGridProps = {
@@ -13,40 +16,65 @@ export default function AiResultsGrid({ results }: AiResultsGridProps) {
     dragFree: false,
   });
 
+  const detailQueries = useMediaDetailsBatch(
+    results.map((r) => ({ id: r.tmdbId, mediaType: r.mediaType })),
+  );
+
   return (
     <>
-      {/* Mobile: Embla horizontal scroll */}
-      <div className="lg:hidden overflow-hidden min-w-0" ref={emblaRef}>
+      {/* Mobile: Embla, 1-card-peek */}
+      <motion.div
+        variants={cardStaggerContainer}
+        initial="hidden"
+        animate="visible"
+        className="lg:hidden overflow-hidden min-w-0"
+        ref={emblaRef}
+      >
         <div className="flex gap-3">
-          {results.map((r) => (
-            <div key={`${r.mediaType}-${r.tmdbId}`} className="flex-[0_0_calc(50%-6px)] min-w-0">
-              <MediaCard
-                id={r.tmdbId}
-                media_type={r.mediaType}
-                title={r.title}
-                posterPath=""
-                vote_average={r.matchScore * 10}
-                disableHoverModal={false}
-              />
-            </div>
-          ))}
+          {results.map((r, i) => {
+            const q = detailQueries[i];
+            return (
+              <motion.div
+                key={`${r.mediaType}-${r.tmdbId}`}
+                variants={cardStaggerItem}
+                className="flex-[0_0_85%] min-w-0"
+              >
+                <AiResultCard
+                  result={r}
+                  detail={q?.data}
+                  isLoading={q?.isLoading ?? true}
+                  isError={q?.isError ?? false}
+                />
+              </motion.div>
+            );
+          })}
         </div>
-      </div>
+      </motion.div>
 
-      {/* Desktop: CSS grid */}
-      <div className="hidden lg:grid lg:grid-cols-5 lg:gap-4">
-        {results.map((r) => (
-          <MediaCard
-            key={`${r.mediaType}-${r.tmdbId}`}
-            id={r.tmdbId}
-            media_type={r.mediaType}
-            title={r.title}
-            posterPath=""
-            vote_average={r.matchScore * 10}
-            disableHoverModal={false}
-          />
-        ))}
-      </div>
+      {/* Desktop: 3-col grid (5 results render as 3 + 2) */}
+      <motion.div
+        variants={cardStaggerContainer}
+        initial="hidden"
+        animate="visible"
+        className="hidden lg:grid lg:grid-cols-3 lg:gap-4"
+      >
+        {results.map((r, i) => {
+          const q = detailQueries[i];
+          return (
+            <motion.div
+              key={`${r.mediaType}-${r.tmdbId}`}
+              variants={cardStaggerItem}
+            >
+              <AiResultCard
+                result={r}
+                detail={q?.data}
+                isLoading={q?.isLoading ?? true}
+                isError={q?.isError ?? false}
+              />
+            </motion.div>
+          );
+        })}
+      </motion.div>
     </>
   );
 }
