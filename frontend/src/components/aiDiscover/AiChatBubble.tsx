@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Sparkles } from "lucide-react";
 import { messageBubbleVariants } from "./animations";
 import AiTypingIndicator from "./AiTypingIndicator";
 import AiResultsGrid from "./AiResultsGrid";
 import AiQuickActions from "./AiQuickActions";
+import AiQuickPrompts from "./AiQuickPrompts";
 import type { ChatMessage } from "../../types/aiDiscoverChat";
 
 type AiChatBubbleProps = {
@@ -63,7 +64,7 @@ function ErrorBubble({
 
   return (
     <AiBubbleShell>
-      <div className="flex items-start gap-2">
+      <div role="alert" className="flex items-start gap-2">
         <AlertCircle size={16} className="text-red-400 mt-0.5 shrink-0" />
         <div>
           <p className="text-sm font-semibold text-white">{heading}</p>
@@ -85,17 +86,40 @@ function AiResponseBubble({
   query: string;
   onRefine?: (newQuery: string) => void;
 }) {
-  return (
-    <AiBubbleShell>
-      <p className="text-sm text-white leading-relaxed">{text}</p>
-
-      {results.length > 0 && (
-        <div className="mt-4">
-          <AiResultsGrid results={results} />
+  if (results.length === 0) {
+    return (
+      <AiBubbleShell>
+        <div className="flex items-start gap-2">
+          <Sparkles
+            size={16}
+            className="text-[var(--accent-primary)] mt-0.5 shrink-0"
+          />
+          <p className="text-sm text-white leading-relaxed">{text}</p>
         </div>
-      )}
 
-      {onRefine && results.length > 0 && (
+        {onRefine && (
+          <div className="mt-4">
+            <p className="text-xs text-[var(--subtle)] mb-2">
+              Try one of these instead:
+            </p>
+            <AiQuickPrompts visible={true} onSelect={onRefine} />
+          </div>
+        )}
+      </AiBubbleShell>
+    );
+  }
+
+  return (
+    <>
+      <AiBubbleShell>
+        <p className="text-sm text-white leading-relaxed">{text}</p>
+      </AiBubbleShell>
+
+      <div className="mt-4 md:mr-[calc(50%-50vw)] md:pr-page">
+        <AiResultsGrid results={results} />
+      </div>
+
+      {onRefine && (
         <div className="mt-3">
           <AiQuickActions
             onRefine={onRefine}
@@ -104,7 +128,7 @@ function AiResponseBubble({
           />
         </div>
       )}
-    </AiBubbleShell>
+    </>
   );
 }
 
