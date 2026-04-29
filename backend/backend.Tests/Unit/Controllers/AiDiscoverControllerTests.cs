@@ -57,6 +57,7 @@ public class AiDiscoverControllerTests
         var request = new AiDiscoverRequestDto(query);
         var expectedResponse = new AiDiscoverResponseDto(
             new List<AiDiscoverResultDto>(),
+            new List<AiDiscoverResultDto>(),
             "No great matches found",
             100
         );
@@ -76,6 +77,7 @@ public class AiDiscoverControllerTests
             {
                 new(137, "movie", "Groundhog Day", "Classic time-loop comedy!", 0.98)
             },
+            new List<AiDiscoverResultDto>(),
             "Great pick!",
             1200
         );
@@ -107,6 +109,7 @@ public class AiDiscoverControllerTests
     {
         var request = new AiDiscoverRequestDto("<script>alert(1)</script>time loop comedy");
         var expectedResponse = new AiDiscoverResponseDto(
+            new List<AiDiscoverResultDto>(),
             new List<AiDiscoverResultDto>(),
             "Here are some matches",
             100

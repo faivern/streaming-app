@@ -35,6 +35,16 @@ export const cardStaggerItem: Variants = {
   },
 };
 
+export const cardEnterVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.9, x: 20 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+};
+
 export const idleEntranceVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
@@ -64,20 +74,5 @@ export const chipItem: Variants = {
     y: 0,
     scale: 1,
     transition: { duration: 0.3, ease: "easeOut" },
-  },
-};
-
-export const matchScoreBadge: Variants = {
-  hidden: { opacity: 0, scale: 0.6, rotate: -8 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    rotate: 0,
-    transition: {
-      delay: 0.4,
-      type: "spring",
-      stiffness: 300,
-      damping: 18,
-    },
   },
 };

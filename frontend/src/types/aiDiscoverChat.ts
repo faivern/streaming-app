@@ -7,6 +7,7 @@ export type ChatMessage =
       id: string;
       text: string;
       results: AiDiscoverResult[];
+      alternates: AiDiscoverResult[];
       query: string;
     }
   | {

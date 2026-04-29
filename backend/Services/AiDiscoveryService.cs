@@ -115,8 +115,8 @@ public class AiDiscoveryService : IAiDiscoveryService
         }
 
         // Step 4: LLM call — GPT-4o-mini ranking (RAG-02, D-01, D-04, D-05, D-06, GUARD-02)
-        // Take top 10 filtered candidates for the LLM
-        var llmCandidates = filtered.Take(10).ToList();
+        // Take top 15 filtered candidates for the LLM (ranks up to 10)
+        var llmCandidates = filtered.Take(15).ToList();
 
         var candidateLines = llmCandidates.Select(c =>
             string.Format(
@@ -187,6 +187,7 @@ public class AiDiscoveryService : IAiDiscoveryService
             stopwatch.Stop();
             var offTopicResponse = new AiDiscoverResponseDto(
                 Results: [],
+                Alternates: [],
                 Message: llmResponse.Message ?? "I can only help with movie and TV recommendations. Please try a different query.",
                 ResponseTimeMs: stopwatch.ElapsedMilliseconds);
 
@@ -216,10 +217,15 @@ public class AiDiscoveryService : IAiDiscoveryService
             throw new AiServiceUnavailableException("AI service temporarily unavailable");
         }
 
+        // Split into primary (first 5) and alternates (remainder)
+        var primaryResults = validResults.Take(5).ToList();
+        var alternateResults = validResults.Skip(5).ToList();
+
         // Step 6: Response + Cache + Log (RAG-05, GUARD-03, D-15, D-20, D-21, D-22)
         stopwatch.Stop();
         var response = new AiDiscoverResponseDto(
-            Results: validResults,
+            Results: primaryResults,
+            Alternates: alternateResults,
             Message: llmResponse.Message ?? string.Empty,
             ResponseTimeMs: stopwatch.ElapsedMilliseconds);
 
@@ -237,7 +243,7 @@ public class AiDiscoveryService : IAiDiscoveryService
         var normalized = query.Trim().ToLowerInvariant();
         var hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(normalized));
         var hash = Convert.ToHexString(hashBytes).ToLowerInvariant();
-        return $"ai_discover:{userId}:{hash}";
+        return $"ai_discover:v2:{userId}:{hash}";
     }
 
     private const int MaxStoredJsonLength = 10_000;
@@ -264,7 +270,7 @@ public class AiDiscoveryService : IAiDiscoveryService
                 {
                     UserId = userId,
                     QueryText = query,
-                    ResultTmdbIds = JsonSerializer.Serialize(response.Results.Select(r => r.TmdbId)),
+                    ResultTmdbIds = JsonSerializer.Serialize(response.Results.Concat(response.Alternates).Select(r => r.TmdbId)),
                     ResponseTimeMs = (int)response.ResponseTimeMs,
                     PromptTokens = promptTokens,
                     CompletionTokens = completionTokens,

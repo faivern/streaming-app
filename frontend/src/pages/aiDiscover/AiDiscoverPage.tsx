@@ -5,6 +5,7 @@ import { RotateCcw } from "lucide-react";
 import { useAiDiscover } from "../../hooks/aiDiscover/useAiDiscover";
 import { useUser } from "../../hooks/user/useUser";
 import { useSignInModal } from "../../context/SignInModalContext";
+import { useAiDiscoverSession } from "../../context/AiDiscoverSessionContext";
 import AiSearchInput from "../../components/aiDiscover/AiSearchInput";
 import AiQuickPrompts from "../../components/aiDiscover/AiQuickPrompts";
 import AiChatBubble from "../../components/aiDiscover/AiChatBubble";
@@ -13,7 +14,6 @@ import {
   messageContainerVariants,
   idleEntranceVariants,
 } from "../../components/aiDiscover/animations";
-import type { ChatMessage } from "../../types/aiDiscoverChat";
 
 const ROTATING_PHRASES = [
   "a scene you remember",
@@ -36,7 +36,7 @@ const nextId = () => `msg-${++msgId}`;
 
 export default function AiDiscoverPage() {
   const [query, setQuery] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const { messages, setMessages, clearSession } = useAiDiscoverSession();
   const { mutateAsync, isPending, reset } = useAiDiscover();
   const { data: user } = useUser();
   const { openSignInModal } = useSignInModal();
@@ -63,10 +63,10 @@ export default function AiDiscoverPage() {
   }, [messages]);
 
   const handleClearChat = useCallback(() => {
-    setMessages([]);
+    clearSession();
     setQuery("");
     reset();
-  }, [reset]);
+  }, [clearSession, reset]);
 
   const submitQuery = useCallback(
     async (text: string) => {
@@ -91,6 +91,7 @@ export default function AiDiscoverPage() {
                   id: loadingId,
                   text: data.message,
                   results: data.results,
+                  alternates: data.alternates ?? [],
                   query: trimmed,
                 }
               : m
@@ -116,7 +117,7 @@ export default function AiDiscoverPage() {
         );
       }
     },
-    [isPending, mutateAsync]
+    [isPending, mutateAsync, setMessages]
   );
 
   const handleSubmit = () => submitQuery(query);

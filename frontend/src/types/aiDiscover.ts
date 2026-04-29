@@ -12,6 +12,7 @@ export interface AiDiscoverResult {
 
 export interface AiDiscoverResponse {
   results: AiDiscoverResult[];
+  alternates: AiDiscoverResult[];
   message: string;
   responseTimeMs: number;
 }

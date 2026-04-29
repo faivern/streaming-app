@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: AI-Powered Discovery
-status: Operational — RAG end-to-end verified, fine-tuning phase
-stopped_at: AI-SETUP-HANDOFF.md (2026-04-26) — fine-tuning queue + Phase 12 HUMAN-UAT pending
-last_updated: "2026-04-27T00:00:00.000Z"
+status: Operational — UX restructure in flight on `feature/ai-empty-state-and-a11y` (uncommitted); next scope is AI Discover userflow redesign for multi-candidate consideration
+stopped_at: AI-SETUP-HANDOFF.md (2026-04-28) — see "In-flight work" + "Next scope (2026-04-28)"
+last_updated: "2026-04-28T00:00:00.000Z"
 progress:
   total_phases: 4
   completed_phases: 4
@@ -193,7 +193,8 @@ Recent decisions affecting current work:
 - [Phase 12 HUMAN-UAT]: Rate limiting unverified at 21st request/hour — should return 429 with `Retry-After` header (test 3)
 - [Phase 12 HUMAN-UAT]: 5-result structured count not yet confirmed for first end-to-end query (test 1, partially confirmed — query succeeded but result count not validated)
 - [Embedding seed coverage]: 14,979 / 15,000 (99.86%); gap is items filtered by `EmbeddingContentBuilder` for missing overview/genres — only chase if specific popular titles missing from search results
-- [AI Discover UX]: Loading state during 1–2s LLM response (skeleton vs spinner vs nothing), empty/no-result copy, mobile chip wrap at narrow widths, scroll-to-results timing on submit — manual pass needed
+- [AI Discover UX]: Loading state during 1–2s LLM response (skeleton vs spinner vs nothing), mobile chip wrap at narrow widths, scroll-to-results timing on submit — manual pass needed. (Empty/no-result copy addressed 2026-04-28 in `feature/ai-empty-state-and-a11y`.)
+- [AI Discover userflow]: Clicking a card from the 5 contenders navigates away and loses chat session — bad for users considering multiple as plausible. Initial direction: per-card like/dislike + 10-deep alternates buffer that supplements on dislike. Full scope in `AI-SETUP-HANDOFF.md` "Next scope (2026-04-28)".
 - [AI tuning surface]: Compare actual `ai_query_logs.response_text` against `backend/Services/AiDiscoveryPrompts.cs` system prompt; tune via env vars (no code changes needed)
 - [Parked]: `frontend/.env` has misleading `VITE_API_URL=https://localhost:7123` — Docker overrides in-container, no functional impact, confusing for host-Vite runs
 - [Parked]: Legacy `backend/docker-compose.yml` (uses `postgres:16` without pgvector) conflicts with root compose — recommend deletion
@@ -201,7 +202,7 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-04-26
-Stopped at: RAG operational — fine-tuning queue + 3 Phase 12 HUMAN-UAT tests pending
+Last session: 2026-04-28
+Stopped at: B/E + UX restructure on `feature/ai-empty-state-and-a11y` (uncommitted, type-clean, lint-clean, browser-walkthrough still pending). Next scope: AI Discover userflow redesign — see `AI-SETUP-HANDOFF.md` "Next scope (2026-04-28)".
 Resume file: `.planning/AI-SETUP-HANDOFF.md`
-Resume command: `docker compose up -d` from `/home/faivern/streaming-app` — open `http://localhost:3000`, sign in, AI Discover at `/discover/ai`
+Resume command: `docker compose up -d` from `/home/faivern/streaming-app` — open `http://localhost:3000`, sign in, AI Discover at `/discover/ai`. To verify in-flight work first: `git checkout feature/ai-empty-state-and-a11y && cd frontend && npx tsc --noEmit`.

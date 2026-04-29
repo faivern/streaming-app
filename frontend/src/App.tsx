@@ -9,6 +9,7 @@ import ErrorBoundary from "./components/feedback/ErrorBoundary";
 import { Toaster } from "react-hot-toast";
 import { useTheme } from "./hooks/useTheme";
 import { SignInModalProvider } from "./context/SignInModalContext";
+import { AiDiscoverSessionProvider } from "./context/AiDiscoverSessionContext";
 import SignInModal from "./components/auth/SignInModal";
 import AiDiscoverCta from "./components/aiDiscover/AiDiscoverCta";
 
@@ -57,6 +58,7 @@ function App() {
   const hideFooter = pathname === "/discover/ai";
 
   return (
+    <AiDiscoverSessionProvider>
     <SignInModalProvider>
     <div className="min-h-dvh flex flex-col bg-background text-white scrollbar">
       <Header />
@@ -151,6 +153,7 @@ function App() {
       <SignInModal />
     </div>
     </SignInModalProvider>
+    </AiDiscoverSessionProvider>
   );
 }
 

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Plus } from "lucide-react";
-import { motion } from "framer-motion";
+import { Plus, ThumbsUp, ThumbsDown } from "lucide-react";
 import {
   useFloating,
   offset,
@@ -12,10 +11,10 @@ import {
 import Poster from "../media/shared/Poster";
 import MediaCardModal from "../media/modals/MediaCardModal";
 import AddToListModal from "../lists/modals/AddToListModal";
+import RatingPill from "../ui/RatingPill";
 import { useDelayHover } from "../../hooks/useDelayHover";
 import { useUser } from "../../hooks/user/useUser";
 import { mediaUrl } from "../../utils/urlBuilder";
-import { matchScoreBadge } from "./animations";
 import type { AiDiscoverResult } from "../../types/aiDiscover";
 import type { DetailMedia } from "../../types/tmdb";
 
@@ -24,6 +23,9 @@ type AiResultCardProps = {
   detail?: DetailMedia;
   isLoading: boolean;
   isError: boolean;
+  onLike?: () => void;
+  onDislike?: () => void;
+  liked?: boolean;
 };
 
 function formatRuntime(minutes?: number): string | null {
@@ -40,6 +42,9 @@ export default function AiResultCard({
   detail,
   isLoading,
   isError,
+  onLike,
+  onDislike,
+  liked,
 }: AiResultCardProps) {
   const { hovered, onEnter, onLeave, setHovered } = useDelayHover();
   const [addToListOpen, setAddToListOpen] = useState(false);
@@ -53,7 +58,6 @@ export default function AiResultCard({
     whileElementsMounted: hoverEnabled ? autoUpdate : undefined,
   });
 
-  const matchPercent = Math.round(result.matchScore * 100);
   const posterPath = detail?.poster_path ?? "";
   const releaseDate = detail?.release_date ?? detail?.first_air_date;
   const year = releaseDate ? new Date(releaseDate).getFullYear() : null;
@@ -68,7 +72,6 @@ export default function AiResultCard({
 
   const cardContent = (
     <>
-      {/* Poster + score-badge area */}
       <div className="relative">
         {isLoading ? (
           <div className="aspect-[2/3] bg-white/5 animate-pulse rounded-t-2xl" />
@@ -80,27 +83,17 @@ export default function AiResultCard({
           />
         )}
 
-        {/* Match-score badge — animated stamp */}
-        <motion.div
-          variants={matchScoreBadge}
-          className="absolute top-2 right-2 z-10"
-        >
-          <div className="flex flex-col items-center justify-center w-14 h-14 rounded-full bg-[var(--accent-primary)] text-[var(--background)] shadow-lg shadow-black/40 ring-2 ring-[var(--accent-primary)]/30">
-            <span className="text-base font-bold leading-none">
-              {matchPercent}
-            </span>
-            <span className="text-[9px] font-semibold uppercase tracking-wider opacity-70 leading-none mt-0.5">
-              match
-            </span>
-          </div>
-        </motion.div>
+        <RatingPill
+          rating={detail?.vote_average}
+          className="absolute top-1 left-1 bg-badge-primary/40 backdrop-blur-sm border-badge-foreground/40 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out z-10"
+          showOutOfTen={false}
+        />
 
-        {/* Quick-add — logged-in only, mirrors MediaCard pattern */}
         {user && hoverEnabled && (
           <button
             onClick={handleAddToList}
             aria-label="Add to list"
-            className="absolute top-2 left-2 z-10 p-2.5 rounded-xl bg-primary/40 border border-badge-foreground/40 backdrop-blur-sm text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:bg-primary/70 hover:border-accent-primary/75 transition-all duration-300 hover:cursor-pointer"
+            className="absolute top-2 right-2 z-10 p-2.5 rounded-xl bg-primary/40 border border-badge-foreground/40 backdrop-blur-sm text-white opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:bg-primary/70 hover:border-accent-primary/75 transition-all duration-300 hover:cursor-pointer"
           >
             <Plus className="w-5 h-5" />
           </button>
@@ -128,6 +121,31 @@ export default function AiResultCard({
           <p className="text-xs text-[var(--subtle)] italic line-clamp-2 leading-relaxed">
             {result.explanation}
           </p>
+        )}
+
+        {(onLike || onDislike) && (
+          <div className="flex items-center justify-center gap-4 pt-2 border-t border-white/10">
+            {onLike && (
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); onLike(); }}
+                aria-label="Like this recommendation"
+                className="p-2 rounded-lg transition-colors duration-200 hover:bg-white/10"
+              >
+                <ThumbsUp size={16} className={liked ? "fill-current text-green-400" : "text-[var(--subtle)] hover:text-green-400"} />
+              </button>
+            )}
+            {onDislike && (
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); onDislike(); }}
+                aria-label="Show me something else"
+                className="p-2 rounded-lg transition-colors duration-200 hover:bg-white/10"
+              >
+                <ThumbsDown size={16} className="text-[var(--subtle)] hover:text-red-400" />
+              </button>
+            )}
+          </div>
         )}
       </div>
     </>
