@@ -78,14 +78,12 @@ function ErrorBubble({
 function AiResponseBubble({
   text,
   results,
-  alternates,
   messageId,
   query,
   onRefine,
 }: {
   text: string;
   results: import("../../types/aiDiscover").AiDiscoverResult[];
-  alternates: import("../../types/aiDiscover").AiDiscoverResult[];
   messageId: string;
   query: string;
   onRefine?: (newQuery: string) => void;
@@ -119,8 +117,8 @@ function AiResponseBubble({
         <p className="text-sm text-white leading-relaxed">{text}</p>
       </AiBubbleShell>
 
-      <div className="mt-4 md:mr-[calc(50%-50vw)] md:pr-page">
-        <AiResultsGrid results={results} alternates={alternates} messageId={messageId} />
+      <div className="mt-4">
+        <AiResultsGrid results={results} messageId={messageId} />
       </div>
 
       {onRefine && (
@@ -151,7 +149,6 @@ export default function AiChatBubble({ message, onRefine }: AiChatBubbleProps) {
         <AiResponseBubble
           text={message.text}
           results={message.results}
-          alternates={message.alternates}
           messageId={message.id}
           query={message.query}
           onRefine={onRefine}

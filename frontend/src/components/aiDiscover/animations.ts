@@ -76,3 +76,34 @@ export const chipItem: Variants = {
     transition: { duration: 0.3, ease: "easeOut" },
   },
 };
+
+export const swipeCardVariants: Variants = {
+  enter: { scale: 0.95, y: 8, opacity: 0 },
+  active: {
+    scale: 1,
+    y: 0,
+    opacity: 1,
+    transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
+  },
+  exitLeft: {
+    x: "-150%",
+    rotate: -15,
+    opacity: 0,
+    transition: { duration: 0.4, ease: "easeIn" },
+  },
+  exitRight: {
+    x: "150%",
+    rotate: 15,
+    opacity: 0,
+    transition: { duration: 0.4, ease: "easeIn" },
+  },
+};
+
+export const completionVariants: Variants = {
+  hidden: { scale: 0.8, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 200, damping: 20 },
+  },
+};

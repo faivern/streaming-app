@@ -1,5 +1,5 @@
 import { useState, useRef, useCallback } from "react";
-import { Clapperboard, Loader2 } from "lucide-react";
+import { Clapperboard } from "lucide-react";
 
 type AiSearchInputProps = {
   query: string;
@@ -72,15 +72,11 @@ export default function AiSearchInput({
                 : "shadow-[0_0_12px_2px] shadow-[var(--accent-primary)]/25"
             }`}
           >
-            {isPending && !isClapping ? (
-              <Loader2 className="animate-spin" size={20} />
-            ) : (
-              <Clapperboard
-                size={20}
-                className={isClapping ? "animate-[clap_0.3s_ease-out]" : ""}
-                onAnimationEnd={() => setIsClapping(false)}
-              />
-            )}
+            <Clapperboard
+              size={20}
+              className={isClapping ? "animate-[clap_0.3s_ease-out]" : ""}
+              onAnimationEnd={() => setIsClapping(false)}
+            />
           </button>
         </div>
         {charsRemaining < 100 && (

@@ -30,6 +30,7 @@ type ModalStep = "select" | "rating";
 type AddToListModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  onSave?: () => void;
   media: {
     tmdbId: number;
     mediaType: string;
@@ -56,6 +57,7 @@ const STATUS_COLORS: Record<WatchStatus, { border: string; bg: string; text: str
 export default function AddToListModal({
   isOpen,
   onClose,
+  onSave,
   media,
 }: AddToListModalProps) {
   // State
@@ -290,6 +292,7 @@ export default function AddToListModal({
         );
       }
 
+      onSave?.();
       handleClose();
     } catch {
       toast.error("Something went wrong");
