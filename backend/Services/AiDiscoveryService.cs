@@ -85,10 +85,7 @@ public class AiDiscoveryService : IAiDiscoveryService
         List<MovieEmbedding> candidates;
         try
         {
-            candidates = await _db.MovieEmbeddings
-                .OrderBy(e => e.Embedding.CosineDistance(queryVector))
-                .Take(20)
-                .ToListAsync(cancellationToken);
+            candidates = await SearchCandidatesAsync(queryVector, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -236,7 +233,16 @@ public class AiDiscoveryService : IAiDiscoveryService
         return response;
     }
 
-    // --- Private helpers ---
+    // --- Protected/Private helpers ---
+
+    protected virtual async Task<List<MovieEmbedding>> SearchCandidatesAsync(
+        Vector queryVector, CancellationToken cancellationToken)
+    {
+        return await _db.MovieEmbeddings
+            .OrderBy(e => e.Embedding.CosineDistance(queryVector))
+            .Take(20)
+            .ToListAsync(cancellationToken);
+    }
 
     private static string BuildCacheKey(string userId, string query)
     {
