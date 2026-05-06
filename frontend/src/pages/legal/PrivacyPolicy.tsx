@@ -9,10 +9,10 @@ export default function PrivacyPolicy() {
   return (
     <main className="min-h-dvh bg-background mt-navbar-offset">
       <Helmet>
-        <title>Privacy Policy — Cinelas</title>
+        <title>Privacy Policy | Cinelas</title>
         <meta name="description" content="Cinelas privacy policy. Learn how we handle your data." />
         <link rel="canonical" href="https://cinelas.com/privacy-policy" />
-        <meta property="og:title" content="Privacy Policy — Cinelas" />
+        <meta property="og:title" content="Privacy Policy | Cinelas" />
         <meta property="og:description" content="Cinelas privacy policy. Learn how we handle your data." />
         <meta property="og:url" content="https://cinelas.com/privacy-policy" />
         <meta property="og:type" content="website" />

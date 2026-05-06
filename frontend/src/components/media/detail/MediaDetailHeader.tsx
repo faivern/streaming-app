@@ -1,5 +1,4 @@
 // src/components/media/detail/MediaDetailHeader.tsx
-import { useState } from "react";
 import MediaPosterActions from "./MediaPosterActions";
 import MediaMetaChips from "../cards/MediaMetaChips";
 import MediaDetails from "./MediaDetails";
@@ -24,8 +23,6 @@ export default function MediaDetailHeader({
   media_type,
   onWatchNow,
 }: Props) {
-  const [overviewExpanded, setOverviewExpanded] = useState(false);
-
   // Normalize once for UI
   const title = details.title ?? details.name ?? "No title available.";
   const posterPath = details.poster_path ?? "";
@@ -105,17 +102,11 @@ export default function MediaDetailHeader({
         />
 
         {details.overview && (
-          <div className="mt-2">
+          <div className="hidden md:block mt-2">
             <h2 className="text-2xl font-bold text-text-h1 mb-3">Overview</h2>
-            <p className={`text-gray-300 leading-relaxed sm:line-clamp-none ${overviewExpanded ? "" : "line-clamp-3"}`}>
+            <p className="text-gray-300 leading-relaxed">
               {details.overview}
             </p>
-            <button
-              onClick={() => setOverviewExpanded(!overviewExpanded)}
-              className="mt-1 text-accent-primary text-sm font-medium sm:hidden"
-            >
-              {overviewExpanded ? "Show less" : "Show more"}
-            </button>
           </div>
         )}
 
@@ -135,6 +126,16 @@ export default function MediaDetailHeader({
           />
         </div>
       </div>
+
+      {/* Mobile-only: full-width Overview */}
+      {details.overview && (
+        <div className="md:hidden w-full">
+          <h2 className="text-2xl font-bold text-text-h1 mb-3">Overview</h2>
+          <p className="text-gray-300 leading-relaxed">
+            {details.overview}
+          </p>
+        </div>
+      )}
 
       {/* Mobile-only: full-width Details section */}
       <div className="md:hidden w-full">

@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 import { FaRegUser } from "react-icons/fa";
 import { useState, useEffect, useRef } from "react";
@@ -19,10 +19,13 @@ import {
   faSearch,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { Sparkles } from "lucide-react";
 import BrandLogo from "../common/BrandLogo";
 import MobileProfileDrawer from "./MobileProfileDrawer";
 
 export default function Header() {
+  const { pathname } = useLocation();
+  const hideSearch = pathname === "/discover/ai";
   const [isScrolled, setIsScrolled] = useState(false);
   const { data: genres = [] } = useGenres();
   const [showGenres, setShowGenres] = useState(false); // desktop hover dropdown
@@ -108,6 +111,13 @@ export default function Header() {
                     <span className="underline-bar"></span>
                   </span>
                 </Link>
+                <Link to="/discover/ai">
+                  <span className="underline-hover !text-base !font-semibold !mb-0 whitespace-nowrap flex items-center gap-2">
+                    <Sparkles size={14} />
+                    Ask AI
+                    <span className="underline-bar"></span>
+                  </span>
+                </Link>
 
                 <div
                   className="relative"
@@ -134,8 +144,8 @@ export default function Header() {
               </div>
             </div>
 
-            {/* CENTER: Search Bar (hidden on mobile) - truly centered */}
-            <div className="hidden md:block w-2xl max-w-[min(42rem,calc(100vw-14rem))]">
+            {/* CENTER: Search Bar (hidden on mobile, invisible on AI Discover to preserve layout) */}
+            <div className={`hidden md:block w-2xl max-w-[min(42rem,calc(100vw-14rem))] ${hideSearch ? "invisible" : ""}`}>
               <SearchBar />
             </div>
 
@@ -143,17 +153,17 @@ export default function Header() {
             <div className="flex items-center md:justify-end gap-4">
               {/* Mobile-only: Search pill + Profile — md:hidden */}
               <div className="flex items-center gap-3 flex-1 w-full md:hidden">
-                {/* Search pill — tappable trigger */}
+                {/* Search pill — tappable trigger (invisible on AI Discover to preserve layout) */}
                 <button
                   aria-label="Open search"
                   onClick={() => setIsMobileSearchOpen(true)}
-                  className="flex items-center gap-2 flex-1 bg-input border border-outline rounded-full px-4 py-2 text-subtle text-sm transition hover:border-accent-primary"
+                  className={`flex items-center gap-2 flex-1 bg-input border border-outline rounded-full px-4 py-2 text-subtle text-sm transition hover:border-accent-primary ${hideSearch ? "invisible" : ""}`}
                 >
                   <FontAwesomeIcon icon={faSearch} className="text-sm" />
                   <span>Search</span>
                 </button>
 
-                {/* Profile — pushed to far right via flex-1 on pill */}
+                {/* Profile — pushed to far right */}
                 <button
                   aria-label="Open profile"
                   onClick={handleMobileProfileTap}
@@ -341,6 +351,14 @@ export default function Header() {
                   >
                     <FontAwesomeIcon icon={faListUl} className="text-sm w-5" />
                     My Lists
+                  </Link>
+                  <Link
+                    to="/discover/ai"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center gap-3 w-full text-left text-base font-medium text-text-h1 hover:text-accent-primary transition"
+                  >
+                    <Sparkles size={14} className="w-5" />
+                    Ask AI
                   </Link>
                 </div>
 

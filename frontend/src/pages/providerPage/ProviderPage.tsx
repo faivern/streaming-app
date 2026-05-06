@@ -150,10 +150,10 @@ export default function ProviderPage() {
   return (
     <main className="mt-navbar-offset max-w-7xl mx-auto px-4 py-8">
       <Helmet>
-        <title>{`${providerName} — Streaming Catalog | Cinelas`}</title>
+        <title>{`${providerName} | Streaming Catalog | Cinelas`}</title>
         <meta name="description" content={`Browse movies and TV shows available on ${providerName}. Find what to watch on Cinelas.`} />
         <link rel="canonical" href={`https://cinelas.com${buildProviderUrl(providerIdNum!, providerName)}`} />
-        <meta property="og:title" content={`${providerName} — Streaming Catalog | Cinelas`} />
+        <meta property="og:title" content={`${providerName} | Streaming Catalog | Cinelas`} />
         <meta property="og:description" content={`Browse movies and TV shows available on ${providerName}.`} />
         <meta property="og:url" content={`https://cinelas.com${buildProviderUrl(providerIdNum!, providerName)}`} />
         <meta property="og:type" content="website" />

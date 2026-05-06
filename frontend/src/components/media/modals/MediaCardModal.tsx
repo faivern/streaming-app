@@ -1,141 +1,116 @@
-// components/media/modals/MediaCardModal.tsx
 import { Link } from "react-router-dom";
-import { useMediaDetail } from "../../../hooks/media/useMediaDetail";
+import { Clock } from "lucide-react";
+import type { MediaType } from "../../../types/tmdb";
 import { mediaUrl } from "../../../utils/urlBuilder";
+import { dateFormat } from "../../../utils/dateFormat";
 import genreMap, { resolveGenreIds } from "../../../utils/genreMap";
 import languageMap from "../../../utils/languageMap";
-import { Calendar, Clock } from "lucide-react";
-import { LuLanguages } from "react-icons/lu";
-import { dateFormat } from "../../../utils/dateFormat";
-import type { DetailMedia, MediaType } from "../../../types/tmdb";
 import useMediaRuntime from "../../../hooks/media/useMediaRuntime";
-
-type InitialBits = Pick<
-  DetailMedia,
-  | "poster_path"
-  | "backdrop_path"
-  | "overview"
-  | "genre_ids"
-  | "original_language"
-  | "runtime"
-  | "number_of_seasons"
-  | "number_of_episodes"
-  | "title"
-  | "name"
-  | "release_date"
-  | "first_air_date"
->;
 
 type MediaCardModalProps = {
   id: number;
+  media_type: MediaType;
   title: string;
-  backdrop?: string;
+  posterPath: string;
   overview?: string;
   releaseDate?: string;
+  vote_average?: number;
   genre_ids?: number[];
   original_language?: string;
   runtime?: number;
   number_of_seasons?: number;
   number_of_episodes?: number;
-  media_type: MediaType;
-  initial?: InitialBits; // optional tiny payload for instant UI
+  compact?: boolean;
 };
 
-const MediaCardModal = ({ id, media_type, initial }: MediaCardModalProps) => {
-  const { data } = useMediaDetail(media_type, id, initial);
-  const title =
-    data?.title ?? data?.name ?? initial?.title ?? initial?.name ?? "Loading…";
+export default function MediaCardModal({
+  id,
+  media_type,
+  title,
+  posterPath,
+  overview,
+  releaseDate,
+  genre_ids,
+  original_language,
+  runtime,
+  number_of_seasons,
+  number_of_episodes,
+  compact = false,
+}: MediaCardModalProps) {
+  const lang = original_language
+    ? (languageMap[original_language] ?? original_language.toUpperCase())
+    : undefined;
 
-  const release =
-    data?.release_date ??
-    data?.first_air_date ??
-    initial?.release_date ??
-    initial?.first_air_date;
-  const overview = data?.overview ?? initial?.overview ?? "No description";
-  const poster =
-    data?.backdrop_path ??
-    initial?.backdrop_path ??
-    data?.poster_path ??
-    initial?.poster_path;
-  const lang = data?.original_language ?? initial?.original_language ?? "en";
-  const rawGenres =
-    data?.genre_ids ?? initial?.genre_ids ?? data?.genres?.map((g) => g.id);
-  const genres = rawGenres ? resolveGenreIds(rawGenres, lang) : undefined;
-
-  // runtime: movies vs tv
-  const runtimeMin =
-    typeof (data as any)?.runtime === "number"
-      ? (data as any).runtime
-      : Array.isArray((data as any)?.episode_run_time) &&
-        (data as any).episode_run_time[0];
-
-  const seasons = (data as any)?.number_of_seasons;
-  const episodes = (data as any)?.number_of_episodes;
+  const genres = genre_ids
+    ? resolveGenreIds(genre_ids, original_language)
+        .slice(0, 3)
+        .map((gid) => genreMap[gid])
+        .filter(Boolean)
+    : [];
 
   const runtimeDisplay = useMediaRuntime({
     mediaType: media_type,
-    runtimeMin,
-    seasons,
-    episodes,
+    runtimeMin: runtime,
+    seasons: number_of_seasons,
+    episodes: number_of_episodes,
   });
 
   return (
     <Link to={mediaUrl(media_type, id, title)}>
-      <div
-        className="backdrop-blur-md bg-component-primary/80 w-96 p-4 shadow-2xl rounded-lg border border-outline/70 text-text-h1"
-      >
-        <h2 className="text-xl font-bold mb-2 text-text-h1">{title}</h2>
+      <div className={`${compact ? "w-80 p-3" : "w-96 p-4"} bg-[var(--card)]/95 backdrop-blur-md border border-[var(--outline)]/70 rounded-xl shadow-2xl`}>
+        <div className={`flex ${compact ? "gap-3" : "gap-4"}`}>
+          {/* Poster thumbnail — same base path as card, browser cache hit */}
+          {posterPath && (
+            <div className={`flex-shrink-0 ${compact ? "w-20" : "w-28"}`}>
+              <img
+                src={`https://image.tmdb.org/t/p/w154${posterPath}`}
+                alt={title}
+                className="w-full aspect-[2/3] object-cover rounded-lg"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          )}
 
-        {/* Backdrop image */}
-        {poster && (
-          <div className="aspect-video w-full rounded-lg overflow-hidden mb-3">
-            <img
-              src={`https://image.tmdb.org/t/p/w780${poster}`}
-              srcSet={`https://image.tmdb.org/t/p/w300${poster} 300w, https://image.tmdb.org/t/p/w780${poster} 780w`}
-              sizes="384px"
-              loading="lazy"
-              decoding="async"
-              alt={title}
-              className="w-full h-full object-cover object-center"
-            />
+          {/* Info panel */}
+          <div className="flex-1 min-w-0 flex flex-col">
+            {/* Title + runtime row */}
+            <div className="flex items-start justify-between gap-2">
+              <h3 className={`${compact ? "text-sm" : "text-base"} font-bold text-white leading-tight line-clamp-2`}>
+                {title}
+              </h3>
+              {runtimeDisplay && (
+                <span className={`flex items-center gap-1 ${compact ? "text-[11px]" : "text-xs"} text-[var(--subtle)] shrink-0`}>
+                  <Clock className="h-3 w-3" />
+                  {runtimeDisplay}
+                </span>
+              )}
+            </div>
+
+            {/* Metadata: date + language */}
+            <p className={`${compact ? "text-[11px]" : "text-xs"} text-[var(--subtle)] mt-1`}>
+              {[dateFormat(releaseDate), lang].filter(Boolean).join(" \u2022 ")}
+            </p>
+
+            {/* Divider */}
+            <div className="h-px bg-[var(--outline)]/50 my-1.5" />
+
+            {/* Genres */}
+            {genres.length > 0 && (
+              <p className={`${compact ? "text-[11px]" : "text-xs"} text-accent-primary truncate`}>
+                {genres.join(" \u2022 ")}
+              </p>
+            )}
+
+            {/* Overview */}
+            {overview && (
+              <p className={`${compact ? "text-[11px] line-clamp-3" : "text-xs line-clamp-4"} text-gray-300 mt-1 leading-relaxed`}>
+                {overview}
+              </p>
+            )}
           </div>
-        )}
-
-        <p className="text-sm text-text-h1 mb-2 line-clamp-3">{overview}</p>
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-border/70 to-transparent mb-2" />
-
-        <div className="flex flex-wrap items-center gap-x-2 text-xs text-subtle">
-          <span className="flex items-center gap-1">
-            <Calendar className="h-3 w-3" />
-            {dateFormat(release) || "No date"}
-          </span>
-          <span className="text-subtle">|</span>
-          <span className="flex items-center gap-1">
-            <Clock className="h-3 w-3" />
-            {runtimeDisplay ?? "Unknown"}
-          </span>
-          <span className="text-subtle">|</span>
-          <span className="flex items-center gap-1">
-            <LuLanguages className="h-3 w-3" />
-            {languageMap[lang] ?? lang.toUpperCase()}
-          </span>
         </div>
-
-        {Array.isArray(genres) && genres.length > 0 && (
-          <div className="flex flex-wrap gap-1.5 mt-2">
-            {genres.slice(0, 4).map((gid: number) => (
-              <span
-                key={gid}
-                className="px-2 py-0.5 text-xs rounded-full bg-action-primary/60 text-subtle border border-border/40"
-              >
-                {genreMap[gid] || "Unknown"}
-              </span>
-            ))}
-          </div>
-        )}
       </div>
     </Link>
   );
-};
-
-export default MediaCardModal;
+}

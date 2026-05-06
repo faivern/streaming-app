@@ -9,10 +9,10 @@ export default function TermsOfService() {
   return (
     <main className="min-h-dvh bg-background mt-navbar-offset">
       <Helmet>
-        <title>Terms of Service — Cinelas</title>
+        <title>Terms of Service | Cinelas</title>
         <meta name="description" content="Cinelas terms of service." />
         <link rel="canonical" href="https://cinelas.com/terms-of-service" />
-        <meta property="og:title" content="Terms of Service — Cinelas" />
+        <meta property="og:title" content="Terms of Service | Cinelas" />
         <meta property="og:description" content="Cinelas terms of service." />
         <meta property="og:url" content="https://cinelas.com/terms-of-service" />
         <meta property="og:type" content="website" />

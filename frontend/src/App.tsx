@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate, useParams, useLocation } from "react-router-dom";
 import Header from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import BottomNav from "./components/layout/BottomNav";
@@ -9,7 +9,9 @@ import ErrorBoundary from "./components/feedback/ErrorBoundary";
 import { Toaster } from "react-hot-toast";
 import { useTheme } from "./hooks/useTheme";
 import { SignInModalProvider } from "./context/SignInModalContext";
+import { AiDiscoverSessionProvider } from "./context/AiDiscoverSessionContext";
 import SignInModal from "./components/auth/SignInModal";
+import AiDiscoverCta from "./components/aiDiscover/AiDiscoverCta";
 
 // Lazy-loaded page components (route-based code splitting)
 const HomePage = lazy(() => import("./pages/home/HomePage"));
@@ -25,6 +27,12 @@ const ProviderPage = lazy(() => import("./pages/providerPage/ProviderPage"));
 const ProvidersPage = lazy(() => import("./pages/providersPage/ProvidersPage"));
 const PrivacyPolicy = lazy(() => import("./pages/legal/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/legal/TermsOfService"));
+const AiDiscoverPage = lazy(() => import("./pages/aiDiscover/AiDiscoverPage"));
+const NotFoundPage = lazy(() => import("./pages/notFound"));
+const BadRequestPage = lazy(() => import("./pages/status/BadRequestPage"));
+const UnauthorizedPage = lazy(() => import("./pages/status/UnauthorizedPage"));
+const ForbiddenPage = lazy(() => import("./pages/status/ForbiddenPage"));
+const ServiceUnavailablePage = lazy(() => import("./pages/status/ServiceUnavailablePage"));
 
 // Legacy redirect components for old URL patterns
 function LegacyMediaRedirect() {
@@ -45,10 +53,12 @@ function LegacyCollectionRedirect() {
 }
 
 function App() {
-  // Theme is managed by useTheme hook (persisted to localStorage)
   useTheme();
+  const { pathname } = useLocation();
+  const hideFooter = pathname === "/discover/ai";
 
   return (
+    <AiDiscoverSessionProvider>
     <SignInModalProvider>
     <div className="min-h-dvh flex flex-col bg-background text-white scrollbar">
       <Header />
@@ -88,6 +98,7 @@ function App() {
           <Route path="/collection/:collectionId" element={<CollectionPage />} />
           <Route path="/provider/:providerId" element={<ProviderPage />} />
           <Route path="/providers" element={<ProvidersPage />} />
+          <Route path="/discover/ai" element={<AiDiscoverPage />} />
 
           {/* Legacy redirects for old URL patterns */}
           <Route path="/media/:media_type/:id" element={<LegacyMediaRedirect />} />
@@ -96,12 +107,24 @@ function App() {
           <Route path="/collections/:collectionId" element={<LegacyCollectionRedirect />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
+
+          {/* Status pages — dev-only test routes */}
+          {import.meta.env.DEV && (
+            <>
+              <Route path="/status/400" element={<BadRequestPage />} />
+              <Route path="/status/401" element={<UnauthorizedPage />} />
+              <Route path="/status/403" element={<ForbiddenPage />} />
+              <Route path="/status/503" element={<ServiceUnavailablePage />} />
+            </>
+          )}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
         </Suspense>
         </ErrorBoundary>
       </main>
       <BottomNav />
-      <Footer />
+      <AiDiscoverCta />
+      {!hideFooter && <Footer />}
       <Toaster
         position="bottom-center"
         containerStyle={{
@@ -130,6 +153,7 @@ function App() {
       <SignInModal />
     </div>
     </SignInModalProvider>
+    </AiDiscoverSessionProvider>
   );
 }
 

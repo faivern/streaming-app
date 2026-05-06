@@ -1,10 +1,10 @@
 import { useState } from "react";
-import MediaCardModal from "../modals/MediaCardModal";
 import { Link } from "react-router-dom";
 import { Plus } from "lucide-react";
 import Poster from "../../media/shared/Poster";
 import RatingPill from "../../ui/RatingPill";
 import AddToListModal from "../../lists/modals/AddToListModal";
+import MediaCardModal from "../modals/MediaCardModal";
 import type { MediaType } from "../../../types/tmdb";
 import { mediaUrl } from "../../../utils/urlBuilder";
 import { useDelayHover } from "../../../hooks/useDelayHover";
@@ -47,9 +47,6 @@ export default function MediaCard(props: MediaCardProps) {
     vote_average,
     genre_ids,
     original_language,
-    runtime,
-    number_of_seasons,
-    number_of_episodes,
     disableHoverModal = false,
     showQuickAdd = true,
     onClick,
@@ -138,25 +135,27 @@ export default function MediaCard(props: MediaCardProps) {
             );
           })()}
         </div>
-        {/* Floating hover modal (disabled inside constrained containers like modals) */}
+
+        {/* Floating hover modal — desktop only, zero-fetch */}
         {!disableHoverModal && hovered && (
           <div
             ref={refs.setFloating}
             style={floatingStyles}
-            className="hidden lg:block z-(--z-dropdown) pointer-events-none animate-[fadeIn_0.2s_ease-out]"
+            className="hidden lg:block z-(--z-dropdown) pointer-events-none animate-[fadeIn_0.15s_ease-out]"
           >
             <MediaCardModal
               id={id}
+              media_type={media_type}
               title={title}
-              backdrop={posterPath}
+              posterPath={posterPath}
               overview={overview}
               releaseDate={releaseDate}
-              genre_ids={genre_ids ?? []}
+              vote_average={vote_average}
+              genre_ids={genre_ids}
               original_language={original_language}
-              runtime={runtime}
-              number_of_seasons={number_of_seasons}
-              media_type={media_type}
-              number_of_episodes={number_of_episodes}
+              runtime={props.runtime}
+              number_of_seasons={props.number_of_seasons}
+              number_of_episodes={props.number_of_episodes}
             />
           </div>
         )}

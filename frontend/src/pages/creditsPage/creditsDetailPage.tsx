@@ -73,10 +73,10 @@ const CreditsDetailPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
       <Helmet>
-        <title>{`${person?.name ?? "Person"} — Filmography | Cinelas`}</title>
+        <title>{`${person?.name ?? "Person"} | Filmography | Cinelas`}</title>
         <meta name="description" content={`Explore the filmography of ${person?.name ?? "this person"}. See all movies and TV shows on Cinelas.`} />
         <link rel="canonical" href={`https://cinelas.com${personUrl(personId, person?.name ?? "")}`} />
-        <meta property="og:title" content={`${person?.name ?? "Person"} — Filmography | Cinelas`} />
+        <meta property="og:title" content={`${person?.name ?? "Person"} | Filmography | Cinelas`} />
         <meta property="og:description" content={`Explore the filmography of ${person?.name ?? "this person"}.`} />
         <meta property="og:url" content={`https://cinelas.com${personUrl(personId, person?.name ?? "")}`} />
         <meta property="og:type" content="profile" />

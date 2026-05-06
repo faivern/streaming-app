@@ -68,10 +68,10 @@ export default function ProvidersPage() {
   return (
     <main className="mt-navbar-offset max-w-7xl mx-auto px-4 py-8">
       <Helmet>
-        <title>Streaming Services — Cinelas</title>
+        <title>Streaming Services | Cinelas</title>
         <meta name="description" content="Browse all streaming services and see what's available on each platform." />
         <link rel="canonical" href="https://cinelas.com/providers" />
-        <meta property="og:title" content="Streaming Services — Cinelas" />
+        <meta property="og:title" content="Streaming Services | Cinelas" />
         <meta property="og:description" content="Browse all streaming services and see what's available on each platform." />
         <meta property="og:url" content="https://cinelas.com/providers" />
         <meta property="og:type" content="website" />

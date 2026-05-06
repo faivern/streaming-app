@@ -307,10 +307,10 @@ export default function MyListsPage() {
   return (
     <div className="flex min-h-dvh lg:mt-navbar-offset">
       <Helmet>
-        <title>My Lists — Cinelas</title>
+        <title>My Lists | Cinelas</title>
         <meta name="description" content="Manage your movie and TV show lists, track what you've watched, and organize your viewing." />
         <link rel="canonical" href="https://cinelas.com/lists" />
-        <meta property="og:title" content="My Lists — Cinelas" />
+        <meta property="og:title" content="My Lists | Cinelas" />
         <meta property="og:description" content="Manage your movie and TV show lists, track what you've watched, and organize your viewing." />
         <meta property="og:url" content="https://cinelas.com/lists" />
         <meta property="og:type" content="website" />

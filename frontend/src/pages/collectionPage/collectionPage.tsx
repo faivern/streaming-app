@@ -79,10 +79,10 @@ const CollectionPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 mt-navbar-offset">
       <Helmet>
-        <title>{`${collection?.name ?? "Collection"} — Cinelas`}</title>
+        <title>{`${collection?.name ?? "Collection"} | Cinelas`}</title>
         <meta name="description" content={collection?.overview?.slice(0, 160) ?? `Explore this movie collection on Cinelas.`} />
         <link rel="canonical" href={`https://cinelas.com${buildCollectionUrl(collection.id, collection.name)}`} />
-        <meta property="og:title" content={`${collection?.name ?? "Collection"} — Cinelas`} />
+        <meta property="og:title" content={`${collection?.name ?? "Collection"} | Cinelas`} />
         <meta property="og:description" content={collection?.overview?.slice(0, 160) ?? "Explore this movie collection on Cinelas."} />
         <meta property="og:url" content={`https://cinelas.com${buildCollectionUrl(collection.id, collection.name)}`} />
         <meta property="og:type" content="website" />

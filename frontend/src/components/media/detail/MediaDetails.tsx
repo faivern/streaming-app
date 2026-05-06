@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import { dateFormat } from "../../../utils/dateFormat";
+import TitleMid from "../title/TitleMid";
 import languageMap from "../../../utils/languageMap";
 import { keywordsFormat } from "../../../utils/keywordsFormat";
 import { getDirector, getMainCast, getCreatorsString } from "../../../utils/creditsUtils";
@@ -59,7 +61,6 @@ export default function MediaDetails({
   created_by,
 }: Props) {
   const [detailsExpanded, setDetailsExpanded] = useState(false);
-
   const director = getDirector(crew);
   const mainCast = getMainCast(cast);
   const isTV = media_type === "tv";
@@ -80,16 +81,22 @@ export default function MediaDetails({
 
   return (
     <div className="bg-component-primary rounded-xl p-6 border border-accent-foreground/60 shadow-lg">
+      {/* Mobile: tappable header with chevron */}
       <button
         onClick={() => setDetailsExpanded(!detailsExpanded)}
-        className="sm:hidden flex items-center justify-between w-full text-xl font-semibold text-white mb-4"
+        className="md:hidden flex items-center justify-between w-full"
       >
-        <span>Details</span>
-        <span className="text-sm text-slate-400">{detailsExpanded ? "▲" : "▼"}</span>
+        <TitleMid containerClassName="!mb-0">Details</TitleMid>
+        <ChevronDown
+          className={`w-5 h-5 text-slate-400 transition-transform duration-300 ${detailsExpanded ? "rotate-180" : ""}`}
+        />
       </button>
-      <h3 className="hidden sm:block text-xl font-semibold text-white mb-4">Details</h3>
+      {/* Desktop: always-visible heading */}
+      <div className="hidden md:block">
+        <TitleMid>Details</TitleMid>
+      </div>
 
-      <div className={`sm:block ${detailsExpanded ? "block" : "hidden"}`}>
+      <div className={`md:block ${detailsExpanded ? "block mt-4" : "hidden"}`}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
           <div className="space-y-4">
             <DetailRow label="Release Date" value={dateFormat(release_date) || "N/A"} />
