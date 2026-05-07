@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'backend/**'
+  workflow_dispatch:
 
 jobs:
   test:
@@ -59,7 +60,8 @@ jobs:
             --set-env-vars \
               "AzureOpenAI__Endpoint=${{ secrets.AZURE_OPENAI_ENDPOINT }}" \
               "AzureOpenAI__ApiKey=${{ secrets.AZURE_OPENAI_API_KEY }}" \
-              "AzureOpenAI__EmbeddingDeployment=text-embedding-3-small" \
-              "AzureOpenAI__ChatDeployment=gpt-4o-mini" \
-              "AzureOpenAI__Temperature=0.3" \
-              "AzureOpenAI__MaxTokens=1024"
+              "AzureOpenAI__EmbeddingDeployment=${{ secrets.AZURE_OPENAI_EMBEDDING_DEPLOYMENT }}" \
+              "AzureOpenAI__ChatDeployment=${{ secrets.AZURE_OPENAI_CHAT_DEPLOYMENT }}" \
+              "AzureOpenAI__Temperature=${{ secrets.AZURE_OPENAI_TEMPERATURE }}" \
+              "AzureOpenAI__MaxTokens=${{ secrets.AZURE_OPENAI_MAX_TOKENS }}" \
+              "AzureOpenAI__SystemPromptOverride=${{ secrets.AZURE_OPENAI_SYSTEM_PROMPT_OVERRIDE }}"
