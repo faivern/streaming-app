@@ -55,4 +55,11 @@ jobs:
           az containerapp update \
             --name cinelas-backend \
             --resource-group cinelas-rg \
-            --image cinelasacr.azurecr.io/cinelas-backend:${{ github.sha }}
+            --image cinelasacr.azurecr.io/cinelas-backend:${{ github.sha }} \
+            --set-env-vars \
+              "AzureOpenAI__Endpoint=${{ secrets.AZURE_OPENAI_ENDPOINT }}" \
+              "AzureOpenAI__ApiKey=${{ secrets.AZURE_OPENAI_API_KEY }}" \
+              "AzureOpenAI__EmbeddingDeployment=text-embedding-3-small" \
+              "AzureOpenAI__ChatDeployment=gpt-4o-mini" \
+              "AzureOpenAI__Temperature=0.3" \
+              "AzureOpenAI__MaxTokens=1024"
