@@ -306,6 +306,7 @@ public class EmbeddingSeedService : IEmbeddingSeedService
             }
 
             await _db.SaveChangesAsync(ct);
+            _db.ChangeTracker.Clear();
             _logger.LogInformation("Embedded batch of {Count} {MediaType} titles",
                 batch.Count, batch[0].Entity.MediaType);
         }

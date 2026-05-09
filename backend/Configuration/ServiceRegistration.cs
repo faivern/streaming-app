@@ -33,6 +33,9 @@ namespace backend.Configuration
 
             if (!string.IsNullOrEmpty(azureOpenAiEndpoint) && !string.IsNullOrEmpty(azureOpenAiApiKey))
             {
+                Console.WriteLine("[Startup] AI Discovery: env vars found, registering services (endpoint={0})",
+                    azureOpenAiEndpoint[..Math.Min(30, azureOpenAiEndpoint.Length)]);
+
                 services.AddSingleton(new AzureOpenAIClient(
                     new Uri(azureOpenAiEndpoint),
                     new ApiKeyCredential(azureOpenAiApiKey)));
@@ -48,6 +51,12 @@ namespace backend.Configuration
                 services.AddScoped<IAiDiscoveryService, AiDiscoveryService>();
                 services.AddScoped<IEmbeddingSeedService, EmbeddingSeedService>();
                 services.AddHostedService<EmbeddingSeedBackgroundService>();
+            }
+            else
+            {
+                Console.WriteLine("[Startup] AI Discovery: DISABLED — env vars missing (Endpoint={0}, ApiKey={1})",
+                    string.IsNullOrEmpty(azureOpenAiEndpoint) ? "EMPTY" : "set",
+                    string.IsNullOrEmpty(azureOpenAiApiKey) ? "EMPTY" : "set");
             }
 
             return services;
