@@ -28,6 +28,9 @@ public class EmbeddingSeedService : IEmbeddingSeedService
     private const int BatchSize = 50;        // D-12
     private const int ThrottleDelayMs = 250; // TMDB throttle
     private const int TitlesPerPage = 20;
+    private const int BatchCooldownMs = 5_000;
+    private const int RateLimitRetryDelayMs = 60_000;
+    private const int MaxBatchRetries = 3;
 
     public EmbeddingSeedService(
         AppDbContext db,
@@ -180,6 +183,7 @@ public class EmbeddingSeedService : IEmbeddingSeedService
             {
                 await EmbedAndUpsertBatchAsync(batch, embeddingClient, ct);
                 batch.Clear();
+                await Task.Delay(BatchCooldownMs, ct);
             }
 
             // Progress every 10 pages
@@ -262,72 +266,89 @@ public class EmbeddingSeedService : IEmbeddingSeedService
     {
         var inputs = batch.Select(b => b.ContentText).ToList();
 
-        try
+        for (int attempt = 1; attempt <= MaxBatchRetries; attempt++)
         {
-            ClientResult<OpenAIEmbeddingCollection> result =
-                await embeddingClient.GenerateEmbeddingsAsync(inputs, cancellationToken: ct);
-
-            // Pitfall 3: validate count matches
-            if (result.Value.Count != batch.Count)
+            try
             {
-                _logger.LogWarning(
-                    "Embedding count mismatch: expected {Expected}, got {Actual} — skipping batch",
-                    batch.Count, result.Value.Count);
+                ClientResult<OpenAIEmbeddingCollection> result =
+                    await embeddingClient.GenerateEmbeddingsAsync(inputs, cancellationToken: ct);
+
+                if (result.Value.Count != batch.Count)
+                {
+                    _logger.LogWarning(
+                        "Embedding count mismatch: expected {Expected}, got {Actual} — skipping batch",
+                        batch.Count, result.Value.Count);
+                    return;
+                }
+
+                for (int i = 0; i < batch.Count; i++)
+                {
+                    ReadOnlyMemory<float> floats = result.Value[i].ToFloats();
+                    batch[i].Entity.Embedding = new Pgvector.Vector(floats.ToArray());
+
+                    var existing = await _db.MovieEmbeddings
+                        .FirstOrDefaultAsync(
+                            e => e.TmdbId == batch[i].TmdbId && e.MediaType == batch[i].Entity.MediaType,
+                            ct);
+
+                    if (existing is not null)
+                    {
+                        existing.ContentText = batch[i].Entity.ContentText;
+                        existing.Embedding = batch[i].Entity.Embedding;
+                        existing.UpdatedAt = DateTime.UtcNow;
+                        existing.Title = batch[i].Entity.Title;
+                        existing.Overview = batch[i].Entity.Overview;
+                        existing.Genres = batch[i].Entity.Genres;
+                        existing.Keywords = batch[i].Entity.Keywords;
+                        existing.CastCrew = batch[i].Entity.CastCrew;
+                        existing.ReleaseYear = batch[i].Entity.ReleaseYear;
+                        existing.VoteAverage = batch[i].Entity.VoteAverage;
+                    }
+                    else
+                    {
+                        _db.MovieEmbeddings.Add(batch[i].Entity);
+                    }
+                }
+
+                await _db.SaveChangesAsync(ct);
+                _db.ChangeTracker.Clear();
+                _logger.LogInformation("Embedded batch of {Count} {MediaType} titles",
+                    batch.Count, batch[0].Entity.MediaType);
                 return;
             }
-
-            for (int i = 0; i < batch.Count; i++)
+            catch (Azure.RequestFailedException ex) when (ex.Status == 429)
             {
-                ReadOnlyMemory<float> floats = result.Value[i].ToFloats();
-                batch[i].Entity.Embedding = new Pgvector.Vector(floats.ToArray());
-
-                var existing = await _db.MovieEmbeddings
-                    .FirstOrDefaultAsync(
-                        e => e.TmdbId == batch[i].TmdbId && e.MediaType == batch[i].Entity.MediaType,
-                        ct);
-
-                if (existing is not null)
-                {
-                    existing.ContentText = batch[i].Entity.ContentText;
-                    existing.Embedding = batch[i].Entity.Embedding;
-                    existing.UpdatedAt = DateTime.UtcNow;
-                    existing.Title = batch[i].Entity.Title;
-                    existing.Overview = batch[i].Entity.Overview;
-                    existing.Genres = batch[i].Entity.Genres;
-                    existing.Keywords = batch[i].Entity.Keywords;
-                    existing.CastCrew = batch[i].Entity.CastCrew;
-                    existing.ReleaseYear = batch[i].Entity.ReleaseYear;
-                    existing.VoteAverage = batch[i].Entity.VoteAverage;
-                }
-                else
-                {
-                    _db.MovieEmbeddings.Add(batch[i].Entity);
-                }
+                _db.ChangeTracker.Clear();
+                var delay = RateLimitRetryDelayMs * attempt;
+                _logger.LogWarning(
+                    "429 rate limit on attempt {Attempt}/{Max} for batch of {Count} {MediaType} — waiting {Delay}s",
+                    attempt, MaxBatchRetries, batch.Count,
+                    batch.Count > 0 ? batch[0].Entity.MediaType : "unknown",
+                    delay / 1000);
+                if (attempt < MaxBatchRetries)
+                    await Task.Delay(delay, ct);
             }
+            catch (Azure.RequestFailedException ex)
+            {
+                _logger.LogError("Azure OpenAI error {Status} for batch of {Count} — skipping",
+                    ex.Status, batch.Count);
+                _db.ChangeTracker.Clear();
+                return;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Unexpected error embedding batch of {Count} — skipping", batch.Count);
+                _db.ChangeTracker.Clear();
+                return;
+            }
+        }
 
-            await _db.SaveChangesAsync(ct);
-            _db.ChangeTracker.Clear();
-            _logger.LogInformation("Embedded batch of {Count} {MediaType} titles",
-                batch.Count, batch[0].Entity.MediaType);
-        }
-        catch (Azure.RequestFailedException ex) when (ex.Status == 429)
-        {
-            // D-13, D-14: 429 rate limit — log and skip, do not crash
-            _logger.LogError("429 rate limit exhausted after SDK retries for batch of {Count} {MediaType}",
-                batch.Count, batch.Count > 0 ? batch[0].Entity.MediaType : "unknown");
-        }
-        catch (Azure.RequestFailedException ex)
-        {
-            _logger.LogError("Azure OpenAI error {Status} for batch of {Count}",
-                ex.Status, batch.Count);
-        }
-        catch (OperationCanceledException)
-        {
-            throw; // Let cancellation propagate
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Unexpected error embedding batch of {Count}", batch.Count);
-        }
+        _logger.LogError("Exhausted {Max} retries for batch of {Count} — skipping",
+            MaxBatchRetries, batch.Count);
+        _db.ChangeTracker.Clear();
     }
 }
