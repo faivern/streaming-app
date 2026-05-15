@@ -10,5 +10,6 @@ public class AiQueryLog
     public int? ResponseTimeMs { get; set; }
     public int? PromptTokens { get; set; }
     public int? CompletionTokens { get; set; }
+    public string? TransformedQuery { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

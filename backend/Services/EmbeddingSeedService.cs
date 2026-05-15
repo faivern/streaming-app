@@ -264,6 +264,12 @@ public class EmbeddingSeedService : IEmbeddingSeedService
         EmbeddingClient embeddingClient,
         CancellationToken ct)
     {
+        // Deduplicate within batch — same tmdb_id can appear on adjacent TMDB pages
+        batch = batch
+            .GroupBy(b => (b.TmdbId, b.Entity.MediaType))
+            .Select(g => g.Last())
+            .ToList();
+
         var inputs = batch.Select(b => b.ContentText).ToList();
 
         for (int attempt = 1; attempt <= MaxBatchRetries; attempt++)
@@ -281,10 +287,14 @@ public class EmbeddingSeedService : IEmbeddingSeedService
                     return;
                 }
 
+                var addedInBatch = new HashSet<(int, string)>();
+
                 for (int i = 0; i < batch.Count; i++)
                 {
                     ReadOnlyMemory<float> floats = result.Value[i].ToFloats();
                     batch[i].Entity.Embedding = new Pgvector.Vector(floats.ToArray());
+
+                    var key = (batch[i].TmdbId, batch[i].Entity.MediaType);
 
                     var existing = await _db.MovieEmbeddings
                         .FirstOrDefaultAsync(
@@ -304,7 +314,7 @@ public class EmbeddingSeedService : IEmbeddingSeedService
                         existing.ReleaseYear = batch[i].Entity.ReleaseYear;
                         existing.VoteAverage = batch[i].Entity.VoteAverage;
                     }
-                    else
+                    else if (addedInBatch.Add(key))
                     {
                         _db.MovieEmbeddings.Add(batch[i].Entity);
                     }

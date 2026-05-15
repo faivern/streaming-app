@@ -45,7 +45,9 @@ namespace backend.Configuration
                     ChatDeployment: configuration["AzureOpenAI:ChatDeployment"] ?? "gpt-4o-mini",
                     Temperature: float.TryParse(configuration["AzureOpenAI:Temperature"], out var temp) ? temp : 0.3f,
                     MaxTokens: int.TryParse(configuration["AzureOpenAI:MaxTokens"], out var mt) ? mt : 1024,
-                    SystemPromptOverride: configuration["AzureOpenAI:SystemPromptOverride"] ?? ""
+                    SystemPromptOverride: configuration["AzureOpenAI:SystemPromptOverride"] ?? "",
+                    QueryRewriteMaxTokens: int.TryParse(configuration["AzureOpenAI:QueryRewriteMaxTokens"], out var qrmt) ? qrmt : 300,
+                    QueryRewriteTemperature: float.TryParse(configuration["AzureOpenAI:QueryRewriteTemperature"], out var qrt) ? qrt : 0.7f
                 ));
 
                 services.AddScoped<IAiDiscoveryService, AiDiscoveryService>();

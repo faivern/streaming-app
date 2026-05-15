@@ -2,10 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { searchCollections, getCollectionById } from '../../api/collections.api';
 import type { Paged } from '../../types/common';
 import type { Collection } from '../../types/tmdb';
+import type { FeaturedCollection } from '../../utils/featuredCollections';
 
-/*
-* Hook for searching collections by query string
-*/
 export function useSearchCollections(
     q: string,
     page = 1,
@@ -18,10 +16,6 @@ export function useSearchCollections(
     });
 }
 
-
-/*
-* Hook for fetching a collection by ID
-*/
 export function useCollectionById(id?: number, language = "en-US") {
     return useQuery<Collection>({
         queryKey: ["collections", "id", id, language],
@@ -30,25 +24,18 @@ export function useCollectionById(id?: number, language = "en-US") {
     });
 }
 
-/*
- * Fetch a small curated set of collections (by name) for the homepage carousel.
- * Returns the top match for each name, in order.
-*/
 export function useFeaturedCollections(
-    names: string[],
+    collections: FeaturedCollection[],
     language = "en-US"
 ) {
   return useQuery<Collection[]>({
-    queryKey: ["collections", "featured", names, language],
+    queryKey: ["collections", "featured", collections.map((c) => c.id), language],
     queryFn: async () => {
-      const pages = await Promise.all(
-        names.map((n) => searchCollections(n, 1, language))
+      const results = await Promise.all(
+        collections.map((c) => getCollectionById(c.id, language))
       );
-      // pick the first result from each page (if any)
-      return pages
-        .map((p) => p?.results?.[0])
-        .filter(Boolean) as Collection[];
+      return results.filter(Boolean);
     },
-    enabled: names.length > 0,
+    enabled: collections.length > 0,
   });
 }

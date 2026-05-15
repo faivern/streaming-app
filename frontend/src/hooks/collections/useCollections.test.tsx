@@ -36,13 +36,16 @@ describe("useCollectionById", () => {
 });
 
 describe("useFeaturedCollections", () => {
-  it("fetches and picks first result per name", async () => {
-    vi.mocked(searchCollections).mockResolvedValue({
-      page: 1, total_pages: 1, total_results: 1,
-      results: [{ id: 1, name: "SW", overview: "", poster_path: null, backdrop_path: null, parts: [] }],
-    });
-    const { result } = renderHook(() => useFeaturedCollections(["Star Wars"]), { wrapper: createWrapper() });
+  it("fetches collections by ID", async () => {
+    vi.mocked(getCollectionById).mockResolvedValue(
+      { id: 10, name: "Star Wars", overview: "", poster_path: null, backdrop_path: null, parts: [] },
+    );
+    const { result } = renderHook(
+      () => useFeaturedCollections([{ id: 10, name: "Star Wars" }]),
+      { wrapper: createWrapper() },
+    );
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
     expect(result.current.data).toHaveLength(1);
+    expect(getCollectionById).toHaveBeenCalledWith(10, "en-US");
   });
 });

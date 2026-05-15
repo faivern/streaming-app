@@ -3,7 +3,6 @@ import { AlertCircle, Sparkles } from "lucide-react";
 import { messageBubbleVariants } from "./animations";
 import AiTypingIndicator from "./AiTypingIndicator";
 import AiResultsGrid from "./AiResultsGrid";
-import AiQuickActions from "./AiQuickActions";
 import AiQuickPrompts from "./AiQuickPrompts";
 import type { ChatMessage } from "../../types/aiDiscoverChat";
 
@@ -79,13 +78,11 @@ function AiResponseBubble({
   text,
   results,
   messageId,
-  query,
   onRefine,
 }: {
   text: string;
   results: import("../../types/aiDiscover").AiDiscoverResult[];
   messageId: string;
-  query: string;
   onRefine?: (newQuery: string) => void;
 }) {
   if (results.length === 0) {
@@ -120,16 +117,6 @@ function AiResponseBubble({
       <div className="mt-4">
         <AiResultsGrid results={results} messageId={messageId} />
       </div>
-
-      {onRefine && (
-        <div className="mt-3">
-          <AiQuickActions
-            onRefine={onRefine}
-            currentQuery={query}
-            resultTitles={results.map((r) => r.title)}
-          />
-        </div>
-      )}
     </>
   );
 }
@@ -150,7 +137,6 @@ export default function AiChatBubble({ message, onRefine }: AiChatBubbleProps) {
           text={message.text}
           results={message.results}
           messageId={message.id}
-          query={message.query}
           onRefine={onRefine}
         />
       )}
