@@ -10,7 +10,6 @@ type Part = {
   vote_average?: number;
   vote_count?: number;
   genre_ids?: number[];
-  original_language?: string;
   runtime?: number;
 };
 
@@ -63,7 +62,6 @@ const CollectionGrid = ({ parts, loading = false }: Props) => {
           vote_average={item.vote_average}
           genre_ids={item.genre_ids || []}
           vote_count={item.vote_count}
-          original_language={item.original_language || "en"}
           runtime={item.runtime}
           media_type="movie"
         />

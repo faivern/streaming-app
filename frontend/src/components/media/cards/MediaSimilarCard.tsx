@@ -20,7 +20,6 @@ type MediaSimilarCardProps = {
   vote_average?: number;
   vote_count?: number;
   genre_ids?: number[];
-  original_language?: string;
   runtime?: number;
   number_of_seasons?: number;
   number_of_episodes?: number;
@@ -39,7 +38,6 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
     overview,
     vote_average,
     genre_ids,
-    original_language,
   } = p;
 
   const { hovered, onEnter, onLeave } = useDelayHover(600);
@@ -95,7 +93,6 @@ const MediaSimilarCard = (p: MediaSimilarCardProps) => {
             releaseDate={releaseDate}
             vote_average={vote_average}
             genre_ids={genre_ids}
-            original_language={original_language}
             runtime={p.runtime}
             number_of_seasons={p.number_of_seasons}
             number_of_episodes={p.number_of_episodes}

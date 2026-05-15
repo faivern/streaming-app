@@ -188,7 +188,6 @@ export default function AiResultCard({
               releaseDate={releaseDate}
               vote_average={detail?.vote_average}
               genre_ids={genreIds}
-              original_language={detail?.original_language}
               runtime={detail?.runtime}
               number_of_seasons={detail?.number_of_seasons}
               number_of_episodes={detail?.number_of_episodes}

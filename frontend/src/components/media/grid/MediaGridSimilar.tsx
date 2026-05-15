@@ -44,7 +44,6 @@ const MediaGridSimilar = ({ similarMedia, parentType, isLoading }: Props) => {
                       releaseDate={m.release_date ?? m.first_air_date}
                       vote_average={m.vote_average}
                       genre_ids={m.genre_ids}
-                      original_language={m.original_language}
                       runtime={m.runtime}
                       number_of_seasons={m.number_of_seasons}
                       number_of_episodes={m.number_of_episodes}
@@ -66,7 +65,6 @@ const MediaGridSimilar = ({ similarMedia, parentType, isLoading }: Props) => {
                       vote_average={m.vote_average}
                       vote_count={m.vote_count}
                       genre_ids={m.genre_ids}
-                      original_language={m.original_language}
                       runtime={m.runtime}
                       number_of_seasons={m.number_of_seasons}
                       number_of_episodes={m.number_of_episodes}

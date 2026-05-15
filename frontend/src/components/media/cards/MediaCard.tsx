@@ -27,7 +27,6 @@ type MediaCardProps = {
   vote_average?: number;
   genre_ids?: number[];
   vote_count?: number;
-  original_language?: string;
   runtime?: number;
   number_of_seasons?: number;
   number_of_episodes?: number;
@@ -46,7 +45,6 @@ export default function MediaCard(props: MediaCardProps) {
     releaseDate,
     vote_average,
     genre_ids,
-    original_language,
     disableHoverModal = false,
     showQuickAdd = true,
     onClick,
@@ -152,7 +150,6 @@ export default function MediaCard(props: MediaCardProps) {
               releaseDate={releaseDate}
               vote_average={vote_average}
               genre_ids={genre_ids}
-              original_language={original_language}
               runtime={props.runtime}
               number_of_seasons={props.number_of_seasons}
               number_of_episodes={props.number_of_episodes}
