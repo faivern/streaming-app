@@ -257,7 +257,7 @@ export default function AiDiscoverPage() {
                     variants={messageContainerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="max-w-2xl mx-auto space-y-4 pt-2 pb-4 px-page"
+                    className="max-w-2xl mx-auto space-y-4 pt-2 pb-24 px-page"
                   >
                     {messages.map((msg, i) => (
                       <AiChatBubble

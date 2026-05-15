@@ -144,6 +144,7 @@ namespace backend.Data
                 entity.Property(e => e.PromptTokens).HasColumnName("prompt_tokens");
                 entity.Property(e => e.CompletionTokens).HasColumnName("completion_tokens");
                 entity.Property(e => e.ResponseText).HasColumnName("response_text");
+                entity.Property(e => e.TransformedQuery).HasColumnName("transformed_query");
                 entity.Property(e => e.CreatedAt).HasColumnName("created_at");
             });
         }

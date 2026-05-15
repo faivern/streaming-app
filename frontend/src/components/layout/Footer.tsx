@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Coffee, Mail } from "lucide-react";
+import { Heart } from "lucide-react";
 import BrandLogo from "../common/BrandLogo";
 const Footer = () => {
   return (
@@ -70,31 +70,10 @@ const Footer = () => {
               <ul className="text-[var(--subtle)] font-medium">
                 <li>
                   <a
-                    href="https://buymeacoffee.com/cinelas"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:underline inline-flex items-center gap-1.5"
+                    href="mailto:cinelas.support@gmail.com?subject=Contact"
+                    className="hover:underline hover:text-white transition-colors"
                   >
-                    <Coffee className="size-4" />
-                    Buy Me a Coffee
-                  </a>
-                </li>
-                <li className="mt-4">
-                  <a
-                    href="mailto:cinelas.support@gmail.com?subject=Bug Report"
-                    className="hover:underline inline-flex items-center gap-1.5"
-                  >
-                    <Mail className="size-4" />
-                    Report a Bug
-                  </a>
-                </li>
-                <li className="mt-4">
-                  <a
-                    href="mailto:cinelas.support@gmail.com?subject=Feature Suggestion"
-                    className="hover:underline inline-flex items-center gap-1.5"
-                  >
-                    <Mail className="size-4" />
-                    Suggest a Feature
+                    Contact
                   </a>
                 </li>
               </ul>
@@ -103,13 +82,22 @@ const Footer = () => {
         </div>
         <hr className="my-6 border-[var(--border)] sm:mx-auto lg:my-8" />
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <span className="text-xs text-[var(--subtle)]">
             © {new Date().getFullYear()} Cinelas
           </span>
           <span className="text-xs text-[var(--subtle)] italic select-none">
             Your Personal Cinema Atlas - Explore over a Million Movies & TV Shows
           </span>
+          <a
+            href="https://buymeacoffee.com/cinelas"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-[var(--subtle)] hover:text-white transition-colors inline-flex items-center gap-1"
+          >
+            <Heart className="size-3" />
+            Support Cinelas
+          </a>
         </div>
 
       </div>

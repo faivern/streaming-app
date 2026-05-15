@@ -34,6 +34,14 @@ function formatRuntime(minutes?: number): string | null {
   return `${h}h ${m}m`;
 }
 
+function formatTvLength(seasons?: number, episodes?: number): string | null {
+  if (!seasons && !episodes) return null;
+  const parts: string[] = [];
+  if (seasons) parts.push(`${seasons} season${seasons === 1 ? "" : "s"}`);
+  if (episodes) parts.push(`${episodes} ep`);
+  return parts.join(" · ");
+}
+
 export default function AiSwipeCard({
   result,
   detail,
@@ -66,6 +74,7 @@ export default function AiSwipeCard({
   const releaseDate = detail?.release_date ?? detail?.first_air_date;
   const year = releaseDate ? new Date(releaseDate).getFullYear() : null;
   const runtimeText = formatRuntime(detail?.runtime);
+  const tvLengthText = formatTvLength(detail?.number_of_seasons, detail?.number_of_episodes);
   const genres = detail?.genres?.slice(0, 3);
   const { videoUrl: trailerUrl } = useVideo(
     result.mediaType as "movie" | "tv",
@@ -189,6 +198,12 @@ export default function AiSwipeCard({
                   <span className="flex items-center gap-1">
                     <Clock size={12} />
                     {runtimeText}
+                  </span>
+                )}
+                {!runtimeText && tvLengthText && (
+                  <span className="flex items-center gap-1">
+                    <Clock size={12} />
+                    {tvLengthText}
                   </span>
                 )}
                 {detail?.vote_average != null && detail.vote_average > 0 && (

@@ -452,12 +452,62 @@ public class AiDiscoveryServiceTests
         await act.Should().ThrowAsync<AiServiceUnavailableException>();
     }
 
+    // ─── HyDE tests ───
+
+    [Fact]
+    public async Task DiscoverAsync_HyDeFailure_FallsBackToRawQuery()
+    {
+        SetupCacheMiss();
+        SetupEmbeddingResponse();
+        SetupChatResponse(BuildValidLlmJson(new[] { (100, "movie", "Movie A") }));
+
+        var svc = CreateService(
+            candidates: new[] { CreateCandidate(100, "movie", "Movie A") },
+            hydeThrows: true);
+        var result = await svc.DiscoverAsync(TestQuery, TestUserId);
+
+        result.Results.Should().HaveCountGreaterThan(0);
+    }
+
+    [Fact]
+    public async Task DiscoverAsync_UsesTransformedQueryForEmbedding()
+    {
+        SetupCacheMiss();
+
+        string? capturedEmbeddingInput = null;
+        var embedding = OpenAIEmbeddingsModelFactory.OpenAIEmbedding(
+            index: 0,
+            vector: Enumerable.Repeat(0.1f, 1536));
+        var response = ClientResult.FromValue(embedding, new Mock<PipelineResponse>().Object);
+
+        _mockEmbeddingClient
+            .Setup(e => e.GenerateEmbeddingAsync(
+                It.IsAny<string>(),
+                It.IsAny<EmbeddingGenerationOptions>(),
+                It.IsAny<CancellationToken>()))
+            .Callback<string, EmbeddingGenerationOptions, CancellationToken>(
+                (input, _, _) => capturedEmbeddingInput = input)
+            .ReturnsAsync(response);
+
+        SetupChatResponse(BuildValidLlmJson(new[] { (100, "movie", "Movie A") }));
+
+        const string hydeOutput = "A mind-bending sci-fi comedy about reliving the same day";
+        var svc = CreateService(
+            candidates: new[] { CreateCandidate(100, "movie", "Movie A") },
+            hydeResponse: hydeOutput);
+        await svc.DiscoverAsync(TestQuery, TestUserId);
+
+        capturedEmbeddingInput.Should().Be(hydeOutput);
+    }
+
     // ─── Helpers ───
 
     private TestableAiDiscoveryService CreateService(
         MovieEmbedding[]? candidates = null,
         bool vectorSearchThrows = false,
-        AzureOpenAIOptions? optionsOverride = null)
+        AzureOpenAIOptions? optionsOverride = null,
+        bool hydeThrows = false,
+        string? hydeResponse = "Hypothetical movie description for testing")
     {
         return new TestableAiDiscoveryService(
             _mockAiClient.Object,
@@ -467,7 +517,9 @@ public class AiDiscoveryServiceTests
             _mockScopeFactory.Object,
             NullLogger<AiDiscoveryService>.Instance,
             candidates?.ToList() ?? new List<MovieEmbedding>(),
-            vectorSearchThrows);
+            vectorSearchThrows,
+            hydeThrows,
+            hydeResponse);
     }
 
     private void SetupCacheMiss()
@@ -587,6 +639,10 @@ public class AiDiscoveryServiceTests
     {
         private readonly List<MovieEmbedding> _candidates;
         private readonly bool _throws;
+        private readonly bool _hydeThrows;
+        private readonly string? _hydeResponse;
+
+        public string? CapturedEmbeddingInput { get; private set; }
 
         public TestableAiDiscoveryService(
             AzureOpenAIClient aiClient,
@@ -596,11 +652,23 @@ public class AiDiscoveryServiceTests
             IServiceScopeFactory scopeFactory,
             ILogger<AiDiscoveryService> logger,
             List<MovieEmbedding> candidates,
-            bool throws)
+            bool throws,
+            bool hydeThrows = false,
+            string? hydeResponse = "Hypothetical movie description for testing")
             : base(aiClient, aiOptions, CreateInMemoryDb(), mediaEntryService, cache, scopeFactory, logger)
         {
             _candidates = candidates;
             _throws = throws;
+            _hydeThrows = hydeThrows;
+            _hydeResponse = hydeResponse;
+        }
+
+        protected override Task<string> TransformQueryAsync(
+            string query, CancellationToken cancellationToken)
+        {
+            if (_hydeThrows)
+                throw new InvalidOperationException("HyDE transformation failed");
+            return Task.FromResult(_hydeResponse ?? query);
         }
 
         protected override Task<List<MovieEmbedding>> SearchCandidatesAsync(

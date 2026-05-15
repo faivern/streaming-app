@@ -65,13 +65,28 @@ public class AiDiscoveryService : IAiDiscoveryService
 
         var stopwatch = Stopwatch.StartNew();
 
+        // Step 0.5: HyDE — transform query into hypothetical document for better semantic matching
+        string embeddingInput;
+        try
+        {
+            embeddingInput = await TransformQueryAsync(query, cancellationToken);
+            _logger.LogInformation(
+                "HyDE transformation for user {UserId}: original='{Original}', transformed length={Length}",
+                userId, query, embeddingInput.Length);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "HyDE transformation failed for user {UserId}, falling back to raw query", userId);
+            embeddingInput = query;
+        }
+
         // Step 1: Embed query (RAG-01)
         Vector queryVector;
         try
         {
             var embeddingClient = _aiClient.GetEmbeddingClient(_aiOptions.EmbeddingDeployment);
             var embeddingResult = await embeddingClient.GenerateEmbeddingAsync(
-                query, cancellationToken: cancellationToken);
+                embeddingInput, cancellationToken: cancellationToken);
             var floats = embeddingResult.Value.ToFloats().ToArray();
             queryVector = new Vector(floats);
         }
@@ -112,8 +127,8 @@ public class AiDiscoveryService : IAiDiscoveryService
         }
 
         // Step 4: LLM call — GPT-4o-mini ranking (RAG-02, D-01, D-04, D-05, D-06, GUARD-02)
-        // Take top 15 filtered candidates for the LLM (ranks up to 10)
-        var llmCandidates = filtered.Take(15).ToList();
+        // Take top 25 filtered candidates for the LLM (ranks up to 10)
+        var llmCandidates = filtered.Take(25).ToList();
 
         var candidateLines = llmCandidates.Select(c =>
             string.Format(
@@ -188,7 +203,7 @@ public class AiDiscoveryService : IAiDiscoveryService
                 Message: llmResponse.Message ?? "I can only help with movie and TV recommendations. Please try a different query.",
                 ResponseTimeMs: stopwatch.ElapsedMilliseconds);
 
-            FireAndForgetLog(userId, query, offTopicResponse, rawLlmJson, promptTokens, completionTokens);
+            FireAndForgetLog(userId, query, embeddingInput, offTopicResponse, rawLlmJson, promptTokens, completionTokens);
             return offTopicResponse;
         }
 
@@ -228,19 +243,38 @@ public class AiDiscoveryService : IAiDiscoveryService
 
         _cache.Set(cacheKey, response, TimeSpan.FromMinutes(30));
 
-        FireAndForgetLog(userId, query, response, rawLlmJson, promptTokens, completionTokens);
+        FireAndForgetLog(userId, query, embeddingInput, response, rawLlmJson, promptTokens, completionTokens);
 
         return response;
     }
 
     // --- Protected/Private helpers ---
 
+    protected virtual async Task<string> TransformQueryAsync(
+        string query, CancellationToken cancellationToken)
+    {
+        var chatClient = _aiClient.GetChatClient(_aiOptions.ChatDeployment);
+        var chatOptions = new ChatCompletionOptions
+        {
+            Temperature = _aiOptions.QueryRewriteTemperature,
+            MaxOutputTokenCount = _aiOptions.QueryRewriteMaxTokens
+        };
+        var messages = new List<ChatMessage>
+        {
+            new SystemChatMessage(AiDiscoveryPrompts.HyDePrompt),
+            new UserChatMessage(query)
+        };
+
+        var result = await chatClient.CompleteChatAsync(messages, chatOptions, cancellationToken);
+        return result.Value.Content[0].Text;
+    }
+
     protected virtual async Task<List<MovieEmbedding>> SearchCandidatesAsync(
         Vector queryVector, CancellationToken cancellationToken)
     {
         return await _db.MovieEmbeddings
             .OrderBy(e => e.Embedding.CosineDistance(queryVector))
-            .Take(20)
+            .Take(50)
             .ToListAsync(cancellationToken);
     }
 
@@ -249,7 +283,7 @@ public class AiDiscoveryService : IAiDiscoveryService
         var normalized = query.Trim().ToLowerInvariant();
         var hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(normalized));
         var hash = Convert.ToHexString(hashBytes).ToLowerInvariant();
-        return $"ai_discover:v2:{userId}:{hash}";
+        return $"ai_discover:v3:{userId}:{hash}";
     }
 
     private const int MaxStoredJsonLength = 10_000;
@@ -257,6 +291,7 @@ public class AiDiscoveryService : IAiDiscoveryService
     private void FireAndForgetLog(
         string userId,
         string query,
+        string transformedQuery,
         AiDiscoverResponseDto response,
         string rawLlmJson,
         int promptTokens,
@@ -276,6 +311,7 @@ public class AiDiscoveryService : IAiDiscoveryService
                 {
                     UserId = userId,
                     QueryText = query,
+                    TransformedQuery = transformedQuery == query ? null : transformedQuery,
                     ResultTmdbIds = JsonSerializer.Serialize(response.Results.Concat(response.Alternates).Select(r => r.TmdbId)),
                     ResponseTimeMs = (int)response.ResponseTimeMs,
                     PromptTokens = promptTokens,

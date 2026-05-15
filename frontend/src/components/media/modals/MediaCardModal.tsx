@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { Clock } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import type { MediaType } from "../../../types/tmdb";
 import { mediaUrl } from "../../../utils/urlBuilder";
-import { dateFormat } from "../../../utils/dateFormat";
+import { dateFormatYear } from "../../../utils/dateFormatYear";
 import genreMap, { resolveGenreIds } from "../../../utils/genreMap";
-import languageMap from "../../../utils/languageMap";
 import useMediaRuntime from "../../../hooks/media/useMediaRuntime";
+import { useCardDetails } from "../../../hooks/media/useMediaCardDetails";
 
 type MediaCardModalProps = {
   id: number;
@@ -16,7 +16,6 @@ type MediaCardModalProps = {
   releaseDate?: string;
   vote_average?: number;
   genre_ids?: number[];
-  original_language?: string;
   runtime?: number;
   number_of_seasons?: number;
   number_of_episodes?: number;
@@ -31,18 +30,26 @@ export default function MediaCardModal({
   overview,
   releaseDate,
   genre_ids,
-  original_language,
   runtime,
   number_of_seasons,
   number_of_episodes,
   compact = false,
 }: MediaCardModalProps) {
-  const lang = original_language
-    ? (languageMap[original_language] ?? original_language.toUpperCase())
-    : undefined;
+  const needsDetail =
+    runtime == null && number_of_seasons == null && number_of_episodes == null;
+  const { data: detail } = useCardDetails(
+    needsDetail ? media_type : undefined,
+    needsDetail ? id : undefined,
+  );
+
+  const resolvedRuntime = runtime ?? detail?.runtime;
+  const resolvedSeasons = number_of_seasons ?? detail?.number_of_seasons;
+  const resolvedEpisodes = number_of_episodes ?? detail?.number_of_episodes;
+
+  const year = dateFormatYear(releaseDate);
 
   const genres = genre_ids
-    ? resolveGenreIds(genre_ids, original_language)
+    ? resolveGenreIds(genre_ids)
         .slice(0, 3)
         .map((gid) => genreMap[gid])
         .filter(Boolean)
@@ -50,9 +57,9 @@ export default function MediaCardModal({
 
   const runtimeDisplay = useMediaRuntime({
     mediaType: media_type,
-    runtimeMin: runtime,
-    seasons: number_of_seasons,
-    episodes: number_of_episodes,
+    runtimeMin: resolvedRuntime,
+    seasons: resolvedSeasons,
+    episodes: resolvedEpisodes,
   });
 
   return (
@@ -74,39 +81,50 @@ export default function MediaCardModal({
 
           {/* Info panel */}
           <div className="flex-1 min-w-0 flex flex-col">
-            {/* Title + runtime row */}
-            <div className="flex items-start justify-between gap-2">
-              <h3 className={`${compact ? "text-sm" : "text-base"} font-bold text-white leading-tight line-clamp-2`}>
-                {title}
-              </h3>
-              {runtimeDisplay && (
-                <span className={`flex items-center gap-1 ${compact ? "text-[11px]" : "text-xs"} text-[var(--subtle)] shrink-0`}>
-                  <Clock className="h-3 w-3" />
-                  {runtimeDisplay}
-                </span>
-              )}
-            </div>
+            <h3 className={`${compact ? "text-sm" : "text-base"} font-bold text-white leading-tight line-clamp-2`}>
+              {title}
+            </h3>
 
-            {/* Metadata: date + language */}
-            <p className={`${compact ? "text-[11px]" : "text-xs"} text-[var(--subtle)] mt-1`}>
-              {[dateFormat(releaseDate), lang].filter(Boolean).join(" \u2022 ")}
-            </p>
+            {/* Meta row */}
+            {(year || runtimeDisplay) && (
+              <div className={`flex flex-wrap items-center gap-x-3 mt-1.5 ${compact ? "text-[11px]" : "text-xs"} text-[var(--subtle)]`}>
+                {year && (
+                  <span className="flex items-center gap-1">
+                    <Calendar className="h-3 w-3 shrink-0" />
+                    {year}
+                  </span>
+                )}
+                {runtimeDisplay && (
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-3 w-3 shrink-0" />
+                    {runtimeDisplay}
+                  </span>
+                )}
+              </div>
+            )}
 
-            {/* Divider */}
-            <div className="h-px bg-[var(--outline)]/50 my-1.5" />
-
-            {/* Genres */}
+            {/* Genre chips */}
             {genres.length > 0 && (
-              <p className={`${compact ? "text-[11px]" : "text-xs"} text-accent-primary truncate`}>
-                {genres.join(" \u2022 ")}
-              </p>
+              <div className="flex flex-wrap gap-1.5 mt-1.5">
+                {genres.map((g) => (
+                  <span
+                    key={g}
+                    className={`${compact ? "text-[11px]" : "text-xs"} px-2 py-0.5 rounded-full bg-white/[0.08] text-[var(--subtle)]`}
+                  >
+                    {g}
+                  </span>
+                ))}
+              </div>
             )}
 
             {/* Overview */}
             {overview && (
-              <p className={`${compact ? "text-[11px] line-clamp-3" : "text-xs line-clamp-4"} text-gray-300 mt-1 leading-relaxed`}>
-                {overview}
-              </p>
+              <>
+                <div className="h-px bg-[var(--outline)]/50 my-1.5" />
+                <p className={`${compact ? "text-[11px] line-clamp-3" : "text-xs line-clamp-4"} text-gray-300 leading-relaxed`}>
+                  {overview}
+                </p>
+              </>
             )}
           </div>
         </div>
