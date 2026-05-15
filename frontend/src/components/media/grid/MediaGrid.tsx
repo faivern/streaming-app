@@ -57,7 +57,6 @@ export default function MediaGrid({
                 vote_average={item.vote_average}
                 genre_ids={item.genre_ids || []}
                 vote_count={item.vote_count}
-                original_language={item.original_language || "en"}
                 media_type={media_type}
               />
             ))}
