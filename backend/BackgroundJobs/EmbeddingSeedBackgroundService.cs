@@ -1,4 +1,6 @@
+using backend.Data;
 using backend.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.BackgroundJobs;
 
@@ -6,7 +8,10 @@ public class EmbeddingSeedBackgroundService : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<EmbeddingSeedBackgroundService> _logger;
-    private const int StartupDelayMinutes = 5; // D-18: 5-minute startup delay
+    private const int StartupDelayMinutes = 5;
+    private const int SeedTargetTotal = 15_000;
+    private static readonly TimeSpan RetryInterval = TimeSpan.FromMinutes(15);
+    private static readonly TimeSpan RefreshInterval = TimeSpan.FromDays(7);
 
     public EmbeddingSeedBackgroundService(
         IServiceScopeFactory scopeFactory,
@@ -39,9 +44,18 @@ public class EmbeddingSeedBackgroundService : BackgroundService
                 _logger.LogError(ex, "Error during embedding seed cycle");
             }
 
-            // D-21: weekly refresh
-            await Task.Delay(TimeSpan.FromDays(7), stoppingToken);
+            var delay = await IsSeedingComplete(stoppingToken) ? RefreshInterval : RetryInterval;
+            _logger.LogInformation("Next seed cycle in {Delay}", delay);
+            await Task.Delay(delay, stoppingToken);
         }
+    }
+
+    private async Task<bool> IsSeedingComplete(CancellationToken ct)
+    {
+        using var scope = _scopeFactory.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var count = await db.MovieEmbeddings.CountAsync(ct);
+        return count >= SeedTargetTotal;
     }
 
     private async Task RunSeedCycleAsync(CancellationToken ct)
