@@ -1,3 +1,4 @@
+using System.Net;
 using Azure.AI.OpenAI;
 using System.ClientModel;
 using backend.BackgroundJobs;
@@ -17,7 +18,11 @@ namespace backend.Configuration
             IConfiguration configuration)
         {
             services.AddMemoryCache();
-            services.AddHttpClient<ITmdbService, TmdbService>();
+            services.AddHttpClient<ITmdbService, TmdbService>()
+                .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
+                {
+                    AutomaticDecompression = DecompressionMethods.All
+                });
             services.AddScoped<IListService, ListService>();
             services.AddScoped<IMediaEntryService, MediaEntryService>();
             services.AddHostedService<TmdbRefreshBackgroundService>();

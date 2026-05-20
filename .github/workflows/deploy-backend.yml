@@ -58,6 +58,7 @@ jobs:
             --resource-group cinelas-rg \
             --image cinelasacr.azurecr.io/cinelas-backend:${{ github.sha }} \
             --set-env-vars \
+              "TMDB__ApiKey=${{ secrets.TMDB_API_KEY }}" \
               "AzureOpenAI__Endpoint=${{ secrets.AZURE_OPENAI_ENDPOINT }}" \
               "AzureOpenAI__ApiKey=${{ secrets.AZURE_OPENAI_API_KEY }}" \
               "AzureOpenAI__EmbeddingDeployment=${{ secrets.AZURE_OPENAI_EMBEDDING_DEPLOYMENT }}" \
