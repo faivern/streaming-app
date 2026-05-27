@@ -8,7 +8,7 @@ export async function postAiDiscover(
   const { data } = await api.post<AiDiscoverResponse>(
     "/api/ai-discover",
     request,
-    { timeout: 30_000, signal }
+    { timeout: 60_000, signal }
   );
   return data;
 }
