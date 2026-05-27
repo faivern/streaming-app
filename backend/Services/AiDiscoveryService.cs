@@ -253,6 +253,9 @@ public class AiDiscoveryService : IAiDiscoveryService
     protected virtual async Task<string> TransformQueryAsync(
         string query, CancellationToken cancellationToken)
     {
+        using var hydeTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        hydeTimeout.CancelAfter(TimeSpan.FromSeconds(10));
+
         var chatClient = _aiClient.GetChatClient(_aiOptions.ChatDeployment);
         var chatOptions = new ChatCompletionOptions
         {
@@ -265,7 +268,7 @@ public class AiDiscoveryService : IAiDiscoveryService
             new UserChatMessage(query)
         };
 
-        var result = await chatClient.CompleteChatAsync(messages, chatOptions, cancellationToken);
+        var result = await chatClient.CompleteChatAsync(messages, chatOptions, hydeTimeout.Token);
         return result.Value.Content[0].Text;
     }
 
