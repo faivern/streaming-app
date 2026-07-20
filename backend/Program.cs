@@ -47,16 +47,48 @@ builder.Services.AddRateLimiter(options =>
                 QueueLimit = 0,
             }));
 
-    // AI discovery endpoint (per-user, 20 requests per hour)
+    // AI discovery endpoint (per-user, 10 requests per hour).
+    // Each call hits Azure OpenAI (embedding + chat) — keep the per-user quota tight.
     options.AddPolicy("ai", context =>
         RateLimitPartition.GetFixedWindowLimiter(
             partitionKey: context.User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "anonymous",
             factory: _ => new FixedWindowRateLimiterOptions
             {
-                PermitLimit = 20,
+                PermitLimit = 10,
                 Window = TimeSpan.FromHours(1),
                 QueueLimit = 0,
             }));
+
+    // Seeding endpoint (per-user, 2 requests per hour).
+    // POST /api/dev/seed triggers BULK Azure OpenAI embedding calls — this is the
+    // single most expensive operation in the app, so cap it extremely hard.
+    options.AddPolicy("seed", context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: context.User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "anonymous",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 2,
+                Window = TimeSpan.FromHours(1),
+                QueueLimit = 0,
+            }));
+
+    // GLOBAL hard ceiling on AI-discover across ALL users combined. Runs IN ADDITION
+    // to the per-user "ai" policy, so total Azure OpenAI spend is bounded no matter how
+    // many users sign in — the backstop against a surprise bill. Other paths are unlimited here.
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
+    {
+        if (context.Request.Path.StartsWithSegments("/api/ai-discover"))
+        {
+            return RateLimitPartition.GetFixedWindowLimiter("ai-global", _ =>
+                new FixedWindowRateLimiterOptions
+                {
+                    PermitLimit = 100,
+                    Window = TimeSpan.FromHours(1),
+                    QueueLimit = 0,
+                });
+        }
+        return RateLimitPartition.GetNoLimiter<string>("unlimited");
+    });
 });
 
 builder.Services.AddControllers(options =>
@@ -84,6 +116,14 @@ builder.Services.AddCors(o => o.AddPolicy("Spa", p =>
 
 // Health checks for Docker/k8s
 builder.Services.AddHealthChecks();
+
+// HSTS: instruct browsers to only ever use HTTPS for this domain (1 year).
+// includeSubDomains covers api/subdomains; only applied in production (see app.UseHsts).
+builder.Services.AddHsts(options =>
+{
+    options.MaxAge = TimeSpan.FromDays(365);
+    options.IncludeSubDomains = true;
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -137,6 +177,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
+    app.UseHsts();
     app.UseHttpsRedirection();
 }
 

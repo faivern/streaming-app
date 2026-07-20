@@ -12,8 +12,8 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/dev")]
-    [Authorize]
-    [EnableRateLimiting("mutation")]
+    [Authorize(Policy = "AdminOnly")]
+    [EnableRateLimiting("seed")]
     public class SeedController : ControllerBase
     {
         private readonly AppDbContext _db;

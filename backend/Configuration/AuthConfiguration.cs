@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace backend.Configuration
 {
@@ -96,7 +97,21 @@ namespace backend.Configuration
                 o.ClaimActions.MapJsonKey("locale", "locale");
             });
 
-            services.AddAuthorization();
+            // AdminOnly policy: caller's email claim must be in the Admin:Emails allowlist.
+            // Gates cost-sensitive/dev endpoints (seeding, diagnostics). If the list is empty
+            // (e.g. env var unset), the policy denies everyone — a safe fail-closed default.
+            var adminEmails = configuration.GetSection("Admin:Emails").Get<string[]>()
+                ?? Array.Empty<string>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy =>
+                    policy.RequireAssertion(ctx =>
+                    {
+                        var email = ctx.User.FindFirst(ClaimTypes.Email)?.Value;
+                        return !string.IsNullOrEmpty(email)
+                            && adminEmails.Contains(email, StringComparer.OrdinalIgnoreCase);
+                    }));
+            });
 
             return services;
         }

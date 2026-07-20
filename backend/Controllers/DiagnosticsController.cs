@@ -1,12 +1,16 @@
 using backend.Data;
 using backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Controllers;
 
 [ApiController]
 [Route("api/diagnostics")]
+[Authorize(Policy = "AdminOnly")]
+[EnableRateLimiting("standard")]
 public class DiagnosticsController : ControllerBase
 {
     private readonly AppDbContext _db;
