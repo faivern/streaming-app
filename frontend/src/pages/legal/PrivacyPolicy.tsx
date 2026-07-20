@@ -24,7 +24,7 @@ export default function PrivacyPolicy() {
         <header className="mb-12">
           <h1 className="text-4xl font-bold text-text-h1 mb-4">Privacy Policy</h1>
           <p className="text-gray-400">
-            Last updated: <time dateTime="2026-02-04">February 4, 2026</time>
+            Last updated: <time dateTime="2026-07-20">July 20, 2026</time>
           </p>
         </header>
 
@@ -50,7 +50,16 @@ export default function PrivacyPolicy() {
             <li><strong>Profile Picture URL</strong> — The URL to your Google profile picture</li>
             <li><strong>Email Address</strong> — Your Google account email</li>
           </ul>
-          {/* TODO: Insert lawyer-approved "Data Collection" clause here */}
+          <p className="leading-relaxed mt-4 mb-4">
+            As you use Cinelas, we also store the content you create in the app,
+            linked to your account:
+          </p>
+          <ul className="list-disc list-inside space-y-2 ml-4">
+            <li><strong>Lists</strong> — Names, descriptions, and the movies or shows you add to them</li>
+            <li><strong>Ratings & watch status</strong> — Titles you mark as watched or to-watch and any ratings you give them</li>
+            <li><strong>Reviews</strong> — Any review text you write for a title</li>
+            <li><strong>AI Discover searches</strong> — The search text you enter in AI Discover and the results returned, used to provide and improve the feature</li>
+          </ul>
         </section>
 
         {/* Purpose of Data Use */}
@@ -70,7 +79,6 @@ export default function PrivacyPolicy() {
             This feature will be <strong>opt-in only</strong>. We will only send emails to
             users who explicitly consent to receive them. You can opt out at any time.
           </p>
-          {/* TODO: Insert lawyer-approved "Purpose of Use" clause here */}
         </section>
 
         {/* Data Storage & Security */}
@@ -81,7 +89,6 @@ export default function PrivacyPolicy() {
             appropriate technical and organizational measures to protect your personal information
             against unauthorized access, alteration, disclosure, or destruction.
           </p>
-          {/* TODO: Insert lawyer-approved "Data Security" clause here */}
         </section>
 
         {/* Third-Party Services */}
@@ -127,19 +134,42 @@ export default function PrivacyPolicy() {
                 JustWatch's Privacy Policy
               </a>
             </li>
+            <li>
+              <strong>Microsoft Azure OpenAI</strong> — Powers the AI Discover
+              feature. When you use AI Discover, the search text you enter is
+              sent to Azure OpenAI to generate results. See{" "}
+              <a
+                href="https://learn.microsoft.com/en-us/legal/cognitive-services/openai/data-privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent-primary hover:underline"
+              >
+                Azure OpenAI's data & privacy documentation
+              </a>
+            </li>
           </ul>
-          {/* TODO: Insert lawyer-approved "Third-Party Services" clause here */}
         </section>
 
         {/* Cookies */}
         <section className="mb-10">
           <h2 className="text-2xl font-bold text-text-h1 mb-4">5. Cookies</h2>
-          <p className="leading-relaxed">
+          <p className="leading-relaxed mb-4">
             We use essential cookies to manage user sessions and keep you logged in. These
             cookies are necessary for the application to function properly and cannot be
             disabled. We do not use tracking cookies or third-party advertising cookies.
           </p>
-          {/* TODO: Insert lawyer-approved "Cookie Policy" clause here */}
+          <p className="leading-relaxed mb-4">
+            We also store a small amount of data in your browser's local storage to
+            remember your preferences and improve your experience. This data stays on
+            your device and is never used to track you:
+          </p>
+          <ul className="list-disc list-inside space-y-2 ml-4">
+            <li><strong>cinelas-theme</strong> — Your selected colour theme</li>
+            <li><strong>watch-providers-region</strong> — Your selected region for streaming availability</li>
+            <li><strong>ai-discover-session</strong> — Temporary AI Discover session state</li>
+            <li><strong>ai-discover-cta-dismiss</strong> — Remembers if you dismissed the AI Discover prompt</li>
+            <li><strong>cinelas-cookie-consent</strong> — Remembers that you acknowledged this cookie notice</li>
+          </ul>
         </section>
 
         {/* User Rights */}
@@ -151,14 +181,20 @@ export default function PrivacyPolicy() {
           <ul className="list-disc list-inside space-y-2 ml-4">
             <li><strong>Access</strong> — You can request a copy of the data we hold about you</li>
             <li><strong>Correction</strong> — You can request correction of inaccurate data</li>
-            <li><strong>Deletion</strong> — You can request deletion of your account and all associated data</li>
+            <li>
+              <strong>Deletion</strong> — You can permanently delete your account and all
+              associated data at any time using the <strong>"Delete account"</strong> button
+              in your profile menu. This immediately removes your profile, lists, ratings,
+              reviews, and AI Discover search history and cannot be undone.
+            </li>
             <li><strong>Portability</strong> — You can request your data in a machine-readable format</li>
           </ul>
           <p className="leading-relaxed mt-4">
-            To exercise any of these rights, please contact us at{" "}
+            You can exercise the deletion right yourself at any time via the "Delete account"
+            button. For any other request, or if you can no longer access your account,
+            please contact us at{" "}
             <a href="mailto:cinelas.support@gmail.com" className="text-accent-primary hover:underline">cinelas.support@gmail.com</a>.
           </p>
-          {/* TODO: Insert lawyer-approved "User Rights" clause (GDPR/CCPA compliant) here */}
         </section>
 
         {/* Changes to Policy */}
@@ -169,7 +205,6 @@ export default function PrivacyPolicy() {
             changes by posting the new Privacy Policy on this page and updating the "Last
             updated" date.
           </p>
-          {/* TODO: Insert lawyer-approved "Policy Changes" clause here */}
         </section>
 
         {/* Contact */}

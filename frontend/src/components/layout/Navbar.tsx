@@ -22,6 +22,7 @@ import {
 import { Sparkles } from "lucide-react";
 import BrandLogo from "../common/BrandLogo";
 import MobileProfileDrawer from "./MobileProfileDrawer";
+import DeleteAccountButton from "../auth/DeleteAccountButton";
 
 export default function Header() {
   const { pathname } = useLocation();
@@ -425,6 +426,12 @@ export default function Header() {
                     >
                       Logout
                     </button>
+                    <DeleteAccountButton
+                      onDeleted={() => setIsMobileMenuOpen(false)}
+                      className="w-full border border-red-600 text-red-400 hover:bg-red-500/10 font-semibold px-4 py-2 rounded-full transition"
+                    >
+                      Delete account
+                    </DeleteAccountButton>
                   </div>
                 ) : (
                   <button

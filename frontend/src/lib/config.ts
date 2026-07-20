@@ -9,3 +9,4 @@ export const AUTH_URL = import.meta.env.VITE_AUTH_URL ?? API_URL;
 export const GOOGLE_LOGIN_URL = `${AUTH_URL}/api/auth/google`;
 export const LOGOUT_URL = `${API_URL}/api/auth/logout`;
 export const ME_URL = `${API_URL}/api/auth/me`;
+export const DELETE_ACCOUNT_URL = `${API_URL}/api/auth/me`;

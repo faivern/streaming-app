@@ -3,6 +3,7 @@ import { Routes, Route, Navigate, useParams, useLocation } from "react-router-do
 import Header from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import BottomNav from "./components/layout/BottomNav";
+import CookieBanner from "./components/layout/CookieBanner";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import Loading from "./components/feedback/Loading";
 import ErrorBoundary from "./components/feedback/ErrorBoundary";
@@ -124,6 +125,7 @@ function App() {
       </main>
       <BottomNav />
       <AiDiscoverCta />
+      <CookieBanner />
       {!hideFooter && <Footer />}
       <Toaster
         position="bottom-center"

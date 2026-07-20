@@ -1,10 +1,12 @@
-﻿using backend.Models.Entities;
+﻿using backend.Data;
+using backend.Models.Entities;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace backend.Controllers
@@ -16,11 +18,13 @@ namespace backend.Controllers
     {
         private readonly string _frontendUrl;
         private readonly UserManager<AppUser> _userManager;
+        private readonly AppDbContext _db;
 
-        public AuthController(IConfiguration configuration, UserManager<AppUser> userManager)
+        public AuthController(IConfiguration configuration, UserManager<AppUser> userManager, AppDbContext db)
         {
             _frontendUrl = configuration["FrontendUrl"] ?? "http://localhost:5173";
             _userManager = userManager;
+            _db = db;
         }
 
         [HttpGet("google")]
@@ -137,6 +141,34 @@ namespace backend.Controllers
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Ok();
+        }
+
+        // GDPR Art. 17 (right to erasure): permanently delete the account and all
+        // associated personal data. Lists/ListItems/MediaEntries/Reviews are removed
+        // by EF Core cascade on the user FK; AiQueryLog has no FK relationship so its
+        // rows must be deleted explicitly.
+        [Authorize]
+        [HttpDelete("me")]
+        public async Task<IActionResult> DeleteAccount()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized();
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            await _db.AiQueryLogs
+                .Where(l => l.UserId == user.Id)
+                .ExecuteDeleteAsync();
+
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+                return StatusCode(500, new { message = "Failed to delete account." });
+
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Ok();
         }

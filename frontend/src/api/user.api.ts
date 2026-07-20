@@ -1,7 +1,7 @@
 // api endpoint to GET /api/auth/me and POST /api/auth/logout
 import { api } from "./http/axios";
 import type { User } from "../types/user";
-import { ME_URL, LOGOUT_URL } from "../lib/config";
+import { ME_URL, LOGOUT_URL, DELETE_ACCOUNT_URL } from "../lib/config";
 
 export async function getUserCredentials(): Promise<User | null> {
     try {
@@ -16,4 +16,8 @@ export async function getUserCredentials(): Promise<User | null> {
     export async function postLogoutUser(): Promise<void> {
         const path = LOGOUT_URL;
     await api.post<void>(path);
+}
+
+export async function deleteAccount(): Promise<void> {
+    await api.delete<void>(DELETE_ACCOUNT_URL);
 }

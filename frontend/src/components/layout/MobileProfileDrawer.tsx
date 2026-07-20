@@ -1,10 +1,11 @@
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import { X, List, Palette, LogOut, Check } from "lucide-react";
+import { X, List, Palette, LogOut, Check, Trash2 } from "lucide-react";
 import { useUser } from "../../hooks/user/useUser";
 import { useLogout } from "../../hooks/user/useLogout";
 import { useTheme, THEME_OPTIONS } from "../../hooks/useTheme";
+import DeleteAccountButton from "../auth/DeleteAccountButton";
 
 interface MobileProfileDrawerProps {
   isOpen: boolean;
@@ -140,6 +141,15 @@ export default function MobileProfileDrawer({
                 <LogOut className="w-5 h-5" />
                 <span className="text-sm font-medium">Log out</span>
               </button>
+
+              {/* Delete account */}
+              <DeleteAccountButton
+                onDeleted={onClose}
+                className="w-full flex items-center gap-4 px-5 py-3 min-h-[48px] text-red-400 active:bg-red-500/10 transition-colors"
+              >
+                <Trash2 className="w-5 h-5" />
+                <span className="text-sm font-medium">Delete account</span>
+              </DeleteAccountButton>
 
               {/* Safe area bottom padding */}
               <div className="pb-safe-or-4" />

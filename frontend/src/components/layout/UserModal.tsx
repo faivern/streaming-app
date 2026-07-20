@@ -1,12 +1,13 @@
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { Listbox, Transition } from "@headlessui/react";
-import { FaSignOutAlt, FaPalette } from "react-icons/fa";
+import { FaSignOutAlt, FaPalette, FaTrashAlt } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faChevronDown, faListUl } from "@fortawesome/free-solid-svg-icons";
 import { useTheme, THEME_OPTIONS } from "../../hooks/useTheme";
 import type { ThemePreset } from "../../hooks/useTheme";
 import { FaRegUser } from "react-icons/fa";
+import DeleteAccountButton from "../auth/DeleteAccountButton";
 interface UserModalProps {
   userName: string;
   onLogout: () => void;
@@ -129,6 +130,13 @@ export const UserModal = ({ userName, onLogout, onClose, show }: UserModalProps)
           <FaSignOutAlt className="mr-2" />
           Log out
         </button>
+        <DeleteAccountButton
+          onDeleted={onClose}
+          className="flex items-center w-full text-left px-2 py-2 text-sm text-red-400 rounded-md hover:bg-red-500/10 transition-colors cursor-pointer"
+        >
+          <FaTrashAlt className="mr-2" />
+          Delete account
+        </DeleteAccountButton>
       </div>
     </div>
   );
