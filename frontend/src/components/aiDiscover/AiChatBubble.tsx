@@ -53,8 +53,12 @@ function ErrorBubble({
     heading = "AI is temporarily unavailable";
     description = "Our discovery service is down. Please try again in a moment.";
   } else if (errorStatus === 429) {
-    heading = "You've reached the query limit";
-    description = `Try again in ${Math.ceil((retryAfterSeconds ?? 30) / 60)} minutes.`;
+    heading = "AI discovery is taking a break";
+    const waitHours = Math.ceil((retryAfterSeconds ?? 3600) / 3600);
+    description =
+      waitHours >= 12
+        ? "This is a small personal project, so the site's daily AI budget is limited — and it's used up for today. Please check back tomorrow!"
+        : `The AI budget is maxed out right now. Please try again in about ${waitHours} hour${waitHours === 1 ? "" : "s"}.`;
   } else if (errorStatus === 400) {
     heading = "Invalid query";
     description =

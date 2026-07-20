@@ -11,6 +11,26 @@ builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
+    // Friendly 429 body. Rejections happen in middleware (before the controller runs),
+    // so we write the message here. AI-discover gets budget-specific wording since that's
+    // the cap recruiters are most likely to hit.
+    options.OnRejected = async (context, cancellationToken) =>
+    {
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+
+        if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
+        {
+            context.HttpContext.Response.Headers.RetryAfter =
+                ((int)retryAfter.TotalSeconds).ToString();
+        }
+
+        var message = context.HttpContext.Request.Path.StartsWithSegments("/api/ai-discover")
+            ? "The site's daily AI discovery budget is used up for today. This is a small personal project, so AI runs on a tight limit — it'll be back tomorrow. Thanks for understanding!"
+            : "Too many requests. Please slow down and try again in a moment.";
+
+        await context.HttpContext.Response.WriteAsJsonAsync(new { error = message }, cancellationToken);
+    };
+
     // Public read endpoints (TMDB proxy, search, discover, genres, etc.)
     // Per-IP: genre backdrops alone fire ~27 discover calls on first load,
     // plus ~10 per page navigation — 400 allows comfortable browsing headroom
@@ -47,15 +67,16 @@ builder.Services.AddRateLimiter(options =>
                 QueueLimit = 0,
             }));
 
-    // AI discovery endpoint (per-user, 10 requests per hour).
-    // Each call hits Azure OpenAI (embedding + chat) — keep the per-user quota tight.
+    // AI discovery endpoint (per-user, 3 requests per 24h).
+    // Each call hits Azure OpenAI (embedding + chat). Kept low so a single visitor can't
+    // drain the whole site-wide daily budget — leaves room for other recruiters to try it.
     options.AddPolicy("ai", context =>
         RateLimitPartition.GetFixedWindowLimiter(
             partitionKey: context.User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value ?? "anonymous",
             factory: _ => new FixedWindowRateLimiterOptions
             {
-                PermitLimit = 10,
-                Window = TimeSpan.FromHours(1),
+                PermitLimit = 3,
+                Window = TimeSpan.FromDays(1),
                 QueueLimit = 0,
             }));
 
@@ -72,9 +93,10 @@ builder.Services.AddRateLimiter(options =>
                 QueueLimit = 0,
             }));
 
-    // GLOBAL hard ceiling on AI-discover across ALL users combined. Runs IN ADDITION
-    // to the per-user "ai" policy, so total Azure OpenAI spend is bounded no matter how
-    // many users sign in — the backstop against a surprise bill. Other paths are unlimited here.
+    // GLOBAL hard ceiling on AI-discover across ALL users combined: 20 calls per 24h.
+    // Runs IN ADDITION to the per-user "ai" policy, so total Azure OpenAI spend is bounded
+    // no matter how many users sign in. Intentionally tiny — this is a low-traffic,
+    // recruiter-facing demo with no marketing, so a surprise bill must be impossible.
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(context =>
     {
         if (context.Request.Path.StartsWithSegments("/api/ai-discover"))
@@ -82,8 +104,8 @@ builder.Services.AddRateLimiter(options =>
             return RateLimitPartition.GetFixedWindowLimiter("ai-global", _ =>
                 new FixedWindowRateLimiterOptions
                 {
-                    PermitLimit = 100,
-                    Window = TimeSpan.FromHours(1),
+                    PermitLimit = 20,
+                    Window = TimeSpan.FromDays(1),
                     QueueLimit = 0,
                 });
         }
