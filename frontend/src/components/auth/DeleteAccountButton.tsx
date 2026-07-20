@@ -9,18 +9,31 @@ interface DeleteAccountButtonProps {
   onDeleted?: () => void;
 }
 
+const CONFIRM_PHRASE = "DELETE";
+
 export default function DeleteAccountButton({
   className,
   children,
   onDeleted,
 }: DeleteAccountButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState("");
   const { mutate: deleteAccount, isPending } = useDeleteAccount();
 
+  const canDelete = confirmText === CONFIRM_PHRASE;
+
+  const close = () => {
+    if (isPending) return;
+    setIsOpen(false);
+    setConfirmText("");
+  };
+
   const handleConfirm = () => {
+    if (!canDelete) return;
     deleteAccount(undefined, {
       onSuccess: () => {
         setIsOpen(false);
+        setConfirmText("");
         onDeleted?.();
       },
     });
@@ -36,7 +49,7 @@ export default function DeleteAccountButton({
         <Dialog
           as="div"
           className="relative z-(--z-modal)"
-          onClose={() => !isPending && setIsOpen(false)}
+          onClose={close}
         >
           <Transition.Child
             as={Fragment}
@@ -78,10 +91,25 @@ export default function DeleteAccountButton({
                     </div>
                   </div>
 
+                  <label className="block mt-5 text-sm text-text-h1">
+                    Type <span className="font-semibold">{CONFIRM_PHRASE}</span> to confirm
+                    <input
+                      type="text"
+                      value={confirmText}
+                      onChange={(e) => setConfirmText(e.target.value)}
+                      disabled={isPending}
+                      autoComplete="off"
+                      autoCapitalize="characters"
+                      spellCheck={false}
+                      placeholder={CONFIRM_PHRASE}
+                      className="mt-2 w-full rounded-lg bg-input border border-outline px-3 py-2 text-text-h1 placeholder:text-subtle focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all disabled:opacity-50"
+                    />
+                  </label>
+
                   <div className="mt-6 flex flex-col-reverse sm:flex-row sm:justify-end gap-3">
                     <button
                       type="button"
-                      onClick={() => setIsOpen(false)}
+                      onClick={close}
                       disabled={isPending}
                       className="px-4 py-2 min-h-[44px] rounded-full font-semibold text-text-h1 border border-outline hover:bg-[var(--action-hover)] transition-colors disabled:opacity-50"
                     >
@@ -90,8 +118,8 @@ export default function DeleteAccountButton({
                     <button
                       type="button"
                       onClick={handleConfirm}
-                      disabled={isPending}
-                      className="px-4 py-2 min-h-[44px] rounded-full font-semibold text-white bg-red-600 hover:bg-red-700 transition-colors disabled:opacity-50"
+                      disabled={isPending || !canDelete}
+                      className="px-4 py-2 min-h-[44px] rounded-full font-semibold text-white bg-red-600 hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isPending ? "Deleting…" : "Delete account"}
                     </button>

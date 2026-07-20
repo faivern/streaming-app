@@ -4,8 +4,13 @@
 
 import { Link } from "react-router-dom";
 import { Helmet } from 'react-helmet-async';
+import { Trash2 } from "lucide-react";
+import { useUser } from "../../hooks/user/useUser";
+import DeleteAccountButton from "../../components/auth/DeleteAccountButton";
 
 export default function PrivacyPolicy() {
+  const { data: user } = useUser();
+
   return (
     <main className="min-h-dvh bg-background mt-navbar-offset">
       <Helmet>
@@ -184,14 +189,33 @@ export default function PrivacyPolicy() {
             <li>
               <strong>Deletion</strong> — You can permanently delete your account and all
               associated data at any time using the <strong>"Delete account"</strong> button
-              in your profile menu. This immediately removes your profile, lists, ratings,
-              reviews, and AI Discover search history and cannot be undone.
+              below. This immediately removes your profile, lists, ratings, reviews, and
+              AI Discover search history and cannot be undone.
             </li>
             <li><strong>Portability</strong> — You can request your data in a machine-readable format</li>
           </ul>
+
+          {user ? (
+            <div className="mt-6 rounded-xl border border-red-500/30 bg-red-500/5 p-5">
+              <h3 className="text-lg font-semibold text-text-h1 mb-2">Delete your account</h3>
+              <p className="text-sm text-subtle leading-relaxed mb-4">
+                Signed in as <strong className="text-text-h1">{user.email ?? user.name}</strong>.
+                Permanently delete your account and all associated data. This action
+                cannot be undone.
+              </p>
+              <DeleteAccountButton className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-semibold px-4 py-2 min-h-[44px] rounded-full transition-colors">
+                <Trash2 className="w-4 h-4" />
+                Delete account
+              </DeleteAccountButton>
+            </div>
+          ) : (
+            <p className="leading-relaxed mt-6 text-sm text-subtle">
+              Sign in to delete your account and data directly from this page.
+            </p>
+          )}
+
           <p className="leading-relaxed mt-4">
-            You can exercise the deletion right yourself at any time via the "Delete account"
-            button. For any other request, or if you can no longer access your account,
+            For any other request, or if you can no longer access your account,
             please contact us at{" "}
             <a href="mailto:cinelas.support@gmail.com" className="text-accent-primary hover:underline">cinelas.support@gmail.com</a>.
           </p>
