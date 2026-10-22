@@ -1,13 +1,13 @@
 import CountUp from "react-countup";
 
-type Props = {
-  total_results: number;
-};
+// TMDB caps total_results at 20,001 on unfiltered list endpoints, so the real
+// catalogue size can't be read from the API. Sourced from TMDB's published stats.
+const CATALOGUE_SIZE = 1_300_000;
 
-const HeroSection = ({ total_results }: Props) => {
+const HeroSection = () => {
   const durationTimeSeconds = 4;
   const separatorSymbol = ",";
-  const formattedLength = total_results.toLocaleString("en-US").length;
+  const formattedLength = CATALOGUE_SIZE.toLocaleString("en-US").length;
 
   return (
     <div className="text-center mb-8 py-4">
@@ -22,7 +22,7 @@ const HeroSection = ({ total_results }: Props) => {
           style={{ minWidth: `${formattedLength}ch` }}
         >
           <CountUp
-            end={total_results}
+            end={CATALOGUE_SIZE}
             duration={durationTimeSeconds}
             separator={separatorSymbol}
             className="text-3xl font-bold"

@@ -12,12 +12,7 @@ import WatchProviderCarousel from "../../components/media/carousel/WatchProvider
 
 import Loading from "../../components/feedback/Loading";
 
-import { sumDiscoverMedia } from "../../utils/sumDiscoverMedia";
 import { useTrendingMedia } from "../../hooks/trending/useTrendingMedia";
-import {
-  useDiscoverMovies,
-  useDiscoverTv,
-} from "../../hooks/discover/useDiscover";
 import { useGenresWithBackdrops } from "../../hooks/genres/useGenresWithBackdrops";
 import { useFeaturedCollections } from "../../hooks/collections/useCollections";
 import { useUpcomingMedia } from "../../hooks/upcoming/useUpcomingMedia";
@@ -37,8 +32,6 @@ export default function HomePage() {
     "all",
     "day"
   );
-  const { data: movies, isLoading: moviesLoading } = useDiscoverMovies();
-  const { data: tv, isLoading: tvLoading } = useDiscoverTv();
   const { data: genres = [], isLoading: genresLoading } = useGenresWithBackdrops();
   const { data: upcoming = [], isLoading: upcomingLoading } =
     useUpcomingMedia(mediaType);
@@ -60,10 +53,7 @@ const topRated = useSortByBayesian(topRatedRaw);
     error: mediaError,
   } = mediaType === "movie" ? movieGrid : tvGrid;
 
-  const totalMedia = sumDiscoverMedia(movies, tv);
-
-  const pageLoading =
-    moviesLoading || tvLoading || trendingLoading || isLoading || genresLoading;
+  const pageLoading = trendingLoading || isLoading || genresLoading;
 
   if (pageLoading) {
     return <Loading />;
@@ -87,7 +77,7 @@ const topRated = useSortByBayesian(topRatedRaw);
 
       {/* Main content container - caps width at 2560px for ultra-wide monitors */}
       <div className="mx-auto w-full max-w-screen-4xl">
-        <HeroSection total_results={totalMedia} />
+        <HeroSection />
         <MediaTypeToggle selectedType={mediaType} onToggle={setMediaType} />
         <MediaGrid
           key={mediaType}
